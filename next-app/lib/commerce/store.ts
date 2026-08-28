@@ -83,10 +83,13 @@ const seedBlogPosts: BlogPost[] = [
 		slug: "afternoon-slump-not-a-personality-flaw",
 		title: "Why your afternoon slump is not a personality flaw",
 		excerpt: "The 3pm dip is physiology, not a lack of willpower. Here is what is actually happening.",
-		body: "Most people blame themselves for the mid-afternoon crash. In reality it is a predictable dip in your circadian rhythm, compounded by blood-sugar swings and the cognitive cost of a busy morning. Understanding the mechanism is the first step to working with your body instead of against it.",
+		body: "<p>Most people blame themselves for the mid-afternoon crash. In reality it is a predictable dip in your circadian rhythm, compounded by blood-sugar swings and the cognitive cost of a busy morning.</p><p>Understanding the mechanism is the first step to working with your body instead of against it. Small, well-timed rituals \u2014 hydration, a short walk, and purposefully-dosed support \u2014 move the needle far more than another coffee.</p><h3>The science behind the dip</h3><p>Your body runs on a roughly 24-hour cycle. Between 1pm and 3pm, your core temperature drops slightly, and alertness follows. This is not a sign of poor health \u2014 it is a feature of human biology.</p><p>Add a high-glycemic lunch to the mix, and you get a blood-sugar spike followed by a sharp drop. The result: that foggy, can\u2019t-focus feeling that arrives like clockwork.</p><h3>What actually helps</h3><ul><li><strong>Hydrate first</strong> \u2014 Dehydration alone accounts for significant cognitive fatigue.</li><li><strong>Move briefly</strong> \u2014 A 10-minute walk resets circulation and cortisol.</li><li><strong>Choose steady energy</strong> \u2014 Protein-rich snacks and considered supplementation outperform caffeine.</li><li><strong>Embrace the dip</strong> \u2014 Schedule creative work for your peak hours and administrative tasks for the valley.</li></ul><p>Care is a practice, and energy is one of its most rewarding returns.</p>",
 		category: "Wellness notes",
+		author: "Queens Care Research Team",
 		readTime: "6 min read",
 		image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=900&q=80",
+		tags: "wellness,energy,rhythm,circadian",
+		featured: true,
 		published: true,
 		createdAt: now(),
 	},
@@ -95,10 +98,13 @@ const seedBlogPosts: BlogPost[] = [
 		slug: "what-clinically-studied-really-means",
 		title: 'The truth about what "clinically studied" really means',
 		excerpt: "Not all evidence is equal. A short, honest guide to reading supplement claims like a scientist.",
-		body: 'Clinically studied can mean anything from a rigorous randomised controlled trial to a single small study funded by the seller. The words that matter are sample size, control group, dose, and independence.',
+		body: "<p>\u201cClinically studied\u201d can mean anything from a rigorous randomised controlled trial to a single small study funded by the seller. The words that matter are sample size, control group, dose, and independence.</p><h2>What to look for</h2><p>When evaluating a supplement claim, ask these questions:</p><ol><li><strong>Sample size</strong> \u2014 Was the study conducted on 12 people or 1,200?</li><li><strong>Control group</strong> \u2014 Did it include a placebo comparison?</li><li><strong>Dose</strong> \u2014 Was the dose used in the study the same as what\u2019s in the product?</li><li><strong>Independence</strong> \u2014 Was the study funded by an unbiased third party?</li></ol><p>At Queens Care we start from a real need, formulate around a meaningful dose, and test independently for purity. This piece walks through the questions worth asking before any product earns a place on your shelf.</p>",
 		category: "Expert series",
+		author: "Dr. Priya Sharma",
 		readTime: "4 min read",
 		image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=900&q=80",
+		tags: "science,evidence,supplements,education",
+		featured: false,
 		published: true,
 		createdAt: now(),
 	},
@@ -106,11 +112,14 @@ const seedBlogPosts: BlogPost[] = [
 		id: "bp-3",
 		slug: "building-an-evening-ritual",
 		title: "Building an evening ritual that actually helps you sleep",
-		excerpt: "Sleep is downstream of the ninety minutes before bed.",
-		body: "Good sleep rarely comes from one heroic intervention. It comes from a repeatable wind-down that signals safety to your nervous system: dimmer light, a consistent time, less input, and gentle mineral support.",
+		excerpt: "Sleep is downstream of the ninety minutes before bed. A calm, repeatable wind-down beats any single product.",
+		body: "<p>Good sleep rarely comes from one heroic intervention. It comes from a repeatable wind-down that signals safety to your nervous system: dimmer light, a consistent time, less input, and gentle mineral support.</p><h2>The ninety-minute rule</h2><p>The period between 90 minutes before sleep and lights-out is the most consequential window for sleep quality. What you do here determines how quickly you fall asleep and how deep that sleep will be.</p><h3>Build your ritual</h3><ul><li><strong>Dim the lights</strong> \u2014 Reduce overhead lighting 90 minutes before bed.</li><li><strong>Lower input</strong> \u2014 No screens, no news, no problem-solving.</li><li><strong>Magnesium</strong> \u2014 Gentle mineral support helps signal relaxation to the nervous system.</li><li><strong>Consistency</strong> \u2014 The same time, the same steps, every night.</li></ul><p>Over a few weeks, a considered evening ritual compounds into deeper, more restorative rest.</p>",
 		category: "Wellness notes",
+		author: "Queens Care Research Team",
 		readTime: "5 min read",
 		image: "https://images.unsplash.com/photo-1500673922987-e212871fec22?auto=format&fit=crop&w=900&q=80",
+		tags: "sleep,ritual,evening,magnesium",
+		featured: false,
 		published: true,
 		createdAt: now(),
 	},
@@ -391,7 +400,7 @@ export const store = {
 			const id = input.id || randomUUID();
 			const slug = input.slug || String(input.title || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
 			const existing = seedBlogPosts.findIndex(p => p.id === id || p.slug === slug);
-			const record = { id, slug, title: input.title || "", excerpt: input.excerpt || "", body: input.body || "", content: input.content, category: input.category, readTime: input.readTime, image: input.image, seoTitle: input.seoTitle, seoDescription: input.seoDescription, published: input.published ?? false, visible: input.visible ?? true, createdAt: input.createdAt || now() };
+			const record = { id, slug, title: input.title || "", excerpt: input.excerpt || "", body: input.body || "", content: input.content, category: input.category, tags: input.tags, author: input.author, readTime: input.readTime, image: input.image, images: input.images, videoUrl: input.videoUrl, videoTitle: input.videoTitle, featured: input.featured ?? false, seoTitle: input.seoTitle, seoDescription: input.seoDescription, ogImage: input.ogImage, published: input.published ?? false, visible: input.visible ?? true, createdAt: input.createdAt || now(), updatedAt: now() };
 			if (existing >= 0) seedBlogPosts[existing] = record as BlogPost; else seedBlogPosts.push(record as BlogPost);
 			return record as BlogPost;
 		},

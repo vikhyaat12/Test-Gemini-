@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
+import BlogEditForm from "./BlogEditForm";
 
 type Tab = "dashboard" | "orders" | "products" | "product-edit" | "categories" | "customers" | "b2b" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers";
 
@@ -335,14 +336,17 @@ export default function AdminDashboard() {
               <CouponEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Coupon saved."); doRefresh(); }} inputStyle={inputStyle} labelStyle={labelStyle} />
             )}
 
-            {/* ─── BLOG ─── */}
+                        {/* ─── BLOG ─── */}
             {tab === "blog" && !editingItem?.blogEdit && (
               <div>
+                <button onClick={() => setEditingItem({ _type: "blog", blogEdit: true, isNew: true })} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, marginBottom: 16 }}>+ Create Post</button>
                 <Table
                   columns={[
                     { key: "title", label: "Title" },
                     { key: "category", label: "Category" },
-                    { key: "published", label: "Published", render: (v) => v ? "✓" : "✗" },
+                    { key: "author", label: "Author", render: (v) => String(v || "—") },
+                    { key: "featured", label: "Featured", render: (v) => v ? "⭐" : "—" },
+                    { key: "published", label: "Status", render: (v) => <Badge status={v ? "approved" : "draft"} /> },
                     { key: "createdAt", label: "Date", render: (v) => new Date(String(v)).toLocaleDateString("en-IN") },
                   ]}
                   rows={((data.posts as Record<string, unknown>[]) || [])}
@@ -350,6 +354,9 @@ export default function AdminDashboard() {
                   onDelete={(row) => handleDelete("/api/admin/blog", String(row.id))}
                 />
               </div>
+            )}
+            {tab === "blog" && editingItem?.blogEdit && (
+              <BlogEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Post saved."); doRefresh(); }} inputStyle={inputStyle} labelStyle={labelStyle} />
             )}
 
             {/* ─── FAQ ─── */}

@@ -664,23 +664,32 @@ model Content {
 }
 
 model BlogPost {
-  id          String   @id @default(cuid())
-  slug        String   @unique
-  title       String
-  excerpt     String
-  body        String
-  content     String?
-  category    String?
-  readTime    String?
-  image       String?
-  seoTitle    String?
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  title          String
+  excerpt        String
+  body           String
+  content        String?
+  category       String?
+  tags           String?
+  author         String?
+  readTime       String?
+  image          String?
+  images         String?
+  videoUrl       String?
+  videoTitle     String?
+  featured       Boolean  @default(false)
+  seoTitle       String?
   seoDescription String?
-  published   Boolean  @default(false)
-  visible     Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  ogImage        String?
+  published      Boolean  @default(false)
+  visible        Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@index([published])
+  @@index([category])
+  @@index([featured])
 }
 
 model FAQ {

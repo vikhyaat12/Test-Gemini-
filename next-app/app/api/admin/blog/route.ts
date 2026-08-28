@@ -6,10 +6,17 @@ export async function PATCH(request: Request) {
   if (!user) return json({ error: "Unauthorized" }, 401);
   const body = await request.json().catch(() => ({}));
   if (!body.id) return json({ error: "id required" }, 422);
+
   const data: Record<string, unknown> = {};
-  for (const k of ["title", "slug", "excerpt", "body", "content", "category", "readTime", "image", "published", "visible", "seoTitle", "seoDescription"]) {
+  const fields = [
+    "title", "slug", "excerpt", "body", "content", "category", "tags",
+    "author", "readTime", "image", "images", "videoUrl", "videoTitle",
+    "featured", "published", "visible", "seoTitle", "seoDescription", "ogImage",
+  ];
+  for (const k of fields) {
     if (k in body) data[k] = body[k];
   }
+
   const post = await store.posts.save({ id: body.id, ...data });
   return json({ post });
 }

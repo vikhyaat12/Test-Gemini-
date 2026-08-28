@@ -31,9 +31,12 @@ export type Order = {
 };
 export type BlogPost = {
   id: string; slug: string; title: string; excerpt: string; body: string;
-  content?: string; category?: string; readTime?: string; image?: string;
-  seoTitle?: string; seoDescription?: string; published: boolean; visible?: boolean;
-  createdAt: string;
+  content?: string; category?: string; tags?: string; author?: string;
+  readTime?: string; image?: string; images?: string; videoUrl?: string;
+  videoTitle?: string; featured?: boolean;
+  seoTitle?: string; seoDescription?: string; ogImage?: string;
+  published: boolean; visible?: boolean;
+  createdAt: string; updatedAt?: string;
 };
 export type SiteContent = { key: string; value: unknown; updatedAt: string };
 export type ContactMessage = { id: string; name: string; email: string; subject: string; message: string; createdAt: string; };
