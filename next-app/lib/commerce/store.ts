@@ -76,6 +76,102 @@ const seedUsers: AuthUser[] = [];
 // so About / Manufacturing / Quality / R&D render real, distinct copy even when
 // no DATABASE_URL is set. In Prisma mode this array is unused (rows come from the
 // seeded Content table); in both modes the /admin CMS remains the editor.
+// Blog posts (in-memory)
+const seedBlogPosts: BlogPost[] = [
+	{
+		id: "bp-1",
+		slug: "afternoon-slump-not-a-personality-flaw",
+		title: "Why your afternoon slump is not a personality flaw",
+		excerpt: "The 3pm dip is physiology, not a lack of willpower. Here is what is actually happening.",
+		body: "Most people blame themselves for the mid-afternoon crash. In reality it is a predictable dip in your circadian rhythm, compounded by blood-sugar swings and the cognitive cost of a busy morning. Understanding the mechanism is the first step to working with your body instead of against it.",
+		category: "Wellness notes",
+		readTime: "6 min read",
+		image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=900&q=80",
+		published: true,
+		createdAt: now(),
+	},
+	{
+		id: "bp-2",
+		slug: "what-clinically-studied-really-means",
+		title: 'The truth about what "clinically studied" really means',
+		excerpt: "Not all evidence is equal. A short, honest guide to reading supplement claims like a scientist.",
+		body: 'Clinically studied can mean anything from a rigorous randomised controlled trial to a single small study funded by the seller. The words that matter are sample size, control group, dose, and independence.',
+		category: "Expert series",
+		readTime: "4 min read",
+		image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=900&q=80",
+		published: true,
+		createdAt: now(),
+	},
+	{
+		id: "bp-3",
+		slug: "building-an-evening-ritual",
+		title: "Building an evening ritual that actually helps you sleep",
+		excerpt: "Sleep is downstream of the ninety minutes before bed.",
+		body: "Good sleep rarely comes from one heroic intervention. It comes from a repeatable wind-down that signals safety to your nervous system: dimmer light, a consistent time, less input, and gentle mineral support.",
+		category: "Wellness notes",
+		readTime: "5 min read",
+		image: "https://images.unsplash.com/photo-1500673922987-e212871fec22?auto=format&fit=crop&w=900&q=80",
+		published: true,
+		createdAt: now(),
+	},
+];
+
+// In-memory seed for testimonials
+const seedTestimonials = [
+	{ id: "t-1", name: "Dr. Priya Sharma", title: "Dermatologist, Mumbai", body: "Queens Care formulates with the kind of rigour I expect from clinical medicine.", rating: 5, visible: true, sort: 0, createdAt: now() },
+	{ id: "t-2", name: "Ananya R.", title: "Customer since 2024", body: "For the first time, my wellness routine feels less like a chore.", rating: 5, visible: true, sort: 1, createdAt: now() },
+	{ id: "t-3", name: "Vikram Mehta", title: "Distributor, Delhi NCR", body: "Professional team, premium products. My pharmacy customers consistently reorder.", rating: 5, visible: true, sort: 2, createdAt: now() },
+];
+
+// In-memory seed for FAQ
+const seedFAQ = [
+	{ id: "faq-1", question: "How are Queens Care products different?", answer: "Every formulation begins with a real need and a clinically meaningful dose.", category: "Products", sort: 0, visible: true, createdAt: now() },
+	{ id: "faq-2", question: "Are your products tested on animals?", answer: "No. Queens Care is committed to cruelty-free practices.", category: "Products", sort: 1, visible: true, createdAt: now() },
+	{ id: "faq-3", question: "How long does delivery take?", answer: "Standard delivery across India typically takes 3-5 business days.", category: "Shipping", sort: 2, visible: true, createdAt: now() },
+	{ id: "faq-4", question: "Can I return a product?", answer: "Yes. Please reach out to our care team within 14 days of delivery.", category: "Returns", sort: 3, visible: true, createdAt: now() },
+];
+
+// In-memory seed for banners
+const seedBanners = [
+	{ id: "bn-1", title: "Lumine-C Serum", subtitle: "Vitamin C radiance ritual", imageUrl: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=1400&q=85", linkUrl: "/products/lumine-c-serum", position: "hero", sort: 0, active: true, visible: true, createdAt: now() },
+];
+
+// In-memory seed for coupons
+const seedCoupons = [
+	{ id: "c-1", code: "WELCOME10", type: "percentage", discount: 10, minOrder: 500, maxDiscount: 500, usedCount: 0, perUserLimit: 1, isActive: true, usageLimit: 1000, expiryDate: null, startDate: null, createdAt: now() },
+	{ id: "c-2", code: "QUEENS200", type: "flat", discount: 200, minOrder: 1500, maxDiscount: null, usedCount: 0, perUserLimit: 2, isActive: true, usageLimit: 500, expiryDate: null, startDate: null, createdAt: now() },
+];
+
+// In-memory seed for employees
+const seedEmployees = [
+	{ id: "emp-1", name: "Dr. Ananya Mehta", employeeId: "QCL-001", designation: "Chief Research Scientist", department: "R&D", photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80", phone: "+91 98765 43210", email: "ananya.mehta@queenscare.in", bio: "Leading research initiatives at Queens Care Laboratories with over 12 years of experience.", slug: "dr-ananya-mehta", active: true, createdAt: now() },
+	{ id: "emp-2", name: "Rajesh Kumar", employeeId: "QCL-002", designation: "Head of Quality Assurance", department: "Quality", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80", phone: "+91 98765 43211", email: "rajesh.kumar@queenscare.in", bio: "Ensuring every product meets the highest standards of quality and safety.", slug: "rajesh-kumar", active: true, createdAt: now() },
+];
+
+// In-memory seed for doctors
+const seedDoctors: Array<Record<string, unknown>> = [];
+
+// In-memory seed for B2B apps
+const seedB2BApps: Array<Record<string, unknown>> = [];
+
+// In-memory seed for settings
+const seedSettings: Array<{ key: string; value: unknown; group: string }> = [
+	{ key: "site_name", value: "Queens Care Laboratories", group: "general" },
+	{ key: "site_tagline", value: "Science, made personal.", group: "general" },
+	{ key: "primary_color", value: "#2d1b4e", group: "theme" },
+	{ key: "accent_color", value: "#d4ad65", group: "theme" },
+];
+
+// In-memory seed for media
+const seedMedia = [
+	{ id: "m-1", filename: "lumine-c-serum.jpg", type: "image", url: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=85", alt: "Lumine-C Serum", size: 245000, createdAt: now() },
+];
+
+// In-memory seed for offers
+const seedOffers = [
+	{ id: "of-1", title: "Welcome Offer", description: "Get 10% off your first order", type: "banner", discount: 10, active: true, visible: true, createdAt: now() },
+];
+
 const seedContent: SiteContent[] = [
 	{
 		key: "about",
@@ -281,18 +377,28 @@ export const store = {
 	posts: {
 		list: async (draft = false) => {
 			if (usePrisma) return prisma.blogPost.findMany({ where: draft ? {} : { published: true } }) as unknown as BlogPost[];
-			return [] as BlogPost[];
+			return structuredClone(seedBlogPosts.filter(p => draft || p.published));
 		},
 		bySlug: async (slug: string): Promise<BlogPost | null> => {
 			if (usePrisma) {
 				const post = await prisma.blogPost.findUnique({ where: { slug } });
 				return post as unknown as BlogPost | null;
 			}
-			return null;
+			return seedBlogPosts.find(p => p.slug === slug) ?? null;
 		},
 		save: async (input: Partial<BlogPost>) => {
 			if (usePrisma) return prisma.blogPost.upsert({ where: { slug: String(input.slug) }, update: input as unknown as Prisma.BlogPostUpdateInput, create: input as unknown as Prisma.BlogPostCreateInput }) as unknown as BlogPost;
-			return input as BlogPost;
+			const id = input.id || randomUUID();
+			const slug = input.slug || String(input.title || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+			const existing = seedBlogPosts.findIndex(p => p.id === id || p.slug === slug);
+			const record = { id, slug, title: input.title || "", excerpt: input.excerpt || "", body: input.body || "", content: input.content, category: input.category, readTime: input.readTime, image: input.image, seoTitle: input.seoTitle, seoDescription: input.seoDescription, published: input.published ?? false, visible: input.visible ?? true, createdAt: input.createdAt || now() };
+			if (existing >= 0) seedBlogPosts[existing] = record as BlogPost; else seedBlogPosts.push(record as BlogPost);
+			return record as BlogPost;
+		},
+		delete: async (id: string) => {
+			if (usePrisma) return prisma.blogPost.delete({ where: { id } });
+			const idx = seedBlogPosts.findIndex(p => p.id === id);
+			if (idx >= 0) seedBlogPosts.splice(idx, 1);
 		},
 	},
 	contacts: {
@@ -303,71 +409,304 @@ export const store = {
 	},
 	// lightweight placeholders for other areas
 	applications: {
-		all: async () => (usePrisma ? prisma.b2BApplication.findMany() as unknown as B2BApplication[] : []),
-		create: async (input: Partial<B2BApplication>) => (usePrisma ? prisma.b2BApplication.create({ data: input as unknown as Prisma.B2BApplicationCreateInput }) as unknown as B2BApplication : input as B2BApplication),
+		all: async () => {
+			if (usePrisma) return prisma.b2BApplication.findMany() as unknown as B2BApplication[];
+			return structuredClone(seedB2BApps);
+		},
+		create: async (input: Partial<B2BApplication>) => {
+			if (usePrisma) return prisma.b2BApplication.create({ data: input as unknown as Prisma.B2BApplicationCreateInput }) as unknown as B2BApplication;
+			const id = randomUUID();
+			const app = { id, ...input, createdAt: now() };
+			seedB2BApps.push(app);
+			return app as unknown as B2BApplication;
+		},
 	},
 	reviews: {
-		list: async (productId: string) => (usePrisma ? prisma.review.findMany({ where: { productId } }) as unknown as Review[] : []),
-		create: async (input: Partial<Review>) => (usePrisma ? prisma.review.create({ data: input as unknown as Prisma.ReviewCreateInput }) as unknown as Review : input as Review),
+		list: async (productId: string) => {
+			if (usePrisma) return prisma.review.findMany({ where: { productId } }) as unknown as Review[];
+			return [];
+		},
+		create: async (input: Partial<Review>) => {
+			if (usePrisma) return prisma.review.create({ data: input as unknown as Prisma.ReviewCreateInput }) as unknown as Review;
+			return input as Review;
+		},
 	},
 	notifications: {
-		list: async (userId: string) => (usePrisma ? prisma.notification.findMany({ where: { userId } }) as unknown as Notification[] : []),
-		create: async (input: Partial<Notification>) => (usePrisma ? prisma.notification.create({ data: input as unknown as Prisma.NotificationCreateInput }) as unknown as Notification : input as Notification),
-	},  wishlist: {
-    get: async (userId: string) => {
-      if (usePrisma) {
-        const items = await prisma.wishlistItem.findMany({ where: { userId } }) as Array<{ productId: string }>;
-        return items.map((x) => x.productId);
-      }
-      return [] as string[];
-    },
-    toggle: async (userId: string, productId: string) => {
-      if (usePrisma) {
-        const exists = await prisma.wishlistItem.findFirst({ where: { userId, productId } });
-        if (exists) await prisma.wishlistItem.delete({ where: { id: exists.id } });
-        else await prisma.wishlistItem.create({ data: { userId, productId } });
-        const items = await prisma.wishlistItem.findMany({ where: { userId } }) as Array<{ productId: string }>;
-        return items.map((x) => x.productId);
-      }
-      return [] as string[];
-    },
-  },
-  categories: {
-    list: async () => {
-      if (usePrisma) return prisma.category.findMany({ orderBy: { sort: "asc" } });
-      return [];
-    },
-    bySlug: async (slug: string) => {
-      if (usePrisma) return prisma.category.findUnique({ where: { slug } });
-      return null;
-    },
-    save: async (input: Record<string, unknown>) => {
-      if (usePrisma) {
-        const slug = String(input.slug || input.name || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
-        return prisma.category.upsert({ where: { slug }, update: input as never, create: { ...input, slug } as never });
-      }
-      return input;
-    },
-    delete: async (id: string) => {
-      if (usePrisma) return prisma.category.delete({ where: { id } });
-    },
-  },
-  // ─── PRODUCT EXTENDED CRUD ──────────────────────────────────────────────
-  productMeta: {
-    getFull: async (slug: string) => {
-      if (usePrisma) return prisma.product.findUnique({ where: { slug }, include: { images: true, variants: true, specifications: true, model3d: true, productFaqs: true, reviews: true, relatedFrom: { include: { relatedProduct: true } } } });
-      return null;
-    },
-    update: async (id: string, data: Record<string, unknown>) => {
-      if (usePrisma) return prisma.product.update({ where: { id }, data: data as never });
-      return null;
-    },
-    create: async (data: Record<string, unknown>) => {
-      if (usePrisma) return prisma.product.create({ data: data as never });
-      return null;
-    },
-    delete: async (id: string) => {
-      if (usePrisma) return prisma.product.delete({ where: { id } });
-    },
-  },
+		list: async (userId: string) => {
+			if (usePrisma) return prisma.notification.findMany({ where: { userId } }) as unknown as Notification[];
+			return [];
+		},
+		create: async (input: Partial<Notification>) => {
+			if (usePrisma) return prisma.notification.create({ data: input as unknown as Prisma.NotificationCreateInput }) as unknown as Notification;
+			return input as Notification;
+		},
+	},
+	wishlist: {
+		get: async (userId: string) => {
+			if (usePrisma) {
+				const items = await prisma.wishlistItem.findMany({ where: { userId } }) as Array<{ productId: string }>;
+				return items.map((x) => x.productId);
+			}
+			return [] as string[];
+		},
+		toggle: async (userId: string, productId: string) => {
+			if (usePrisma) {
+				const exists = await prisma.wishlistItem.findFirst({ where: { userId, productId } });
+				if (exists) await prisma.wishlistItem.delete({ where: { id: exists.id } });
+				else await prisma.wishlistItem.create({ data: { userId, productId } });
+				const items = await prisma.wishlistItem.findMany({ where: { userId } }) as Array<{ productId: string }>;
+				return items.map((x) => x.productId);
+			}
+			return [] as string[];
+		},
+	},
+	categories: {
+		list: async () => {
+			if (usePrisma) return prisma.category.findMany({ orderBy: { sort: "asc" } });
+			return [
+				{ id: "cat-1", name: "Dermal care", slug: "dermal-care", description: "Skin health and radiance", sort: 0, active: true, visible: true, image: null, parentId: null, createdAt: now(), updatedAt: now() },
+				{ id: "cat-2", name: "Digestive care", slug: "digestive-care", description: "Gut health and balance", sort: 1, active: true, visible: true, image: null, parentId: null, createdAt: now(), updatedAt: now() },
+				{ id: "cat-3", name: "Sleep & recovery", slug: "sleep-recovery", description: "Rest and recovery support", sort: 2, active: true, visible: true, image: null, parentId: null, createdAt: now(), updatedAt: now() },
+			];
+		},
+		bySlug: async (slug: string) => {
+			if (usePrisma) return prisma.category.findUnique({ where: { slug } });
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const cats = await (store as any).categories.list();
+			return cats.find((c: Record<string, unknown>) => c.slug === slug) ?? null;
+		},
+		save: async (input: Record<string, unknown>) => {
+			if (usePrisma) {
+				const slug = String(input.slug || input.name || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+				return prisma.category.upsert({ where: { slug }, update: input as never, create: { ...input, slug } as never });
+			}
+			return input;
+		},
+		delete: async (id: string) => {
+			if (usePrisma) return prisma.category.delete({ where: { id } });
+		},
+	},
+	// ─── TESTIMONIALS ───────────────────────────────────────────────────────
+	testimonials: {
+		list: async () => {
+			if (usePrisma) return prisma.testimonial.findMany({ orderBy: { sort: "asc" } });
+			return structuredClone(seedTestimonials);
+		},
+		create: async (data: Record<string, unknown>) => {
+			if (usePrisma) return prisma.testimonial.create({ data: data as never });
+			const t = { id: randomUUID(), name: "", title: "", body: "", rating: 5, visible: true, sort: 0, createdAt: now(), ...data };
+			seedTestimonials.push(t as typeof seedTestimonials[0]);
+			return t;
+		},
+		update: async (id: string, data: Record<string, unknown>) => {
+			if (usePrisma) return prisma.testimonial.update({ where: { id }, data: data as never });
+			const idx = seedTestimonials.findIndex(t => t.id === id);
+			if (idx >= 0) { Object.assign(seedTestimonials[idx], data); return seedTestimonials[idx]; }
+		},
+		delete: async (id: string) => {
+			if (usePrisma) return prisma.testimonial.delete({ where: { id } });
+			const idx = seedTestimonials.findIndex(t => t.id === id);
+			if (idx >= 0) seedTestimonials.splice(idx, 1);
+		},
+	},
+	// ─── FAQ ────────────────────────────────────────────────────────────────
+	faqs: {
+		list: async () => {
+			if (usePrisma) return prisma.fAQ.findMany({ orderBy: { sort: "asc" } });
+			return structuredClone(seedFAQ);
+		},
+		create: async (data: Record<string, unknown>) => {
+			if (usePrisma) return prisma.fAQ.create({ data: data as never });
+			const f = { id: randomUUID(), question: "", answer: "", category: "", sort: 0, visible: true, createdAt: now(), ...data };
+			seedFAQ.push(f as typeof seedFAQ[0]);
+			return f;
+		},
+		update: async (id: string, data: Record<string, unknown>) => {
+			if (usePrisma) return prisma.fAQ.update({ where: { id }, data: data as never });
+			const idx = seedFAQ.findIndex(f => f.id === id);
+			if (idx >= 0) { Object.assign(seedFAQ[idx], data); return seedFAQ[idx]; }
+		},
+		delete: async (id: string) => {
+			if (usePrisma) return prisma.fAQ.delete({ where: { id } });
+			const idx = seedFAQ.findIndex(f => f.id === id);
+			if (idx >= 0) seedFAQ.splice(idx, 1);
+		},
+	},
+	// ─── BANNERS ────────────────────────────────────────────────────────────
+	banners: {
+		list: async () => {
+			if (usePrisma) return prisma.banner.findMany({ orderBy: { sort: "asc" } });
+			return structuredClone(seedBanners);
+		},
+		create: async (data: Record<string, unknown>) => {
+			if (usePrisma) return prisma.banner.create({ data: data as never });
+			const b = { id: randomUUID(), title: "", subtitle: "", imageUrl: "", linkUrl: "", position: "hero", sort: 0, active: true, visible: true, createdAt: now(), ...data };
+			seedBanners.push(b as typeof seedBanners[0]);
+			return b;
+		},
+		update: async (id: string, data: Record<string, unknown>) => {
+			if (usePrisma) return prisma.banner.update({ where: { id }, data: data as never });
+			const idx = seedBanners.findIndex(b => b.id === id);
+			if (idx >= 0) { Object.assign(seedBanners[idx], data); return seedBanners[idx]; }
+		},
+		delete: async (id: string) => {
+			if (usePrisma) return prisma.banner.delete({ where: { id } });
+			const idx = seedBanners.findIndex(b => b.id === id);
+			if (idx >= 0) seedBanners.splice(idx, 1);
+		},
+	},
+	// ─── COUPONS ────────────────────────────────────────────────────────────
+	coupons: {
+		list: async () => {
+			if (usePrisma) return prisma.coupon.findMany({ orderBy: { createdAt: "desc" } });
+			return structuredClone(seedCoupons);
+		},
+		create: async (data: Record<string, unknown>) => {
+			if (usePrisma) return prisma.coupon.create({ data: { ...data, code: String(data.code).toUpperCase() } as never });
+			const c = { id: randomUUID(), code: String(data.code || "").toUpperCase(), type: "percentage", discount: 0, minOrder: 0, maxDiscount: null, usedCount: 0, perUserLimit: 1, isActive: true, usageLimit: null, expiryDate: null, startDate: null, createdAt: now(), ...data };
+			seedCoupons.push(c as unknown as typeof seedCoupons[0]);
+			return c;
+		},
+		update: async (id: string, data: Record<string, unknown>) => {
+			if (usePrisma) return prisma.coupon.update({ where: { id }, data: data as never });
+			const idx = seedCoupons.findIndex(c => c.id === id);
+			if (idx >= 0) { Object.assign(seedCoupons[idx], data); return seedCoupons[idx]; }
+		},
+		delete: async (id: string) => {
+			if (usePrisma) return prisma.coupon.delete({ where: { id } });
+			const idx = seedCoupons.findIndex(c => c.id === id);
+			if (idx >= 0) seedCoupons.splice(idx, 1);
+		},
+	},
+	// ─── EMPLOYEES ──────────────────────────────────────────────────────────
+	employees: {
+		list: async () => {
+			if (usePrisma) return prisma.employee.findMany({ orderBy: { createdAt: "desc" } });
+			return structuredClone(seedEmployees);
+		},
+		bySlug: async (slug: string) => {
+			if (usePrisma) return prisma.employee.findUnique({ where: { slug } });
+			return seedEmployees.find(e => e.slug === slug) ?? null;
+		},
+		create: async (data: Record<string, unknown>) => {
+			if (usePrisma) return prisma.employee.create({ data: data as never });
+			const e = { id: randomUUID(), name: "", employeeId: "", designation: "", department: "", photo: "", phone: "", email: "", bio: "", slug: "", active: true, createdAt: now(), ...data };
+			seedEmployees.push(e as typeof seedEmployees[0]);
+			return e;
+		},
+		update: async (id: string, data: Record<string, unknown>) => {
+			if (usePrisma) return prisma.employee.update({ where: { id }, data: data as never });
+			const idx = seedEmployees.findIndex(e => e.id === id);
+			if (idx >= 0) { Object.assign(seedEmployees[idx], data); return seedEmployees[idx]; }
+		},
+		delete: async (id: string) => {
+			if (usePrisma) return prisma.employee.delete({ where: { id } });
+			const idx = seedEmployees.findIndex(e => e.id === id);
+			if (idx >= 0) seedEmployees.splice(idx, 1);
+		},
+	},
+	// ─── DOCTORS ────────────────────────────────────────────────────────────
+	doctors: {
+		list: async () => {
+			if (usePrisma) return prisma.doctor.findMany({ orderBy: { createdAt: "desc" } });
+			return structuredClone(seedDoctors);
+		},
+		create: async (data: Record<string, unknown>) => {
+			if (usePrisma) return prisma.doctor.create({ data: data as never });
+			const d = { id: randomUUID(), name: "", email: "", phone: "", clinic: "", specialty: "", qualification: "", regNumber: "", message: "", status: "pending", createdAt: now(), ...data };
+			seedDoctors.push(d);
+			return d;
+		},
+		update: async (id: string, data: Record<string, unknown>) => {
+			if (usePrisma) return prisma.doctor.update({ where: { id }, data: data as never });
+			const idx = seedDoctors.findIndex(d => d.id === id);
+			if (idx >= 0) { Object.assign(seedDoctors[idx], data); return seedDoctors[idx]; }
+		},
+	},
+	// ─── SETTINGS ───────────────────────────────────────────────────────────
+	settings: {
+		list: async () => {
+			if (usePrisma) return prisma.setting.findMany({ orderBy: { group: "asc" } });
+			return structuredClone(seedSettings);
+		},
+		save: async (key: string, value: unknown, group = "general") => {
+			if (usePrisma) return prisma.setting.upsert({ where: { key }, update: { value: value as Prisma.InputJsonValue, group: group as string }, create: { key, value: value as Prisma.InputJsonValue, group: group as string } });
+			const idx = seedSettings.findIndex(s => s.key === key);
+			const entry = { key, value, group };
+			if (idx >= 0) seedSettings[idx] = entry as typeof seedSettings[0]; else seedSettings.push(entry as typeof seedSettings[0]);
+			return { key, value, group };
+		},
+	},
+	// ─── MEDIA ──────────────────────────────────────────────────────────────
+	media: {
+		list: async () => {
+			if (usePrisma) return prisma.media.findMany({ orderBy: { createdAt: "desc" } });
+			return structuredClone(seedMedia);
+		},
+		create: async (data: Record<string, unknown>) => {
+			if (usePrisma) return prisma.media.create({ data: data as never });
+			const m = { id: randomUUID(), filename: "", type: "image", url: "", alt: "" as string | null, size: null, createdAt: now(), ...data };
+			seedMedia.push(m as unknown as typeof seedMedia[0]);
+			return m;
+		},
+		delete: async (id: string) => {
+			if (usePrisma) return prisma.media.delete({ where: { id } });
+			const idx = seedMedia.findIndex(m => m.id === id);
+			if (idx >= 0) seedMedia.splice(idx, 1);
+		},
+	},
+	// ─── OFFERS ─────────────────────────────────────────────────────────────
+	offers: {
+		list: async () => {
+			if (usePrisma) return prisma.offer.findMany({ orderBy: { createdAt: "desc" } });
+			return structuredClone(seedOffers);
+		},
+		create: async (data: Record<string, unknown>) => {
+			if (usePrisma) return prisma.offer.create({ data: data as never });
+			const o = { id: randomUUID(), title: "", description: "", type: "banner", discount: 0, active: true, visible: true, createdAt: now(), ...data };
+			seedOffers.push(o as typeof seedOffers[0]);
+			return o;
+		},
+		update: async (id: string, data: Record<string, unknown>) => {
+			if (usePrisma) return prisma.offer.update({ where: { id }, data: data as never });
+			const idx = seedOffers.findIndex(o => o.id === id);
+			if (idx >= 0) { Object.assign(seedOffers[idx], data); return seedOffers[idx]; }
+		},
+		delete: async (id: string) => {
+			if (usePrisma) return prisma.offer.delete({ where: { id } });
+			const idx = seedOffers.findIndex(o => o.id === id);
+			if (idx >= 0) seedOffers.splice(idx, 1);
+		},
+	},
+	// ─── AFFILIATES ─────────────────────────────────────────────────────────
+	affiliates: {
+		list: async () => {
+			if (usePrisma) return prisma.affiliate.findMany({ include: { user: true }, orderBy: { createdAt: "desc" } });
+			return [];
+		},
+	},
+	// ─── PRODUCT EXTENDED CRUD ──────────────────────────────────────────────
+	productMeta: {
+		getFull: async (slug: string) => {
+			if (usePrisma) return prisma.product.findUnique({ where: { slug }, include: { images: true, variants: true, specifications: true, model3d: true, productFaqs: true, reviews: true, relatedFrom: { include: { relatedProduct: true } } } });
+			return null;
+		},
+		update: async (id: string, data: Record<string, unknown>) => {
+			if (usePrisma) return prisma.product.update({ where: { id }, data: data as never });
+			const idx = seedProducts.findIndex(p => p.id === id);
+			if (idx >= 0) { Object.assign(seedProducts[idx], data); return seedProducts[idx]; }
+			return null;
+		},
+		create: async (data: Record<string, unknown>) => {
+			if (usePrisma) return prisma.product.create({ data: data as never });
+			const p = { id: randomUUID(), slug: "", name: "", description: "", category: "", price: 0, stock: 0, image: "", active: true, createdAt: now(), ...data };
+			seedProducts.push(p as Product);
+			return p;
+		},
+		delete: async (id: string) => {
+			if (usePrisma) return prisma.product.delete({ where: { id } });
+			const idx = seedProducts.findIndex(p => p.id === id);
+			if (idx >= 0) seedProducts.splice(idx, 1);
+		},
+	},
 };

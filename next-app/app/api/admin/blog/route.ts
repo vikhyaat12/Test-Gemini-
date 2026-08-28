@@ -1,5 +1,5 @@
 import { json, requireUser } from "@/lib/http";
-import { prisma } from "@/lib/prisma";
+import { store } from "@/lib/commerce/store";
 
 export async function PATCH(request: Request) {
   const user = await requireUser(["admin"]);
@@ -10,7 +10,7 @@ export async function PATCH(request: Request) {
   for (const k of ["title", "slug", "excerpt", "body", "content", "category", "readTime", "image", "published", "visible", "seoTitle", "seoDescription"]) {
     if (k in body) data[k] = body[k];
   }
-  const post = await prisma.blogPost.update({ where: { id: body.id }, data });
+  const post = await store.posts.save({ id: body.id, ...data });
   return json({ post });
 }
 
@@ -20,6 +20,6 @@ export async function DELETE(request: Request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
   if (!id) return json({ error: "id required" }, 422);
-  await prisma.blogPost.delete({ where: { id } });
+  await store.posts.delete(id);
   return json({ ok: true });
 }

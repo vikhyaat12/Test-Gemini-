@@ -49,11 +49,11 @@ function generateAffiliateCode(): string {
 }
 
 export const affiliateStore = {
-  list: async () => prisma.affiliate.findMany({ include: { user: true }, orderBy: { createdAt: "desc" } }),
+  list: async () => { try { return await prisma.affiliate.findMany({ include: { user: true }, orderBy: { createdAt: "desc" } }); } catch { return []; } },
 
-  byUserId: async (userId: string) => prisma.affiliate.findUnique({ where: { userId } }),
+  byUserId: async (userId: string) => { try { return await prisma.affiliate.findUnique({ where: { userId } }); } catch { return null; } },
 
-  byCode: async (code: string) => prisma.affiliate.findUnique({ where: { affiliateCode: code } }),
+  byCode: async (code: string) => { try { return await prisma.affiliate.findUnique({ where: { affiliateCode: code } }); } catch { return null; } },
 
   create: async (userId: string) => {
     const code = generateAffiliateCode();
@@ -119,9 +119,10 @@ export const affiliateStore = {
 
 export const b2bStore = {
   applications: {
-    list: async () => prisma.b2BApplication.findMany({ orderBy: { createdAt: "desc" } }),
-    create: async (data: Record<string, unknown>) => prisma.b2BApplication.create({ data: data as never }),
+    list: async () => { try { return await prisma.b2BApplication.findMany({ orderBy: { createdAt: "desc" } }); } catch { return []; } },
+    create: async (data: Record<string, unknown>) => { try { return await prisma.b2BApplication.create({ data: data as never }); } catch { return data as never; } },
     updateStatus: async (id: string, status: string, reviewedBy?: string, notes?: string) => {
+      try {
       const app = await prisma.b2BApplication.update({ where: { id }, data: { status: status as never, reviewedBy, reviewedAt: new Date(), notes } });
       if (status === "approved") {
         const existing = await prisma.distributor.findFirst({ where: { applicationId: id } });
@@ -132,227 +133,235 @@ export const b2bStore = {
         }
       }
       return app;
+      } catch { return null; }
     },
   },
 
   distributors: {
-    list: async () => prisma.distributor.findMany({ include: { application: true }, orderBy: { createdAt: "desc" } }),
-    byId: async (id: string) => prisma.distributor.findUnique({ where: { id }, include: { application: true } }),
-    update: async (id: string, data: Record<string, unknown>) => prisma.distributor.update({ where: { id }, data: data as never }),
+    list: async () => { try { return await prisma.distributor.findMany({ include: { application: true }, orderBy: { createdAt: "desc" } }); } catch { return []; } },
+    byId: async (id: string) => { try { return await prisma.distributor.findUnique({ where: { id }, include: { application: true } }); } catch { return null; } },
+    update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.distributor.update({ where: { id }, data: data as never }); } catch { return null; } },
   },
 
   orders: {
-    list: async (distributorId?: string) => prisma.b2BOrder.findMany({ where: distributorId ? { distributorId } : {}, include: { distributor: true }, orderBy: { createdAt: "desc" } }),
-    create: async (distributorId: string, lines: { productId: string; quantity: number; unitPrice: number }[], total: number, notes?: string) =>
-      prisma.b2BOrder.create({ data: { distributorId, total, notes, lines: { create: lines.map(l => ({ productId: l.productId, quantity: l.quantity, unitPrice: l.unitPrice })) } }, include: { lines: true } }),
-    updateStatus: async (id: string, status: string) => prisma.b2BOrder.update({ where: { id }, data: { status: status as never } }),
+    list: async (distributorId?: string) => { try { return await prisma.b2BOrder.findMany({ where: distributorId ? { distributorId } : {}, include: { distributor: true }, orderBy: { createdAt: "desc" } }); } catch { return []; } },
+    create: async (distributorId: string, lines: { productId: string; quantity: number; unitPrice: number }[], total: number, notes?: string) => {
+      try { return await prisma.b2BOrder.create({ data: { distributorId, total, notes, lines: { create: lines.map(l => ({ productId: l.productId, quantity: l.quantity, unitPrice: l.unitPrice })) } }, include: { lines: true } }); } catch { return null; }
+    },
+    updateStatus: async (id: string, status: string) => { try { return await prisma.b2BOrder.update({ where: { id }, data: { status: status as never } }); } catch { return null; } },
   },
 };
 
 // ─── MEDIA ───────────────────────────────────────────────────────────────────
 
 export const mediaStore = {
-  list: async (type?: string) => prisma.media.findMany({ where: type ? { type: type as never } : {}, orderBy: { createdAt: "desc" } }),
-  byId: async (id: string) => prisma.media.findUnique({ where: { id } }),
-  create: async (data: Record<string, unknown>) => prisma.media.create({ data: data as never }),
-  update: async (id: string, data: Record<string, unknown>) => prisma.media.update({ where: { id }, data: data as never }),
-  delete: async (id: string) => prisma.media.delete({ where: { id } }),
+  list: async (type?: string) => { try { return await prisma.media.findMany({ where: type ? { type: type as never } : {}, orderBy: { createdAt: "desc" } }); } catch { return []; } },
+  byId: async (id: string) => { try { return await prisma.media.findUnique({ where: { id } }); } catch { return null; } },
+  create: async (data: Record<string, unknown>) => { try { return await prisma.media.create({ data: data as never }); } catch { return data as never; } },
+  update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.media.update({ where: { id }, data: data as never }); } catch { return null; } },
+  delete: async (id: string) => { try { await prisma.media.delete({ where: { id } }); } catch {} },
 };
 
 // ─── BANNERS ─────────────────────────────────────────────────────────────────
 
 export const bannerStore = {
-  list: async () => prisma.banner.findMany({ orderBy: { sort: "asc" } }),
-  active: async (position?: string) => prisma.banner.findMany({ where: { active: true, visible: true, ...(position ? { position } : {}) }, orderBy: { sort: "asc" } }),
-  create: async (data: Record<string, unknown>) => prisma.banner.create({ data: data as never }),
-  update: async (id: string, data: Record<string, unknown>) => prisma.banner.update({ where: { id }, data: data as never }),
-  delete: async (id: string) => prisma.banner.delete({ where: { id } }),
+  list: async () => { try { return await prisma.banner.findMany({ orderBy: { sort: "asc" } }); } catch { return []; } },
+  active: async (position?: string) => { try { return await prisma.banner.findMany({ where: { active: true, visible: true, ...(position ? { position } : {}) }, orderBy: { sort: "asc" } }); } catch { return []; } },
+  create: async (data: Record<string, unknown>) => { try { return await prisma.banner.create({ data: data as never }); } catch { return data as never; } },
+  update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.banner.update({ where: { id }, data: data as never }); } catch { return null; } },
+  delete: async (id: string) => { try { await prisma.banner.delete({ where: { id } }); } catch {} },
 };
 
 // ─── FAQ ─────────────────────────────────────────────────────────────────────
 
 export const faqStore = {
-  list: async () => prisma.fAQ.findMany({ orderBy: { sort: "asc" } }),
-  visible: async () => prisma.fAQ.findMany({ where: { visible: true }, orderBy: { sort: "asc" } }),
-  create: async (data: Record<string, unknown>) => prisma.fAQ.create({ data: data as never }),
-  update: async (id: string, data: Record<string, unknown>) => prisma.fAQ.update({ where: { id }, data: data as never }),
-  delete: async (id: string) => prisma.fAQ.delete({ where: { id } }),
+  list: async () => { try { return await prisma.fAQ.findMany({ orderBy: { sort: "asc" } }); } catch { return []; } },
+  visible: async () => { try { return await prisma.fAQ.findMany({ where: { visible: true }, orderBy: { sort: "asc" } }); } catch { return []; } },
+  create: async (data: Record<string, unknown>) => { try { return await prisma.fAQ.create({ data: data as never }); } catch { return data as never; } },
+  update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.fAQ.update({ where: { id }, data: data as never }); } catch { return null; } },
+  delete: async (id: string) => { try { await prisma.fAQ.delete({ where: { id } }); } catch {} },
 };
 
 // ─── TESTIMONIALS ───────────────────────────────────────────────────────────
 
 export const testimonialStore = {
-  list: async () => prisma.testimonial.findMany({ orderBy: { sort: "asc" } }),
-  visible: async () => prisma.testimonial.findMany({ where: { visible: true }, orderBy: { sort: "asc" } }),
-  create: async (data: Record<string, unknown>) => prisma.testimonial.create({ data: data as never }),
-  update: async (id: string, data: Record<string, unknown>) => prisma.testimonial.update({ where: { id }, data: data as never }),
-  delete: async (id: string) => prisma.testimonial.delete({ where: { id } }),
+  list: async () => { try { return await prisma.testimonial.findMany({ orderBy: { sort: "asc" } }); } catch { return []; } },
+  visible: async () => { try { return await prisma.testimonial.findMany({ where: { visible: true }, orderBy: { sort: "asc" } }); } catch { return []; } },
+  create: async (data: Record<string, unknown>) => { try { return await prisma.testimonial.create({ data: data as never }); } catch { return data as never; } },
+  update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.testimonial.update({ where: { id }, data: data as never }); } catch { return null; } },
+  delete: async (id: string) => { try { await prisma.testimonial.delete({ where: { id } }); } catch {} },
 };
 
 // ─── SETTINGS ────────────────────────────────────────────────────────────────
 
 export const settingStore = {
-  get: async (key: string) => prisma.setting.findUnique({ where: { key } }),
-  getGroup: async (group: string) => prisma.setting.findMany({ where: { group } }),
-  set: async (key: string, value: unknown, group = "general") =>
-    prisma.setting.upsert({ where: { key }, update: { value: value as never }, create: { key, value: value as never, group } }),
-  getAll: async () => prisma.setting.findMany({ orderBy: { group: "asc" } }),
+  get: async (key: string) => { try { return await prisma.setting.findUnique({ where: { key } }); } catch { return null; } },
+  getGroup: async (group: string) => { try { return await prisma.setting.findMany({ where: { group } }); } catch { return []; } },
+  set: async (key: string, value: unknown, group = "general") => {
+    try { return await prisma.setting.upsert({ where: { key }, update: { value: value as never }, create: { key, value: value as never, group } }); } catch { return null; }
+  },
+  getAll: async () => { try { return await prisma.setting.findMany({ orderBy: { group: "asc" } }); } catch { return []; } },
 };
 
 // ─── ORDERS (extended) ──────────────────────────────────────────────────────
 
 export const orderStoreExtended = {
   updateStatus: async (id: string, status: string, note?: string) => {
-    await prisma.order.update({ where: { id }, data: { status: status as never } });
-    if (note) await prisma.orderStatusHistory.create({ data: { orderId: id, status: status as never, note } });
+    try {
+      await prisma.order.update({ where: { id }, data: { status: status as never } });
+      if (note) await prisma.orderStatusHistory.create({ data: { orderId: id, status: status as never, note } });
+    } catch {}
   },
-  history: async (orderId: string) => prisma.orderStatusHistory.findMany({ where: { orderId }, orderBy: { createdAt: "desc" } }),
-  byUser: async (userId: string) => prisma.order.findMany({ where: { userId }, include: { lines: true }, orderBy: { createdAt: "desc" } }),
-  all: async () => prisma.order.findMany({ include: { lines: true, user: true }, orderBy: { createdAt: "desc" } }),
+  history: async (orderId: string) => { try { return await prisma.orderStatusHistory.findMany({ where: { orderId }, orderBy: { createdAt: "desc" } }); } catch { return []; } },
+  byUser: async (userId: string) => { try { return await prisma.order.findMany({ where: { userId }, include: { lines: true }, orderBy: { createdAt: "desc" } }); } catch { return []; } },
+  all: async () => { try { return await prisma.order.findMany({ include: { lines: true, user: true }, orderBy: { createdAt: "desc" } }); } catch { return []; } },
 };
 
 // ─── CUSTOMERS (admin) ──────────────────────────────────────────────────────
 
 export const customerStore = {
-  list: async () => prisma.user.findMany({ where: { role: "customer" }, orderBy: { createdAt: "desc" } }),
-  byId: async (id: string) => prisma.user.findUnique({ where: { id }, include: { addresses: true, orders: true, wishlist: true } }),
-  count: async () => prisma.user.count({ where: { role: "customer" } }),
-  update: async (id: string, data: Record<string, unknown>) => prisma.user.update({ where: { id }, data: data as never }),
+  list: async () => { try { return await prisma.user.findMany({ where: { role: "customer" }, orderBy: { createdAt: "desc" } }); } catch { return []; } },
+  byId: async (id: string) => { try { return await prisma.user.findUnique({ where: { id }, include: { addresses: true, orders: true, wishlist: true } }); } catch { return null; } },
+  count: async () => { try { return await prisma.user.count({ where: { role: "customer" } }); } catch { return 0; } },
+  update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.user.update({ where: { id }, data: data as never }); } catch { return null; } },
 };
 
 // ─── ADDRESSES ───────────────────────────────────────────────────────────────
 
 export const addressStore = {
-  list: async (userId: string) => prisma.address.findMany({ where: { userId }, orderBy: { isDefault: "desc" } }),
-  create: async (userId: string, data: Record<string, unknown>) => prisma.address.create({ data: { userId, ...data } as never }),
-  update: async (id: string, data: Record<string, unknown>) => prisma.address.update({ where: { id }, data: data as never }),
-  delete: async (id: string) => prisma.address.delete({ where: { id } }),
+  list: async (userId: string) => { try { return await prisma.address.findMany({ where: { userId }, orderBy: { isDefault: "desc" } }); } catch { return []; } },
+  create: async (userId: string, data: Record<string, unknown>) => { try { return await prisma.address.create({ data: { userId, ...data } as never }); } catch { return data as never; } },
+  update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.address.update({ where: { id }, data: data as never }); } catch { return null; } },
+  delete: async (id: string) => { try { await prisma.address.delete({ where: { id } }); } catch {} },
 };
 
 // ─── 3D MODELS ──────────────────────────────────────────────────────────────
 
 export const model3dStore = {
-  byProduct: async (productId: string) => prisma.product3DModel.findUnique({ where: { productId } }),
-  upsert: async (productId: string, data: Record<string, unknown>) =>
-    prisma.product3DModel.upsert({ where: { productId }, update: data as never, create: { productId, ...data } as never }),
-  delete: async (productId: string) => prisma.product3DModel.delete({ where: { productId } }).catch(() => {}),
+  byProduct: async (productId: string) => { try { return await prisma.product3DModel.findUnique({ where: { productId } }); } catch { return null; } },
+  upsert: async (productId: string, data: Record<string, unknown>) => {
+    try { return await prisma.product3DModel.upsert({ where: { productId }, update: data as never, create: { productId, ...data } as never }); } catch { return null; }
+  },
+  delete: async (productId: string) => { try { await prisma.product3DModel.delete({ where: { productId } }); } catch {} },
 };
 
 // ─── HOMEPAGE SECTIONS ──────────────────────────────────────────────────────
 
 export const homepageStore = {
-  list: async () => prisma.homepageSection.findMany({ orderBy: { sort: "asc" } }),
-  active: async () => prisma.homepageSection.findMany({ where: { active: true, visible: true }, orderBy: { sort: "asc" } }),
-  create: async (data: Record<string, unknown>) => prisma.homepageSection.create({ data: data as never }),
-  update: async (id: string, data: Record<string, unknown>) => prisma.homepageSection.update({ where: { id }, data: data as never }),
-  delete: async (id: string) => prisma.homepageSection.delete({ where: { id } }),
+  list: async () => { try { return await prisma.homepageSection.findMany({ orderBy: { sort: "asc" } }); } catch { return []; } },
+  active: async () => { try { return await prisma.homepageSection.findMany({ where: { active: true, visible: true }, orderBy: { sort: "asc" } }); } catch { return []; } },
+  create: async (data: Record<string, unknown>) => { try { return await prisma.homepageSection.create({ data: data as never }); } catch { return data as never; } },
+  update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.homepageSection.update({ where: { id }, data: data as never }); } catch { return null; } },
+  delete: async (id: string) => { try { await prisma.homepageSection.delete({ where: { id } }); } catch {} },
 };
 
 // ─── OFFERS / PROMOTIONS ────────────────────────────────────────────────────
 
 export const offerStore = {
-  list: async () => prisma.offer.findMany({ orderBy: { createdAt: "desc" } }),
-  active: async () => prisma.offer.findMany({ where: { active: true, visible: true } }),
-  create: async (data: Record<string, unknown>) => prisma.offer.create({ data: data as never }),
-  update: async (id: string, data: Record<string, unknown>) => prisma.offer.update({ where: { id }, data: data as never }),
-  delete: async (id: string) => prisma.offer.delete({ where: { id } }),
+  list: async () => { try { return await prisma.offer.findMany({ orderBy: { createdAt: "desc" } }); } catch { return []; } },
+  active: async () => { try { return await prisma.offer.findMany({ where: { active: true, visible: true } }); } catch { return []; } },
+  create: async (data: Record<string, unknown>) => { try { return await prisma.offer.create({ data: data as never }); } catch { return data as never; } },
+  update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.offer.update({ where: { id }, data: data as never }); } catch { return null; } },
+  delete: async (id: string) => { try { await prisma.offer.delete({ where: { id } }); } catch {} },
 };
 
 export const promotionStore = {
-  list: async () => prisma.promotion.findMany({ orderBy: { createdAt: "desc" } }),
-  create: async (data: Record<string, unknown>) => prisma.promotion.create({ data: data as never }),
-  update: async (id: string, data: Record<string, unknown>) => prisma.promotion.update({ where: { id }, data: data as never }),
-  delete: async (id: string) => prisma.promotion.delete({ where: { id } }),
+  list: async () => { try { return await prisma.promotion.findMany({ orderBy: { createdAt: "desc" } }); } catch { return []; } },
+  create: async (data: Record<string, unknown>) => { try { return await prisma.promotion.create({ data: data as never }); } catch { return data as never; } },
+  update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.promotion.update({ where: { id }, data: data as never }); } catch { return null; } },
+  delete: async (id: string) => { try { await prisma.promotion.delete({ where: { id } }); } catch {} },
 };
 
 // ─── PRODUCT VARIANTS ───────────────────────────────────────────────────────
 
 export const variantStore = {
-  listByProduct: async (productId: string) => prisma.productVariant.findMany({ where: { productId }, orderBy: { sort: "asc" } }),
-  create: async (data: Record<string, unknown>) => prisma.productVariant.create({ data: data as never }),
-  update: async (id: string, data: Record<string, unknown>) => prisma.productVariant.update({ where: { id }, data: data as never }),
-  delete: async (id: string) => prisma.productVariant.delete({ where: { id } }),
+  listByProduct: async (productId: string) => { try { return await prisma.productVariant.findMany({ where: { productId }, orderBy: { sort: "asc" } }); } catch { return []; } },
+  create: async (data: Record<string, unknown>) => { try { return await prisma.productVariant.create({ data: data as never }); } catch { return data as never; } },
+  update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.productVariant.update({ where: { id }, data: data as never }); } catch { return null; } },
+  delete: async (id: string) => { try { await prisma.productVariant.delete({ where: { id } }); } catch {} },
 };
 
 // ─── PRODUCT SPECIFICATIONS ─────────────────────────────────────────────────
 
 export const specStore = {
-  listByProduct: async (productId: string) => prisma.productSpecification.findMany({ where: { productId }, orderBy: { sort: "asc" } }),
-  create: async (data: Record<string, unknown>) => prisma.productSpecification.create({ data: data as never }),
-  update: async (id: string, data: Record<string, unknown>) => prisma.productSpecification.update({ where: { id }, data: data as never }),
-  delete: async (id: string) => prisma.productSpecification.delete({ where: { id } }),
+  listByProduct: async (productId: string) => { try { return await prisma.productSpecification.findMany({ where: { productId }, orderBy: { sort: "asc" } }); } catch { return []; } },
+  create: async (data: Record<string, unknown>) => { try { return await prisma.productSpecification.create({ data: data as never }); } catch { return data as never; } },
+  update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.productSpecification.update({ where: { id }, data: data as never }); } catch { return null; } },
+  delete: async (id: string) => { try { await prisma.productSpecification.delete({ where: { id } }); } catch {} },
 };
 
 // ─── PRODUCT VIDEOS ─────────────────────────────────────────────────────────
 
 export const videoStore = {
-  listByProduct: async (productId: string) => prisma.productVideo.findMany({ where: { productId }, orderBy: { sort: "asc" } }),
-  create: async (data: Record<string, unknown>) => prisma.productVideo.create({ data: data as never }),
-  update: async (id: string, data: Record<string, unknown>) => prisma.productVideo.update({ where: { id }, data: data as never }),
-  delete: async (id: string) => prisma.productVideo.delete({ where: { id } }),
+  listByProduct: async (productId: string) => { try { return await prisma.productVideo.findMany({ where: { productId }, orderBy: { sort: "asc" } }); } catch { return []; } },
+  create: async (data: Record<string, unknown>) => { try { return await prisma.productVideo.create({ data: data as never }); } catch { return data as never; } },
+  update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.productVideo.update({ where: { id }, data: data as never }); } catch { return null; } },
+  delete: async (id: string) => { try { await prisma.productVideo.delete({ where: { id } }); } catch {} },
 };
 
 // ─── A+ CONTENT ─────────────────────────────────────────────────────────────
 
 export const aplusStore = {
-  listByProduct: async (productId: string) => prisma.productAPlusSection.findMany({ where: { productId }, orderBy: { sort: "asc" } }),
-  create: async (data: Record<string, unknown>) => prisma.productAPlusSection.create({ data: data as never }),
-  update: async (id: string, data: Record<string, unknown>) => prisma.productAPlusSection.update({ where: { id }, data: data as never }),
-  delete: async (id: string) => prisma.productAPlusSection.delete({ where: { id } }),
+  listByProduct: async (productId: string) => { try { return await prisma.productAPlusSection.findMany({ where: { productId }, orderBy: { sort: "asc" } }); } catch { return []; } },
+  create: async (data: Record<string, unknown>) => { try { return await prisma.productAPlusSection.create({ data: data as never }); } catch { return data as never; } },
+  update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.productAPlusSection.update({ where: { id }, data: data as never }); } catch { return null; } },
+  delete: async (id: string) => { try { await prisma.productAPlusSection.delete({ where: { id } }); } catch {} },
 };
 
 // ─── PRODUCT Q&A ────────────────────────────────────────────────────────────
 
 export const qaStore = {
-  listByProduct: async (productId: string) => prisma.productQA.findMany({ where: { productId, visible: true }, orderBy: { createdAt: "desc" } }),
-  allByProduct: async (productId: string) => prisma.productQA.findMany({ where: { productId }, orderBy: { createdAt: "desc" } }),
-  create: async (data: Record<string, unknown>) => prisma.productQA.create({ data: data as never }),
-  answer: async (id: string, answer: string, answeredBy: string) => prisma.productQA.update({ where: { id }, data: { answer, answeredBy } }),
-  update: async (id: string, data: Record<string, unknown>) => prisma.productQA.update({ where: { id }, data: data as never }),
-  delete: async (id: string) => prisma.productQA.delete({ where: { id } }),
+  listByProduct: async (productId: string) => { try { return await prisma.productQA.findMany({ where: { productId, visible: true }, orderBy: { createdAt: "desc" } }); } catch { return []; } },
+  allByProduct: async (productId: string) => { try { return await prisma.productQA.findMany({ where: { productId }, orderBy: { createdAt: "desc" } }); } catch { return []; } },
+  create: async (data: Record<string, unknown>) => { try { return await prisma.productQA.create({ data: data as never }); } catch { return data as never; } },
+  answer: async (id: string, answer: string, answeredBy: string) => { try { return await prisma.productQA.update({ where: { id }, data: { answer, answeredBy } }); } catch { return null; } },
+  update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.productQA.update({ where: { id }, data: data as never }); } catch { return null; } },
+  delete: async (id: string) => { try { await prisma.productQA.delete({ where: { id } }); } catch {} },
 };
 
 // ─── PRODUCT IMAGES (extended) ──────────────────────────────────────────────
 
 export const productImageStore = {
-  listByProduct: async (productId: string) => prisma.productImage.findMany({ where: { productId }, orderBy: { sort: "asc" } }),
-  create: async (data: Record<string, unknown>) => prisma.productImage.create({ data: data as never }),
-  update: async (id: string, data: Record<string, unknown>) => prisma.productImage.update({ where: { id }, data: data as never }),
-  delete: async (id: string) => prisma.productImage.delete({ where: { id } }),
+  listByProduct: async (productId: string) => { try { return await prisma.productImage.findMany({ where: { productId }, orderBy: { sort: "asc" } }); } catch { return []; } },
+  create: async (data: Record<string, unknown>) => { try { return await prisma.productImage.create({ data: data as never }); } catch { return data as never; } },
+  update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.productImage.update({ where: { id }, data: data as never }); } catch { return null; } },
+  delete: async (id: string) => { try { await prisma.productImage.delete({ where: { id } }); } catch {} },
   reorder: async (items: { id: string; sort: number }[]) => {
-    for (const item of items) await prisma.productImage.update({ where: { id: item.id }, data: { sort: item.sort } });
+    try { for (const item of items) await prisma.productImage.update({ where: { id: item.id }, data: { sort: item.sort } }); } catch {}
   },
 };
 
 // ─── PRODUCT RELATIONS ──────────────────────────────────────────────────────
 
 export const relationStore = {
-  listByProduct: async (productId: string) => prisma.productRelation.findMany({ where: { fromProductId: productId } }),
+  listByProduct: async (productId: string) => { try { return await prisma.productRelation.findMany({ where: { fromProductId: productId } }); } catch { return []; } },
   set: async (productId: string, relatedIds: string[]) => {
-    await prisma.productRelation.deleteMany({ where: { fromProductId: productId } });
-    if (relatedIds.length) {
-      await prisma.productRelation.createMany({ data: relatedIds.map(rid => ({ fromProductId: productId, relatedProductId: rid })) });
-    }
+    try {
+      await prisma.productRelation.deleteMany({ where: { fromProductId: productId } });
+      if (relatedIds.length) {
+        await prisma.productRelation.createMany({ data: relatedIds.map(rid => ({ fromProductId: productId, relatedProductId: rid })) });
+      }
+    } catch {}
   },
 };
 
 // ─── EMPLOYEE ───────────────────────────────────────────────────────────────
 
 export const employeeStore = {
-  list: async () => prisma.employee.findMany({ orderBy: { createdAt: "desc" } }),
-  bySlug: async (slug: string) => prisma.employee.findUnique({ where: { slug } }),
-  byId: async (id: string) => prisma.employee.findUnique({ where: { id } }),
-  create: async (data: Record<string, unknown>) => prisma.employee.create({ data: data as never }),
-  update: async (id: string, data: Record<string, unknown>) => prisma.employee.update({ where: { id }, data: data as never }),
-  delete: async (id: string) => prisma.employee.delete({ where: { id } }),
+  list: async () => { try { return await prisma.employee.findMany({ orderBy: { createdAt: "desc" } }); } catch { return []; } },
+  bySlug: async (slug: string) => { try { return await prisma.employee.findUnique({ where: { slug } }); } catch { return null; } },
+  byId: async (id: string) => { try { return await prisma.employee.findUnique({ where: { id } }); } catch { return null; } },
+  create: async (data: Record<string, unknown>) => { try { return await prisma.employee.create({ data: data as never }); } catch { return data as never; } },
+  update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.employee.update({ where: { id }, data: data as never }); } catch { return null; } },
+  delete: async (id: string) => { try { await prisma.employee.delete({ where: { id } }); } catch {} },
 };
 
 // ─── DOCTOR ─────────────────────────────────────────────────────────────────
 
 export const doctorStore = {
-  list: async () => prisma.doctor.findMany({ orderBy: { createdAt: "desc" } }),
-  byId: async (id: string) => prisma.doctor.findUnique({ where: { id } }),
-  create: async (data: Record<string, unknown>) => prisma.doctor.create({ data: data as never }),
-  update: async (id: string, data: Record<string, unknown>) => prisma.doctor.update({ where: { id }, data: data as never }),
-  updateStatus: async (id: string, status: string) => prisma.doctor.update({ where: { id }, data: { status } }),
+  list: async () => { try { return await prisma.doctor.findMany({ orderBy: { createdAt: "desc" } }); } catch { return []; } },
+  byId: async (id: string) => { try { return await prisma.doctor.findUnique({ where: { id } }); } catch { return null; } },
+  create: async (data: Record<string, unknown>) => { try { return await prisma.doctor.create({ data: data as never }); } catch { return data as never; } },
+  update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.doctor.update({ where: { id }, data: data as never }); } catch { return null; } },
+  updateStatus: async (id: string, status: string) => { try { return await prisma.doctor.update({ where: { id }, data: { status } }); } catch { return null; } },
 };

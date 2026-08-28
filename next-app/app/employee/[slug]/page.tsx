@@ -16,6 +16,13 @@ export default async function EmployeeProfile({ params }: { params: Promise<{ sl
   const { slug } = await params;
   let employee: Awaited<ReturnType<typeof prisma.employee.findUnique>> = null;
   try { employee = await prisma.employee.findUnique({ where: { slug } }); } catch { /* no database */ }
+  // Fallback to in-memory store for dev mode
+  if (!employee) {
+    try {
+      const { store } = await import("@/lib/commerce/store");
+      employee = await (store as unknown as { employees: { bySlug: (s: string) => Promise<Record<string, unknown> | null> } }).employees.bySlug(slug) as Awaited<ReturnType<typeof prisma.employee.findUnique>>;
+    } catch {}
+  }
   if (!employee || !employee.active) {
     return (
       <main className="portal" style={{ maxWidth: 500, margin: "0 auto", textAlign: "center", padding: "60px 20px" }}>
