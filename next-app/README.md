@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Queens Care Laboratories
 
-## Getting Started
+Premium, responsive Next.js storefront foundation for Queens Care Laboratories.
 
-First, run the development server:
+## Run locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm.cmd run dev
+npm.cmd run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Architecture
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `app/components/QueensCareExperience.tsx` is the editable storefront content and interaction layer.
+- `app/components/CareScene.tsx` is the motion-safe Three.js hero enhancement.
+- `app/[...slug]/page.tsx` supplies graceful pages for commercial, support, and portal URLs while their secured services are connected.
+- `app/sitemap.ts` and `app/robots.ts` provide search engine discovery endpoints.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Production integrations required
 
-## Learn More
+The schema and Prisma CLI are included for the production persistence migration. Run `npm run db:generate`, `npm run db:validate`, and `npm run db:migrate` against the configured PostgreSQL instance before accepting live orders. The local adapter remains intentionally deterministic for offline development. Never expose payment secrets in browser code.
 
-To learn more about Next.js, take a look at the following resources:
+Suggested environment variables:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```text
+RAZORPAY_KEY_ID=
+RAZORPAY_KEY_SECRET=
+RAZORPAY_WEBHOOK_SECRET=
+DATABASE_URL=
+CMS_API_URL=
+CMS_API_TOKEN=
+NEXT_PUBLIC_SITE_URL=
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Run dependency security review in the deployment environment before release: `npm audit`.

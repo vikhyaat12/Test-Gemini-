@@ -1,0 +1,30 @@
+# Tooling
+.continue/
+.freebuff/
+.reticle.json
+
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# Build
+node_modules/
+.next/
+out/
+
+# Testing
+playwright-report/
+test-results/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Debug
+dev.log
+*.log
+
+# IDE
+.vscode/
+*.code-workspace

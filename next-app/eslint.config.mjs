@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // OmniRoute is a separate vendored project with its own lint/build setup.
+    "OmniRoute/**",
   ]),
 ]);
 

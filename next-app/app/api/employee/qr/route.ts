@@ -1,0 +1,2 @@
+import {json,requireUser} from "@/lib/http";import {createHmac} from "crypto";import {authSecret} from "@/lib/auth";
+export async function GET(){const u=await requireUser(["admin","employee"]);if(!u)return json({error:"Unauthorized"},401);const expiry=Math.floor(Date.now()/60000)+5;const payload=`${u.id}.${expiry}`;const signature=createHmac("sha256",authSecret()).update(payload).digest("hex").slice(0,16);return json({code:`QC-EMP:${payload}:${signature}`,expiresAt:new Date(expiry*60000).toISOString()})}
