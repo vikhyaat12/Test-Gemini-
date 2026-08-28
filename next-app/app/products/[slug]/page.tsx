@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { store } from "@/lib/commerce/store";
 import { prisma } from "@/lib/prisma";
 import AddToCartButton from "@/app/components/AddToCartButton";
+import ProductGallery from "@/app/components/ProductGallery";
 import ProductTabs from "./ProductTabs";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -76,14 +77,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       {/* ─── GALLERY ─── */}
       <div className="detail-grid">
         <div className="product-gallery">
-          <img src={product.image} alt={product.name} loading="lazy" />
-          {images.length > 0 && (
-            <div className="gallery-thumbs">
-              {images.map((img) => (
-                <img key={img.id} src={img.url} alt={img.alt || product.name} width={60} height={60} style={{ objectFit: "cover", border: "1px solid var(--line)", cursor: "pointer" }} />
-              ))}
-            </div>
-          )}
+          <ProductGallery mainImage={product.image} productName={product.name} images={images.map(img => ({ id: img.id, url: img.url, alt: img.alt || undefined }))} />
         </div>
 
         <div className="product-info">

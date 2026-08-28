@@ -11,7 +11,8 @@ const PRIVATE_PREFIXES = ["/admin", "/analytics"];
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isPrivate = PRIVATE_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
-  if (!isPrivate) return NextResponse.next();
+  const isPublicAdmin = pathname === "/admin/login";
+  if (!isPrivate || isPublicAdmin) return NextResponse.next();
 
   if (request.cookies.get("qc_session")?.value) return NextResponse.next();
 

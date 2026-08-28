@@ -4,9 +4,13 @@ import { b2bStore } from "@/lib/commerce/store-extensions";
 export async function GET() {
   const user = await requireUser();
   if (!user) return json({ error: "Unauthorized" }, 401);
-  const applications = await b2bStore.applications.list();
-  const userApps = user.role === "admin" ? applications : applications.filter(a => a.email === user.email);
-  return json({ applications: userApps });
+  try {
+    const applications = await b2bStore.applications.list();
+    const userApps = user.role === "admin" ? applications : applications.filter(a => a.email === user.email);
+    return json({ applications: userApps });
+  } catch {
+    return json({ applications: [] });
+  }
 }
 
 export async function POST(request: Request) {
@@ -14,13 +18,17 @@ export async function POST(request: Request) {
   if (!body?.company || !body?.name || !body?.email) {
     return json({ error: "Company, name, and email are required." }, 422);
   }
-  const app = await b2bStore.applications.create({
-    company: body.company,
-    name: body.name,
-    email: body.email,
-    phone: body.phone || null,
-    type: body.type || "distributor",
-    message: body.message || null,
-  });
-  return json({ application: app }, 201);
+  try {
+    const app = await b2bStore.applications.create({
+      company: body.company,
+      name: body.name,
+      email: body.email,
+      phone: body.phone || null,
+      type: body.type || "distributor",
+      message: body.message || null,
+    });
+    return json({ application: app }, 201);
+  } catch {
+    return json({ error: "Database not available. B2B applications require PostgreSQL." }, 503);
+  }
 }
