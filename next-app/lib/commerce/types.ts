@@ -19,7 +19,7 @@ export type Product = {
 };
 
 export type CartLine = { productId: string; quantity: number };
-export type User = { id: string; email: string; name: string; role: Role; createdAt: string; phone?: string; avatar?: string; };
+export type User = { id: string; email: string; name: string; role: Role; createdAt: string; phone?: string; avatar?: string; permissions?: string[]; };
 export type AuthUser = User & { passwordHash: string; };
 export type ShippingDetails = { fullName: string; email: string; phone: string; address: string; city: string; state: string; pincode: string };
 export type Order = {
