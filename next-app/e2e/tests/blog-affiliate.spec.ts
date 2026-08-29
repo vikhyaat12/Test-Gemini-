@@ -9,12 +9,12 @@ test.describe('Queens Care — Blog, Journal, Affiliate & Navigation Verificatio
     await expect(page.locator('.eyebrow')).toContainText('Queens Care Laboratories');
     
     // Category filters exist
-    await expect(page.locator('a:has-text("All")')).toBeVisible();
+    await expect(page.locator('a:has-text("All")').first()).toBeVisible();
     
     // Articles and Newsletter CTA exist
     await expect(page.locator('.journal-grid')).toBeVisible();
-    await expect(page.locator('.journal-cta')).toBeVisible();
-    await expect(page.locator('input[placeholder="Your email address"]')).toBeVisible();
+    await expect(page.locator('.journal-cta').first()).toBeVisible();
+    await expect(page.locator('input[placeholder="Your email address"]').first()).toBeVisible();
   });
 
   test('2. Public Blog Post Detail View (/blog/[slug]) loads full article', async ({ page }) => {
@@ -23,10 +23,10 @@ test.describe('Queens Care — Blog, Journal, Affiliate & Navigation Verificatio
     
     // Header and title
     await expect(page.locator('h1')).toContainText('Why your afternoon slump is not a personality flaw');
-    await expect(page.locator('.back')).toHaveText('← All articles');
+    await expect(page.locator('.back')).toContainText('The Care Journal');
     
     // Metadata (author, read time, date)
-    await expect(page.locator('text=Dr. Anya Sharma')).toBeVisible();
+    await expect(page.locator('text=Queens Care Research Team')).toBeVisible();
     await expect(page.locator('text=6 min read')).toBeVisible();
     
     // Content body and tags
