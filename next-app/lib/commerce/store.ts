@@ -70,7 +70,33 @@ const seedProducts: Product[] = [
 
 const usePrisma = Boolean(process.env.DATABASE_URL);
 const seedOrders: Order[] = [];
-const seedUsers: AuthUser[] = [];
+const seedUsers: AuthUser[] = [
+	{
+		id: "usr-admin-1",
+		email: "admin@queenscare.in",
+		name: "Queens Care Admin",
+		role: "admin",
+		passwordHash: "scrypt$32947424c2c0266ad39c1e6b49a3b747$13558144f7b4dc502c70a6e6d4e8f2fa26c3a4d09981c70f2ec49248e0fa1225e26d46ccde3a68982277db05b0a28b90f9f7f3f060ddb7d4091d33abdc8875cf",
+		createdAt: now(),
+	},
+	{
+		id: "usr-customer-1",
+		email: "customer@queenscare.in",
+		name: "Demo Customer",
+		role: "customer",
+		passwordHash: "scrypt$65855b94157eeb5fee02c02c1ed556f5$a39c011094df65d9e1d3fdeba4b016c66dd795f8a212221431c27b1c1da915695bd67f81703c6f7946262501a10fea3ea4ba09903aebd57b5998cf7c21a204bd",
+		createdAt: now(),
+	},
+	{
+		id: "usr-employee-1",
+		email: "employee@queenscare.in",
+		name: "Dr. Vikram Singhania",
+		role: "employee",
+		permissions: ["orders", "products", "blog", "affiliates", "b2b", "employees"],
+		passwordHash: "scrypt$088a21d3eda57dcd7d9f478f77462a08$e50998b2613a7116c91c6afa73f58b5f2063ae665509423985aa97d3a316f9c644341322e7d403cf0a78576c9fa2b56940537bda538cf39cc9111e213087068e",
+		createdAt: now(),
+	},
+];
 
 // Editorial page content for the in-memory preview path. Mirrors prisma/seed.mjs
 // so About / Manufacturing / Quality / R&D render real, distinct copy even when

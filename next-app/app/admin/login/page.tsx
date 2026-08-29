@@ -27,13 +27,13 @@ export default function AdminLogin() {
         setLoading(false);
         return;
       }
-      // Check if user is admin
+      // Check if user is admin or employee
       const me = await fetch("/api/auth/me");
       const meData = await me.json();
-      if (meData.user?.role === "admin") {
+      if (meData.user?.role === "admin" || meData.user?.role === "employee") {
         router.push("/admin");
       } else {
-        setError("Access denied. Admin credentials required.");
+        setError("Access denied. Admin or authorized employee credentials required.");
         setLoading(false);
         // Logout non-admin
         await fetch("/api/auth/logout", { method: "POST" });

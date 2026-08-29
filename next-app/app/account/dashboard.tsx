@@ -102,10 +102,12 @@ export default function CustomerDashboard() {
         <Link href="/" className="back">← Queens Care</Link>
         <p className="eyebrow">Your care account</p>
         <h1>{forgotMode ? "Reset password" : authTab === "login" ? "Sign in" : "Create account"}</h1>
-        {!forgotMode && (
-          <Link href="/api/auth/google" style={{ display: "block", padding: "12px 0", border: "1px solid var(--line)", textAlign: "center", marginBottom: 16, fontSize: 13, textDecoration: "none", color: "var(--ink)" }}>Continue with Google</Link>
+        {!forgotMode && Boolean(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID) && (
+          <>
+            <Link href="/api/auth/google" style={{ display: "block", padding: "12px 0", border: "1px solid var(--line)", textAlign: "center", marginBottom: 16, fontSize: 13, textDecoration: "none", color: "var(--ink)" }}>Continue with Google</Link>
+            <p style={{ textAlign: "center", fontSize: 12, color: "var(--muted)", margin: "0 0 16px" }}>or</p>
+          </>
         )}
-        {!forgotMode && <p style={{ textAlign: "center", fontSize: 12, color: "var(--muted)", margin: "0 0 16px" }}>or</p>}
         {authMessage && <p style={{ padding: "10px 14px", background: authMessage.includes("error") || authMessage.includes("Error") ? "#fce4ec" : "#e9f7e9", fontSize: 12, marginBottom: 16 }}>{authMessage}</p>}
         {forgotMode ? (
           <form onSubmit={handleForgot} style={{ display: "grid", gap: 12 }}>
