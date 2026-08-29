@@ -170,7 +170,6 @@ export const store = {
 				email: input.email || "",
 				name: input.name || "",
 				role: input.role || "customer",
-				passwordHash: input.passwordHash,
 				createdAt: now(),
 				updatedAt: now(),
 				...input,
@@ -533,6 +532,40 @@ export const store = {
 				try { return await prisma.setting.findMany({ orderBy: { group: "asc" } }); } catch {}
 			}
 			return fileDb.findMany("settings");
+		},
+	},
+	wishlist: {
+		get: async (userId: string): Promise<string[]> => {
+			if (usePrisma) {
+				try {
+					const items = await prisma.wishlistItem.findMany({ where: { userId } });
+					return items.map((w: { productId: string }) => w.productId);
+				} catch {}
+			}
+			return fileDb.findMany("wishlistItems", w => w.userId === userId).map(w => String(w.productId));
+		},
+		toggle: async (userId: string, productId: string): Promise<string[]> => {
+			if (usePrisma) {
+				try {
+					const existing = await prisma.wishlistItem.findUnique({
+						where: { userId_productId: { userId, productId } }
+					});
+					if (existing) {
+						await prisma.wishlistItem.delete({ where: { id: existing.id } });
+					} else {
+						await prisma.wishlistItem.create({ data: { userId, productId } });
+					}
+					const items = await prisma.wishlistItem.findMany({ where: { userId } });
+					return items.map((w: { productId: string }) => w.productId);
+				} catch {}
+			}
+			const existing = fileDb.findOne("wishlistItems", w => w.userId === userId && w.productId === productId);
+			if (existing) {
+				fileDb.remove("wishlistItems", String(existing.id));
+			} else {
+				fileDb.insert("wishlistItems", { userId, productId });
+			}
+			return fileDb.findMany("wishlistItems", w => w.userId === userId).map(w => String(w.productId));
 		},
 	},
 };

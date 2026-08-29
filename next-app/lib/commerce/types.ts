@@ -10,11 +10,12 @@ export type Product = {
   id: string; slug: string; name: string; brand?: string; description: string;
   shortDescription?: string; category: string; subcategory?: string;
   price: number; mrp?: number; discount?: number; stock: number;
-  lowStockThreshold?: number; image: string; thumbnail?: string; video?: string;
+  lowStockThreshold?: number; image: string; images?: string[]; thumbnail?: string; video?: string;
+  modelUrl?: string; specifications?: ProductSpec[] | Record<string, unknown>[] | string;
   active: boolean; visible?: boolean; featured?: boolean; homepageVisible?: boolean;
   benefits?: string[]; ingredients?: string; usage?: string; safetyInfo?: string;
   tags?: string; searchKeywords?: string; seoTitle?: string; seoDescription?: string;
-  seoOgImage?: string; altText?: string;
+  seoOgImage?: string; altText?: string; taxRate?: number;
   rating?: number; reviewCount?: number; createdAt: string; updatedAt?: string;
 };
 

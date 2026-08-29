@@ -29,6 +29,7 @@ export interface LocalDbSchema {
   doctors: Array<Record<string, unknown>>;
   reviews: Array<Record<string, unknown>>;
   content: Array<Record<string, unknown>>;
+  wishlistItems: Array<Record<string, unknown>>;
 }
 
 const now = () => new Date().toISOString();
@@ -531,6 +532,7 @@ const initialSeedData: LocalDbSchema = {
   ],
   reviews: [],
   content: [],
+  wishlistItems: [],
 };
 
 let inMemoryData: LocalDbSchema | null = null;
@@ -553,19 +555,21 @@ export const fileDb = {
         const parsed = JSON.parse(raw);
         if (parsed && typeof parsed === "object") {
           // Merge with any missing collections from initialSeedData
-          inMemoryData = {
+          const merged: LocalDbSchema = {
             ...initialSeedData,
             ...parsed,
           };
-          return inMemoryData;
+          inMemoryData = merged;
+          return merged;
         }
       }
     } catch {}
 
     // First time init: write initialSeedData to DB_FILE
-    inMemoryData = structuredClone(initialSeedData);
+    const initialized: LocalDbSchema = structuredClone(initialSeedData);
+    inMemoryData = initialized;
     this.flush();
-    return inMemoryData;
+    return initialized;
   },
 
   flush() {

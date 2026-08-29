@@ -110,71 +110,90 @@ function generateAffiliateCode(): string {
   return `QC${randomBytes(4).toString("hex").toUpperCase()}`;
 }
 
+type AffiliateRecord = {
+  id: string;
+  userId: string;
+  affiliateCode: string;
+  status: string;
+  commissionRate: number;
+  customCoupon?: string | null;
+  level: number;
+  totalSales: number;
+  totalCommission: number;
+  pendingCommission: number;
+  approvedCommission: number;
+  withdrawnCommission: number;
+  wallet: number;
+  createdAt?: string | Date;
+  updatedAt?: string | Date;
+  user?: Record<string, unknown> | null;
+};
+
 export const affiliateStore = {
-  list: async () => {
+  list: async (): Promise<AffiliateRecord[]> => {
     if (usePrisma) {
-      try { return await prisma.affiliate.findMany({ include: { user: true }, orderBy: { createdAt: "desc" } }); } catch {}
+      try { return (await prisma.affiliate.findMany({ include: { user: true }, orderBy: { createdAt: "desc" } })) as unknown as AffiliateRecord[]; } catch {}
     }
     const affiliates = fileDb.findMany("affiliates");
     const users = fileDb.findMany("users");
     return affiliates.map(a => ({
       ...a,
       user: users.find(u => u.id === a.userId) || { name: "Partner", email: "partner@queenscare.in" },
-    }));
+    })) as unknown as AffiliateRecord[];
   },
 
-  byId: async (id: string) => {
+  byId: async (id: string): Promise<AffiliateRecord | null> => {
     if (usePrisma) {
-      try { return await prisma.affiliate.findUnique({ where: { id }, include: { user: true } }); } catch {}
+      try { return (await prisma.affiliate.findUnique({ where: { id }, include: { user: true } })) as unknown as AffiliateRecord | null; } catch {}
     }
     const a = fileDb.findOne("affiliates", x => x.id === id);
     if (!a) return null;
     const user = fileDb.findOne("users", u => u.id === a.userId);
-    return { ...a, user };
+    return { ...a, user } as unknown as AffiliateRecord;
   },
 
-  byUserId: async (userId: string) => {
+  byUserId: async (userId: string): Promise<AffiliateRecord | null> => {
     if (usePrisma) {
-      try { return await prisma.affiliate.findUnique({ where: { userId }, include: { user: true } }); } catch {}
+      try { return (await prisma.affiliate.findUnique({ where: { userId }, include: { user: true } })) as unknown as AffiliateRecord | null; } catch {}
     }
     const a = fileDb.findOne("affiliates", x => x.userId === userId);
     if (!a) return null;
     const user = fileDb.findOne("users", u => u.id === userId);
-    return { ...a, user };
+    return { ...a, user } as unknown as AffiliateRecord;
   },
 
-  byCode: async (code: string) => {
+  byCode: async (code: string): Promise<AffiliateRecord | null> => {
     const norm = code.toUpperCase();
     if (usePrisma) {
-      try { return await prisma.affiliate.findUnique({ where: { affiliateCode: norm }, include: { user: true } }); } catch {}
+      try { return (await prisma.affiliate.findUnique({ where: { affiliateCode: norm }, include: { user: true } })) as unknown as AffiliateRecord | null; } catch {}
     }
     const a = fileDb.findOne("affiliates", x => String(x.affiliateCode).toUpperCase() === norm);
     if (!a) return null;
     const user = fileDb.findOne("users", u => u.id === a.userId);
-    return { ...a, user };
+    return { ...a, user } as unknown as AffiliateRecord;
   },
 
-  byRef: async (ref: string) => {
+  byRef: async (ref: string): Promise<{ affiliate: AffiliateRecord | null; link: Record<string, unknown> | null } | null> => {
     const code = ref.trim();
     if (!code) return null;
     if (usePrisma) {
       try {
-        const byCode = await prisma.affiliate.findUnique({ where: { affiliateCode: code.toUpperCase() }, include: { user: true } });
+        const byCode = (await prisma.affiliate.findUnique({ where: { affiliateCode: code.toUpperCase() }, include: { user: true } })) as unknown as AffiliateRecord | null;
         if (byCode) return { affiliate: byCode, link: null };
-        const link = await prisma.affiliateLink.findUnique({ where: { shortCode: code }, include: { affiliate: { include: { user: true } } } });
-        if (link && link.affiliate) return { affiliate: link.affiliate, link };
+        const link = (await prisma.affiliateLink.findUnique({ where: { shortCode: code }, include: { affiliate: { include: { user: true } } } })) as unknown as Record<string, unknown> | null;
+        if (link && link.affiliate) return { affiliate: link.affiliate as unknown as AffiliateRecord, link };
       } catch {}
     }
     const byCode = fileDb.findOne("affiliates", a => String(a.affiliateCode).toUpperCase() === code.toUpperCase());
     if (byCode) {
       const user = fileDb.findOne("users", u => u.id === byCode.userId);
-      return { affiliate: { ...byCode, user }, link: null };
+      return { affiliate: { ...byCode, user } as unknown as AffiliateRecord, link: null };
     }
     const link = fileDb.findOne("affiliateLinks", l => String(l.shortCode).toUpperCase() === code.toUpperCase() || l.shortCode === code);
     if (link) {
       const aff = fileDb.findOne("affiliates", a => a.id === link.affiliateId);
       const user = aff ? fileDb.findOne("users", u => u.id === aff.userId) : null;
-      return { affiliate: aff ? { ...aff, user } : null, link };
+      return { affiliate: aff ? ({ ...aff, user } as unknown as AffiliateRecord) : null, link };
     }
     return null;
   },
@@ -247,6 +266,32 @@ export const affiliateStore = {
     return Boolean(fileDb.remove("affiliates", id));
   },
 
+  recordCommission: async (affiliateId: string, orderId: string, amount: number, linkId?: string) => {
+    return affiliateStore.commissions.create({ affiliateId, orderId, amount });
+  },
+
+  recordClick: async (linkId: string | null, affiliateId: string, ip?: string, userAgent?: string, referer?: string) => {
+    return affiliateStore.links.logClick(linkId || "direct", affiliateId, { ip, userAgent, referer });
+  },
+
+  getStats: async (affiliateId: string) => {
+    const aff = (await affiliateStore.byId(affiliateId)) as Record<string, unknown> | null;
+    const commissions = await affiliateStore.commissions.list(affiliateId);
+    const links = await affiliateStore.links.list(affiliateId);
+    const clicks = links.reduce((sum, l) => sum + Number(l.clicks || 0), 0);
+    return {
+      totalSales: Number(aff?.totalSales || 0),
+      totalCommission: Number(aff?.totalCommission || 0),
+      pendingCommission: Number(aff?.pendingCommission || 0),
+      approvedCommission: Number(aff?.approvedCommission || 0),
+      withdrawnCommission: Number(aff?.withdrawnCommission || 0),
+      wallet: Number(aff?.wallet || 0),
+      clicks,
+      totalLinks: links.length,
+      totalOrders: commissions.length,
+    };
+  },
+
   links: {
     list: async (affiliateId: string) => {
       if (usePrisma) {
@@ -254,16 +299,26 @@ export const affiliateStore = {
       }
       return fileDb.findMany("affiliateLinks", l => l.affiliateId === affiliateId);
     },
-    create: async (affiliateId: string, data: { productId?: string; url: string; shortCode?: string }) => {
-      const shortCode = data.shortCode || randomBytes(4).toString("hex");
+    create: async (affiliateId: string, dataOrProductId?: string | { productId?: string; url?: string; shortCode?: string }, customCode?: string) => {
+      let productId: string | undefined;
+      let url = "https://queenscare.in";
+      let shortCode = customCode;
+      if (typeof dataOrProductId === "object" && dataOrProductId !== null) {
+        productId = dataOrProductId.productId;
+        url = dataOrProductId.url || url;
+        shortCode = dataOrProductId.shortCode || shortCode;
+      } else if (typeof dataOrProductId === "string") {
+        productId = dataOrProductId;
+      }
+      shortCode = shortCode || randomBytes(4).toString("hex");
       if (usePrisma) {
         try {
-          const l = await prisma.affiliateLink.create({ data: { affiliateId, productId: data.productId, url: data.url, shortCode } });
+          const l = await prisma.affiliateLink.create({ data: { affiliateId, productId, url, shortCode } });
           fileDb.insert("affiliateLinks", l as unknown as Record<string, unknown>);
           return l;
         } catch {}
       }
-      return fileDb.insert("affiliateLinks", { affiliateId, productId: data.productId, url: data.url, shortCode, clicks: 0, conversions: 0, isActive: true });
+      return fileDb.insert("affiliateLinks", { affiliateId, productId, url, shortCode, clicks: 0, conversions: 0, isActive: true });
     },
     byCode: async (shortCode: string) => {
       if (usePrisma) {
@@ -369,11 +424,20 @@ export const affiliateStore = {
   },
 
   withdrawals: {
+    all: async () => {
+      if (usePrisma) {
+        try { return await prisma.affiliateWithdrawal.findMany({ include: { affiliate: true }, orderBy: { createdAt: "desc" } }); } catch {}
+      }
+      return fileDb.findMany("affiliateWithdrawals");
+    },
     list: async (affiliateId?: string) => {
       if (usePrisma) {
         try { return await prisma.affiliateWithdrawal.findMany({ where: affiliateId ? { affiliateId } : {}, include: { affiliate: true }, orderBy: { createdAt: "desc" } }); } catch {}
       }
       return fileDb.findMany("affiliateWithdrawals", w => !affiliateId || w.affiliateId === affiliateId);
+    },
+    request: async (affiliateId: string, amount: number, method?: string) => {
+      return affiliateStore.withdrawals.create({ affiliateId, amount, method });
     },
     create: async (data: { affiliateId: string; amount: number; method?: string; accountDetails?: Record<string, unknown> }) => {
       if (usePrisma) {
@@ -440,7 +504,7 @@ export const b2bStore = {
           return app;
         } catch {}
       }
-      const updated = fileDb.update("b2bApplications", id, { status, reviewedBy, notes });
+      const updated = fileDb.update("b2bApplications", id, { status, reviewedBy, notes }) as Record<string, unknown> | null;
       if (status === "approved" && updated) {
         const exists = fileDb.findOne("distributors", d => d.applicationId === id);
         if (!exists) {

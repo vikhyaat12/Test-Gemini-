@@ -4,7 +4,7 @@ import { affiliateStore } from "@/lib/commerce/store-extensions";
 export async function GET() {
   const user = await requireUser(["admin"]);
   if (!user) return json({ error: "Unauthorized" }, 401);
-  const withdrawals = await affiliateStore.withdrawals.all();
+  const withdrawals = await affiliateStore.withdrawals.list();
   return json({ withdrawals });
 }
 
