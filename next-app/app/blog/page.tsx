@@ -3,6 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { store } from "@/lib/commerce/store";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "The Care Journal — Queens Care Laboratories",
   description: "Intelligence for a life well lived. Expert insights, wellness science, and stories from our Queens Care community.",

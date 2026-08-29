@@ -8,6 +8,8 @@ import AddToCartButton from "@/app/components/AddToCartButton";
 import ProductGallery from "@/app/components/ProductGallery";
 import ProductTabs from "./ProductTabs";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const product = await store.products.bySlug((await params).slug);
   if (!product) return { title: "Product not found" };
@@ -56,9 +58,19 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   if (!product) return notFound();
 
   const full = await getProductFull(product.slug);
-  const images = full?.images || [];
+  const rawImages = (product as Record<string, unknown>).images;
+  const fallbackImages = Array.isArray(rawImages) ? (rawImages as string[]).map((u, i) => ({ id: `img-${i}`, url: u, alt: product.name })) : [];
+  const images = (full?.images && full.images.length > 0) ? full.images : fallbackImages;
   const variants = full?.variants || [];
-  const specs = full?.specifications || [];
+  
+  let fallbackSpecs: Array<{ id: string; name: string; value: string }> = [];
+  try {
+    const rawSpecs = (product as Record<string, unknown>).specifications;
+    if (Array.isArray(rawSpecs)) fallbackSpecs = rawSpecs.map((s, i) => ({ id: `sp-${i}`, name: s.name, value: s.value }));
+    else if (typeof rawSpecs === "string") fallbackSpecs = JSON.parse(rawSpecs).map((s: { name: string; value: string }, i: number) => ({ id: `sp-${i}`, name: s.name, value: s.value }));
+  } catch {}
+
+  const specs = (full?.specifications && full.specifications.length > 0) ? full.specifications : fallbackSpecs;
   const faqs = full?.productFaqs || [];
   const reviews = full?.reviews || [];
   const related = (full?.relatedFrom || []).map(r => r.relatedProduct).filter(Boolean);

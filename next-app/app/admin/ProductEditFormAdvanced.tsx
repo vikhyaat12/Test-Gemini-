@@ -9,16 +9,23 @@ type SpecRow = { name: string; value: string };
 export function ProductEditFormAdvanced({ item, onSave }: { item: Record<string, unknown>; onSave: () => void }) {
   const [form, setForm] = useState(item);
   const [specs, setSpecs] = useState<SpecRow[]>(() => {
-    try { return JSON.parse(String(form.specifications || "[]")); } catch { return []; }
+    try {
+      if (Array.isArray(form.specifications)) return form.specifications as SpecRow[];
+      if (typeof form.specifications === "string") return JSON.parse(form.specifications);
+      return [];
+    } catch {
+      return [];
+    }
   });
   const [images, setImages] = useState<string[]>(() => {
     const img = form.images || form.gallery;
-    if (Array.isArray(img)) return img;
+    if (Array.isArray(img)) return img.map(String);
     return form.image ? [String(form.image)] : [];
   });
   const [newImageUrl, setNewImageUrl] = useState("");
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState("");
+  const [isError, setIsError] = useState(false);
 
   const inputStyle = { width: "100%", padding: "10px 14px", border: "1px solid var(--line)", fontSize: 14 };
   const labelStyle = { fontSize: 11, fontWeight: 600 as const, display: "block" as const, marginBottom: 4 };
@@ -48,26 +55,65 @@ export function ProductEditFormAdvanced({ item, onSave }: { item: Record<string,
 
   const save = async () => {
     setSaving(true);
-    const id = String(form.id);
+    setIsError(false);
+    setMsg("");
+    const isNew = Boolean(form.isNew);
+    const identifier = String(form.slug || form.id || "");
+    const endpoint = isNew ? "/api/products" : `/api/products/${encodeURIComponent(identifier)}`;
+    const method = isNew ? "POST" : "PATCH";
+
     const payload = {
       ...form,
       images: images,
       image: images[0] || form.image,
-      specifications: JSON.stringify(specs),
+      specifications: specs,
+      price: Number(form.price || 0),
+      mrp: form.mrp ? Number(form.mrp) : undefined,
+      discount: form.discount ? Number(form.discount) : undefined,
+      stock: Number(form.stock || 0),
+      lowStockThreshold: Number(form.lowStockThreshold || 10),
     };
+
     try {
-      const res = await fetch(`/api/products/${id}`, { method: "PATCH", body: JSON.stringify(payload) });
-      if (res.ok) { setMsg("Product saved!"); setTimeout(onSave, 500); }
-      else { setMsg("Failed to save."); }
-    } catch { setMsg("Network error."); }
+      const res = await fetch(endpoint, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setIsError(false);
+        setMsg("Product saved successfully!");
+        setTimeout(onSave, 500);
+      } else {
+        setIsError(true);
+        setMsg(data.error || "Failed to save product.");
+      }
+    } catch {
+      setIsError(true);
+      setMsg("Network error while saving.");
+    }
     setSaving(false);
   };
 
   return (
     <div style={{ maxWidth: 800 }}>
-      <h3 style={{ font: "20px var(--font-display)", marginBottom: 20 }}>Edit Product</h3>
-      {msg && <p style={{ padding: "8px 12px", background: "#e9f7e9", fontSize: 12, color: "#2e7d32", marginBottom: 16 }}>{msg}</p>}
-      
+      <h3 style={{ font: "20px var(--font-display)", marginBottom: 20 }}>{form.isNew ? "New Product" : "Edit Product"}</h3>
+      {msg && (
+        <p
+          style={{
+            padding: "8px 12px",
+            background: isError ? "#fde8e8" : "#e9f7e9",
+            fontSize: 12,
+            color: isError ? "#b34141" : "#2e7d32",
+            marginBottom: 16,
+            border: isError ? "1px solid #f8b4b4" : "1px solid #c3e6cb",
+          }}
+        >
+          {msg}
+        </p>
+      )}
+
       {/* BASIC INFO */}
       <div style={{ marginBottom: 24, padding: 20, background: "#faf9f7", border: "1px solid var(--line)" }}>
         <h4 style={{ font: "14px var(--font-display)", marginBottom: 14, color: "var(--purple)" }}>Basic Information</h4>
@@ -83,7 +129,7 @@ export function ProductEditFormAdvanced({ item, onSave }: { item: Record<string,
           </div>
           <div><label style={labelStyle}>Short Description</label><input style={inputStyle} value={String(form.shortDescription || "")} onChange={e => setForm({ ...form, shortDescription: e.target.value })} /></div>
           <div><label style={labelStyle}>Full Description</label><textarea style={{ ...inputStyle, minHeight: 100 }} value={String(form.description || "")} onChange={e => setForm({ ...form, description: e.target.value })} /></div>
-          <div><label style={labelStyle}>Benefits</label><textarea style={{ ...inputStyle, minHeight: 60 }} value={String(form.benefits || "")} onChange={e => setForm({ ...form, benefits: e.target.value })} placeholder="Key product benefits..." /></div>
+          <div><label style={labelStyle}>Benefits (comma separated or JSON array)</label><textarea style={{ ...inputStyle, minHeight: 60 }} value={Array.isArray(form.benefits) ? form.benefits.join(", ") : String(form.benefits || "")} onChange={e => setForm({ ...form, benefits: e.target.value.split(",").map(s => s.trim()).filter(Boolean) })} placeholder="Visible radiance, Antioxidant shield..." /></div>
           <div><label style={labelStyle}>Tags</label><input style={inputStyle} value={String(form.tags || "")} onChange={e => setForm({ ...form, tags: e.target.value })} placeholder="serum, vitamin c, skincare (comma separated)" /></div>
         </div>
       </div>
@@ -170,8 +216,8 @@ export function ProductEditFormAdvanced({ item, onSave }: { item: Record<string,
             <div><label style={labelStyle}>SEO Description</label><input style={inputStyle} value={String(form.seoDescription || "")} onChange={e => setForm({ ...form, seoDescription: e.target.value })} /></div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, auto)", gap: 16, fontSize: 13 }}>
-            <label><input type="checkbox" checked={!!form.active} onChange={e => setForm({ ...form, active: e.target.checked })} /> Active</label>
-            <label><input type="checkbox" checked={!!form.visible} onChange={e => setForm({ ...form, visible: e.target.checked })} /> Visible</label>
+            <label><input type="checkbox" checked={form.active !== false} onChange={e => setForm({ ...form, active: e.target.checked })} /> Active</label>
+            <label><input type="checkbox" checked={form.visible !== false} onChange={e => setForm({ ...form, visible: e.target.checked })} /> Visible</label>
             <label><input type="checkbox" checked={!!form.featured} onChange={e => setForm({ ...form, featured: e.target.checked })} /> Featured</label>
             <label><input type="checkbox" checked={!!form.homepageVisible} onChange={e => setForm({ ...form, homepageVisible: e.target.checked })} /> Homepage</label>
           </div>

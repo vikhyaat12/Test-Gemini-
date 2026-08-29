@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { store } from "@/lib/commerce/store";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const post = await store.posts.bySlug((await params).slug);
   if (!post) return { title: "Post not found" };

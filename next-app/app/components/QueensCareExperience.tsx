@@ -65,16 +65,16 @@ export default function QueensCareExperience() {
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const { store } = await import("@/lib/commerce/store");
-        const data = await store.products.list();
-        // Map store products to include note and tag for UI
-        const mappedProducts = data.map((p) => ({
+        const res = await fetch("/api/products");
+        const data = await res.json();
+        const productList = (data.products || []) as Product[];
+        const mappedProducts = productList.map((p) => ({
           ...p,
-          note: p.description.split(".")[0] || p.description,
-          tag: p.rating && p.rating >= 4.8 ? "Bestseller" : p.reviewCount && p.reviewCount > 150 ? "Popular" : "New",
+          note: p.description ? (p.description.split(".")[0] || p.description) : "",
+          tag: p.rating && p.rating >= 4.8 ? "Bestseller" : (p.reviewCount && p.reviewCount > 150 ? "Popular" : "New"),
         }));
         setProducts(mappedProducts);
-        const cats = [...new Set(data.map((p) => p.category))];
+        const cats = [...new Set(productList.map((p) => p.category).filter(Boolean))];
         setCategories(cats);
       } catch (error) {
         console.error("Failed to load products:", error);

@@ -19,9 +19,11 @@ export default function ShopPage() {
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const data = await store.products.list();
-        setProducts(data);
-        const cats = [...new Set(data.map((p) => p.category))];
+        const res = await fetch("/api/products");
+        const data = await res.json();
+        const productList = (data.products || []) as Product[];
+        setProducts(productList);
+        const cats = [...new Set(productList.map((p) => p.category).filter(Boolean))];
         setCategories(cats);
       } catch (error) {
         console.error("Failed to load products:", error);

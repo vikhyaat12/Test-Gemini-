@@ -10,26 +10,58 @@ export function BannerEditForm({ item, onSave }: { item: Record<string, unknown>
   const [form, setForm] = useState(item);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState("");
+  const [isError, setIsError] = useState(false);
+
   const save = async () => {
     setSaving(true);
+    setIsError(false);
+    setMsg("");
     const method = form.isNew ? "POST" : "PATCH";
     const endpoint = form.isNew ? "/api/admin/banners" : `/api/admin/banners/${form.id}`;
     try {
-      const res = await fetch(endpoint, { method, body: JSON.stringify(form) });
-      if (res.ok) { setMsg("Saved!"); setTimeout(onSave, 400); }
-      else { const d = await res.json(); setMsg(d.error || "Failed."); }
-    } catch { setMsg("Network error."); }
+      const res = await fetch(endpoint, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const d = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setIsError(false);
+        setMsg("Banner saved successfully!");
+        setTimeout(onSave, 400);
+      } else {
+        setIsError(true);
+        setMsg(d.error || "Failed to save banner.");
+      }
+    } catch {
+      setIsError(true);
+      setMsg("Network error.");
+    }
     setSaving(false);
   };
+
   return (
     <div style={{ maxWidth: 600, marginTop: 20, padding: 20, background: "#fff", border: "1px solid var(--line)" }}>
       <h3 style={{ font: "18px var(--font-display)", marginBottom: 16 }}>{form.isNew ? "New Banner" : "Edit Banner"}</h3>
-      {msg && <p style={{ padding: "6px 10px", background: "#e9f7e9", fontSize: 12, color: "#2e7d32", marginBottom: 12 }}>{msg}</p>}
+      {msg && (
+        <p
+          style={{
+            padding: "8px 12px",
+            background: isError ? "#fde8e8" : "#e9f7e9",
+            fontSize: 12,
+            color: isError ? "#b34141" : "#2e7d32",
+            marginBottom: 12,
+            border: isError ? "1px solid #f8b4b4" : "1px solid #c3e6cb",
+          }}
+        >
+          {msg}
+        </p>
+      )}
       <div style={{ display: "grid", gap: 12 }}>
         <div><label style={labelStyle}>Title *</label><input style={inputStyle} value={String(form.title || "")} onChange={e => setForm({ ...form, title: e.target.value })} /></div>
         <div><label style={labelStyle}>Subtitle</label><input style={inputStyle} value={String(form.subtitle || "")} onChange={e => setForm({ ...form, subtitle: e.target.value })} /></div>
-        <div><label style={labelStyle}>Image URL</label><input style={inputStyle} value={String(form.image || "")} onChange={e => setForm({ ...form, image: e.target.value })} /></div>
-        <div><label style={labelStyle}>Link / CTA URL</label><input style={inputStyle} value={String(form.link || "")} onChange={e => setForm({ ...form, link: e.target.value })} /></div>
+        <div><label style={labelStyle}>Image URL</label><input style={inputStyle} value={String(form.image || form.imageUrl || "")} onChange={e => setForm({ ...form, image: e.target.value, imageUrl: e.target.value })} /></div>
+        <div><label style={labelStyle}>Link / CTA URL</label><input style={inputStyle} value={String(form.link || form.linkUrl || "")} onChange={e => setForm({ ...form, link: e.target.value, linkUrl: e.target.value })} /></div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
           <div><label style={labelStyle}>Position</label><select style={inputStyle} value={String(form.position || "hero")} onChange={e => setForm({ ...form, position: e.target.value })}>
             <option value="hero">Hero</option><option value="top">Top</option><option value="bottom">Bottom</option><option value="sidebar">Sidebar</option>
@@ -48,21 +80,53 @@ export function TestimonialEditForm({ item, onSave }: { item: Record<string, unk
   const [form, setForm] = useState(item);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState("");
+  const [isError, setIsError] = useState(false);
+
   const save = async () => {
     setSaving(true);
+    setIsError(false);
+    setMsg("");
     const method = form.isNew ? "POST" : "PATCH";
     const endpoint = form.isNew ? "/api/admin/testimonials" : `/api/admin/testimonials/${form.id}`;
     try {
-      const res = await fetch(endpoint, { method, body: JSON.stringify(form) });
-      if (res.ok) { setMsg("Saved!"); setTimeout(onSave, 400); }
-      else { const d = await res.json(); setMsg(d.error || "Failed."); }
-    } catch { setMsg("Network error."); }
+      const res = await fetch(endpoint, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const d = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setIsError(false);
+        setMsg("Testimonial saved successfully!");
+        setTimeout(onSave, 400);
+      } else {
+        setIsError(true);
+        setMsg(d.error || "Failed to save testimonial.");
+      }
+    } catch {
+      setIsError(true);
+      setMsg("Network error.");
+    }
     setSaving(false);
   };
+
   return (
     <div style={{ maxWidth: 600, marginTop: 20, padding: 20, background: "#fff", border: "1px solid var(--line)" }}>
       <h3 style={{ font: "18px var(--font-display)", marginBottom: 16 }}>{form.isNew ? "New Testimonial" : "Edit Testimonial"}</h3>
-      {msg && <p style={{ padding: "6px 10px", background: "#e9f7e9", fontSize: 12, color: "#2e7d32", marginBottom: 12 }}>{msg}</p>}
+      {msg && (
+        <p
+          style={{
+            padding: "8px 12px",
+            background: isError ? "#fde8e8" : "#e9f7e9",
+            fontSize: 12,
+            color: isError ? "#b34141" : "#2e7d32",
+            marginBottom: 12,
+            border: isError ? "1px solid #f8b4b4" : "1px solid #c3e6cb",
+          }}
+        >
+          {msg}
+        </p>
+      )}
       <div style={{ display: "grid", gap: 12 }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
           <div><label style={labelStyle}>Name *</label><input style={inputStyle} value={String(form.name || "")} onChange={e => setForm({ ...form, name: e.target.value })} /></div>
@@ -85,21 +149,53 @@ export function OfferEditForm({ item, onSave }: { item: Record<string, unknown>;
   const [form, setForm] = useState(item);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState("");
+  const [isError, setIsError] = useState(false);
+
   const save = async () => {
     setSaving(true);
+    setIsError(false);
+    setMsg("");
     const method = form.isNew ? "POST" : "PATCH";
     const endpoint = form.isNew ? "/api/admin/offers" : `/api/admin/offers/${form.id}`;
     try {
-      const res = await fetch(endpoint, { method, body: JSON.stringify(form) });
-      if (res.ok) { setMsg("Saved!"); setTimeout(onSave, 400); }
-      else { const d = await res.json(); setMsg(d.error || "Failed."); }
-    } catch { setMsg("Network error."); }
+      const res = await fetch(endpoint, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const d = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setIsError(false);
+        setMsg("Offer saved successfully!");
+        setTimeout(onSave, 400);
+      } else {
+        setIsError(true);
+        setMsg(d.error || "Failed to save offer.");
+      }
+    } catch {
+      setIsError(true);
+      setMsg("Network error.");
+    }
     setSaving(false);
   };
+
   return (
     <div style={{ maxWidth: 600, marginTop: 20, padding: 20, background: "#fff", border: "1px solid var(--line)" }}>
       <h3 style={{ font: "18px var(--font-display)", marginBottom: 16 }}>{form.isNew ? "New Offer" : "Edit Offer"}</h3>
-      {msg && <p style={{ padding: "6px 10px", background: "#e9f7e9", fontSize: 12, color: "#2e7d32", marginBottom: 12 }}>{msg}</p>}
+      {msg && (
+        <p
+          style={{
+            padding: "8px 12px",
+            background: isError ? "#fde8e8" : "#e9f7e9",
+            fontSize: 12,
+            color: isError ? "#b34141" : "#2e7d32",
+            marginBottom: 12,
+            border: isError ? "1px solid #f8b4b4" : "1px solid #c3e6cb",
+          }}
+        >
+          {msg}
+        </p>
+      )}
       <div style={{ display: "grid", gap: 12 }}>
         <div><label style={labelStyle}>Title *</label><input style={inputStyle} value={String(form.title || "")} onChange={e => setForm({ ...form, title: e.target.value })} /></div>
         <div><label style={labelStyle}>Description</label><textarea style={{ ...inputStyle, minHeight: 60 }} value={String(form.description || "")} onChange={e => setForm({ ...form, description: e.target.value })} /></div>
@@ -128,19 +224,51 @@ export function SettingsEditForm({ item, onSave }: { item: Record<string, unknow
   const [form, setForm] = useState(item);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState("");
+  const [isError, setIsError] = useState(false);
+
   const save = async () => {
     setSaving(true);
+    setIsError(false);
+    setMsg("");
     try {
-      const res = await fetch("/api/admin/settings", { method: "POST", body: JSON.stringify({ settings: [form] }) });
-      if (res.ok) { setMsg("Saved!"); setTimeout(onSave, 400); }
-      else { setMsg("Failed."); }
-    } catch { setMsg("Network error."); }
+      const res = await fetch("/api/admin/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ settings: [form] }),
+      });
+      const d = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setIsError(false);
+        setMsg("Setting saved successfully!");
+        setTimeout(onSave, 400);
+      } else {
+        setIsError(true);
+        setMsg(d.error || "Failed to save setting.");
+      }
+    } catch {
+      setIsError(true);
+      setMsg("Network error.");
+    }
     setSaving(false);
   };
+
   return (
     <div style={{ maxWidth: 500, marginTop: 20, padding: 20, background: "#fff", border: "1px solid var(--line)" }}>
       <h3 style={{ font: "18px var(--font-display)", marginBottom: 16 }}>{form.isNew ? "New Setting" : "Edit Setting"}</h3>
-      {msg && <p style={{ padding: "6px 10px", background: "#e9f7e9", fontSize: 12, color: "#2e7d32", marginBottom: 12 }}>{msg}</p>}
+      {msg && (
+        <p
+          style={{
+            padding: "8px 12px",
+            background: isError ? "#fde8e8" : "#e9f7e9",
+            fontSize: 12,
+            color: isError ? "#b34141" : "#2e7d32",
+            marginBottom: 12,
+            border: isError ? "1px solid #f8b4b4" : "1px solid #c3e6cb",
+          }}
+        >
+          {msg}
+        </p>
+      )}
       <div style={{ display: "grid", gap: 12 }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
           <div><label style={labelStyle}>Key *</label><input style={inputStyle} value={String(form.key || "")} onChange={e => setForm({ ...form, key: e.target.value })} /></div>

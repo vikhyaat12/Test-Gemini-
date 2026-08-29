@@ -20,3 +20,21 @@ export async function POST(request: Request) {
     return json({ error: msg }, 409);
   }
 }
+
+export async function PATCH(request: Request) {
+  const user = await requireUser(["admin"]);
+  if (!user) return json({ error: "Unauthorized" }, 401);
+  const body = await request.json().catch(() => null);
+  if (!body?.id) return json({ error: "id required" }, 422);
+  return json({ coupon: await couponStore.update(body.id, body) });
+}
+
+export async function DELETE(request: Request) {
+  const user = await requireUser(["admin"]);
+  if (!user) return json({ error: "Unauthorized" }, 401);
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get("id");
+  if (!id) return json({ error: "id required" }, 422);
+  await couponStore.delete(id);
+  return json({ ok: true });
+}

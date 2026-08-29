@@ -44,12 +44,24 @@ function Table({ columns, rows, onEdit, onDelete, onStatusChange }: { columns: {
 }
 
 const ENDPOINTS: Record<Tab, string | null> = {
-  dashboard: "/api/admin/dashboard", orders: "/api/orders", products: "/api/products",
-  categories: "/api/admin/categories", customers: "/api/admin/customers", b2b: "/api/admin/b2b",
-  doctors: "/api/admin/doctors", employees: "/api/admin/employees", affiliates: "/api/admin/affiliates",
-  coupons: "/api/admin/coupons", blog: "/api/blog", faq: "/api/admin/faq",
-  reviews: "/api/admin/reviews", media: "/api/admin/media", banners: "/api/admin/banners",
-  testimonials: "/api/admin/testimonials", settings: "/api/admin/settings", offers: "/api/admin/offers",
+  dashboard: "/api/admin/dashboard",
+  orders: "/api/admin/orders",
+  products: "/api/products",
+  categories: "/api/admin/categories",
+  customers: "/api/admin/customers",
+  b2b: "/api/admin/b2b",
+  doctors: "/api/admin/doctors",
+  employees: "/api/admin/employees",
+  affiliates: "/api/admin/affiliates",
+  coupons: "/api/admin/coupons",
+  blog: "/api/admin/blog",
+  faq: "/api/admin/faq",
+  reviews: "/api/admin/reviews",
+  media: "/api/admin/media",
+  banners: "/api/admin/banners",
+  testimonials: "/api/admin/testimonials",
+  settings: "/api/admin/settings",
+  offers: "/api/admin/offers",
   homepage: "/api/admin/homepage",
   "product-edit": null,
 };
@@ -59,13 +71,21 @@ export default function AdminDashboard() {
   const [data, setData] = useState<Record<string, unknown>>({});
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
   const [editingItem, setEditingItem] = useState<Record<string, unknown> | null>(null);
 
   const doRefresh = useCallback(async () => {
     try {
       const url = ENDPOINTS[tab];
-      if (url) { setLoading(true); const d = await req(url); setData(d); }
-    } catch { setMessage("Failed to load data."); }
+      if (url) {
+        setLoading(true);
+        const d = await req(url);
+        setData(d || {});
+      }
+    } catch {
+      setMessage("Failed to load data.");
+      setIsError(true);
+    }
     setLoading(false);
   }, [tab]);
 
@@ -74,8 +94,17 @@ export default function AdminDashboard() {
     (async () => {
       try {
         const url = ENDPOINTS[tab];
-        if (url) { setLoading(true); const d = await req(url); if (!cancelled) setData(d); }
-      } catch { if (!cancelled) setMessage("Failed to load data."); }
+        if (url) {
+          setLoading(true);
+          const d = await req(url);
+          if (!cancelled) setData(d || {});
+        }
+      } catch {
+        if (!cancelled) {
+          setMessage("Failed to load data.");
+          setIsError(true);
+        }
+      }
       if (!cancelled) setLoading(false);
     })();
     return () => { cancelled = true; };
@@ -83,15 +112,43 @@ export default function AdminDashboard() {
 
   const handleDelete = async (endpoint: string, id: string) => {
     if (!confirm("Are you sure you want to delete this item?")) return;
-    await req(`${endpoint}?id=${id}`, { method: "DELETE" });
-    setMessage("Deleted successfully.");
-    doRefresh();
+    try {
+      const r = await fetch(`${endpoint}?id=${encodeURIComponent(id)}`, { method: "DELETE" });
+      const d = await r.json().catch(() => ({}));
+      if (r.ok) {
+        setIsError(false);
+        setMessage("Deleted successfully.");
+        doRefresh();
+      } else {
+        setIsError(true);
+        setMessage(d.error || "Failed to delete.");
+      }
+    } catch {
+      setIsError(true);
+      setMessage("Network error during delete.");
+    }
   };
 
   const handleStatusUpdate = async (endpoint: string, id: string, status: string) => {
-    await req(`${endpoint}/${id}`, { method: "PATCH", body: JSON.stringify({ status }) });
-    setMessage(`Status updated to ${status}.`);
-    doRefresh();
+    try {
+      const res = await fetch(`${endpoint}/${encodeURIComponent(id)}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      const d = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setIsError(false);
+        setMessage(`Status updated to ${status}.`);
+        doRefresh();
+      } else {
+        setIsError(true);
+        setMessage(d.error || "Failed to update status.");
+      }
+    } catch {
+      setIsError(true);
+      setMessage("Network error.");
+    }
   };
 
   const tabs: { id: Tab; label: string; icon: string }[] = [
@@ -128,7 +185,7 @@ export default function AdminDashboard() {
         </div>
         <div style={{ flex: 1, overflowY: "auto", padding: "12px 0" }}>
           {tabs.map(t => (
-            <button key={t.id} onClick={() => { setTab(t.id); setEditingItem(null); setMessage(""); }}
+            <button key={t.id} onClick={() => { setTab(t.id); setEditingItem(null); setMessage(""); setIsError(false); }}
               style={{ display: "flex", alignItems: "center", gap: 10, width: "100%", padding: "10px 20px", border: "none", background: tab === t.id ? "#ffffff15" : "transparent", color: "#fff", cursor: "pointer", fontSize: 12, textAlign: "left", borderLeft: tab === t.id ? "3px solid var(--gold)" : "3px solid transparent" }}>
               <span>{t.icon}</span> {t.label}
             </button>
@@ -141,10 +198,23 @@ export default function AdminDashboard() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
           <div>
             <h2 style={{ margin: 0, font: "28px var(--font-display)", letterSpacing: "-.03em" }}>{editingItem ? `Edit ${editingItem._type || tab}` : tabs.find(t => t.id === tab)?.label}</h2>
-            {message && <p style={{ margin: "8px 0 0", padding: "8px 12px", background: "#e9f7e9", fontSize: 12, color: "#2e7d32" }}>{message}</p>}
+            {message && (
+              <p
+                style={{
+                  margin: "8px 0 0",
+                  padding: "8px 12px",
+                  background: isError ? "#fde8e8" : "#e9f7e9",
+                  fontSize: 12,
+                  color: isError ? "#b34141" : "#2e7d32",
+                  border: isError ? "1px solid #f8b4b4" : "1px solid #c3e6cb",
+                }}
+              >
+                {message}
+              </p>
+            )}
           </div>
           <div style={{ display: "flex", gap: 8 }}>
-            {editingItem && <button onClick={() => { setEditingItem(null); }} style={{ padding: "8px 16px", border: "1px solid var(--line)", background: "#fff", cursor: "pointer", fontSize: 12 }}>← Back to list</button>}
+            {editingItem && <button onClick={() => { setEditingItem(null); setMessage(""); setIsError(false); }} style={{ padding: "8px 16px", border: "1px solid var(--line)", background: "#fff", cursor: "pointer", fontSize: 12 }}>← Back to list</button>}
             <button onClick={doRefresh} style={{ padding: "8px 16px", border: "1px solid var(--line)", background: "#fff", cursor: "pointer", fontSize: 12 }}>↻ Refresh</button>
           </div>
         </div>
@@ -172,29 +242,52 @@ export default function AdminDashboard() {
 
             {/* ─── PRODUCT EDIT FORM ─── */}
             {tab === "products" && editingItem && (
-              <ProductEditFormAdvanced item={editingItem} onSave={() => { setEditingItem(null); setMessage("Product saved."); doRefresh(); }} />
+              <ProductEditFormAdvanced item={editingItem} onSave={() => { setEditingItem(null); setMessage("Product saved."); setIsError(false); doRefresh(); }} />
             )}
 
             {/* ─── PRODUCTS TABLE ─── */}
-            {tab === "products" && !editingItem && data?.products && (
-              <Table
-                columns={[
-                  { key: "name", label: "Product" },
-                  { key: "category", label: "Category" },
-                  { key: "price", label: "Price", render: (v) => `₹${Number(v).toLocaleString("en-IN")}` },
-                  { key: "stock", label: "Stock", render: (v, row) => <span style={{ color: Number(v) < Number(row.lowStockThreshold || 10) ? "#b34141" : "inherit" }}>{String(v)}</span> },
-                  { key: "active", label: "Active", render: (v) => v ? "✓" : "✗" },
-                ]}
-                rows={(data.products as Record<string, unknown>[]) || []}
-                onEdit={(row) => setEditingItem({ ...row, _type: "product" })}
-                onDelete={(row) => { if (confirm("Delete this product?")) { req(`/api/products/${String(row.id)}`, { method: "DELETE" }); setMessage("Product deleted."); setTimeout(doRefresh, 500); } }}
-              />
+            {tab === "products" && !editingItem && (
+              <div>
+                <button onClick={() => setEditingItem({ _type: "product", isNew: true })} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, marginBottom: 16 }}>+ Add Product</button>
+                <Table
+                  columns={[
+                    { key: "name", label: "Product" },
+                    { key: "category", label: "Category" },
+                    { key: "price", label: "Price", render: (v) => `₹${Number(v).toLocaleString("en-IN")}` },
+                    { key: "stock", label: "Stock", render: (v, row) => <span style={{ color: Number(v) < Number(row.lowStockThreshold || 10) ? "#b34141" : "inherit" }}>{String(v)}</span> },
+                    { key: "active", label: "Active", render: (v) => v ? "✓" : "✗" },
+                  ]}
+                  rows={(data?.products as Record<string, unknown>[]) || []}
+                  onEdit={(row) => setEditingItem({ ...row, _type: "product" })}
+                  onDelete={(row) => {
+                    if (confirm("Delete this product?")) {
+                      (async () => {
+                        try {
+                          const res = await fetch(`/api/products/${encodeURIComponent(String(row.slug || row.id))}`, { method: "DELETE" });
+                          const d = await res.json().catch(() => ({}));
+                          if (res.ok) {
+                            setMessage("Product deleted.");
+                            setIsError(false);
+                            doRefresh();
+                          } else {
+                            setMessage(d.error || "Failed to delete product.");
+                            setIsError(true);
+                          }
+                        } catch {
+                          setMessage("Network error.");
+                          setIsError(true);
+                        }
+                      })();
+                    }
+                  }}
+                />
+              </div>
             )}
 
             {/* ─── CATEGORIES TABLE ─── */}
-            {tab === "categories" && (
+            {tab === "categories" && !editingItem?.categoryEdit && (
               <div>
-                <button onClick={() => setEditingItem({ _type: "category", isNew: true })} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, marginBottom: 16 }}>+ Add Category</button>
+                <button onClick={() => setEditingItem({ _type: "category", categoryEdit: true, isNew: true })} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, marginBottom: 16 }}>+ Add Category</button>
                 <Table
                   columns={[
                     { key: "name", label: "Name" },
@@ -203,17 +296,17 @@ export default function AdminDashboard() {
                     { key: "active", label: "Active", render: (v) => v ? "✓" : "✗" },
                   ]}
                   rows={((data.categories as Record<string, unknown>[]) || [])}
-                  onEdit={(row) => setEditingItem({ ...row, _type: "category" })}
+                  onEdit={(row) => setEditingItem({ ...row, _type: "category", categoryEdit: true })}
                   onDelete={(row) => handleDelete("/api/admin/categories", String(row.id))}
                 />
-                {editingItem?._type === "category" && (
-                  <CategoryEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Category saved."); doRefresh(); }} inputStyle={inputStyle} labelStyle={labelStyle} />
-                )}
               </div>
+            )}
+            {tab === "categories" && editingItem?.categoryEdit && (
+              <CategoryEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Category saved."); setIsError(false); doRefresh(); }} inputStyle={inputStyle} labelStyle={labelStyle} />
             )}
 
             {/* ─── ORDERS TABLE ─── */}
-            {tab === "orders" && data?.orders && (
+            {tab === "orders" && (
               <Table
                 columns={[
                   { key: "id", label: "Order ID", render: (v) => <span style={{ fontFamily: "monospace", fontSize: 11 }}>{String(v).slice(0, 12)}…</span> },
@@ -222,13 +315,13 @@ export default function AdminDashboard() {
                   { key: "paymentStatus", label: "Payment", render: (v) => <Badge status={String(v || "pending")} /> },
                   { key: "createdAt", label: "Date", render: (v) => new Date(String(v)).toLocaleDateString("en-IN") },
                 ]}
-                rows={(data.orders as Record<string, unknown>[]) || []}
+                rows={(data?.orders as Record<string, unknown>[]) || []}
                 onStatusChange={(row, s) => { handleStatusUpdate("/api/admin/orders", String(row.id), s); }}
               />
             )}
 
             {/* ─── CUSTOMERS ─── */}
-            {tab === "customers" && data?.customers && (
+            {tab === "customers" && (
               <Table
                 columns={[
                   { key: "name", label: "Name" },
@@ -252,7 +345,7 @@ export default function AdminDashboard() {
                     { key: "status", label: "Status", render: (v) => <Badge status={String(v)} /> },
                   ]}
                   rows={((data.applications as Record<string, unknown>[]) || [])}
-                  onStatusChange={(row, s) => { handleStatusUpdate("/api/admin/b2b", String(row.id), s); setMessage(`Application ${s}.`); }}
+                  onStatusChange={(row, s) => { handleStatusUpdate("/api/admin/b2b", String(row.id), s); }}
                 />
                 <h3 style={{ font: "18px var(--font-display)", margin: "24px 0 16px" }}>Distributors</h3>
                 <Table
@@ -277,7 +370,7 @@ export default function AdminDashboard() {
                   { key: "status", label: "Status", render: (v) => <Badge status={String(v)} /> },
                 ]}
                 rows={((data.doctors as Record<string, unknown>[]) || [])}
-                onStatusChange={(row, s) => { handleStatusUpdate("/api/admin/doctors", String(row.id), s); setMessage(`Doctor ${s}.`); }}
+                onStatusChange={(row, s) => { handleStatusUpdate("/api/admin/doctors", String(row.id), s); }}
               />
             )}
 
@@ -300,7 +393,7 @@ export default function AdminDashboard() {
               </div>
             )}
             {tab === "employees" && editingItem?.employeeEdit && (
-              <EmployeeEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Employee saved."); doRefresh(); }} inputStyle={inputStyle} labelStyle={labelStyle} />
+              <EmployeeEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Employee saved."); setIsError(false); doRefresh(); }} inputStyle={inputStyle} labelStyle={labelStyle} />
             )}
 
             {/* ─── AFFILIATES ─── */}
@@ -319,7 +412,7 @@ export default function AdminDashboard() {
                   ]}
                   rows={((data.affiliates as Record<string, unknown>[]) || [])}
                   onEdit={(row) => setEditingItem({ ...row, _type: "affiliate", affiliateEdit: true })}
-                  onStatusChange={(row, s) => { handleStatusUpdate("/api/admin/affiliates", String(row.id), s); setMessage(`Affiliate ${s}.`); }}
+                  onStatusChange={(row, s) => { handleStatusUpdate("/api/admin/affiliates", String(row.id), s); }}
                 />
 
                 <h3 style={{ font: "20px var(--font-display)", margin: "32px 0 16px" }}>Withdrawal Requests</h3>
@@ -327,7 +420,7 @@ export default function AdminDashboard() {
               </div>
             )}
             {tab === "affiliates" && editingItem?.affiliateEdit && (
-              <AffiliateEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Affiliate updated."); doRefresh(); }} inputStyle={inputStyle} labelStyle={labelStyle} />
+              <AffiliateEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Affiliate updated."); setIsError(false); doRefresh(); }} inputStyle={inputStyle} labelStyle={labelStyle} />
             )}
 
             {/* ─── COUPONS ─── */}
@@ -350,10 +443,10 @@ export default function AdminDashboard() {
               </div>
             )}
             {tab === "coupons" && editingItem?.couponEdit && (
-              <CouponEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Coupon saved."); doRefresh(); }} inputStyle={inputStyle} labelStyle={labelStyle} />
+              <CouponEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Coupon saved."); setIsError(false); doRefresh(); }} inputStyle={inputStyle} labelStyle={labelStyle} />
             )}
 
-                        {/* ─── BLOG ─── */}
+            {/* ─── BLOG ─── */}
             {tab === "blog" && !editingItem?.blogEdit && (
               <div>
                 <button onClick={() => setEditingItem({ _type: "blog", blogEdit: true, isNew: true })} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, marginBottom: 16 }}>+ Create Post</button>
@@ -368,12 +461,12 @@ export default function AdminDashboard() {
                   ]}
                   rows={((data.posts as Record<string, unknown>[]) || [])}
                   onEdit={(row) => setEditingItem({ ...row, _type: "blog", blogEdit: true })}
-                  onDelete={(row) => handleDelete("/api/admin/blog", String(row.id))}
+                  onDelete={(row) => handleDelete("/api/admin/blog", String(row.id || row.slug))}
                 />
               </div>
             )}
             {tab === "blog" && editingItem?.blogEdit && (
-              <BlogEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Post saved."); doRefresh(); }} inputStyle={inputStyle} labelStyle={labelStyle} />
+              <BlogEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Post saved."); setIsError(false); doRefresh(); }} inputStyle={inputStyle} labelStyle={labelStyle} />
             )}
 
             {/* ─── FAQ ─── */}
@@ -394,11 +487,11 @@ export default function AdminDashboard() {
               </div>
             )}
             {tab === "faq" && editingItem?.faqEdit && (
-              <FAQEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("FAQ saved."); doRefresh(); }} inputStyle={inputStyle} labelStyle={labelStyle} />
+              <FAQEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("FAQ saved."); setIsError(false); doRefresh(); }} inputStyle={inputStyle} labelStyle={labelStyle} />
             )}
 
             {/* ─── REVIEWS ─── */}
-            {tab === "reviews" && data?.reviews && (
+            {tab === "reviews" && (
               <Table
                 columns={[
                   { key: "product", label: "Product", render: (v) => String((v as Record<string, unknown>)?.name || "—") },
@@ -431,7 +524,7 @@ export default function AdminDashboard() {
               </div>
             )}
             {tab === "banners" && editingItem?.bannerEdit && (
-              <BannerEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Banner saved."); doRefresh(); }} />
+              <BannerEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Banner saved."); setIsError(false); doRefresh(); }} />
             )}
 
             {/* ─── TESTIMONIALS ─── */}
@@ -453,7 +546,7 @@ export default function AdminDashboard() {
               </div>
             )}
             {tab === "testimonials" && editingItem?.testimonialEdit && (
-              <TestimonialEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Testimonial saved."); doRefresh(); }} />
+              <TestimonialEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Testimonial saved."); setIsError(false); doRefresh(); }} />
             )}
 
             {/* ─── OFFERS ─── */}
@@ -474,11 +567,11 @@ export default function AdminDashboard() {
               </div>
             )}
             {tab === "offers" && editingItem?.offerEdit && (
-              <OfferEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Offer saved."); doRefresh(); }} />
+              <OfferEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Offer saved."); setIsError(false); doRefresh(); }} />
             )}
 
             {/* ─── MEDIA ─── */}
-            {tab === "media" && data?.media && (
+            {tab === "media" && (
               <Table
                 columns={[
                   { key: "filename", label: "File" },
@@ -508,7 +601,7 @@ export default function AdminDashboard() {
               </div>
             )}
             {tab === "settings" && editingItem?.settingEdit && (
-              <SettingsEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Setting saved."); doRefresh(); }} />
+              <SettingsEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Setting saved."); setIsError(false); doRefresh(); }} />
             )}
 
             {/* ─── HOMEPAGE SECTIONS ─── */}
@@ -531,7 +624,7 @@ export default function AdminDashboard() {
               </div>
             )}
             {tab === "homepage" && editingItem?.hpEdit && (
-              <HomepageSectionEdit item={editingItem} onSave={() => { setEditingItem(null); setMessage("Section saved."); doRefresh(); }} />
+              <HomepageSectionEdit item={editingItem} onSave={() => { setEditingItem(null); setMessage("Section saved."); setIsError(false); doRefresh(); }} />
             )}
           </>
         )}
@@ -540,85 +633,68 @@ export default function AdminDashboard() {
   );
 }
 
-/* ─── PRODUCT EDIT FORM ─────────────────────────────────────────────────── */
-function ProductEditForm({ item, onSave, inputStyle, labelStyle }: { item: Record<string, unknown>; onSave: () => void; inputStyle: React.CSSProperties; labelStyle: React.CSSProperties }) {
-  const [form, setForm] = useState(item);
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState("");
-
-  const save = async () => {
-    setSaving(true);
-    const id = String(form.id);
-    try {
-      const res = await fetch(`/api/products/${id}`, { method: "PATCH", body: JSON.stringify(form) });
-      if (res.ok) { setMessage("Product updated!"); setTimeout(onSave, 500); }
-      else { setMessage("Failed to update."); }
-    } catch { setMessage("Network error."); }
-    setSaving(false);
-  };
-
-  return (
-    <div style={{ maxWidth: 700 }}>
-      <h3 style={{ font: "20px var(--font-display)", marginBottom: 20 }}>Edit Product</h3>
-      {message && <p style={{ padding: "8px 12px", background: "#e9f7e9", fontSize: 12, color: "#2e7d32", marginBottom: 16 }}>{message}</p>}
-      <div style={{ display: "grid", gap: 14 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-          <div><label style={labelStyle}>Name</label><input style={inputStyle} value={String(form.name || "")} onChange={e => setForm({ ...form, name: e.target.value })} /></div>
-          <div><label style={labelStyle}>Slug</label><input style={inputStyle} value={String(form.slug || "")} onChange={e => setForm({ ...form, slug: e.target.value })} /></div>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
-          <div><label style={labelStyle}>Category</label><input style={inputStyle} value={String(form.category || "")} onChange={e => setForm({ ...form, category: e.target.value })} /></div>
-          <div><label style={labelStyle}>Brand</label><input style={inputStyle} value={String(form.brand || "Queens Care")} onChange={e => setForm({ ...form, brand: e.target.value })} /></div>
-          <div><label style={labelStyle}>SKU</label><input style={inputStyle} value={String(form.slug || "")} readOnly /></div>
-        </div>
-        <div><label style={labelStyle}>Short description</label><input style={inputStyle} value={String(form.shortDescription || "")} onChange={e => setForm({ ...form, shortDescription: e.target.value })} /></div>
-        <div><label style={labelStyle}>Description</label><textarea style={{ ...inputStyle, minHeight: 100 }} value={String(form.description || "")} onChange={e => setForm({ ...form, description: e.target.value })} /></div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12 }}>
-          <div><label style={labelStyle}>Price (₹)</label><input type="number" style={inputStyle} value={Number(form.price || 0)} onChange={e => setForm({ ...form, price: Number(e.target.value) })} /></div>
-          <div><label style={labelStyle}>MRP (₹)</label><input type="number" style={inputStyle} value={Number(form.mrp || 0)} onChange={e => setForm({ ...form, mrp: Number(e.target.value) })} /></div>
-          <div><label style={labelStyle}>Discount %</label><input type="number" style={inputStyle} value={Number(form.discount || 0)} onChange={e => setForm({ ...form, discount: Number(e.target.value) })} /></div>
-          <div><label style={labelStyle}>Stock</label><input type="number" style={inputStyle} value={Number(form.stock || 0)} onChange={e => setForm({ ...form, stock: Number(e.target.value) })} /></div>
-        </div>
-        <div><label style={labelStyle}>Image URL</label><input style={inputStyle} value={String(form.image || "")} onChange={e => setForm({ ...form, image: e.target.value })} /></div>
-        <div><label style={labelStyle}>Video URL</label><input style={inputStyle} value={String(form.video || "")} onChange={e => setForm({ ...form, video: e.target.value })} /></div>
-        <div><label style={labelStyle}>Ingredients</label><textarea style={{ ...inputStyle, minHeight: 60 }} value={String(form.ingredients || "")} onChange={e => setForm({ ...form, ingredients: e.target.value })} /></div>
-        <div><label style={labelStyle}>Usage</label><textarea style={{ ...inputStyle, minHeight: 60 }} value={String(form.usage || "")} onChange={e => setForm({ ...form, usage: e.target.value })} /></div>
-        <div><label style={labelStyle}>Safety information</label><textarea style={{ ...inputStyle, minHeight: 60 }} value={String(form.safetyInfo || "")} onChange={e => setForm({ ...form, safetyInfo: e.target.value })} /></div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-          <div><label style={labelStyle}>SEO Title</label><input style={inputStyle} value={String(form.seoTitle || "")} onChange={e => setForm({ ...form, seoTitle: e.target.value })} /></div>
-          <div><label style={labelStyle}>SEO Description</label><input style={inputStyle} value={String(form.seoDescription || "")} onChange={e => setForm({ ...form, seoDescription: e.target.value })} /></div>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, auto)", gap: 16, fontSize: 13 }}>
-          <label><input type="checkbox" checked={!!form.active} onChange={e => setForm({ ...form, active: e.target.checked })} /> Active</label>
-          <label><input type="checkbox" checked={!!form.visible} onChange={e => setForm({ ...form, visible: e.target.checked })} /> Visible</label>
-          <label><input type="checkbox" checked={!!form.featured} onChange={e => setForm({ ...form, featured: e.target.checked })} /> Featured</label>
-          <label><input type="checkbox" checked={!!form.homepageVisible} onChange={e => setForm({ ...form, homepageVisible: e.target.checked })} /> Homepage</label>
-        </div>
-        <button onClick={save} disabled={saving} style={{ padding: "10px 20px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, width: "fit-content" }}>{saving ? "Saving…" : "Save Changes →"}</button>
-      </div>
-    </div>
-  );
-}
-
 /* ─── CATEGORY EDIT FORM ─── */
 function CategoryEditForm({ item, onSave, inputStyle, labelStyle }: { item: Record<string, unknown>; onSave: () => void; inputStyle: React.CSSProperties; labelStyle: React.CSSProperties }) {
   const [form, setForm] = useState(item);
   const [saving, setSaving] = useState(false);
+  const [msg, setMsg] = useState("");
+  const [isError, setIsError] = useState(false);
+
   const save = async () => {
     setSaving(true);
+    setIsError(false);
+    setMsg("");
     const method = form.isNew ? "POST" : "PATCH";
     const body = form.isNew ? JSON.stringify(form) : JSON.stringify({ id: form.id, ...form });
-    await fetch("/api/admin/categories", { method, body });
-    onSave();
+    try {
+      const res = await fetch("/api/admin/categories", {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body,
+      });
+      const d = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setIsError(false);
+        setMsg("Category saved successfully!");
+        setTimeout(onSave, 400);
+      } else {
+        setIsError(true);
+        setMsg(d.error || "Failed to save category.");
+      }
+    } catch {
+      setIsError(true);
+      setMsg("Network error.");
+    }
+    setSaving(false);
   };
+
   return (
     <div style={{ maxWidth: 500, marginTop: 20, padding: 20, background: "#fff", border: "1px solid var(--line)" }}>
       <h3 style={{ font: "18px var(--font-display)", marginBottom: 16 }}>{form.isNew ? "New Category" : "Edit Category"}</h3>
+      {msg && (
+        <p
+          style={{
+            padding: "8px 12px",
+            background: isError ? "#fde8e8" : "#e9f7e9",
+            fontSize: 12,
+            color: isError ? "#b34141" : "#2e7d32",
+            marginBottom: 12,
+            border: isError ? "1px solid #f8b4b4" : "1px solid #c3e6cb",
+          }}
+        >
+          {msg}
+        </p>
+      )}
       <div style={{ display: "grid", gap: 12 }}>
-        <div><label style={labelStyle}>Name</label><input style={inputStyle} value={String(form.name || "")} onChange={e => setForm({ ...form, name: e.target.value })} /></div>
+        <div><label style={labelStyle}>Name *</label><input style={inputStyle} value={String(form.name || "")} onChange={e => setForm({ ...form, name: e.target.value })} /></div>
+        <div><label style={labelStyle}>Slug</label><input style={inputStyle} value={String(form.slug || "")} onChange={e => setForm({ ...form, slug: e.target.value })} /></div>
         <div><label style={labelStyle}>Description</label><input style={inputStyle} value={String(form.description || "")} onChange={e => setForm({ ...form, description: e.target.value })} /></div>
         <div><label style={labelStyle}>Image URL</label><input style={inputStyle} value={String(form.image || "")} onChange={e => setForm({ ...form, image: e.target.value })} /></div>
         <div><label style={labelStyle}>Sort order</label><input type="number" style={inputStyle} value={Number(form.sort || 0)} onChange={e => setForm({ ...form, sort: Number(e.target.value) })} /></div>
+        <div style={{ display: "flex", gap: 16, fontSize: 13 }}>
+          <label><input type="checkbox" checked={form.active !== false} onChange={e => setForm({ ...form, active: e.target.checked })} /> Active</label>
+          <label><input type="checkbox" checked={form.visible !== false} onChange={e => setForm({ ...form, visible: e.target.checked })} /> Visible</label>
+        </div>
         <button onClick={save} disabled={saving} style={{ padding: "10px 20px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, width: "fit-content" }}>{saving ? "Saving…" : "Save Category →"}</button>
       </div>
     </div>
@@ -629,16 +705,54 @@ function CategoryEditForm({ item, onSave, inputStyle, labelStyle }: { item: Reco
 function EmployeeEditForm({ item, onSave, inputStyle, labelStyle }: { item: Record<string, unknown>; onSave: () => void; inputStyle: React.CSSProperties; labelStyle: React.CSSProperties }) {
   const [form, setForm] = useState(item);
   const [saving, setSaving] = useState(false);
+  const [msg, setMsg] = useState("");
+  const [isError, setIsError] = useState(false);
+
   const save = async () => {
     setSaving(true);
+    setIsError(false);
+    setMsg("");
     const method = form.isNew ? "POST" : "PATCH";
     const body = form.isNew ? JSON.stringify(form) : JSON.stringify({ id: form.id, ...form });
-    await fetch("/api/admin/employees", { method, body });
-    onSave();
+    try {
+      const res = await fetch("/api/admin/employees", {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body,
+      });
+      const d = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setIsError(false);
+        setMsg("Employee saved successfully!");
+        setTimeout(onSave, 400);
+      } else {
+        setIsError(true);
+        setMsg(d.error || "Failed to save employee.");
+      }
+    } catch {
+      setIsError(true);
+      setMsg("Network error.");
+    }
+    setSaving(false);
   };
+
   return (
     <div style={{ maxWidth: 600 }}>
       <h3 style={{ font: "18px var(--font-display)", marginBottom: 16 }}>{form.isNew ? "New Employee" : "Edit Employee"}</h3>
+      {msg && (
+        <p
+          style={{
+            padding: "8px 12px",
+            background: isError ? "#fde8e8" : "#e9f7e9",
+            fontSize: 12,
+            color: isError ? "#b34141" : "#2e7d32",
+            marginBottom: 12,
+            border: isError ? "1px solid #f8b4b4" : "1px solid #c3e6cb",
+          }}
+        >
+          {msg}
+        </p>
+      )}
       <div style={{ display: "grid", gap: 12 }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
           <div><label style={labelStyle}>Full name *</label><input style={inputStyle} value={String(form.name || "")} onChange={e => setForm({ ...form, name: e.target.value })} /></div>
@@ -668,21 +782,53 @@ function CouponEditForm({ item, onSave, inputStyle, labelStyle }: { item: Record
   const [form, setForm] = useState(item);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
+
   const save = async () => {
     setSaving(true);
+    setIsError(false);
+    setMessage("");
     const method = form.isNew ? "POST" : "PATCH";
     const endpoint = form.isNew ? "/api/admin/coupons" : `/api/admin/coupons/${form.id}`;
     try {
-      const res = await fetch(endpoint, { method, body: JSON.stringify(form) });
-      if (res.ok) { setMessage("Coupon saved!"); setTimeout(onSave, 500); }
-      else { const d = await res.json(); setMessage(d.error || "Failed."); }
-    } catch { setMessage("Error."); }
+      const res = await fetch(endpoint, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const d = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setIsError(false);
+        setMessage("Coupon saved successfully!");
+        setTimeout(onSave, 400);
+      } else {
+        setIsError(true);
+        setMessage(d.error || "Failed to save coupon.");
+      }
+    } catch {
+      setIsError(true);
+      setMessage("Network error.");
+    }
     setSaving(false);
   };
+
   return (
     <div style={{ maxWidth: 500, marginTop: 20, padding: 20, background: "#fff", border: "1px solid var(--line)" }}>
       <h3 style={{ font: "18px var(--font-display)", marginBottom: 16 }}>{form.isNew ? "New Coupon" : "Edit Coupon"}</h3>
-      {message && <p style={{ padding: "8px 12px", background: "#e9f7e9", fontSize: 12, color: "#2e7d32", marginBottom: 12 }}>{message}</p>}
+      {message && (
+        <p
+          style={{
+            padding: "8px 12px",
+            background: isError ? "#fde8e8" : "#e9f7e9",
+            fontSize: 12,
+            color: isError ? "#b34141" : "#2e7d32",
+            marginBottom: 12,
+            border: isError ? "1px solid #f8b4b4" : "1px solid #c3e6cb",
+          }}
+        >
+          {message}
+        </p>
+      )}
       <div style={{ display: "grid", gap: 12 }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
           <div><label style={labelStyle}>Coupon code *</label><input style={{ ...inputStyle, textTransform: "uppercase" }} value={String(form.code || "")} onChange={e => setForm({ ...form, code: e.target.value.toUpperCase() })} /></div>
@@ -708,16 +854,54 @@ function CouponEditForm({ item, onSave, inputStyle, labelStyle }: { item: Record
 function FAQEditForm({ item, onSave, inputStyle, labelStyle }: { item: Record<string, unknown>; onSave: () => void; inputStyle: React.CSSProperties; labelStyle: React.CSSProperties }) {
   const [form, setForm] = useState(item);
   const [saving, setSaving] = useState(false);
+  const [msg, setMsg] = useState("");
+  const [isError, setIsError] = useState(false);
+
   const save = async () => {
     setSaving(true);
+    setIsError(false);
+    setMsg("");
     const method = form.isNew ? "POST" : "PATCH";
     const body = form.isNew ? JSON.stringify({ question: form.question, answer: form.answer, category: form.category, sort: form.sort, visible: form.visible }) : JSON.stringify({ id: form.id, question: form.question, answer: form.answer, category: form.category, sort: form.sort, visible: form.visible });
-    await fetch("/api/admin/faq", { method, body });
-    onSave();
+    try {
+      const res = await fetch("/api/admin/faq", {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body,
+      });
+      const d = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setIsError(false);
+        setMsg("FAQ saved successfully!");
+        setTimeout(onSave, 400);
+      } else {
+        setIsError(true);
+        setMsg(d.error || "Failed to save FAQ.");
+      }
+    } catch {
+      setIsError(true);
+      setMsg("Network error.");
+    }
+    setSaving(false);
   };
+
   return (
     <div style={{ maxWidth: 600, marginTop: 20, padding: 20, background: "#fff", border: "1px solid var(--line)" }}>
       <h3 style={{ font: "18px var(--font-display)", marginBottom: 16 }}>{form.isNew ? "New FAQ" : "Edit FAQ"}</h3>
+      {msg && (
+        <p
+          style={{
+            padding: "8px 12px",
+            background: isError ? "#fde8e8" : "#e9f7e9",
+            fontSize: 12,
+            color: isError ? "#b34141" : "#2e7d32",
+            marginBottom: 12,
+            border: isError ? "1px solid #f8b4b4" : "1px solid #c3e6cb",
+          }}
+        >
+          {msg}
+        </p>
+      )}
       <div style={{ display: "grid", gap: 12 }}>
         <div><label style={labelStyle}>Question *</label><input style={inputStyle} value={String(form.question || "")} onChange={e => setForm({ ...form, question: e.target.value })} /></div>
         <div><label style={labelStyle}>Answer *</label><textarea style={{ ...inputStyle, minHeight: 100 }} value={String(form.answer || "")} onChange={e => setForm({ ...form, answer: e.target.value })} /></div>
@@ -737,9 +921,12 @@ function AffiliateEditForm({ item, onSave, inputStyle, labelStyle }: { item: Rec
   const [form, setForm] = useState(item);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState("");
+  const [isError, setIsError] = useState(false);
 
   const save = async () => {
     setSaving(true);
+    setIsError(false);
+    setMsg("");
     try {
       const res = await fetch(`/api/admin/affiliates/${form.id}`, {
         method: "PATCH",
@@ -751,13 +938,17 @@ function AffiliateEditForm({ item, onSave, inputStyle, labelStyle }: { item: Rec
           level: Number(form.level || 1),
         }),
       });
+      const d = await res.json().catch(() => ({}));
       if (res.ok) {
-        setMsg("Affiliate updated!");
-        setTimeout(onSave, 500);
+        setIsError(false);
+        setMsg("Affiliate updated successfully!");
+        setTimeout(onSave, 400);
       } else {
-        setMsg("Failed to update affiliate.");
+        setIsError(true);
+        setMsg(d.error || "Failed to update affiliate.");
       }
     } catch {
+      setIsError(true);
       setMsg("Network error.");
     }
     setSaving(false);
@@ -766,7 +957,20 @@ function AffiliateEditForm({ item, onSave, inputStyle, labelStyle }: { item: Rec
   return (
     <div style={{ maxWidth: 600, padding: 24, background: "#fff", border: "1px solid var(--line)" }}>
       <h3 style={{ font: "20px var(--font-display)", marginBottom: 16 }}>Edit Affiliate Partner</h3>
-      {msg && <p style={{ padding: "8px 12px", background: "#e9f7e9", fontSize: 12, color: "#2e7d32", marginBottom: 16 }}>{msg}</p>}
+      {msg && (
+        <p
+          style={{
+            padding: "8px 12px",
+            background: isError ? "#fde8e8" : "#e9f7e9",
+            fontSize: 12,
+            color: isError ? "#b34141" : "#2e7d32",
+            marginBottom: 16,
+            border: isError ? "1px solid #f8b4b4" : "1px solid #c3e6cb",
+          }}
+        >
+          {msg}
+        </p>
+      )}
       <div style={{ display: "grid", gap: 14 }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
           <div><label style={labelStyle}>Affiliate Code</label><input style={{ ...inputStyle, background: "#fafafa" }} value={String(form.affiliateCode || "")} readOnly /></div>
@@ -866,4 +1070,3 @@ function WithdrawalsSection({ onStatusUpdate }: { onStatusUpdate: () => void }) 
     </div>
   );
 }
-
