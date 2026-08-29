@@ -5,11 +5,6 @@ declare global {
   var __qc_prisma: PrismaClient | any;
 }
 
-// Only instantiate PrismaClient when DATABASE_URL is set. The commerce store
-// (store.ts) checks `usePrisma = Boolean(process.env.DATABASE_URL)` before
-// using this client, so when no database is configured (local dev / CI with
-// in-memory fallback) the client is never accessed.
-
 function createPrisma(): PrismaClient {
   if (process.env.NODE_ENV !== "production") {
     if (!global.__qc_prisma) global.__qc_prisma = new PrismaClient();
@@ -18,13 +13,23 @@ function createPrisma(): PrismaClient {
   return new PrismaClient();
 }
 
-function getPrisma(): PrismaClient {
-  return createPrisma();
+function createSafeFallbackClient(): PrismaClient {
+  return new Proxy({} as PrismaClient, {
+    get(_target, prop) {
+      if (typeof prop === "string") {
+        return new Proxy({}, {
+          get(_mTarget, method) {
+            return async () => {
+              throw new Error(`Prisma operation ${String(prop)}.${String(method)} called but DATABASE_URL is not set.`);
+            };
+          }
+        });
+      }
+      return undefined;
+    }
+  });
 }
 
-// Export a client that either connects to the real database or throws if
-// accidentally accessed without DATABASE_URL. The store module guards
-// every call with `if (usePrisma)` so the throw should never fire.
-export const prisma: PrismaClient = process.env.DATABASE_URL ? getPrisma() : ({} as PrismaClient);
+export const prisma: PrismaClient = process.env.DATABASE_URL ? createPrisma() : createSafeFallbackClient();
 
 export default prisma;
