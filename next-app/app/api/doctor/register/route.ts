@@ -1,5 +1,5 @@
 import { json, safeText } from "@/lib/http";
-import { prisma } from "@/lib/prisma";
+import { doctorStore } from "@/lib/commerce/store-extensions";
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => ({}));
@@ -9,22 +9,19 @@ export async function POST(request: Request) {
     return json({ error: "Name and valid email required." }, 422);
   }
   try {
-    const existing = await prisma.doctor.findFirst({ where: { email } });
-    if (existing) return json({ error: "An application with this email already exists." }, 409);
-
-    const doctor = await prisma.doctor.create({
-      data: {
-        name, email,
-        phone: safeText(body.phone, 20),
-        clinic: safeText(body.clinic, 120),
-        specialty: safeText(body.specialty, 60),
-        qualification: safeText(body.qualification, 200),
-        regNumber: safeText(body.regNumber, 60),
-        message: safeText(body.message, 1000),
-      },
+    const doctor = await doctorStore.create({
+      name, email,
+      phone: safeText(body.phone, 20),
+      clinic: safeText(body.clinic, 120),
+      specialty: safeText(body.specialty, 60),
+      qualification: safeText(body.qualification, 200),
+      regNumber: safeText(body.regNumber, 60),
+      message: safeText(body.message, 1000),
     });
     return json({ doctor, message: "Your application has been submitted. Our medical affairs team will review it within 5 business days." }, 201);
-  } catch {
-    return json({ error: "Database not available. Doctor applications require PostgreSQL." }, 503);
+  } catch (e: unknown) {
+    const msg = e instanceof Error ? e.message : "Submission failed.";
+    return json({ error: msg }, 400);
   }
 }
+
