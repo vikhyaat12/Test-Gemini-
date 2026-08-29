@@ -1,8 +1,8 @@
 import { json, requireUser, safeText } from "@/lib/http";
-import { prisma } from "@/lib/prisma";
+import { categoryStore } from "@/lib/commerce/store-extensions";
 
 export async function GET() {
-  const categories = await prisma.category.findMany({ orderBy: { sort: "asc" } });
+  const categories = await categoryStore.list();
   return json({ categories });
 }
 
@@ -14,12 +14,18 @@ export async function POST(request: Request) {
   if (!name) return json({ error: "Name required" }, 422);
   const slug = safeText(body.slug, 80).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
   try {
-    const category = await prisma.category.create({
-      data: { name, slug, description: body.description || null, image: body.image || null, sort: body.sort || 0, active: body.active !== false, visible: body.visible !== false },
+    const category = await categoryStore.create({
+      name,
+      slug,
+      description: body.description || null,
+      image: body.image || null,
+      sort: Number(body.sort || 0),
+      active: body.active !== false,
+      visible: body.visible !== false,
     });
     return json({ category }, 201);
   } catch (e: unknown) {
-    return json({ error: e instanceof Error ? e.message : "Failed" }, 409);
+    return json({ error: e instanceof Error ? e.message : "Failed" }, 400);
   }
 }
 
@@ -32,7 +38,7 @@ export async function PATCH(request: Request) {
   for (const k of ["name", "slug", "description", "image", "sort", "active", "visible"]) {
     if (k in body) data[k] = body[k];
   }
-  const category = await prisma.category.update({ where: { id: body.id }, data });
+  const category = await categoryStore.update(body.id, data);
   return json({ category });
 }
 
@@ -42,6 +48,6 @@ export async function DELETE(request: Request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
   if (!id) return json({ error: "id required" }, 422);
-  await prisma.category.delete({ where: { id } });
+  await categoryStore.delete(id);
   return json({ ok: true });
 }
