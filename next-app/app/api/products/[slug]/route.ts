@@ -1,23 +1,30 @@
 import { json, requireUser } from "@/lib/http";
 import { prisma } from "@/lib/prisma";
+import { store } from "@/lib/commerce/store";
 
 export async function GET(_req: Request, { params }: { params: Promise<{ slug: string }> }) {
   const slug = (await params).slug;
-  // Try by ID first, then by slug
-  const product = await prisma.product.findFirst({
-    where: { OR: [{ id: slug }, { slug }] },
-    include: {
-      images: { orderBy: { sort: "asc" } },
-      variants: { orderBy: { sort: "asc" } },
-      specifications: { orderBy: { sort: "asc" } },
-      model3d: true,
-      productFaqs: { orderBy: { sort: "asc" } },
-      reviews: { where: { visible: true }, orderBy: { createdAt: "desc" }, include: { user: true } },
-      relatedFrom: { include: { relatedProduct: true } },
-      aplusSections: { where: { active: true }, orderBy: { sort: "asc" } },
-      videos: { where: { active: true }, orderBy: { sort: "asc" } },
-    },
-  });
+  // Try Prisma first, fall back to in-memory store
+  try {
+    const product = await prisma.product.findFirst({
+      where: { OR: [{ id: slug }, { slug }] },
+      include: {
+        images: { orderBy: { sort: "asc" } },
+        variants: { orderBy: { sort: "asc" } },
+        specifications: { orderBy: { sort: "asc" } },
+        model3d: true,
+        productFaqs: { orderBy: { sort: "asc" } },
+        reviews: { where: { visible: true }, orderBy: { createdAt: "desc" }, include: { user: true } },
+        relatedFrom: { include: { relatedProduct: true } },
+        aplusSections: { where: { active: true }, orderBy: { sort: "asc" } },
+        videos: { where: { active: true }, orderBy: { sort: "asc" } },
+      },
+    });
+    if (product) return json({ product });
+  } catch { /* fall through to in-memory */ }
+  // In-memory fallback
+  const products = await store.products.list();
+  const product = products.find((p) => p.slug === slug || p.id === slug);
   return product ? json({ product }) : json({ error: "Not found" }, 404);
 }
 
@@ -33,6 +40,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ sl
     "image", "thumbnail", "video", "active", "visible", "featured",
     "homepageVisible", "benefits", "ingredients", "usage", "safetyInfo",
     "tags", "searchKeywords", "seoTitle", "seoDescription", "seoOgImage", "altText",
+    "taxRate", "modelUrl",
   ];
   for (const f of fields) { if (f in body) allowed[f] = body[f]; }
   try {

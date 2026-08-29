@@ -11,7 +11,9 @@ export async function POST(request: Request) {
   const user = await requireUser(["admin"]);
   if (!user) return json({ error: "Unauthorized" }, 401);
   const body = await request.json().catch(() => ({}));
-  if (!body.title || !body.imageUrl) return json({ error: "Title and image required" }, 422);
+  if (!body.title) return json({ error: "Title required" }, 422);
+  // Normalize field names
+  if (body.image && !body.imageUrl) body.imageUrl = body.image;
   return json({ banner: await bannerStore.create(body) }, 201);
 }
 
@@ -21,7 +23,10 @@ export async function PATCH(request: Request) {
   const body = await request.json().catch(() => ({}));
   if (!body.id) return json({ error: "id required" }, 422);
   const data: Record<string, unknown> = {};
-  for (const k of ["title", "subtitle", "imageUrl", "linkUrl", "position", "sort", "active", "visible"]) { if (k in body) data[k] = body[k]; }
+  // Normalize field names
+  if (body.image && !body.imageUrl) body.imageUrl = body.image;
+  if (body.link && !body.linkUrl) body.linkUrl = body.link;
+  for (const k of ["title", "subtitle", "imageUrl", "image", "linkUrl", "link", "position", "sort", "active", "visible"]) { if (k in body) data[k] = body[k]; }
   const banner = await bannerStore.update(body.id, data);
   return json({ banner });
 }

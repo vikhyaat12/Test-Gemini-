@@ -3,6 +3,8 @@
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import BlogEditForm from "./BlogEditForm";
+import { BannerEditForm, TestimonialEditForm, OfferEditForm, SettingsEditForm } from "./ContentEditForms";
+import { ProductEditFormAdvanced } from "./ProductEditFormAdvanced";
 
 type Tab = "dashboard" | "orders" | "products" | "product-edit" | "categories" | "customers" | "b2b" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers";
 
@@ -79,7 +81,7 @@ export default function AdminDashboard() {
 
   const handleDelete = async (endpoint: string, id: string) => {
     if (!confirm("Are you sure you want to delete this item?")) return;
-    await req(`${endpoint}/${id}`, { method: "DELETE" });
+    await req(`${endpoint}?id=${id}`, { method: "DELETE" });
     setMessage("Deleted successfully.");
     doRefresh();
   };
@@ -167,7 +169,7 @@ export default function AdminDashboard() {
 
             {/* ─── PRODUCT EDIT FORM ─── */}
             {tab === "products" && editingItem && (
-              <ProductEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Product saved."); doRefresh(); }} inputStyle={inputStyle} labelStyle={labelStyle} />
+              <ProductEditFormAdvanced item={editingItem} onSave={() => { setEditingItem(null); setMessage("Product saved."); doRefresh(); }} />
             )}
 
             {/* ─── PRODUCTS TABLE ─── */}
@@ -397,46 +399,67 @@ export default function AdminDashboard() {
             )}
 
             {/* ─── BANNERS ─── */}
-            {tab === "banners" && data?.banners && (
-              <Table
-                columns={[
-                  { key: "title", label: "Title" },
-                  { key: "position", label: "Position" },
-                  { key: "sort", label: "Sort" },
-                  { key: "active", label: "Active", render: (v) => v ? "✓" : "✗" },
-                ]}
-                rows={((data.banners as Record<string, unknown>[]) || [])}
-                onDelete={(row) => handleDelete("/api/admin/banners", String(row.id))}
-              />
+            {tab === "banners" && !editingItem?.bannerEdit && (
+              <div>
+                <button onClick={() => setEditingItem({ _type: "banner", bannerEdit: true, isNew: true })} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, marginBottom: 16 }}>+ Add Banner</button>
+                <Table
+                  columns={[
+                    { key: "title", label: "Title" },
+                    { key: "position", label: "Position" },
+                    { key: "sort", label: "Sort" },
+                    { key: "active", label: "Active", render: (v) => v ? "✓" : "✗" },
+                  ]}
+                  rows={((data.banners as Record<string, unknown>[]) || [])}
+                  onEdit={(row) => setEditingItem({ ...row, _type: "banner", bannerEdit: true })}
+                  onDelete={(row) => handleDelete("/api/admin/banners", String(row.id))}
+                />
+              </div>
+            )}
+            {tab === "banners" && editingItem?.bannerEdit && (
+              <BannerEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Banner saved."); doRefresh(); }} />
             )}
 
             {/* ─── TESTIMONIALS ─── */}
-            {tab === "testimonials" && data?.testimonials && (
-              <Table
-                columns={[
-                  { key: "name", label: "Name" },
-                  { key: "title", label: "Title" },
-                  { key: "body", label: "Review", render: (v) => <span style={{ maxWidth: 300, display: "inline-block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{String(v)}</span> },
-                  { key: "rating", label: "Rating" },
-                  { key: "visible", label: "Visible", render: (v) => v ? "✓" : "✗" },
-                ]}
-                rows={((data.testimonials as Record<string, unknown>[]) || [])}
-                onDelete={(row) => handleDelete("/api/admin/testimonials", String(row.id))}
-              />
+            {tab === "testimonials" && !editingItem?.testimonialEdit && (
+              <div>
+                <button onClick={() => setEditingItem({ _type: "testimonial", testimonialEdit: true, isNew: true })} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, marginBottom: 16 }}>+ Add Testimonial</button>
+                <Table
+                  columns={[
+                    { key: "name", label: "Name" },
+                    { key: "title", label: "Title" },
+                    { key: "body", label: "Review", render: (v) => <span style={{ maxWidth: 300, display: "inline-block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{String(v)}</span> },
+                    { key: "rating", label: "Rating" },
+                    { key: "visible", label: "Visible", render: (v) => v ? "✓" : "✗" },
+                  ]}
+                  rows={((data.testimonials as Record<string, unknown>[]) || [])}
+                  onEdit={(row) => setEditingItem({ ...row, _type: "testimonial", testimonialEdit: true })}
+                  onDelete={(row) => handleDelete("/api/admin/testimonials", String(row.id))}
+                />
+              </div>
+            )}
+            {tab === "testimonials" && editingItem?.testimonialEdit && (
+              <TestimonialEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Testimonial saved."); doRefresh(); }} />
             )}
 
             {/* ─── OFFERS ─── */}
-            {tab === "offers" && data?.offers && (
-              <Table
-                columns={[
-                  { key: "title", label: "Title" },
-                  { key: "type", label: "Type" },
-                  { key: "discount", label: "Discount" },
-                  { key: "active", label: "Active", render: (v) => v ? "✓" : "✗" },
-                ]}
-                rows={((data.offers as Record<string, unknown>[]) || [])}
-                onDelete={(row) => handleDelete("/api/admin/offers", String(row.id))}
-              />
+            {tab === "offers" && !editingItem?.offerEdit && (
+              <div>
+                <button onClick={() => setEditingItem({ _type: "offer", offerEdit: true, isNew: true })} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, marginBottom: 16 }}>+ Add Offer</button>
+                <Table
+                  columns={[
+                    { key: "title", label: "Title" },
+                    { key: "type", label: "Type" },
+                    { key: "discount", label: "Discount" },
+                    { key: "active", label: "Active", render: (v) => v ? "✓" : "✗" },
+                  ]}
+                  rows={((data.offers as Record<string, unknown>[]) || [])}
+                  onEdit={(row) => setEditingItem({ ...row, _type: "offer", offerEdit: true })}
+                  onDelete={(row) => handleDelete("/api/admin/offers", String(row.id))}
+                />
+              </div>
+            )}
+            {tab === "offers" && editingItem?.offerEdit && (
+              <OfferEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Offer saved."); doRefresh(); }} />
             )}
 
             {/* ─── MEDIA ─── */}
@@ -454,22 +477,23 @@ export default function AdminDashboard() {
             )}
 
             {/* ─── SETTINGS ─── */}
-            {tab === "settings" && data?.settings && (
+            {tab === "settings" && !editingItem?.settingEdit && (
               <div>
-                {((data.settings as Record<string, unknown>[]) || []).length === 0 ? (
-                  <p style={{ color: "var(--muted)", fontSize: 13 }}>No settings configured yet. Use the API to create settings.</p>
-                ) : (
-                  <Table
-                    columns={[
-                      { key: "key", label: "Key" },
-                      { key: "group", label: "Group" },
-                      { key: "value", label: "Value", render: (v) => <code style={{ fontSize: 11 }}>{JSON.stringify(v).slice(0, 80)}</code> },
-                      { key: "updatedAt", label: "Updated", render: (v) => new Date(String(v)).toLocaleDateString("en-IN") },
-                    ]}
-                    rows={((data.settings as Record<string, unknown>[]) || [])}
-                  />
-                )}
+                <button onClick={() => setEditingItem({ _type: "setting", settingEdit: true, isNew: true })} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, marginBottom: 16 }}>+ Add Setting</button>
+                <Table
+                  columns={[
+                    { key: "key", label: "Key" },
+                    { key: "group", label: "Group" },
+                    { key: "value", label: "Value", render: (v) => <code style={{ fontSize: 11 }}>{JSON.stringify(v).slice(0, 80)}</code> },
+                    { key: "updatedAt", label: "Updated", render: (v) => new Date(String(v)).toLocaleDateString("en-IN") },
+                  ]}
+                  rows={((data.settings as Record<string, unknown>[]) || [])}
+                  onEdit={(row) => setEditingItem({ ...row, _type: "setting", settingEdit: true })}
+                />
               </div>
+            )}
+            {tab === "settings" && editingItem?.settingEdit && (
+              <SettingsEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Setting saved."); doRefresh(); }} />
             )}
           </>
         )}
