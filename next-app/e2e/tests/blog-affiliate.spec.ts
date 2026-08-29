@@ -103,7 +103,7 @@ test.describe('Queens Care — Blog, Journal, Affiliate & Navigation Verificatio
     
     // Redirects to admin login page, not customer account
     await expect(page).toHaveURL(/\/admin\/login/);
-    await expect(page.locator('h1')).toContainText('Admin Portal');
+    await expect(page.locator('h1')).toContainText('Admin Access');
   });
 
   test('7. Doctor Portal (/doctors) renders application form and benefits', async ({ page }) => {
@@ -114,4 +114,36 @@ test.describe('Queens Care — Blog, Journal, Affiliate & Navigation Verificatio
     await expect(page.locator('text=Professional Partnership Application')).toBeVisible();
     await expect(page.locator('form input[required]')).toHaveCount(2);
   });
+
+  test('8. Employee Directory and Demo Profile (/employee & /employee/vikram-singhania)', async ({ page }) => {
+    await page.goto('/employee');
+    await expect(page.locator('h1')).toContainText('Employee Directory');
+    await expect(page.locator('text=Dr. Vikram Singhania')).toBeVisible();
+
+    await page.goto('/employee/vikram-singhania');
+    await expect(page.locator('h1')).toContainText('Dr. Vikram Singhania');
+    await expect(page.locator('text=QC-EMP-1042')).toBeVisible();
+    await expect(page.locator('text=Lead Research Scientist')).toBeVisible();
+  });
+
+  test('9. B2B / Wholesale Portal (/b2b) renders distributor application form', async ({ page }) => {
+    await page.goto('/b2b');
+    await expect(page.locator('h1')).toContainText('B2B & Distribution Portal');
+    await expect(page.locator('text=Distributor & Partner Application')).toBeVisible();
+    await expect(page.locator('form input[name="company"]')).toBeVisible();
+    await expect(page.locator('form input[name="name"]')).toBeVisible();
+    await expect(page.locator('form input[name="email"]')).toBeVisible();
+  });
+
+  test('10. Product Card Navigation from Homepage & Shop opens /products/[slug]', async ({ page }) => {
+    await page.goto('/');
+    const firstProduct = page.locator('.product-grid a[href*="/products/"]').first();
+    await expect(firstProduct).toBeVisible();
+    const href = await firstProduct.getAttribute('href');
+    await firstProduct.click();
+    await expect(page).toHaveURL(new RegExp(href || '/products/'));
+    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('text=Add to ritual bag')).toBeVisible();
+  });
 });
+
