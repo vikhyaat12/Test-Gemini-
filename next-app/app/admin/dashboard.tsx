@@ -304,18 +304,30 @@ export default function AdminDashboard() {
             )}
 
             {/* ─── AFFILIATES ─── */}
-            {tab === "affiliates" && data?.affiliates && (
-              <Table
-                columns={[
-                  { key: "affiliateCode", label: "Code" },
-                  { key: "user", label: "User", render: (v) => String((v as Record<string, unknown>)?.name || "—") },
-                  { key: "status", label: "Status", render: (v) => <Badge status={String(v)} /> },
-                  { key: "totalCommission", label: "Commission", render: (v) => `₹${Number(v).toLocaleString("en-IN")}` },
-                  { key: "wallet", label: "Wallet", render: (v) => `₹${Number(v).toLocaleString("en-IN")}` },
-                ]}
-                rows={((data.affiliates as Record<string, unknown>[]) || [])}
-                onStatusChange={(row, s) => { handleStatusUpdate("/api/admin/affiliates", String(row.id), s); setMessage(`Affiliate ${s}.`); }}
-              />
+            {tab === "affiliates" && !editingItem?.affiliateEdit && (
+              <div>
+                <h3 style={{ font: "20px var(--font-display)", margin: "0 0 16px" }}>Affiliate Partners</h3>
+                <Table
+                  columns={[
+                    { key: "affiliateCode", label: "Code", render: (v) => <code style={{ fontWeight: 600 }}>{String(v)}</code> },
+                    { key: "user", label: "User", render: (v, row) => <span>{String((v as Record<string, unknown>)?.name || (row.user as Record<string, unknown>)?.email || "—")}</span> },
+                    { key: "status", label: "Status", render: (v) => <Badge status={String(v)} /> },
+                    { key: "commissionRate", label: "Rate", render: (v) => `${Number(v || 10)}%` },
+                    { key: "totalSales", label: "Sales", render: (v) => `₹${Number(v || 0).toLocaleString("en-IN")}` },
+                    { key: "totalCommission", label: "Commission", render: (v) => `₹${Number(v || 0).toLocaleString("en-IN")}` },
+                    { key: "wallet", label: "Wallet", render: (v) => `₹${Number(v || 0).toLocaleString("en-IN")}` },
+                  ]}
+                  rows={((data.affiliates as Record<string, unknown>[]) || [])}
+                  onEdit={(row) => setEditingItem({ ...row, _type: "affiliate", affiliateEdit: true })}
+                  onStatusChange={(row, s) => { handleStatusUpdate("/api/admin/affiliates", String(row.id), s); setMessage(`Affiliate ${s}.`); }}
+                />
+
+                <h3 style={{ font: "20px var(--font-display)", margin: "32px 0 16px" }}>Withdrawal Requests</h3>
+                <WithdrawalsSection onStatusUpdate={doRefresh} />
+              </div>
+            )}
+            {tab === "affiliates" && editingItem?.affiliateEdit && (
+              <AffiliateEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Affiliate updated."); doRefresh(); }} inputStyle={inputStyle} labelStyle={labelStyle} />
             )}
 
             {/* ─── COUPONS ─── */}
@@ -719,3 +731,139 @@ function FAQEditForm({ item, onSave, inputStyle, labelStyle }: { item: Record<st
     </div>
   );
 }
+
+/* ─── AFFILIATE EDIT FORM ─── */
+function AffiliateEditForm({ item, onSave, inputStyle, labelStyle }: { item: Record<string, unknown>; onSave: () => void; inputStyle: React.CSSProperties; labelStyle: React.CSSProperties }) {
+  const [form, setForm] = useState(item);
+  const [saving, setSaving] = useState(false);
+  const [msg, setMsg] = useState("");
+
+  const save = async () => {
+    setSaving(true);
+    try {
+      const res = await fetch(`/api/admin/affiliates/${form.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          status: form.status,
+          commissionRate: Number(form.commissionRate),
+          customCoupon: form.customCoupon,
+          level: Number(form.level || 1),
+        }),
+      });
+      if (res.ok) {
+        setMsg("Affiliate updated!");
+        setTimeout(onSave, 500);
+      } else {
+        setMsg("Failed to update affiliate.");
+      }
+    } catch {
+      setMsg("Network error.");
+    }
+    setSaving(false);
+  };
+
+  return (
+    <div style={{ maxWidth: 600, padding: 24, background: "#fff", border: "1px solid var(--line)" }}>
+      <h3 style={{ font: "20px var(--font-display)", marginBottom: 16 }}>Edit Affiliate Partner</h3>
+      {msg && <p style={{ padding: "8px 12px", background: "#e9f7e9", fontSize: 12, color: "#2e7d32", marginBottom: 16 }}>{msg}</p>}
+      <div style={{ display: "grid", gap: 14 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <div><label style={labelStyle}>Affiliate Code</label><input style={{ ...inputStyle, background: "#fafafa" }} value={String(form.affiliateCode || "")} readOnly /></div>
+          <div>
+            <label style={labelStyle}>Status</label>
+            <select style={inputStyle} value={String(form.status || "pending")} onChange={e => setForm({ ...form, status: e.target.value })}>
+              <option value="pending">Pending</option>
+              <option value="active">Active</option>
+              <option value="suspended">Suspended</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <div><label style={labelStyle}>Commission Rate (%)</label><input type="number" style={inputStyle} value={Number(form.commissionRate || 10)} onChange={e => setForm({ ...form, commissionRate: Number(e.target.value) })} /></div>
+          <div><label style={labelStyle}>Tier / Level</label><input type="number" style={inputStyle} value={Number(form.level || 1)} onChange={e => setForm({ ...form, level: Number(e.target.value) })} /></div>
+        </div>
+        <div>
+          <label style={labelStyle}>Custom Coupon Code</label>
+          <input style={inputStyle} placeholder="e.g. VIPANANYA" value={String(form.customCoupon || "")} onChange={e => setForm({ ...form, customCoupon: e.target.value })} />
+        </div>
+        <button onClick={save} disabled={saving} style={{ padding: "10px 20px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, width: "fit-content" }}>{saving ? "Saving…" : "Save Affiliate Changes →"}</button>
+      </div>
+    </div>
+  );
+}
+
+/* ─── WITHDRAWALS SECTION ─── */
+function WithdrawalsSection({ onStatusUpdate }: { onStatusUpdate: () => void }) {
+  const [withdrawals, setWithdrawals] = useState<Record<string, unknown>[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const loadWithdrawals = async () => {
+    try {
+      const res = await fetch("/api/admin/affiliates/withdrawals");
+      const d = await res.json();
+      if (d.withdrawals) setWithdrawals(d.withdrawals);
+    } catch {}
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    loadWithdrawals();
+  }, []);
+
+  const handleWithdrawalStatus = async (id: string, status: "approved" | "paid" | "rejected") => {
+    await fetch("/api/admin/affiliates/withdrawals", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ withdrawalId: id, status }),
+    });
+    loadWithdrawals();
+    onStatusUpdate();
+  };
+
+  if (loading) return <p style={{ fontSize: 12, color: "var(--muted)" }}>Loading withdrawals…</p>;
+
+  if (withdrawals.length === 0) return <p style={{ fontSize: 13, color: "var(--muted)", padding: "12px 0" }}>No withdrawal requests currently.</p>;
+
+  return (
+    <div style={{ overflowX: "auto" }}>
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: "left", padding: "10px 12px", borderBottom: "2px solid var(--line)", fontSize: 11, textTransform: "uppercase", color: "var(--muted)" }}>Date</th>
+            <th style={{ textAlign: "left", padding: "10px 12px", borderBottom: "2px solid var(--line)", fontSize: 11, textTransform: "uppercase", color: "var(--muted)" }}>Affiliate</th>
+            <th style={{ textAlign: "left", padding: "10px 12px", borderBottom: "2px solid var(--line)", fontSize: 11, textTransform: "uppercase", color: "var(--muted)" }}>Amount</th>
+            <th style={{ textAlign: "left", padding: "10px 12px", borderBottom: "2px solid var(--line)", fontSize: 11, textTransform: "uppercase", color: "var(--muted)" }}>Method</th>
+            <th style={{ textAlign: "left", padding: "10px 12px", borderBottom: "2px solid var(--line)", fontSize: 11, textTransform: "uppercase", color: "var(--muted)" }}>Status</th>
+            <th style={{ padding: "10px 12px", borderBottom: "2px solid var(--line)", fontSize: 11, textTransform: "uppercase", color: "var(--muted)" }}>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {withdrawals.map((w) => (
+            <tr key={String(w.id)} style={{ borderBottom: "1px solid var(--line)" }}>
+              <td style={{ padding: "10px 12px" }}>{new Date(String(w.createdAt)).toLocaleDateString("en-IN")}</td>
+              <td style={{ padding: "10px 12px" }}><code>{String((w.affiliate as Record<string, unknown>)?.affiliateCode || w.affiliateId || "—")}</code></td>
+              <td style={{ padding: "10px 12px", fontWeight: 600 }}>₹{Number(w.amount).toLocaleString("en-IN")}</td>
+              <td style={{ padding: "10px 12px" }}>{String(w.method || "Bank Transfer")}</td>
+              <td style={{ padding: "10px 12px" }}><Badge status={String(w.status)} /></td>
+              <td style={{ padding: "10px 12px", display: "flex", gap: 6 }}>
+                {w.status === "pending" && (
+                  <>
+                    <button onClick={() => handleWithdrawalStatus(String(w.id), "approved")} style={{ padding: "4px 8px", fontSize: 11, background: "#e8f5e9", color: "#2e7d32", border: "1px solid #c8e6c9", cursor: "pointer" }}>Approve</button>
+                    <button onClick={() => handleWithdrawalStatus(String(w.id), "paid")} style={{ padding: "4px 8px", fontSize: 11, background: "#e3f2fd", color: "#1976d2", border: "1px solid #bbdefb", cursor: "pointer" }}>Mark Paid</button>
+                    <button onClick={() => handleWithdrawalStatus(String(w.id), "rejected")} style={{ padding: "4px 8px", fontSize: 11, background: "#ffebee", color: "#c62828", border: "1px solid #ffcdd2", cursor: "pointer" }}>Reject</button>
+                  </>
+                )}
+                {w.status === "approved" && (
+                  <button onClick={() => handleWithdrawalStatus(String(w.id), "paid")} style={{ padding: "4px 8px", fontSize: 11, background: "#e3f2fd", color: "#1976d2", border: "1px solid #bbdefb", cursor: "pointer" }}>Mark Paid</button>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+

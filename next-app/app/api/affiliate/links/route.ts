@@ -6,7 +6,7 @@ export async function GET() {
   if (!user) return json({ error: "Unauthorized" }, 401);
   const affiliate = await affiliateStore.byUserId(user.id);
   if (!affiliate) return json({ error: "Not an affiliate." }, 403);
-  return json({ links: await affiliateStore.links.list(affiliate.id) });
+  return json({ links: await affiliateStore.links.list(String(affiliate.id)) });
 }
 
 export async function POST(request: Request) {
@@ -15,6 +15,6 @@ export async function POST(request: Request) {
   const affiliate = await affiliateStore.byUserId(user.id);
   if (!affiliate) return json({ error: "Not an affiliate." }, 403);
   const body = await request.json().catch(() => ({}));
-  const link = await affiliateStore.links.create(affiliate.id, body.productId);
+  const link = await affiliateStore.links.create(String(affiliate.id), body.productId, body.customCode);
   return json({ link }, 201);
 }

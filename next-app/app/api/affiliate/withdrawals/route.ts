@@ -6,5 +6,5 @@ export async function GET() {
   if (!user) return json({ error: "Unauthorized" }, 401);
   const affiliate = await affiliateStore.byUserId(user.id);
   if (!affiliate) return json({ error: "Not an affiliate." }, 403);
-  return json({ withdrawals: await affiliateStore.withdrawals.list(affiliate.id) });
+  return json({ withdrawals: await affiliateStore.withdrawals.list(String(affiliate.id)) });
 }

@@ -1,5 +1,6 @@
 import { json, requireUser } from "@/lib/http";
 import { store } from "@/lib/commerce/store";
+import { affiliateStore } from "@/lib/commerce/store-extensions";
 import type { CartLine, ShippingDetails } from "@/lib/commerce/types";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -104,6 +105,33 @@ export async function POST(request: Request) {
   // create order with server-validated total, canonical product slugs, and unit prices
   const orderLines = resolvedLines.map((r) => ({ productId: r.productId, quantity: r.quantity, unitPrice: r.unitPrice }));
   const order = await store.orders.create(userId, orderLines, total, shipping);
+
+  // Affiliate conversion attribution
+  const cookieHeader = request.headers.get("cookie") || "";
+  const matchRef = cookieHeader.match(/qc_affiliate_ref=([^;]+)/);
+  const matchLink = cookieHeader.match(/qc_affiliate_link_id=([^;]+)/);
+  const refCode = body?.affiliateRef || (matchRef ? decodeURIComponent(matchRef[1]) : null);
+  const linkId = body?.affiliateLinkId || (matchLink ? decodeURIComponent(matchLink[1]) : undefined);
+
+  if (refCode) {
+    try {
+      const resolved = await affiliateStore.byRef(refCode);
+      if (resolved?.affiliate && resolved.affiliate.status === "active") {
+        const rate = Number(resolved.affiliate.commissionRate || 10);
+        const commissionAmount = Math.round((subtotal * rate) / 100);
+        if (commissionAmount > 0) {
+          await affiliateStore.recordCommission(
+            String(resolved.affiliate.id),
+            String(order.id),
+            commissionAmount,
+            linkId || (resolved.link ? String(resolved.link.id) : undefined)
+          );
+        }
+      }
+    } catch (e) {
+      console.error("Affiliate attribution error:", e);
+    }
+  }
 
   return json({ order: { ...order, lines: resolvedLines, total, shipping } }, 201);
 }

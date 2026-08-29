@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
   if (!body?.amount || body.amount <= 0) return json({ error: "Valid amount required." }, 422);
   try {
-    const withdrawal = await affiliateStore.withdrawals.request(affiliate.id, body.amount, body.method);
+    const withdrawal = await affiliateStore.withdrawals.request(String(affiliate.id), body.amount, body.method);
     return json({ withdrawal }, 201);
   } catch (e: unknown) {
     return json({ error: e instanceof Error ? e.message : "Withdrawal failed." }, 400);

@@ -385,28 +385,94 @@ export const store = {
 	},
 	posts: {
 		list: async (draft = false) => {
-			if (usePrisma) return prisma.blogPost.findMany({ where: draft ? {} : { published: true } }) as unknown as BlogPost[];
+			if (usePrisma) {
+				try {
+					return await prisma.blogPost.findMany({
+						where: draft ? {} : { published: true, visible: true },
+						orderBy: { createdAt: "desc" },
+					}) as unknown as BlogPost[];
+				} catch {
+					return structuredClone(seedBlogPosts.filter(p => draft || p.published));
+				}
+			}
 			return structuredClone(seedBlogPosts.filter(p => draft || p.published));
 		},
 		bySlug: async (slug: string): Promise<BlogPost | null> => {
 			if (usePrisma) {
-				const post = await prisma.blogPost.findUnique({ where: { slug } });
-				return post as unknown as BlogPost | null;
+				try {
+					const post = await prisma.blogPost.findUnique({ where: { slug } });
+					return post as unknown as BlogPost | null;
+				} catch {
+					return seedBlogPosts.find(p => p.slug === slug) ?? null;
+				}
 			}
 			return seedBlogPosts.find(p => p.slug === slug) ?? null;
 		},
 		save: async (input: Partial<BlogPost>) => {
-			if (usePrisma) return prisma.blogPost.upsert({ where: { slug: String(input.slug) }, update: input as unknown as Prisma.BlogPostUpdateInput, create: input as unknown as Prisma.BlogPostCreateInput }) as unknown as BlogPost;
-			const id = input.id || randomUUID();
 			const slug = input.slug || String(input.title || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+			if (usePrisma) {
+				try {
+					const { id, ...data } = input;
+					if (id) {
+						const existing = await prisma.blogPost.findUnique({ where: { id } });
+						if (existing) {
+							return await prisma.blogPost.update({
+								where: { id },
+								data: { ...data, slug } as Prisma.BlogPostUpdateInput,
+							}) as unknown as BlogPost;
+						}
+					}
+					return await prisma.blogPost.upsert({
+						where: { slug },
+						update: data as Prisma.BlogPostUpdateInput,
+						create: { ...data, slug } as Prisma.BlogPostCreateInput,
+					}) as unknown as BlogPost;
+				} catch {
+					// Fallback to in-memory below
+				}
+			}
+			const id = input.id || randomUUID();
 			const existing = seedBlogPosts.findIndex(p => p.id === id || p.slug === slug);
-			const record = { id, slug, title: input.title || "", excerpt: input.excerpt || "", body: input.body || "", content: input.content, category: input.category, tags: input.tags, author: input.author, readTime: input.readTime, image: input.image, images: input.images, videoUrl: input.videoUrl, videoTitle: input.videoTitle, featured: input.featured ?? false, seoTitle: input.seoTitle, seoDescription: input.seoDescription, ogImage: input.ogImage, published: input.published ?? false, visible: input.visible ?? true, createdAt: input.createdAt || now(), updatedAt: now() };
+			const record = {
+				id,
+				slug,
+				title: input.title || "",
+				excerpt: input.excerpt || "",
+				body: input.body || "",
+				content: input.content,
+				category: input.category,
+				tags: input.tags,
+				author: input.author,
+				readTime: input.readTime,
+				image: input.image,
+				images: input.images,
+				videoUrl: input.videoUrl,
+				videoTitle: input.videoTitle,
+				featured: input.featured ?? false,
+				seoTitle: input.seoTitle,
+				seoDescription: input.seoDescription,
+				ogImage: input.ogImage,
+				published: input.published ?? false,
+				visible: input.visible ?? true,
+				createdAt: input.createdAt || now(),
+				updatedAt: now(),
+			};
 			if (existing >= 0) seedBlogPosts[existing] = record as BlogPost; else seedBlogPosts.push(record as BlogPost);
 			return record as BlogPost;
 		},
-		delete: async (id: string) => {
-			if (usePrisma) return prisma.blogPost.delete({ where: { id } });
-			const idx = seedBlogPosts.findIndex(p => p.id === id);
+		delete: async (idOrSlug: string) => {
+			if (usePrisma) {
+				try {
+					return await prisma.blogPost.delete({ where: { id: idOrSlug } });
+				} catch {
+					try {
+						return await prisma.blogPost.delete({ where: { slug: idOrSlug } });
+					} catch {
+						// in-memory fallback
+					}
+				}
+			}
+			const idx = seedBlogPosts.findIndex(p => p.id === idOrSlug || p.slug === idOrSlug);
 			if (idx >= 0) seedBlogPosts.splice(idx, 1);
 		},
 	},

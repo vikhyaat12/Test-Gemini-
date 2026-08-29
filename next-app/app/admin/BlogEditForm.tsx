@@ -31,14 +31,14 @@ export default function BlogEditForm({
   const save = async () => {
     setSaving(true);
     const method = form.isNew ? "POST" : "PATCH";
-    const endpoint = form.isNew ? "/api/blog" : "/api/admin/blog";
+    const endpoint = "/api/admin/blog";
     const payload = {
       ...(form.isNew ? {} : { id: form.id }),
       title: form.title,
       slug: form.slug,
       excerpt: form.excerpt,
       body: form.body,
-      content: form.content,
+      content: form.content || form.body,
       category: form.category,
       tags: form.tags,
       author: form.author,
@@ -47,11 +47,12 @@ export default function BlogEditForm({
       images: form.images,
       videoUrl: form.videoUrl,
       videoTitle: form.videoTitle,
-      featured: form.featured,
+      featured: !!form.featured,
       seoTitle: form.seoTitle,
       seoDescription: form.seoDescription,
       ogImage: form.ogImage,
-      published: form.published,
+      published: !!form.published,
+      visible: form.visible !== false,
     };
     try {
       const res = await fetch(endpoint, {

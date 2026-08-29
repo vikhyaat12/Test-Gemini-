@@ -48,69 +48,346 @@ function generateAffiliateCode(): string {
   return `QC${randomBytes(4).toString("hex").toUpperCase()}`;
 }
 
+const _seedAffiliates: Record<string, unknown>[] = [];
+const _seedLinks: Record<string, unknown>[] = [];
+const _seedClicks: Record<string, unknown>[] = [];
+const _seedCommissions: Record<string, unknown>[] = [];
+const _seedWithdrawals: Record<string, unknown>[] = [];
+
 export const affiliateStore = {
-  list: async () => { try { return await prisma.affiliate.findMany({ include: { user: true }, orderBy: { createdAt: "desc" } }); } catch { return []; } },
+  list: async () => {
+    try {
+      return await prisma.affiliate.findMany({ include: { user: true }, orderBy: { createdAt: "desc" } });
+    } catch {
+      return structuredClone(_seedAffiliates);
+    }
+  },
 
-  byUserId: async (userId: string) => { try { return await prisma.affiliate.findUnique({ where: { userId } }); } catch { return null; } },
+  byId: async (id: string) => {
+    try {
+      return await prisma.affiliate.findUnique({ where: { id }, include: { user: true } });
+    } catch {
+      return (_seedAffiliates.find(a => a.id === id) as unknown as Record<string, unknown>) ?? null;
+    }
+  },
 
-  byCode: async (code: string) => { try { return await prisma.affiliate.findUnique({ where: { affiliateCode: code } }); } catch { return null; } },
+  byUserId: async (userId: string) => {
+    try {
+      return await prisma.affiliate.findUnique({ where: { userId }, include: { user: true } });
+    } catch {
+      return (_seedAffiliates.find(a => a.userId === userId) as unknown as Record<string, unknown>) ?? null;
+    }
+  },
 
-  create: async (userId: string) => {
+  byCode: async (code: string) => {
+    const norm = code.toUpperCase();
+    try {
+      return await prisma.affiliate.findUnique({ where: { affiliateCode: norm }, include: { user: true } });
+    } catch {
+      return (_seedAffiliates.find(a => String(a.affiliateCode).toUpperCase() === norm) as unknown as Record<string, unknown>) ?? null;
+    }
+  },
+
+  byRef: async (ref: string) => {
+    const code = ref.trim();
+    if (!code) return null;
+    try {
+      // Check affiliate code directly
+      const byCode = await prisma.affiliate.findUnique({ where: { affiliateCode: code.toUpperCase() }, include: { user: true } });
+      if (byCode) return { affiliate: byCode, link: null };
+      // Check affiliate link shortCode
+      const link = await prisma.affiliateLink.findUnique({ where: { shortCode: code }, include: { affiliate: { include: { user: true } } } });
+      if (link && link.affiliate) return { affiliate: link.affiliate, link };
+      return null;
+    } catch {
+      const byCode = _seedAffiliates.find(a => String(a.affiliateCode).toUpperCase() === code.toUpperCase());
+      if (byCode) return { affiliate: byCode, link: null };
+      const link = _seedLinks.find(l => l.shortCode === code);
+      if (link) {
+        const affiliate = _seedAffiliates.find(a => a.id === link.affiliateId);
+        return { affiliate: affiliate ?? null, link };
+      }
+      return null;
+    }
+  },
+
+  create: async (userId: string, data?: Partial<{ commissionRate: number; customCoupon: string }>) => {
     const code = generateAffiliateCode();
-    return prisma.affiliate.create({ data: { userId, affiliateCode: code } });
+    try {
+      return await prisma.affiliate.create({
+        data: {
+          userId,
+          affiliateCode: code,
+          status: "active",
+          commissionRate: data?.commissionRate ?? 10,
+          customCoupon: data?.customCoupon,
+        },
+        include: { user: true },
+      });
+    } catch {
+      const rec = {
+        id: `aff-${Date.now()}`,
+        userId,
+        affiliateCode: code,
+        status: "active",
+        commissionRate: data?.commissionRate ?? 10,
+        level: 1,
+        totalSales: 0,
+        totalCommission: 0,
+        pendingCommission: 0,
+        approvedCommission: 0,
+        withdrawnCommission: 0,
+        wallet: 0,
+        customCoupon: data?.customCoupon ?? null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      _seedAffiliates.push(rec);
+      return rec;
+    }
   },
 
-  updateStatus: async (id: string, status: string) =>
-    prisma.affiliate.update({ where: { id }, data: { status: status as never } }),
-
-  recordClick: async (linkId: string, affiliateId: string, ip?: string, userAgent?: string, referer?: string) => {
-    await prisma.affiliateClick.create({ data: { linkId, affiliateId, ip, userAgent, referer } });
-    await prisma.affiliateLink.update({ where: { id: linkId }, data: { clicks: { increment: 1 } } });
+  updateStatus: async (id: string, status: string) => {
+    try {
+      return await prisma.affiliate.update({ where: { id }, data: { status: status as never } });
+    } catch {
+      const a = _seedAffiliates.find(x => x.id === id);
+      if (a) a.status = status;
+      return a;
+    }
   },
 
-  recordCommission: async (affiliateId: string, orderId: string, amount: number) => {
-    await prisma.affiliateCommission.create({ data: { affiliateId, orderId, amount } });
-    await prisma.affiliate.update({ where: { id: affiliateId }, data: { pendingCommission: { increment: amount }, totalCommission: { increment: amount } } });
+  update: async (id: string, data: Record<string, unknown>) => {
+    try {
+      return await prisma.affiliate.update({ where: { id }, data: data as never });
+    } catch {
+      const a = _seedAffiliates.find(x => x.id === id);
+      if (a) Object.assign(a, data);
+      return a;
+    }
+  },
+
+  recordClick: async (linkId: string | null, affiliateId: string, ip?: string, userAgent?: string, referer?: string) => {
+    try {
+      if (linkId) {
+        await prisma.affiliateClick.create({ data: { linkId, affiliateId, ip, userAgent, referer } });
+        await prisma.affiliateLink.update({ where: { id: linkId }, data: { clicks: { increment: 1 } } });
+      } else {
+        // Direct affiliate code click
+        const defaultLink = await prisma.affiliateLink.findFirst({ where: { affiliateId } });
+        if (defaultLink) {
+          await prisma.affiliateClick.create({ data: { linkId: defaultLink.id, affiliateId, ip, userAgent, referer } });
+          await prisma.affiliateLink.update({ where: { id: defaultLink.id }, data: { clicks: { increment: 1 } } });
+        }
+      }
+    } catch {
+      const click = { id: `clk-${Date.now()}`, linkId, affiliateId, ip, userAgent, referer, createdAt: new Date() };
+      _seedClicks.push(click);
+      if (linkId) {
+        const l = _seedLinks.find(x => x.id === linkId);
+        if (l) l.clicks = Number(l.clicks || 0) + 1;
+      }
+    }
+  },
+
+  recordCommission: async (affiliateId: string, orderId: string, amount: number, linkId?: string) => {
+    try {
+      await prisma.affiliateCommission.create({ data: { affiliateId, orderId, amount } });
+      await prisma.affiliate.update({
+        where: { id: affiliateId },
+        data: {
+          pendingCommission: { increment: amount },
+          totalCommission: { increment: amount },
+        },
+      });
+      if (linkId) {
+        await prisma.affiliateLink.update({ where: { id: linkId }, data: { conversions: { increment: 1 } } }).catch(() => {});
+      }
+    } catch {
+      const comm = { id: `comm-${Date.now()}`, affiliateId, orderId, amount, status: "pending", createdAt: new Date() };
+      _seedCommissions.push(comm);
+      const a = _seedAffiliates.find(x => x.id === affiliateId);
+      if (a) {
+        a.pendingCommission = Number(a.pendingCommission || 0) + amount;
+        a.totalCommission = Number(a.totalCommission || 0) + amount;
+      }
+      if (linkId) {
+        const l = _seedLinks.find(x => x.id === linkId);
+        if (l) l.conversions = Number(l.conversions || 0) + 1;
+      }
+    }
   },
 
   getStats: async (affiliateId: string) => {
-    const affiliate = await prisma.affiliate.findUnique({ where: { id: affiliateId } });
-    if (!affiliate) return null;
-    const links = await prisma.affiliateLink.findMany({ where: { affiliateId } });
-    const totalClicks = links.reduce((s, l) => s + l.clicks, 0);
-    const totalConversions = links.reduce((s, l) => s + l.conversions, 0);
-    return { ...affiliate, totalClicks, totalConversions, conversionRate: totalClicks > 0 ? (totalConversions / totalClicks * 100).toFixed(1) : "0" };
+    try {
+      const affiliate = await prisma.affiliate.findUnique({ where: { id: affiliateId } });
+      if (!affiliate) return null;
+      const links = await prisma.affiliateLink.findMany({ where: { affiliateId } });
+      const totalClicks = links.reduce((s, l) => s + l.clicks, 0);
+      const totalConversions = links.reduce((s, l) => s + l.conversions, 0);
+      return {
+        ...affiliate,
+        totalClicks,
+        totalConversions,
+        conversionRate: totalClicks > 0 ? (totalConversions / totalClicks * 100).toFixed(1) : "0",
+      };
+    } catch {
+      const affiliate = _seedAffiliates.find(x => x.id === affiliateId);
+      if (!affiliate) return null;
+      const links = _seedLinks.filter(x => x.affiliateId === affiliateId);
+      const totalClicks = links.reduce((s, l) => s + Number(l.clicks || 0), 0) + _seedClicks.filter(c => c.affiliateId === affiliateId).length;
+      const totalConversions = links.reduce((s, l) => s + Number(l.conversions || 0), 0);
+      return {
+        ...affiliate,
+        totalClicks,
+        totalConversions,
+        conversionRate: totalClicks > 0 ? (totalConversions / totalClicks * 100).toFixed(1) : "0",
+      };
+    }
   },
 
   links: {
-    list: async (affiliateId: string) => prisma.affiliateLink.findMany({ where: { affiliateId } }),
-    create: async (affiliateId: string, productId?: string) => {
-      const shortCode = randomBytes(3).toString("hex");
+    list: async (affiliateId: string) => {
+      try {
+        return await prisma.affiliateLink.findMany({ where: { affiliateId }, orderBy: { createdAt: "desc" } });
+      } catch {
+        return _seedLinks.filter(l => l.affiliateId === affiliateId);
+      }
+    },
+    create: async (affiliateId: string, productId?: string, customCode?: string) => {
+      const shortCode = customCode || randomBytes(3).toString("hex");
       const url = productId ? `/products/${productId}?ref=${shortCode}` : `/?ref=${shortCode}`;
-      return prisma.affiliateLink.create({ data: { affiliateId, productId, url, shortCode } });
+      try {
+        return await prisma.affiliateLink.create({ data: { affiliateId, productId, url, shortCode } });
+      } catch {
+        const link = { id: `lnk-${Date.now()}`, affiliateId, productId, url, shortCode, clicks: 0, conversions: 0, isActive: true, createdAt: new Date() };
+        _seedLinks.push(link);
+        return link;
+      }
     },
   },
 
   withdrawals: {
-    list: async (affiliateId: string) => prisma.affiliateWithdrawal.findMany({ where: { affiliateId }, orderBy: { createdAt: "desc" } }),
+    list: async (affiliateId: string) => {
+      try {
+        return await prisma.affiliateWithdrawal.findMany({ where: { affiliateId }, orderBy: { createdAt: "desc" } });
+      } catch {
+        return _seedWithdrawals.filter(w => w.affiliateId === affiliateId);
+      }
+    },
+    all: async () => {
+      try {
+        return await prisma.affiliateWithdrawal.findMany({ include: { affiliate: { include: { user: true } } }, orderBy: { createdAt: "desc" } });
+      } catch {
+        return structuredClone(_seedWithdrawals);
+      }
+    },
     request: async (affiliateId: string, amount: number, method?: string, accountDetails?: Record<string, unknown>) => {
-      const affiliate = await prisma.affiliate.findUnique({ where: { id: affiliateId } });
-      if (!affiliate || affiliate.wallet < amount) throw new Error("Insufficient wallet balance.");
-      await prisma.affiliate.update({ where: { id: affiliateId }, data: { wallet: { decrement: amount } } });
-      return prisma.affiliateWithdrawal.create({ data: { affiliateId, amount, method, accountDetails: accountDetails ?? undefined } as never });
+      try {
+        const affiliate = await prisma.affiliate.findUnique({ where: { id: affiliateId } });
+        if (!affiliate || affiliate.wallet < amount) throw new Error("Insufficient wallet balance.");
+        await prisma.affiliate.update({ where: { id: affiliateId }, data: { wallet: { decrement: amount } } });
+        return await prisma.affiliateWithdrawal.create({
+          data: { affiliateId, amount, method, accountDetails: accountDetails ?? undefined } as never,
+        });
+      } catch (err) {
+        const affiliate = _seedAffiliates.find(x => x.id === affiliateId);
+        if (!affiliate || Number(affiliate.wallet || 0) < amount) throw new Error("Insufficient wallet balance.");
+        affiliate.wallet = Number(affiliate.wallet || 0) - amount;
+        const w = { id: `wth-${Date.now()}`, affiliateId, amount, status: "pending", method, accountDetails, createdAt: new Date() };
+        _seedWithdrawals.push(w);
+        return w;
+      }
+    },
+    updateStatus: async (withdrawalId: string, status: "approved" | "paid" | "rejected") => {
+      try {
+        const w = await prisma.affiliateWithdrawal.findUnique({ where: { id: withdrawalId } });
+        if (!w) return null;
+        if (status === "rejected" && w.status !== "rejected") {
+          // refund back to wallet
+          await prisma.affiliate.update({ where: { id: w.affiliateId }, data: { wallet: { increment: w.amount } } });
+        } else if (status === "paid" && w.status !== "paid") {
+          await prisma.affiliate.update({ where: { id: w.affiliateId }, data: { withdrawnCommission: { increment: w.amount } } });
+        }
+        return await prisma.affiliateWithdrawal.update({
+          where: { id: withdrawalId },
+          data: { status: status as never, processedAt: new Date() },
+        });
+      } catch {
+        const w = _seedWithdrawals.find(x => x.id === withdrawalId);
+        if (w) {
+          const prevStatus = w.status;
+          w.status = status;
+          w.processedAt = new Date();
+          const a = _seedAffiliates.find(x => x.id === w.affiliateId);
+          if (a) {
+            if (status === "rejected" && prevStatus !== "rejected") {
+              a.wallet = Number(a.wallet || 0) + Number(w.amount || 0);
+            } else if (status === "paid" && prevStatus !== "paid") {
+              a.withdrawnCommission = Number(a.withdrawnCommission || 0) + Number(w.amount || 0);
+            }
+          }
+        }
+        return w;
+      }
     },
   },
 
   commissions: {
-    list: async (affiliateId: string) => prisma.affiliateCommission.findMany({ where: { affiliateId }, orderBy: { createdAt: "desc" } }),
+    list: async (affiliateId: string) => {
+      try {
+        return await prisma.affiliateCommission.findMany({ where: { affiliateId }, orderBy: { createdAt: "desc" } });
+      } catch {
+        return _seedCommissions.filter(c => c.affiliateId === affiliateId);
+      }
+    },
     approve: async (id: string) => {
-      const commission = await prisma.affiliateCommission.findUnique({ where: { id } });
-      if (!commission || commission.status !== "pending") return;
-      await prisma.affiliateCommission.update({ where: { id }, data: { status: "approved" } });
-      await prisma.affiliate.update({
-        where: { id: commission.affiliateId },
-        data: { pendingCommission: { decrement: commission.amount }, approvedCommission: { increment: commission.amount }, wallet: { increment: commission.amount } },
-      });
+      try {
+        const commission = await prisma.affiliateCommission.findUnique({ where: { id } });
+        if (!commission || commission.status !== "pending") return;
+        await prisma.affiliateCommission.update({ where: { id }, data: { status: "approved" } });
+        await prisma.affiliate.update({
+          where: { id: commission.affiliateId },
+          data: {
+            pendingCommission: { decrement: commission.amount },
+            approvedCommission: { increment: commission.amount },
+            wallet: { increment: commission.amount },
+          },
+        });
+      } catch {
+        const c = _seedCommissions.find(x => x.id === id);
+        if (c && c.status === "pending") {
+          c.status = "approved";
+          const a = _seedAffiliates.find(x => x.id === c.affiliateId);
+          if (a) {
+            a.pendingCommission = Math.max(0, Number(a.pendingCommission || 0) - Number(c.amount));
+            a.approvedCommission = Number(a.approvedCommission || 0) + Number(c.amount);
+            a.wallet = Number(a.wallet || 0) + Number(c.amount);
+          }
+        }
+      }
+    },
+    reject: async (id: string) => {
+      try {
+        const commission = await prisma.affiliateCommission.findUnique({ where: { id } });
+        if (!commission || commission.status !== "pending") return;
+        await prisma.affiliateCommission.update({ where: { id }, data: { status: "rejected" } });
+        await prisma.affiliate.update({
+          where: { id: commission.affiliateId },
+          data: {
+            pendingCommission: { decrement: commission.amount },
+          },
+        });
+      } catch {
+        const c = _seedCommissions.find(x => x.id === id);
+        if (c && c.status === "pending") {
+          c.status = "rejected";
+          const a = _seedAffiliates.find(x => x.id === c.affiliateId);
+          if (a) {
+            a.pendingCommission = Math.max(0, Number(a.pendingCommission || 0) - Number(c.amount));
+          }
+        }
+      }
     },
   },
 };
