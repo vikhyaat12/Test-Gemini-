@@ -5,8 +5,9 @@ import Link from "next/link";
 import BlogEditForm from "./BlogEditForm";
 import { BannerEditForm, TestimonialEditForm, OfferEditForm, SettingsEditForm } from "./ContentEditForms";
 import { ProductEditFormAdvanced } from "./ProductEditFormAdvanced";
+import HomepageSectionEdit from "./HomepageSectionEdit";
 
-type Tab = "dashboard" | "orders" | "products" | "product-edit" | "categories" | "customers" | "b2b" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers";
+type Tab = "dashboard" | "orders" | "products" | "product-edit" | "categories" | "customers" | "b2b" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers" | "homepage";
 
 const req = async (path: string, init?: RequestInit) => {
   const r = await fetch(path, { ...init, headers: { "Content-Type": "application/json", ...(init?.headers || {}) } });
@@ -49,6 +50,7 @@ const ENDPOINTS: Record<Tab, string | null> = {
   coupons: "/api/admin/coupons", blog: "/api/blog", faq: "/api/admin/faq",
   reviews: "/api/admin/reviews", media: "/api/admin/media", banners: "/api/admin/banners",
   testimonials: "/api/admin/testimonials", settings: "/api/admin/settings", offers: "/api/admin/offers",
+  homepage: "/api/admin/homepage",
   "product-edit": null,
 };
 
@@ -111,6 +113,7 @@ export default function AdminDashboard() {
     { id: "offers", label: "Offers", icon: "🏷️" },
     { id: "media", label: "Media", icon: "🖼️" },
     { id: "settings", label: "Settings", icon: "⚙️" },
+    { id: "homepage", label: "Homepage", icon: "🏠" },
   ];
 
   const inputStyle = { width: "100%", padding: "10px 14px", border: "1px solid var(--line)", fontSize: 14 };
@@ -494,6 +497,29 @@ export default function AdminDashboard() {
             )}
             {tab === "settings" && editingItem?.settingEdit && (
               <SettingsEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Setting saved."); doRefresh(); }} />
+            )}
+
+            {/* ─── HOMEPAGE SECTIONS ─── */}
+            {tab === "homepage" && !editingItem?.hpEdit && (
+              <div>
+                <p style={{ fontSize: 13, color: "var(--muted)", marginBottom: 16 }}>Manage the homepage sections that visitors see. Drag to reorder, toggle active/visible, or edit content.</p>
+                <button onClick={() => setEditingItem({ _type: "homepage", hpEdit: true, isNew: true, type: "custom", sort: (data.sections as Record<string, unknown>[] || []).length })} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, marginBottom: 16 }}>+ Add Section</button>
+                <Table
+                  columns={[
+                    { key: "title", label: "Section" },
+                    { key: "type", label: "Type" },
+                    { key: "sort", label: "Sort" },
+                    { key: "active", label: "Active", render: (v) => v ? "✓" : "✗" },
+                    { key: "visible", label: "Visible", render: (v) => v ? "✓" : "✗" },
+                  ]}
+                  rows={((data.sections as Record<string, unknown>[]) || [])}
+                  onEdit={(row) => setEditingItem({ ...row, _type: "homepage", hpEdit: true })}
+                  onDelete={(row) => handleDelete("/api/admin/homepage", String(row.id))}
+                />
+              </div>
+            )}
+            {tab === "homepage" && editingItem?.hpEdit && (
+              <HomepageSectionEdit item={editingItem} onSave={() => { setEditingItem(null); setMessage("Section saved."); doRefresh(); }} />
             )}
           </>
         )}

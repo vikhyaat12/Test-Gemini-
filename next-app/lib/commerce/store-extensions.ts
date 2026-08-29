@@ -247,12 +247,127 @@ export const model3dStore = {
 
 // ─── HOMEPAGE SECTIONS ──────────────────────────────────────────────────────
 
+const seedHomepageSections: Record<string, unknown>[] = [
+  {
+    id: "hs-hero", title: "Hero", type: "hero", sort: 0, active: true, visible: true,
+    content: {
+      eyebrow: "A higher standard of everyday care",
+      heading: "Science, made personal.",
+      subtitle: "Intelligent formulations that turn your daily health rituals into small, powerful acts of self-respect.",
+      ctaText: "Explore the collection", ctaLink: "/#collection",
+      secondaryText: "How we formulate", secondaryLink: "/#science",
+      rating: "4.9 / 5", ratingCount: "12,000+ care rituals",
+    },
+  },
+  {
+    id: "hs-trust", title: "Trust Strip", type: "trust", sort: 1, active: true, visible: true,
+    content: {
+      badges: ["Made in India", "Third-party tested", "Traceable ingredients", "Designed with doctors"],
+    },
+  },
+  {
+    id: "hs-collection", title: "Product Collection", type: "collection", sort: 2, active: true, visible: true,
+    content: {
+      eyebrow: "The care edit",
+      heading: "Considered essentials for your whole self.",
+      ctaText: "Shop all care",
+    },
+  },
+  {
+    id: "hs-science", title: "Our Science", type: "science", sort: 3, active: true, visible: true,
+    content: {
+      imageUrl: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1200&q=85",
+      stat: "97%", statText: "of customers feel a difference within 30 days*",
+      eyebrow: "The Queens Care standard",
+      heading: "Precision you can feel. Proof you can see.",
+      description: "We bring pharmaceutical rigor to the products that live on your shelf. Each formula begins with a real need, is built around meaningful dosage, and is independently tested for purity.",
+      principles: [
+        { number: "01", title: "Purposeful dosage", text: "Not marketing-magic ingredients." },
+        { number: "02", title: "Radical clarity", text: "Every ingredient has a reason to be here." },
+        { number: "03", title: "Better by design", text: "Elegant rituals, lower-impact choices." },
+      ],
+      ctaText: "Meet our standard", ctaLink: "/about",
+    },
+  },
+  {
+    id: "hs-ritual", title: "Build Your Ritual", type: "ritual", sort: 4, active: true, visible: true,
+    content: {
+      eyebrow: "Build your ritual",
+      heading: "Care that meets you where you are.",
+      sideText: "Not sure where to begin? Let our guided care finder create a considered starting point in under two minutes.",
+      cards: [
+        { label: "01", heading: "I want to feel more energised.", link: "/#collection", color: "amber" },
+        { label: "02", heading: "I want a calmer evening.", link: "/#collection", color: "lavender" },
+        { label: "03", heading: "I want to glow from within.", link: "/#collection", color: "rose" },
+      ],
+    },
+  },
+  {
+    id: "hs-quote", title: "Testimonial Quote", type: "testimonial", sort: 5, active: true, visible: true,
+    content: {
+      quote: "For the first time, my wellness routine feels less like a chore — and more like a quiet promise to myself.",
+      author: "Meera Shah",
+      attribution: "Queens Care member since 2023",
+    },
+  },
+  {
+    id: "hs-newsletter", title: "Newsletter CTA", type: "newsletter", sort: 6, active: true, visible: true,
+    content: {
+      eyebrow: "The care letter",
+      heading: "A smarter kind of inbox.",
+      subtitle: "Thoughtful dispatches on science, care, and living well.",
+    },
+  },
+  {
+    id: "hs-consult", title: "Talk to Our Team", type: "consult", sort: 7, active: true, visible: true,
+    content: {
+      eyebrow: "Care, with a human on the other end",
+      heading: "Questions deserve thoughtful answers.",
+      description: "Our care team is here to help you make confident choices — no pressure, no jargon.",
+      ctaText: "Talk to our care team", ctaLink: "/contact",
+      imageUrl: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1000&q=85",
+    },
+  },
+  {
+    id: "hs-announcement", title: "Announcement Bar", type: "banner", sort: 8, active: true, visible: true,
+    content: {
+      text: "Complimentary delivery on orders above ₹1,500",
+      secondaryText: "For healthcare professionals",
+      secondaryLink: "/doctors",
+    },
+  },
+];
+
+const _homepageSections = [...seedHomepageSections];
+let _hpIdCounter = 100;
+
 export const homepageStore = {
-  list: async () => { try { return await prisma.homepageSection.findMany({ orderBy: { sort: "asc" } }); } catch { return []; } },
-  active: async () => { try { return await prisma.homepageSection.findMany({ where: { active: true, visible: true }, orderBy: { sort: "asc" } }); } catch { return []; } },
-  create: async (data: Record<string, unknown>) => { try { return await prisma.homepageSection.create({ data: data as never }); } catch { return data as never; } },
-  update: async (id: string, data: Record<string, unknown>) => { try { return await prisma.homepageSection.update({ where: { id }, data: data as never }); } catch { return null; } },
-  delete: async (id: string) => { try { await prisma.homepageSection.delete({ where: { id } }); } catch {} },
+  list: async () => {
+    try { const rows = await prisma.homepageSection.findMany({ orderBy: { sort: "asc" } }); if (rows.length > 0) return rows; } catch {}
+    return _homepageSections;
+  },
+  active: async () => {
+    try { const rows = await prisma.homepageSection.findMany({ where: { active: true, visible: true }, orderBy: { sort: "asc" } }); if (rows.length > 0) return rows; } catch {}
+    return _homepageSections.filter((s) => s.active && s.visible);
+  },
+  create: async (data: Record<string, unknown>) => {
+    try { return await prisma.homepageSection.create({ data: data as never }); } catch {}
+    const record = { id: `hp-${++_hpIdCounter}`, title: String(data.title || ""), type: String(data.type || "custom"), content: data.content || {}, sort: Number(data.sort || 0), active: data.active !== false, visible: data.visible !== false, createdAt: new Date(), updatedAt: new Date() };
+    _homepageSections.push(record);
+    return record;
+  },
+  update: async (id: string, data: Record<string, unknown>) => {
+    try { return await prisma.homepageSection.update({ where: { id }, data: data as never }); } catch {}
+    const idx = _homepageSections.findIndex((s) => s.id === id);
+    if (idx === -1) return null;
+    _homepageSections[idx] = { ..._homepageSections[idx], ...data, updatedAt: new Date() };
+    return _homepageSections[idx];
+  },
+  delete: async (id: string) => {
+    try { await prisma.homepageSection.delete({ where: { id } }); return; } catch {}
+    const idx = _homepageSections.findIndex((s) => s.id === id);
+    if (idx !== -1) _homepageSections.splice(idx, 1);
+  },
 };
 
 // ─── OFFERS / PROMOTIONS ────────────────────────────────────────────────────
