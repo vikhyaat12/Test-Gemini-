@@ -341,7 +341,20 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       <ProductTabs
         productId={full?.id || product.id}
         product={product}
-        reviews={reviews.map(r => ({ id: r.id, rating: r.rating, title: r.title, body: r.body, user: { name: (r.user as Record<string, unknown>)?.name as string || "Customer" }, createdAt: String(r.createdAt), helpful: r.helpful || 0 }))}
+        reviews={reviews.map((r: unknown) => {
+          const item = r as Record<string, unknown>;
+          const userObj = item.user as Record<string, unknown> | undefined;
+          const authorName = (userObj?.name as string) || (item.customerName as string) || (item.author as string) || "Verified Customer";
+          return {
+            id: String(item.id || ""),
+            rating: Number(item.rating || 5),
+            title: String(item.title || ""),
+            body: String(item.body || ""),
+            user: { name: authorName },
+            createdAt: String(item.createdAt || new Date().toISOString()),
+            helpful: Number(item.helpful || 0),
+          };
+        })}
         avgRating={avgRating}
         ratingDist={ratingDist}
         faqs={faqs.map(f => ({ q: f.question, a: f.answer }))}
