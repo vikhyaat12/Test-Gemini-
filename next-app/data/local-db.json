@@ -64,7 +64,7 @@
       "shortDescription": "Tested & verified bio-active vitamin C radiance formula with Ferulic acid.",
       "category": "Dermal care",
       "price": 1550,
-      "stock": 52,
+      "stock": 51,
       "lowStockThreshold": 10,
       "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80",
       "images": [
@@ -79,7 +79,7 @@
       "rating": 4.9,
       "reviewCount": 212,
       "createdAt": "2026-08-29T08:41:59.367Z",
-      "updatedAt": "2026-08-30T06:28:13.336Z",
+      "updatedAt": "2026-08-30T06:29:16.119Z",
       "thumbnail": "",
       "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "aplusContent": [
@@ -729,6 +729,37 @@
       "paymentStatus": "cod_pending",
       "paymentMethod": "cod",
       "trackingCode": "QC596821",
+      "shipping": {
+        "fullName": "Vikram Malhotra",
+        "email": "vikram@example.com",
+        "phone": "+91 98765 43210",
+        "address": "74 Marine Drive, Nariman Point",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "pincode": "400001"
+      }
+    },
+    {
+      "id": "QC-MTFFIOD5",
+      "createdAt": "2026-08-30T06:29:16.121Z",
+      "updatedAt": "2026-08-30T06:29:16.121Z",
+      "userId": "guest-mtffiod2",
+      "lines": [
+        {
+          "productId": "lumine-c-serum",
+          "quantity": 1,
+          "unitPrice": 1550
+        }
+      ],
+      "subtotal": 1550,
+      "discount": 0,
+      "shippingFee": 0,
+      "tax": 0,
+      "total": 1550,
+      "status": "pending",
+      "paymentStatus": "cod_pending",
+      "paymentMethod": "cod",
+      "trackingCode": "QC882242",
       "shipping": {
         "fullName": "Vikram Malhotra",
         "email": "vikram@example.com",
@@ -1505,7 +1536,7 @@
       ],
       "supportsRefunds": true,
       "createdAt": "2026-08-30T05:17:02.705Z",
-      "updatedAt": "2026-08-30T05:19:40.409Z"
+      "updatedAt": "2026-08-30T06:29:16.049Z"
     },
     {
       "id": "gw-stripe",
@@ -1636,7 +1667,7 @@
       },
       "sort": 1,
       "createdAt": "2026-08-30T05:17:02.705Z",
-      "updatedAt": "2026-08-30T05:19:40.426Z"
+      "updatedAt": "2026-08-30T06:29:16.071Z"
     },
     {
       "id": "ship-delhivery",
@@ -1743,7 +1774,7 @@
       ],
       "active": true,
       "createdAt": "2026-08-30T05:17:02.705Z",
-      "updatedAt": "2026-08-30T05:19:40.439Z"
+      "updatedAt": "2026-08-30T06:29:16.088Z"
     }
   ],
   "aplusTemplates": [
