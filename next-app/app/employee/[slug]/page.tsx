@@ -1,84 +1,96 @@
-/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import type { Metadata } from "next";
 import { employeeStore } from "@/lib/commerce/store-extensions";
+import EmployeeProfileClient, { EmployeeData } from "./EmployeeProfileClient";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   try {
-    const employee = await employeeStore.bySlug(slug);
-    if (!employee || !employee.active) return { title: "Employee not found" };
-    return { title: `${employee.name} — Queens Care Laboratories`, description: `${employee.name}, ${employee.designation || ""} at Queens Care Laboratories`, robots: { index: false, follow: false } };
-  } catch { return { title: "Employee Profile" }; }
+    const employee = (await employeeStore.bySlug(slug)) as Record<string, unknown> | null;
+    if (!employee || employee.active === false) return { title: "Employee Not Found — Queens Care Laboratories" };
+    return {
+      title: `${String(employee.name)} | Official Staff Profile — Queens Care Laboratories`,
+      description: `${String(employee.name)}, ${String(employee.designation || "")} at Queens Care Laboratories. ${String(employee.bio || "").slice(0, 140)}...`,
+      robots: { index: true, follow: true },
+    };
+  } catch {
+    return { title: "Employee Profile — Queens Care Laboratories" };
+  }
 }
 
 export default async function EmployeeProfile({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const employee = (await employeeStore.bySlug(slug)) as {
-    name: string;
-    slug: string;
-    employeeId?: string;
-    designation?: string;
-    department?: string;
-    photo?: string;
-    phone?: string;
-    email?: string;
-    bio?: string;
-    active: boolean;
-  } | null;
-  if (!employee || !employee.active) {
+  const rawEmployee = (await employeeStore.bySlug(slug)) as Record<string, unknown> | null;
+  const allList = ((await employeeStore.list()) as Record<string, unknown>[]) || [];
+
+  if (!rawEmployee || rawEmployee.active === false) {
     return (
-      <main className="portal" style={{ maxWidth: 500, margin: "0 auto", textAlign: "center", padding: "60px 20px" }}>
-        <p className="eyebrow">Queens Care Laboratories</p>
-        <h1 style={{ font: "24px var(--font-display)", marginTop: 12 }}>Employee profile not found</h1>
-        <p style={{ color: "var(--muted)", fontSize: 13, marginTop: 8 }}>This profile may have been deactivated or the link is invalid.</p>
-        <Link href="/" className="button" style={{ marginTop: 24 }}>Return to Queens Care →</Link>
+      <main className="portal" style={{ maxWidth: 540, margin: "60px auto", textAlign: "center", padding: "50px 24px", background: "#ffffff", borderRadius: 12, border: "1px solid #e5e7eb", boxShadow: "0 10px 30px rgba(0,0,0,0.05)" }}>
+        <p style={{ fontSize: 11, fontWeight: 700, color: "#C19A6B", textTransform: "uppercase", letterSpacing: "0.1em" }}>Queens Care Laboratories</p>
+        <h1 style={{ font: "26px var(--font-display)", color: "#2A0F3A", marginTop: 12 }}>Employee Profile Not Found</h1>
+        <p style={{ color: "#6b7280", fontSize: 14, marginTop: 8, lineHeight: 1.6 }}>
+          This staff profile may be currently inactive, archived, or the specified credential URL is incorrect.
+        </p>
+        <Link
+          href="/"
+          style={{
+            display: "inline-block",
+            marginTop: 24,
+            padding: "10px 24px",
+            background: "#2A0F3A",
+            color: "#ffffff",
+            borderRadius: 6,
+            fontSize: 13,
+            fontWeight: 600,
+            textDecoration: "none",
+          }}
+        >
+          Return to Queens Care →
+        </Link>
       </main>
     );
   }
 
-  return (
-    <main className="portal" style={{ maxWidth: 600, margin: "0 auto", padding: "40px 20px" }}>
-      <Link href="/" className="back">← Queens Care</Link>
+  const employee: EmployeeData = {
+    id: String(rawEmployee.id || ""),
+    name: String(rawEmployee.name || ""),
+    slug: String(rawEmployee.slug || slug),
+    employeeId: String(rawEmployee.employeeId || rawEmployee.slug || ""),
+    designation: String(rawEmployee.designation || ""),
+    department: String(rawEmployee.department || ""),
+    photo: String(rawEmployee.photo || rawEmployee.profileImage || ""),
+    profileImage: String(rawEmployee.profileImage || rawEmployee.photo || ""),
+    phone: String(rawEmployee.phone || ""),
+    email: String(rawEmployee.email || ""),
+    bio: String(rawEmployee.bio || ""),
+    active: rawEmployee.active !== false,
+    gallery: Array.isArray(rawEmployee.gallery) ? rawEmployee.gallery : [],
+    videos: Array.isArray(rawEmployee.videos) ? rawEmployee.videos : [],
+    photoSettings: (rawEmployee.photoSettings as EmployeeData["photoSettings"]) || {
+      desktopSize: 180,
+      mobileSize: 130,
+      borderRadius: 50,
+      borderWidth: 3,
+      borderColor: "#D4AF37",
+      objectFit: "cover",
+      shadow: true,
+    },
+  };
 
-      <div style={{ textAlign: "center", marginBottom: 32 }}>
-        {employee.photo ? (
-          <img src={employee.photo} alt={employee.name} style={{ width: 120, height: 120, borderRadius: "50%", objectFit: "cover", border: "3px solid var(--gold)", marginBottom: 16 }} />
-        ) : (
-          <div style={{ width: 120, height: 120, borderRadius: "50%", background: "var(--purple)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 36, margin: "0 auto 16px" }}>
-            {employee.name.charAt(0)}
-          </div>
-        )}
-        <h1 style={{ font: "28px var(--font-display)", marginBottom: 4 }}>{employee.name}</h1>
-        {employee.designation && <p style={{ fontSize: 14, color: "var(--gold)", fontWeight: 600 }}>{employee.designation}</p>}
-        {employee.department && <p style={{ fontSize: 13, color: "var(--muted)" }}>{employee.department}</p>}
-      </div>
+  const allEmployees: EmployeeData[] = allList
+    .filter((m) => m.active !== false)
+    .map((m) => ({
+      id: String(m.id || ""),
+      name: String(m.name || ""),
+      slug: String(m.slug || ""),
+      designation: String(m.designation || ""),
+      department: String(m.department || ""),
+      photo: String(m.photo || m.profileImage || ""),
+      profileImage: String(m.profileImage || m.photo || ""),
+      active: m.active !== false,
+    }));
 
-      <div style={{ padding: 24, background: "var(--paper)", border: "1px solid var(--line)", marginBottom: 24 }}>
-        <p style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".08em", color: "var(--muted)", marginBottom: 12 }}>Queens Care Laboratories</p>
-        <div style={{ display: "grid", gap: 10, fontSize: 13 }}>
-          {employee.designation && <div><span style={{ color: "var(--muted)" }}>Designation:</span> <b>{employee.designation}</b></div>}
-          {employee.department && <div><span style={{ color: "var(--muted)" }}>Department:</span> <b>{employee.department}</b></div>}
-          {employee.email && <div><span style={{ color: "var(--muted)" }}>Email:</span> <a href={`mailto:${employee.email}`} style={{ color: "var(--purple)" }}>{employee.email}</a></div>}
-          {employee.phone && <div><span style={{ color: "var(--muted)" }}>Phone:</span> <a href={`tel:${employee.phone}`} style={{ color: "var(--purple)" }}>{employee.phone}</a></div>}
-        </div>
-      </div>
-
-      {employee.bio && (
-        <div style={{ marginBottom: 24 }}>
-          <h3 style={{ font: "16px var(--font-display)", marginBottom: 8 }}>About</h3>
-          <p style={{ fontSize: 13, lineHeight: 1.8 }}>{employee.bio}</p>
-        </div>
-      )}
-
-      <div style={{ textAlign: "center", marginTop: 32 }}>
-        <p style={{ fontSize: 11, color: "var(--muted)" }}>Verified Queens Care Laboratories employee</p>
-        <div style={{ marginTop: 12, padding: "8px 16px", background: "var(--purple)", color: "#fff", fontSize: 10, textTransform: "uppercase", letterSpacing: ".1em", display: "inline-block" }}>
-          ID: {employee.employeeId || employee.slug}
-        </div>
-      </div>
-    </main>
-  );
+  return <EmployeeProfileClient employee={employee} allEmployees={allEmployees} />;
 }
