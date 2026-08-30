@@ -72,6 +72,7 @@ const ENDPOINTS: Record<Tab, string | null> = {
   marketing: "/api/admin/marketing",
   payments: "/api/admin/payments",
   shipping: "/api/admin/shipping/providers",
+  aplus: "/api/admin/aplus",
   "product-edit": null,
 };
 

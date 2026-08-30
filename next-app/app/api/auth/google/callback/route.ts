@@ -94,7 +94,7 @@ export async function GET(request: Request) {
       id: String(user.id),
       name: String(user.name || "Customer"),
       email: String(user.email),
-      role: String(user.role || "customer"),
+      role: (user.role as "admin" | "customer" | "employee" | "affiliate" | "doctor") || "customer",
       createdAt: String(user.createdAt || new Date().toISOString()),
     }), {
       httpOnly: true,
