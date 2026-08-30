@@ -325,27 +325,16 @@ export function SettingsEditForm({ item, onSave }: { item: Record<string, unknow
 
         {/* Image settings with upload button */}
         {isImageKey && (
-          <div>
-            <label style={labelStyle}>Image Value</label>
-            <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
-              <label style={{ padding: "8px 16px", background: "var(--gold, #b8860b)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 6 }}>
-                📤 {uploading ? "Uploading..." : "Upload Image"}
-                <input type="file" accept="image/*" hidden onChange={async e => {
-                  if (!e.target.files?.length) return;
-                  setUploading(true);
-                  const urls = await uploadFile(e.target.files, "logos");
-                  if (urls.length) setForm({ ...form, value: urls[0] });
-                  setUploading(false);
-                  e.target.value = "";
-                }} />
-              </label>
-              <span style={{ fontSize: 11, color: "var(--muted)", alignSelf: "center" }}>or paste URL:</span>
-            </div>
-            <input style={inputStyle} value={String(form.value || "")} onChange={e => setForm({ ...form, value: e.target.value })} placeholder="Image URL or uploaded path" />
-            {form.value && String(form.value).startsWith("/") ? (
-              <img src={String(form.value)} alt="" style={{ width: 200, maxHeight: 120, objectFit: "contain", marginTop: 8, border: "1px solid var(--line)", background: "#f9f9f9", padding: 8 }} />
-            ) : null}
-          </div>
+          <GlobalMediaUploader
+            label="Image Value (Upload / URL / Media Library)"
+            preset="general"
+            value={String(form.value || "")}
+            onChange={(val) => {
+              const url = typeof val === "string" ? val : Array.isArray(val) && val.length > 0 ? (typeof val[0] === "string" ? val[0] : val[0]?.url) : "";
+              setForm({ ...form, value: url });
+            }}
+            folder="logos"
+          />
         )}
 
         {/* Color settings with color picker */}
