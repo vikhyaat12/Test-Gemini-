@@ -132,11 +132,11 @@ export default async function EmployeeDirectoryPage() {
                     </div>
                   </div>
 
-                  {emp.bio && (
+                  {Boolean(emp.bio) ? (
                     <p style={{ fontSize: 13, color: "#4b5563", lineHeight: 1.6, margin: "0 0 16px 0", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
                       {String(emp.bio)}
                     </p>
-                  )}
+                  ) : null}
                 </div>
 
                 <div style={{ borderTop: "1px solid #f3f4f6", paddingTop: 14, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
