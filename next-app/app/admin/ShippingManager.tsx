@@ -385,7 +385,7 @@ export default function ShippingManager() {
             <p style={{ margin: 0, color: pinResult.serviceable ? "#2e7d32" : "#b34141", fontWeight: 600 }}>
               {pinResult.serviceable ? "✓ Serviceable" : "✕ Not Serviceable"}: {String(pinResult.message || "")}
             </p>
-            {pinResult.serviceable && (
+            {Boolean(pinResult.serviceable) && (
               <div style={{ display: "flex", gap: 16, marginTop: 6, color: "var(--muted)", fontSize: 11 }}>
                 <span>Type: <b>{pinResult.isMetro ? "Metro Zone" : "Standard Zone"}</b></span>
                 <span>Estimate: <b>{String(pinResult.estimatedDelivery)}</b></span>
