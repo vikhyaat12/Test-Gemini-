@@ -455,13 +455,13 @@ export const store = {
 	},
 	reviews: {
 		list: async (productId?: string) => {
-			let idMatch = productId;
-			let slugMatch = productId;
+			let idMatch = productId ? String(productId) : undefined;
+			let slugMatch = productId ? String(productId) : undefined;
 			if (productId) {
 				const prod = fileDb.findOne("products", p => p.id === productId || p.slug === productId);
 				if (prod) {
-					idMatch = prod.id;
-					slugMatch = prod.slug;
+					idMatch = String(prod.id);
+					slugMatch = String(prod.slug);
 				}
 			}
 			if (usePrisma) {
