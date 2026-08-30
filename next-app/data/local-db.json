@@ -61,16 +61,16 @@
       "name": "Lumine-C Serum",
       "brand": "Queens Care",
       "description": "A considered vitamin C ritual for daily radiance. Clinical-strength 15% L-Ascorbic Acid paired with Ferulic Acid and Vitamin E for maximum stability and absorption. Designed for everyday dermal health with visible results in 7 days.",
-      "shortDescription": "Vitamin C radiance formula with ferulic acid & hyaluronic booster.",
+      "shortDescription": "Tested & verified bio-active vitamin C radiance formula with Ferulic acid.",
       "category": "Dermal care",
-      "price": 1490,
-      "stock": 45,
+      "price": 1550,
+      "stock": 52,
       "lowStockThreshold": 10,
       "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80",
       "images": [
         "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80",
         "https://images.unsplash.com/photo-1608248597359-218274577884?auto=format&fit=crop&w=800&q=80",
-        "/uploads/logos/brand-test-logo-1788070988708.svg"
+        "/uploads/logos/brand-test-logo-1788071140315.svg"
       ],
       "active": true,
       "visible": true,
@@ -79,7 +79,7 @@
       "rating": 4.9,
       "reviewCount": 212,
       "createdAt": "2026-08-29T08:41:59.367Z",
-      "updatedAt": "2026-08-30T06:23:08.788Z",
+      "updatedAt": "2026-08-30T06:28:13.336Z",
       "thumbnail": "",
       "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "aplusContent": [
@@ -186,7 +186,7 @@
         }
       ],
       "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80",
-      "aplusTemplateId": "aplus-mtffaswu"
+      "aplusTemplateId": "aplus-mtffe1wo"
     },
     {
       "id": "p-biome",
@@ -489,11 +489,11 @@
       "photo": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=85",
       "phone": "+91 98111 44556",
       "email": "dr.singhania@queenscare.in",
-      "bio": "Dr. Vikram Singhania leads clinical formulations and purity assays at Queens Care Laboratories with over 14 years of biochemical experience across dermal and metabolic therapeutics.",
+      "bio": "Chief Formulation Scientist directing evidence-based dermal clinical trials.",
       "slug": "vikram-singhania",
       "active": true,
       "createdAt": "2026-08-29T07:59:01.686Z",
-      "updatedAt": "2026-08-29T09:43:26.211Z"
+      "updatedAt": "2026-08-30T06:28:13.418Z"
     },
     {
       "id": "emp-1",
@@ -601,6 +601,18 @@
       "isActive": true,
       "createdByUserId": "usr-admin-1",
       "usedCount": 0
+    },
+    {
+      "id": "rec-mtffhc3s-37ivm",
+      "createdAt": "2026-08-30T06:28:13.576Z",
+      "updatedAt": "2026-08-30T06:28:13.576Z",
+      "code": "QCVERIFY163",
+      "type": "percentage",
+      "discount": 15,
+      "minOrder": 500,
+      "isActive": true,
+      "createdByUserId": "usr-admin-1",
+      "usedCount": 0
     }
   ],
   "b2bApplications": [
@@ -673,6 +685,15 @@
       "affiliateId": "aff-1",
       "ip": "::1",
       "userAgent": "node"
+    },
+    {
+      "id": "rec-mtffhc53-revw0",
+      "createdAt": "2026-08-30T06:28:13.623Z",
+      "updatedAt": "2026-08-30T06:28:13.623Z",
+      "linkId": "direct",
+      "affiliateId": "aff-1",
+      "ip": "::1",
+      "userAgent": "node"
     }
   ],
   "affiliateCommissions": [
@@ -740,7 +761,7 @@
         "updated": true
       },
       "createdAt": "2026-08-29T07:59:01.686Z",
-      "updatedAt": "2026-08-29T08:41:59.551Z"
+      "updatedAt": "2026-08-30T06:28:13.465Z"
     },
     {
       "id": "hs-trust",
@@ -852,9 +873,9 @@
     {
       "id": "rec-mte80qtf-a3bvh",
       "createdAt": "2026-08-29T10:11:36.003Z",
-      "updatedAt": "2026-08-29T19:10:24.828Z",
+      "updatedAt": "2026-08-30T06:25:40.502Z",
       "key": "logo_url",
-      "value": "/uploads/logos/photo_from_vikhyaat_sikand-removebg-preview-1788030624584.png",
+      "value": "/uploads/logos/brand-test-logo-1788071140315.svg",
       "group": "branding"
     },
     {
@@ -976,6 +997,30 @@
       "key": "delivery_metro_pincodes",
       "value": "110,400,560,600,700,500,302,201,226,411",
       "group": "delivery"
+    },
+    {
+      "id": "rec-mtffcjfo-rwdph",
+      "createdAt": "2026-08-30T06:24:29.796Z",
+      "updatedAt": "2026-08-30T06:25:40.517Z",
+      "key": "logo_height_desktop",
+      "value": "42",
+      "group": "branding"
+    },
+    {
+      "id": "rec-mtffcjg9-surch",
+      "createdAt": "2026-08-30T06:24:29.817Z",
+      "updatedAt": "2026-08-30T06:25:40.524Z",
+      "key": "logo_height_mobile",
+      "value": "30",
+      "group": "branding"
+    },
+    {
+      "id": "rec-mtffcjgn-je7ra",
+      "createdAt": "2026-08-30T06:24:29.831Z",
+      "updatedAt": "2026-08-30T06:25:40.545Z",
+      "key": "logo_max_width",
+      "value": "200",
+      "group": "branding"
     }
   ],
   "banners": [
@@ -991,6 +1036,36 @@
       "visible": true,
       "createdAt": "2026-08-29T07:59:01.686Z",
       "updatedAt": "2026-08-29T07:59:01.686Z"
+    },
+    {
+      "id": "rec-mtffcjed-jucl3",
+      "createdAt": "2026-08-30T06:24:29.749Z",
+      "updatedAt": "2026-08-30T06:24:29.749Z",
+      "title": "The Autumn Health & Dermal Ritual",
+      "subtitle": "Clinically formulated botanical essentials for restorative care.",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "mobileImage": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=85",
+      "link": "/shop",
+      "position": "hero",
+      "sort": 1,
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mtffe1yv-vq8c5",
+      "createdAt": "2026-08-30T06:25:40.471Z",
+      "updatedAt": "2026-08-30T06:25:40.471Z",
+      "title": "The Autumn Health & Dermal Ritual",
+      "subtitle": "Clinically formulated botanical essentials for restorative care.",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "mobileImage": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=85",
+      "link": "/shop",
+      "position": "hero",
+      "sort": 1,
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
     }
   ],
   "faqs": [
@@ -1093,6 +1168,30 @@
       "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80",
       "visible": true
+    },
+    {
+      "id": "rec-mtffcjdp-ziz7u",
+      "createdAt": "2026-08-30T06:24:29.725Z",
+      "updatedAt": "2026-08-30T06:24:29.725Z",
+      "name": "Dr. Ananya Sharma",
+      "title": "Consultant Dermatologist, AIIMS",
+      "body": "Lumine-C provides exceptional antioxidant shielding without triggering trans-epidermal moisture loss.",
+      "rating": 5,
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mtffe1y1-7oe28",
+      "createdAt": "2026-08-30T06:25:40.441Z",
+      "updatedAt": "2026-08-30T06:25:40.441Z",
+      "name": "Dr. Ananya Sharma",
+      "title": "Consultant Dermatologist, AIIMS",
+      "body": "Lumine-C provides exceptional antioxidant shielding without triggering trans-epidermal moisture loss.",
+      "rating": 5,
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80",
+      "visible": true
     }
   ],
   "offers": [
@@ -1157,6 +1256,34 @@
       "filename": "brand-test-logo-1788070988708.svg",
       "type": "image",
       "url": "/uploads/logos/brand-test-logo-1788070988708.svg",
+      "mimeType": "image/svg+xml",
+      "size": 165,
+      "alt": "brand-test-logo",
+      "title": "brand-test-logo.svg",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtffcj9q-xcrlt",
+      "createdAt": "2026-08-30T06:24:29.581Z",
+      "updatedAt": "2026-08-30T06:24:29.582Z",
+      "filename": "brand-test-logo-1788071069579.svg",
+      "type": "image",
+      "url": "/uploads/logos/brand-test-logo-1788071069579.svg",
+      "mimeType": "image/svg+xml",
+      "size": 165,
+      "alt": "brand-test-logo",
+      "title": "brand-test-logo.svg",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtffe1un-gh3ud",
+      "createdAt": "2026-08-30T06:25:40.319Z",
+      "updatedAt": "2026-08-30T06:25:40.319Z",
+      "filename": "brand-test-logo-1788071140315.svg",
+      "type": "image",
+      "url": "/uploads/logos/brand-test-logo-1788071140315.svg",
       "mimeType": "image/svg+xml",
       "size": 165,
       "alt": "brand-test-logo",
@@ -1736,6 +1863,60 @@
       "id": "aplus-mtffaswu",
       "createdAt": "2026-08-30T06:23:08.766Z",
       "updatedAt": "2026-08-30T06:23:08.766Z",
+      "title": "Automated Test A+ Protocol",
+      "description": "Rigorous clinical validation story",
+      "category": "Science & Clinical",
+      "sections": [
+        {
+          "type": "hero",
+          "heading": "State of the Art Cleanroom Formulation",
+          "text": "Engineered under ISO Class 5 cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          "published": true
+        },
+        {
+          "type": "comparison",
+          "heading": "Queens Care vs Generic Market Brands",
+          "items": [
+            "Queens Care: High-bioavailability microencapsulation",
+            "Generic: Raw unshielded active oxidizes quickly"
+          ],
+          "published": true
+        }
+      ],
+      "published": true
+    },
+    {
+      "id": "aplus-mtffcjcg",
+      "createdAt": "2026-08-30T06:24:29.680Z",
+      "updatedAt": "2026-08-30T06:24:29.680Z",
+      "title": "Automated Test A+ Protocol",
+      "description": "Rigorous clinical validation story",
+      "category": "Science & Clinical",
+      "sections": [
+        {
+          "type": "hero",
+          "heading": "State of the Art Cleanroom Formulation",
+          "text": "Engineered under ISO Class 5 cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          "published": true
+        },
+        {
+          "type": "comparison",
+          "heading": "Queens Care vs Generic Market Brands",
+          "items": [
+            "Queens Care: High-bioavailability microencapsulation",
+            "Generic: Raw unshielded active oxidizes quickly"
+          ],
+          "published": true
+        }
+      ],
+      "published": true
+    },
+    {
+      "id": "aplus-mtffe1wo",
+      "createdAt": "2026-08-30T06:25:40.392Z",
+      "updatedAt": "2026-08-30T06:25:40.392Z",
       "title": "Automated Test A+ Protocol",
       "description": "Rigorous clinical validation story",
       "category": "Science & Clinical",
