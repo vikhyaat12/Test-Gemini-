@@ -5,10 +5,11 @@ import { useState } from "react";
 const inputStyle = { width: "100%", padding: "10px 14px", border: "1px solid var(--line)", fontSize: 14 };
 const labelStyle = { fontSize: 11, fontWeight: 600 as const, display: "block" as const, marginBottom: 4 };
 
-type SectionType = "hero" | "trust" | "collection" | "science" | "ritual" | "testimonial" | "newsletter" | "consult" | "banner" | "custom";
+type SectionType = "hero" | "trust" | "collection" | "science" | "ritual" | "testimonial" | "newsletter" | "consult" | "banner" | "affiliate" | "heroVisual" | "custom";
 
 const SECTION_TYPES: { value: SectionType; label: string }[] = [
   { value: "hero", label: "Hero Banner" },
+  { value: "heroVisual", label: "Hero 3D Visual (LUMINE-C™)" },
   { value: "trust", label: "Trust Strip" },
   { value: "collection", label: "Product Collection" },
   { value: "science", label: "Science / Brand" },
@@ -16,6 +17,7 @@ const SECTION_TYPES: { value: SectionType; label: string }[] = [
   { value: "testimonial", label: "Testimonial Quote" },
   { value: "newsletter", label: "Newsletter CTA" },
   { value: "consult", label: "Talk to Team" },
+  { value: "affiliate", label: "Partnership / Affiliate" },
   { value: "banner", label: "Announcement Bar" },
   { value: "custom", label: "Custom Section" },
 ];
@@ -36,10 +38,9 @@ export default function HomepageSectionEdit({ item, onSave }: Props) {
   const save = async () => {
     setSaving(true);
     const method = form.isNew ? "POST" : "PATCH";
-    const endpoint = form.isNew ? "/api/admin/homepage" : "/api/admin/homepage";
     const payload = { ...form, content, id: form.isNew ? undefined : form.id };
     try {
-      const res = await fetch(endpoint, { method, body: JSON.stringify(payload) });
+      const res = await fetch("/api/admin/homepage", { method, body: JSON.stringify(payload) });
       if (res.ok) { setMsg("Saved!"); setTimeout(onSave, 400); }
       else { const d = await res.json(); setMsg(d.error || "Failed."); }
     } catch { setMsg("Network error."); }
@@ -79,7 +80,7 @@ export default function HomepageSectionEdit({ item, onSave }: Props) {
         {form.type === "hero" && (
           <div style={{ display: "grid", gap: 12 }}>
             <div><label style={labelStyle}>Eyebrow</label><input style={inputStyle} value={String(content.eyebrow || "")} onChange={e => updateContent("eyebrow", e.target.value)} /></div>
-            <div><label style={labelStyle}>Heading</label><input style={inputStyle} value={String(content.heading || "")} onChange={e => updateContent("heading", e.target.value)} /></div>
+            <div><label style={labelStyle}>Heading (supports &lt;em&gt; for italic)</label><input style={inputStyle} value={String(content.heading || "")} onChange={e => updateContent("heading", e.target.value)} /></div>
             <div><label style={labelStyle}>Subtitle</label><textarea style={{ ...inputStyle, minHeight: 60 }} value={String(content.subtitle || "")} onChange={e => updateContent("subtitle", e.target.value)} /></div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
               <div><label style={labelStyle}>Primary CTA Text</label><input style={inputStyle} value={String(content.ctaText || "")} onChange={e => updateContent("ctaText", e.target.value)} /></div>
@@ -96,13 +97,31 @@ export default function HomepageSectionEdit({ item, onSave }: Props) {
           </div>
         )}
 
+        {/* HERO 3D VISUAL (LUMINE-C™) */}
+        {form.type === "heroVisual" && (
+          <div style={{ display: "grid", gap: 12 }}>
+            <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 8 }}>
+              <label style={{ fontSize: 13, fontWeight: 600 }}>3D Visual Enabled</label>
+              <button onClick={() => updateContent("enabled", !content.enabled)} style={{ padding: "6px 14px", border: "1px solid var(--line)", background: content.enabled !== false ? "var(--purple)" : "#eee", color: content.enabled !== false ? "#fff" : "#666", cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
+                {content.enabled !== false ? "ENABLED" : "DISABLED"}
+              </button>
+            </div>
+            <div><label style={labelStyle}>Product Name (e.g. LUMINE-C™)</label><input style={inputStyle} value={String(content.productName || "")} onChange={e => updateContent("productName", e.target.value)} /></div>
+            <div><label style={labelStyle}>Subtitle (e.g. Radiance serum)</label><input style={inputStyle} value={String(content.subtitle || "")} onChange={e => updateContent("subtitle", e.target.value)} /></div>
+            <div><label style={labelStyle}>Vertical Label (e.g. FORMULATED WITH INTENTION)</label><input style={inputStyle} value={String(content.verticalLabel || "")} onChange={e => updateContent("verticalLabel", e.target.value)} /></div>
+            <div style={{ padding: 12, background: "#fff", border: "1px solid var(--line)", fontSize: 12, color: "var(--muted)" }}>
+              ℹ️ The 3D LUMINE-C™ product visual is rendered via CSS 3D transforms (bottle, orbs, ring). Product name, subtitle and vertical label are CMS-editable here. The visual styling is in the CSS for pixel-perfect pharmaceutical design.
+            </div>
+          </div>
+        )}
+
         {/* TRUST */}
         {form.type === "trust" && (
           <div style={{ display: "grid", gap: 12 }}>
-            <div><label style={labelStyle}>Badge 1</label><input style={inputStyle} value={String((content.badges as string[])?.[0] || "")} onChange={e => { const b = [...((content.badges as string[]) || ["", "", "", ""])]; b[0] = e.target.value; updateContent("badges", b); }} /></div>
-            <div><label style={labelStyle}>Badge 2</label><input style={inputStyle} value={String((content.badges as string[])?.[1] || "")} onChange={e => { const b = [...((content.badges as string[]) || ["", "", "", ""])]; b[1] = e.target.value; updateContent("badges", b); }} /></div>
-            <div><label style={labelStyle}>Badge 3</label><input style={inputStyle} value={String((content.badges as string[])?.[2] || "")} onChange={e => { const b = [...((content.badges as string[]) || ["", "", "", ""])]; b[2] = e.target.value; updateContent("badges", b); }} /></div>
-            <div><label style={labelStyle}>Badge 4</label><input style={inputStyle} value={String((content.badges as string[])?.[3] || "")} onChange={e => { const b = [...((content.badges as string[]) || ["", "", "", ""])]; b[3] = e.target.value; updateContent("badges", b); }} /></div>
+            {([0, 1, 2, 3, 4, 5] as const).map(i => (
+              <div key={i}><label style={labelStyle}>Badge {i + 1}</label><input style={inputStyle} value={String((content.badges as string[])?.[i] || "")} onChange={e => { const b = [...((content.badges as string[]) || ["", "", "", ""])]; b[i] = e.target.value; updateContent("badges", b); }} /></div>
+            ))}
+            <p style={{ fontSize: 11, color: "var(--muted)" }}>Leave empty to hide a badge slot.</p>
           </div>
         )}
 
@@ -110,7 +129,7 @@ export default function HomepageSectionEdit({ item, onSave }: Props) {
         {form.type === "collection" && (
           <div style={{ display: "grid", gap: 12 }}>
             <div><label style={labelStyle}>Eyebrow</label><input style={inputStyle} value={String(content.eyebrow || "")} onChange={e => updateContent("eyebrow", e.target.value)} /></div>
-            <div><label style={labelStyle}>Heading</label><input style={inputStyle} value={String(content.heading || "")} onChange={e => updateContent("heading", e.target.value)} /></div>
+            <div><label style={labelStyle}>Heading (supports &lt;em&gt;)</label><input style={inputStyle} value={String(content.heading || "")} onChange={e => updateContent("heading", e.target.value)} /></div>
             <div><label style={labelStyle}>CTA Text</label><input style={inputStyle} value={String(content.ctaText || "")} onChange={e => updateContent("ctaText", e.target.value)} /></div>
           </div>
         )}
@@ -118,16 +137,78 @@ export default function HomepageSectionEdit({ item, onSave }: Props) {
         {/* SCIENCE */}
         {form.type === "science" && (
           <div style={{ display: "grid", gap: 12 }}>
-            <div><label style={labelStyle}>Image URL</label><input style={inputStyle} value={String(content.imageUrl || "")} onChange={e => updateContent("imageUrl", e.target.value)} /></div>
+            <div><label style={labelStyle}>Background Image URL</label><input style={inputStyle} value={String(content.imageUrl || "")} onChange={e => updateContent("imageUrl", e.target.value)} /></div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
               <div><label style={labelStyle}>Stat (e.g. 97%)</label><input style={inputStyle} value={String(content.stat || "")} onChange={e => updateContent("stat", e.target.value)} /></div>
               <div><label style={labelStyle}>Stat Description</label><input style={inputStyle} value={String(content.statText || "")} onChange={e => updateContent("statText", e.target.value)} /></div>
             </div>
             <div><label style={labelStyle}>Eyebrow</label><input style={inputStyle} value={String(content.eyebrow || "")} onChange={e => updateContent("eyebrow", e.target.value)} /></div>
-            <div><label style={labelStyle}>Heading</label><input style={inputStyle} value={String(content.heading || "")} onChange={e => updateContent("heading", e.target.value)} /></div>
+            <div><label style={labelStyle}>Heading (supports &lt;em&gt;)</label><input style={inputStyle} value={String(content.heading || "")} onChange={e => updateContent("heading", e.target.value)} /></div>
             <div><label style={labelStyle}>Description</label><textarea style={{ ...inputStyle, minHeight: 80 }} value={String(content.description || "")} onChange={e => updateContent("description", e.target.value)} /></div>
+            {/* Principles */}
+            <div>
+              <label style={{ ...labelStyle, fontSize: 12, fontWeight: 700 }}>Principles (numbered features)</label>
+              {((content.principles as Array<Record<string, string>>) || []).map((p, i) => (
+                <div key={i} style={{ display: "grid", gridTemplateColumns: "40px 1fr", gap: 8, marginBottom: 8, padding: 8, background: "#fff", border: "1px solid var(--line)" }}>
+                  <input style={{ ...inputStyle, textAlign: "center" }} value={p.number || ""} onChange={e => { const ps = [...(content.principles as Array<Record<string, string>>) || []]; ps[i] = { ...ps[i], number: e.target.value }; updateContent("principles", ps); }} placeholder="#" />
+                  <div style={{ display: "grid", gap: 4 }}>
+                    <input style={inputStyle} value={p.title || ""} onChange={e => { const ps = [...(content.principles as Array<Record<string, string>>) || []]; ps[i] = { ...ps[i], title: e.target.value }; updateContent("principles", ps); }} placeholder="Title" />
+                    <input style={inputStyle} value={p.text || ""} onChange={e => { const ps = [...(content.principles as Array<Record<string, string>>) || []]; ps[i] = { ...ps[i], text: e.target.value }; updateContent("principles", ps); }} placeholder="Description" />
+                  </div>
+                </div>
+              ))}
+              <button onClick={() => { const ps = [...(content.principles as Array<Record<string, string>>) || []]; ps.push({ number: String(ps.length + 1).padStart(2, "0"), title: "", text: "" }); updateContent("principles", ps); }} style={{ border: "1px dashed var(--line)", background: "transparent", padding: "8px 16px", fontSize: 12, cursor: "pointer", color: "var(--purple)" }}>+ Add Principle</button>
+            </div>
             <div><label style={labelStyle}>CTA Text</label><input style={inputStyle} value={String(content.ctaText || "")} onChange={e => updateContent("ctaText", e.target.value)} /></div>
             <div><label style={labelStyle}>CTA Link</label><input style={inputStyle} value={String(content.ctaLink || "")} onChange={e => updateContent("ctaLink", e.target.value)} /></div>
+          </div>
+        )}
+
+        {/* RITUAL */}
+        {form.type === "ritual" && (
+          <div style={{ display: "grid", gap: 12 }}>
+            <div><label style={labelStyle}>Eyebrow</label><input style={inputStyle} value={String(content.eyebrow || "")} onChange={e => updateContent("eyebrow", e.target.value)} /></div>
+            <div><label style={labelStyle}>Heading (supports &lt;em&gt;)</label><input style={inputStyle} value={String(content.heading || "")} onChange={e => updateContent("heading", e.target.value)} /></div>
+            <div><label style={labelStyle}>Side Text</label><textarea style={{ ...inputStyle, minHeight: 60 }} value={String(content.sideText || "")} onChange={e => updateContent("sideText", e.target.value)} /></div>
+            <label style={{ ...labelStyle, fontSize: 12, fontWeight: 700, marginTop: 8 }}>Ritual Cards</label>
+            {((content.cards as Array<Record<string, string>>) || []).map((card, i) => (
+              <div key={i} style={{ padding: 12, background: "#fff", border: "1px solid var(--line)", display: "grid", gap: 8 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "60px 1fr 120px", gap: 8 }}>
+                  <input style={inputStyle} value={card.number || ""} onChange={e => { const cs = [...(content.cards as Array<Record<string, string>>) || []]; cs[i] = { ...cs[i], number: e.target.value }; updateContent("cards", cs); }} placeholder="01" />
+                  <input style={inputStyle} value={card.heading || ""} onChange={e => { const cs = [...(content.cards as Array<Record<string, string>>) || []]; cs[i] = { ...cs[i], heading: e.target.value }; updateContent("cards", cs); }} placeholder="Heading (HTML OK)" />
+                  <select style={inputStyle} value={card.color || "amber"} onChange={e => { const cs = [...(content.cards as Array<Record<string, string>>) || []]; cs[i] = { ...cs[i], color: e.target.value }; updateContent("cards", cs); }}>
+                    <option value="amber">Amber</option><option value="lavender">Lavender</option><option value="rose">Rose</option>
+                  </select>
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                  <input style={inputStyle} value={card.cta || ""} onChange={e => { const cs = [...(content.cards as Array<Record<string, string>>) || []]; cs[i] = { ...cs[i], cta: e.target.value }; updateContent("cards", cs); }} placeholder="CTA text" />
+                  <input style={inputStyle} value={card.link || ""} onChange={e => { const cs = [...(content.cards as Array<Record<string, string>>) || []]; cs[i] = { ...cs[i], link: e.target.value }; updateContent("cards", cs); }} placeholder="CTA link" />
+                </div>
+                <button onClick={() => { const cs = (content.cards as Array<Record<string, string>>) || []; updateContent("cards", cs.filter((_, j) => j !== i)); }} style={{ border: "1px solid #e2c3c3", background: "#fff", padding: "4px 10px", fontSize: 11, cursor: "pointer", color: "#b34141", alignSelf: "start" }}>Remove Card</button>
+              </div>
+            ))}
+            <button onClick={() => { const cs = [...(content.cards as Array<Record<string, string>>) || []]; cs.push({ number: String(cs.length + 1).padStart(2, "0"), heading: "", cta: "", link: "#collection", color: "amber" }); updateContent("cards", cs); }} style={{ border: "1px dashed var(--line)", background: "transparent", padding: "8px 16px", fontSize: 12, cursor: "pointer", color: "var(--purple)" }}>+ Add Card</button>
+          </div>
+        )}
+
+        {/* AFFILIATE */}
+        {form.type === "affiliate" && (
+          <div style={{ display: "grid", gap: 12 }}>
+            <div><label style={labelStyle}>Eyebrow</label><input style={inputStyle} value={String(content.eyebrow || "")} onChange={e => updateContent("eyebrow", e.target.value)} /></div>
+            <div><label style={labelStyle}>Heading</label><input style={inputStyle} value={String(content.heading || "")} onChange={e => updateContent("heading", e.target.value)} /></div>
+            <div><label style={labelStyle}>Description</label><textarea style={{ ...inputStyle, minHeight: 60 }} value={String(content.description || "")} onChange={e => updateContent("description", e.target.value)} /></div>
+            <label style={{ ...labelStyle, fontSize: 12, fontWeight: 700, marginTop: 8 }}>Stats (up to 3)</label>
+            {((content.stats as Array<Record<string, string>>) || []).map((stat, i) => (
+              <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                <input style={inputStyle} value={stat.value || ""} onChange={e => { const ss = [...(content.stats as Array<Record<string, string>>) || []]; ss[i] = { ...ss[i], value: e.target.value }; updateContent("stats", ss); }} placeholder="Value (e.g. 10%)" />
+                <input style={inputStyle} value={stat.label || ""} onChange={e => { const ss = [...(content.stats as Array<Record<string, string>>) || []]; ss[i] = { ...ss[i], label: e.target.value }; updateContent("stats", ss); }} placeholder="Label (e.g. Commission)" />
+              </div>
+            ))}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              <div><label style={labelStyle}>CTA Text</label><input style={inputStyle} value={String(content.ctaText || "")} onChange={e => updateContent("ctaText", e.target.value)} /></div>
+              <div><label style={labelStyle}>CTA Link</label><input style={inputStyle} value={String(content.ctaLink || "")} onChange={e => updateContent("ctaLink", e.target.value)} /></div>
+            </div>
+            <div><label style={labelStyle}>Image URL</label><input style={inputStyle} value={String(content.imageUrl || "")} onChange={e => updateContent("imageUrl", e.target.value)} /></div>
           </div>
         )}
 
@@ -155,11 +236,15 @@ export default function HomepageSectionEdit({ item, onSave }: Props) {
         {form.type === "consult" && (
           <div style={{ display: "grid", gap: 12 }}>
             <div><label style={labelStyle}>Eyebrow</label><input style={inputStyle} value={String(content.eyebrow || "")} onChange={e => updateContent("eyebrow", e.target.value)} /></div>
-            <div><label style={labelStyle}>Heading</label><input style={inputStyle} value={String(content.heading || "")} onChange={e => updateContent("heading", e.target.value)} /></div>
+            <div><label style={labelStyle}>Heading (supports &lt;br/&gt;)</label><input style={inputStyle} value={String(content.heading || "")} onChange={e => updateContent("heading", e.target.value)} /></div>
             <div><label style={labelStyle}>Description</label><textarea style={{ ...inputStyle, minHeight: 60 }} value={String(content.description || "")} onChange={e => updateContent("description", e.target.value)} /></div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-              <div><label style={labelStyle}>CTA Text</label><input style={inputStyle} value={String(content.ctaText || "")} onChange={e => updateContent("ctaText", e.target.value)} /></div>
-              <div><label style={labelStyle}>CTA Link</label><input style={inputStyle} value={String(content.ctaLink || "")} onChange={e => updateContent("ctaLink", e.target.value)} /></div>
+              <div><label style={labelStyle}>Primary CTA Text</label><input style={inputStyle} value={String(content.ctaText || "")} onChange={e => updateContent("ctaText", e.target.value)} /></div>
+              <div><label style={labelStyle}>Primary CTA Link</label><input style={inputStyle} value={String(content.ctaLink || "")} onChange={e => updateContent("ctaLink", e.target.value)} /></div>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              <div><label style={labelStyle}>Secondary CTA Text</label><input style={inputStyle} value={String(content.secondaryCtaText || "")} onChange={e => updateContent("secondaryCtaText", e.target.value)} placeholder="For healthcare professionals" /></div>
+              <div><label style={labelStyle}>Secondary CTA Link</label><input style={inputStyle} value={String(content.secondaryCtaLink || "")} onChange={e => updateContent("secondaryCtaLink", e.target.value)} placeholder="/doctors" /></div>
             </div>
             <div><label style={labelStyle}>Image URL</label><input style={inputStyle} value={String(content.imageUrl || "")} onChange={e => updateContent("imageUrl", e.target.value)} /></div>
           </div>
@@ -173,17 +258,6 @@ export default function HomepageSectionEdit({ item, onSave }: Props) {
               <div><label style={labelStyle}>Secondary Text</label><input style={inputStyle} value={String(content.secondaryText || "")} onChange={e => updateContent("secondaryText", e.target.value)} /></div>
               <div><label style={labelStyle}>Secondary Link</label><input style={inputStyle} value={String(content.secondaryLink || "")} onChange={e => updateContent("secondaryLink", e.target.value)} /></div>
             </div>
-          </div>
-        )}
-
-        {/* RITUAL */}
-        {form.type === "ritual" && (
-          <div style={{ display: "grid", gap: 12 }}>
-            <div><label style={labelStyle}>Eyebrow</label><input style={inputStyle} value={String(content.eyebrow || "")} onChange={e => updateContent("eyebrow", e.target.value)} /></div>
-            <div><label style={labelStyle}>Heading</label><input style={inputStyle} value={String(content.heading || "")} onChange={e => updateContent("heading", e.target.value)} /></div>
-            <div><label style={labelStyle}>Side Text</label><textarea style={{ ...inputStyle, minHeight: 60 }} value={String(content.sideText || "")} onChange={e => updateContent("sideText", e.target.value)} /></div>
-            <p style={{ fontSize: 11, color: "var(--muted)" }}>Card content is pre-configured. Edit headings and links in the JSON content field below.</p>
-            <div><label style={labelStyle}>Cards JSON</label><textarea style={{ ...inputStyle, minHeight: 120, fontFamily: "monospace", fontSize: 12 }} value={JSON.stringify(content.cards || [], null, 2)} onChange={e => { try { setContent({ ...content, cards: JSON.parse(e.target.value) }); } catch {} }} /></div>
           </div>
         )}
 
