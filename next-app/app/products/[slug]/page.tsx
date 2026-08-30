@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { store } from "@/lib/commerce/store";
 import { prisma } from "@/lib/prisma";
+import { fileDb } from "@/lib/commerce/file-db";
 import { aplusStore } from "@/lib/commerce/store-extensions";
 import AddToCartButton from "@/app/components/AddToCartButton";
 import ProductGallery from "@/app/components/ProductGallery";
