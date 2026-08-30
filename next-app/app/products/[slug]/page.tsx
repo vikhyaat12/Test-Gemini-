@@ -129,7 +129,12 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       {/* ─── GALLERY ─── */}
       <div className="detail-grid">
         <div className="product-gallery">
-          <ProductGallery mainImage={product.image} productName={product.name} images={images.map(img => ({ id: img.id, url: img.url, alt: img.alt || undefined }))} />
+          <ProductGallery
+            mainImage={product.image}
+            productName={product.name}
+            images={images.map(img => ({ id: img.id, url: img.url, alt: img.alt || undefined }))}
+            videos={videos.map(v => ({ id: v.id, url: v.url, title: v.title || undefined, posterUrl: v.posterUrl || undefined }))}
+          />
         </div>
 
         <div className="product-info">

@@ -2,13 +2,14 @@ import { json, requireUser } from "@/lib/http";
 import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
 import { existsSync, statSync } from "fs";
+import { mediaStore } from "@/lib/commerce/store-extensions";
 
 const UPLOAD_DIR = join(process.cwd(), "public", "uploads");
 
-const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
-const ALLOWED_VIDEO_TYPES = ["video/mp4", "video/webm"];
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/svg+xml", "image/avif"];
+const ALLOWED_VIDEO_TYPES = ["video/mp4", "video/webm", "video/quicktime", "video/x-matroska"];
 const ALLOWED_TYPES = [...ALLOWED_IMAGE_TYPES, ...ALLOWED_VIDEO_TYPES];
-const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB
+const MAX_IMAGE_SIZE = 15 * 1024 * 1024; // 15MB
 const MAX_VIDEO_SIZE = 100 * 1024 * 1024; // 100MB
 
 function detectImageDimensions(buffer: Buffer, ext: string): { width: number; height: number } | null {
@@ -164,6 +165,22 @@ export async function POST(request: Request) {
         if (dims) { width = dims.width; height = dims.height; }
         if (ext === "gif") { isAnimated = isGifAnimated(buffer); }
       }
+
+      // Index uploaded file in media store
+      try {
+        await mediaStore.create({
+          filename: filename,
+          type: isVideo ? "video" : "image",
+          url,
+          mimeType: mime || (isVideo ? "video/mp4" : "image/jpeg"),
+          size: file.size,
+          alt: file.name.replace(/\.[^.]+$/, ""),
+          title: file.name,
+          usedBy: folder,
+          visible: true,
+          createdAt: new Date().toISOString(),
+        });
+      } catch {}
 
       results.push({
         url,
