@@ -42,10 +42,10 @@ export async function PATCH(request: Request) {
 
   const body = await request.json().catch(() => ({}));
 
-  // Handle Attach action
-  if (body.action === "attach") {
+  // Handle Attach or Save Sections action
+  if (body.action === "attach" || body.action === "save_sections") {
     if (!body.productId) {
-      return json({ error: "productId is required to attach A+ content" }, 400);
+      return json({ error: "productId is required to attach/save A+ content" }, 400);
     }
     const updated = await aplusStore.attachToProduct(
       String(body.productId),
