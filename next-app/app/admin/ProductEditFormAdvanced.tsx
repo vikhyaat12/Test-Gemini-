@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
+import GlobalMediaUploader, { MediaItem } from "../components/GlobalMediaUploader";
 
 /* ─── ENHANCED PRODUCT EDIT FORM — TABBED ──────────────────────────────── */
 
 type SpecRow = { name: string; value: string };
 type APlusSection = {
+  id?: string;
   type: string;
   heading?: string;
   text?: string;
@@ -56,6 +58,22 @@ export function ProductEditFormAdvanced({ item, onSave }: { item: Record<string,
     if (Array.isArray(img)) return img.map(String);
     return form.image ? [String(form.image)] : [];
   });
+  const [videos, setVideos] = useState<MediaItem[]>(() => {
+    if (Array.isArray(form.videos)) {
+      return (form.videos as Record<string, unknown>[]).map((v, i) => ({
+        id: (v.id as string) || `vid-${i}`,
+        url: String(v.url || ""),
+        title: v.title ? String(v.title) : undefined,
+        posterUrl: v.posterUrl ? String(v.posterUrl) : undefined,
+      }));
+    }
+    if (form.video) {
+      return [{ id: "main-vid", url: String(form.video), posterUrl: form.videoPoster ? String(form.videoPoster) : undefined }];
+    }
+    return [];
+  });
+  const [aplusTemplatesList, setAplusTemplatesList] = useState<Array<{ id: string; title: string; sections: APlusSection[] }>>([]);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>(String(form.aplusTemplateId || ""));
   const [newImageUrl, setNewImageUrl] = useState("");
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState("");
@@ -65,6 +83,15 @@ export function ProductEditFormAdvanced({ item, onSave }: { item: Record<string,
   const [aplusSavedMsg, setAplusSavedMsg] = useState("");
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState("");
+
+  useEffect(() => {
+    fetch("/api/admin/aplus")
+      .then(r => r.json())
+      .then(d => {
+        if (d.templates) setAplusTemplatesList(d.templates);
+      })
+      .catch(() => {});
+  }, []);
 
   /* ── FILE UPLOAD HELPER ── */
   const uploadFiles = useCallback(async (files: FileList | File[], folder = "products"): Promise<string[]> => {
@@ -145,9 +172,13 @@ export function ProductEditFormAdvanced({ item, onSave }: { item: Record<string,
     const payload = {
       ...form,
       images: images,
-      image: images[0] || form.image,
+      image: images[0] || form.image || "",
+      videos: videos.map((v) => ({ id: v.id, url: v.url, title: v.title, posterUrl: v.posterUrl })),
+      video: videos[0]?.url || form.video || "",
+      videoPoster: videos[0]?.posterUrl || form.videoPoster || "",
       specifications: specs,
       aplusContent: aplusSections,
+      aplusTemplateId: selectedTemplateId || null,
       aplusPublished: aplusPublished,
       price: Number(form.price || 0),
       mrp: form.mrp ? Number(form.mrp) : undefined,
@@ -278,51 +309,29 @@ export function ProductEditFormAdvanced({ item, onSave }: { item: Record<string,
       {activeTab === "images" && (
         <div style={{ padding: 20, background: "#faf9f7", border: "1px solid var(--line)" }}>
           <h4 style={{ font: "14px var(--font-display)", marginBottom: 4, color: "var(--purple)" }}>
-            Product Images ({images.length})
+            Product Images & Gallery ({images.length})
           </h4>
-          <p style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>
-            The first image is the primary/main image. Drag to reorder. All images appear in the product gallery.
+          <p style={{ fontSize: 12, color: "var(--muted)", marginBottom: 14 }}>
+            The first image is the primary/featured product photo. Add, reorder, or replace product photos.
           </p>
-          <p style={{ fontSize: 10, color: "var(--muted)", marginBottom: 14, padding: "6px 10px", background: "#fff", border: "1px solid var(--line)" }}>
-            📐 Recommended: <strong>1500 × 1500 px</strong> · Ratio: <strong>1:1</strong> · Formats: <strong>JPG, PNG, WEBP, GIF</strong> · Max: <strong>10 MB</strong>
-          </p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
-            <label style={{ padding: "10px 16px", background: "var(--gold)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 6 }}>
-              📤 Upload Image
-              <input type="file" accept="image/*" multiple hidden onChange={async e => {
-                if (!e.target.files?.length) return;
-                const urls = await uploadFiles(e.target.files, "products");
-                if (urls.length) setImages([...images, ...urls]);
-                e.target.value = "";
-              }} />
-            </label>
-            <span style={{ fontSize: 11, color: "var(--muted)", alignSelf: "center" }}>or paste a URL:</span>
-            <input style={{ ...inputStyle, flex: 1, minWidth: 200 }} value={newImageUrl} onChange={e => setNewImageUrl(e.target.value)}
-              placeholder="https://images.unsplash.com/..." onKeyDown={e => e.key === "Enter" && addImage()} />
-            <button onClick={addImage}
-              style={{ padding: "10px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, fontWeight: 600 }}>+ Add URL</button>
-          </div>
-          {images.length > 0 ? (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 12 }}>
-              {images.map((url, idx) => (
-                <div key={idx} style={{ border: "2px solid " + (idx === 0 ? "var(--gold)" : "var(--line)"), padding: 8, background: "#fff", position: "relative" }}>
-                  {idx === 0 && <span style={{ fontSize: 9, fontWeight: 700, background: "var(--gold)", color: "#fff", padding: "2px 8px", position: "absolute", top: 8, left: 8, letterSpacing: ".05em" }}>★ PRIMARY</span>}
-                  <div style={{ height: 120, background: `url(${url}) center/contain no-repeat #f5f0eb`, marginBottom: 6, borderRadius: 2 }} />
-                  <p style={{ fontSize: 9, color: "var(--muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", margin: "0 0 6px" }}>{url}</p>
-                  <div style={{ display: "flex", gap: 4 }}>
-                    <button onClick={() => moveImage(idx, -1)} disabled={idx === 0} title="Move left" style={{ flex: 1, fontSize: 11, padding: "4px", border: "1px solid #ddd", background: "#fff", cursor: "pointer" }}>◀</button>
-                    <button onClick={() => moveImage(idx, 1)} disabled={idx === images.length - 1} title="Move right" style={{ flex: 1, fontSize: 11, padding: "4px", border: "1px solid #ddd", background: "#fff", cursor: "pointer" }}>▶</button>
-                    <button onClick={() => removeImage(idx)} title="Remove image" style={{ flex: 1, fontSize: 11, padding: "4px", border: "1px solid #e2c3c3", background: "#fff", color: "#b34141", cursor: "pointer" }}>✕</button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div style={{ padding: 40, textAlign: "center", border: "2px dashed var(--line)", color: "var(--muted)" }}>
-              <p style={{ fontSize: 14 }}>No images yet. Paste an image URL above to add.</p>
-              <p style={{ fontSize: 12 }}>Supports any image URL (Unsplash, Cloudinary, uploaded files, etc.)</p>
-            </div>
-          )}
+          <GlobalMediaUploader
+            label="Product Images"
+            preset="product_image"
+            multiple
+            value={images}
+            onChange={(val) => {
+              const urls = Array.isArray(val)
+                ? val.map((v) => (typeof v === "string" ? v : v.url))
+                : typeof val === "string" && val
+                ? [val]
+                : [];
+              setImages(urls);
+              if (urls.length > 0) {
+                setForm((prev) => ({ ...prev, image: urls[0], images: urls }));
+              }
+            }}
+            folder="products"
+          />
         </div>
       )}
 
@@ -331,58 +340,44 @@ export function ProductEditFormAdvanced({ item, onSave }: { item: Record<string,
       {/* ═══════════════════════════════════════════════════════════════════════ */}
       {activeTab === "media" && (
         <div style={{ padding: 20, background: "#faf9f7", border: "1px solid var(--line)" }}>
-          <h4 style={{ font: "14px var(--font-display)", marginBottom: 6, color: "var(--purple)" }}>Video & 3D Model</h4>
-          <p style={{ fontSize: 10, color: "var(--muted)", marginBottom: 14, padding: "6px 10px", background: "#fff", border: "1px solid var(--line)" }}>
-            🎬 Video recommended: <strong>1920 × 1080 px</strong> · Formats: <strong>MP4, WEBP</strong> · Max: <strong>100 MB</strong>
+          <h4 style={{ font: "14px var(--font-display)", marginBottom: 4, color: "var(--purple)" }}>
+            Product Videos & 3D Interactive Media ({videos.length})
+          </h4>
+          <p style={{ fontSize: 12, color: "var(--muted)", marginBottom: 14 }}>
+            Upload direct MP4 videos or paste YouTube / Vimeo URLs. These will appear in the Amazon-style gallery with video badges on the public product page.
           </p>
-          <div style={{ display: "grid", gap: 16 }}>
-            <div>
-              <label style={labelStyle}>Product Video (Upload or URL)</label>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 8 }}>
-                <label style={{ padding: "10px 16px", background: "var(--gold)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 6 }}>
-                  📤 Upload Video
-                  <input type="file" accept="video/*" hidden onChange={async e => {
-                    if (!e.target.files?.length) return;
-                    const urls = await uploadFiles(e.target.files, "products");
-                    if (urls.length) setForm({ ...form, video: urls[0] });
-                    e.target.value = "";
-                  }} />
-                </label>
-                <span style={{ fontSize: 11, color: "var(--muted)", alignSelf: "center" }}>or paste a URL:</span>
-              </div>
-              <input style={inputStyle} value={String(form.video || "")} onChange={e => setForm({ ...form, video: e.target.value })}
-                placeholder="https://youtube.com/watch?v=... or uploaded video path" />
-              {Boolean(form.video) && (
-                <div style={{ marginTop: 8 }}>
-                  {String(form.video).includes(".mp4") || String(form.video).includes(".webm") ? (
-                    <video src={String(form.video)} controls style={{ width: "100%", maxHeight: 300, background: "#000" }} poster={String(form.videoPoster || "")} />
-                  ) : (
-                    <p style={{ fontSize: 11, color: "#4caf50" }}>✓ Video URL set — will appear on public product page</p>
-                  )}
-                </div>
-              )}
-            </div>
-            <div>
-              <label style={labelStyle}>Video Thumbnail / Poster (optional)</label>
-              <div style={{ display: "flex", gap: 8 }}>
-                <label style={{ padding: "8px 14px", background: "var(--gold)", color: "#fff", border: "none", cursor: "pointer", fontSize: 11, fontWeight: 600 }}>
-                  📤 Upload Thumbnail
-                  <input type="file" accept="image/*" hidden onChange={async e => {
-                    if (!e.target.files?.length) return;
-                    const urls = await uploadFiles(e.target.files, "products");
-                    if (urls.length) setForm({ ...form, videoPoster: urls[0] });
-                    e.target.value = "";
-                  }} />
-                </label>
-                <input style={{ ...inputStyle, flex: 1 }} value={String(form.videoPoster || "")} onChange={e => setForm({ ...form, videoPoster: e.target.value })}
-                  placeholder="Poster/thumbnail URL" />
-              </div>
-            </div>
-            <div>
-              <label style={labelStyle}>3D Model URL (GLB / GLTF)</label>
-              <input style={inputStyle} value={String(form.modelUrl || "")} onChange={e => setForm({ ...form, modelUrl: e.target.value })}
-                placeholder="/models/product.glb" />
-            </div>
+          <GlobalMediaUploader
+            label="Product Videos"
+            preset="product_video"
+            multiple
+            allowVideo
+            value={videos}
+            onChange={(val) => {
+              const list: MediaItem[] = Array.isArray(val)
+                ? val.map((v) => (typeof v === "string" ? { url: v } : v))
+                : typeof val === "string" && val
+                ? [{ url: val }]
+                : [];
+              setVideos(list);
+              if (list.length > 0) {
+                setForm((prev) => ({
+                  ...prev,
+                  video: list[0].url,
+                  videoPoster: list[0].posterUrl || "",
+                }));
+              }
+            }}
+            folder="products"
+          />
+
+          <div style={{ marginTop: 20, borderTop: "1px solid var(--line)", paddingTop: 16 }}>
+            <label style={labelStyle}>3D Interactive Model URL (GLB / GLTF)</label>
+            <input
+              style={inputStyle}
+              value={String(form.modelUrl || "")}
+              onChange={(e) => setForm({ ...form, modelUrl: e.target.value })}
+              placeholder="/models/product.glb or https://..."
+            />
           </div>
         </div>
       )}
@@ -489,9 +484,44 @@ export function ProductEditFormAdvanced({ item, onSave }: { item: Record<string,
             {aplusSavedMsg && (
               <p style={{ margin: "8px 0 0", fontSize: 12, color: "#2e7d32", fontWeight: 600 }}>{aplusSavedMsg}</p>
             )}
-            <p style={{ fontSize: 11, color: "var(--muted)", margin: "8px 0 0" }}>
-              This A+ Content is attached to <strong>{String(form.name || "this product")}</strong> and appears on its public product detail page below the main product information.
-            </p>
+          </div>
+
+          {/* ── ATTACH TEMPLATE DROPDOWN CARD ── */}
+          <div style={{ padding: 14, background: "#f0f7ff", border: "1px solid #b3d7ff", marginBottom: 20 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10 }}>
+              <div>
+                <b style={{ fontSize: 13, color: "#004085", display: "block" }}>🔗 Attach Reusable A+ Content Template</b>
+                <span style={{ fontSize: 11, color: "#383d41" }}>Quickly apply an existing A+ story template (e.g. Clinical Rigor, Botanical Purity) to this product.</span>
+              </div>
+              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                <select
+                  value={selectedTemplateId}
+                  onChange={(e) => setSelectedTemplateId(e.target.value)}
+                  style={{ padding: "6px 10px", border: "1px solid #b3d7ff", fontSize: 12, background: "#fff" }}
+                >
+                  <option value="">-- Choose A+ Template --</option>
+                  {aplusTemplatesList.map((t) => (
+                    <option key={t.id} value={t.id}>{t.title} ({t.sections?.length || 0} sections)</option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const found = aplusTemplatesList.find((t) => t.id === selectedTemplateId);
+                    if (found) {
+                      setAplusSections(found.sections);
+                      setAplusPublished(true);
+                      setForm((prev) => ({ ...prev, aplusTemplateId: found.id, aplusPublished: true }));
+                      setAplusSavedMsg(`Attached template: "${found.title}". Click Save Product to persist.`);
+                    }
+                  }}
+                  disabled={!selectedTemplateId}
+                  style={{ padding: "6px 14px", background: "var(--purple)", color: "#fff", border: "none", fontSize: 12, fontWeight: 600, cursor: selectedTemplateId ? "pointer" : "not-allowed" }}
+                >
+                  Apply Template 🔗
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* ── SECTION TYPE PICKER ── */}
@@ -566,54 +596,29 @@ export function ProductEditFormAdvanced({ item, onSave }: { item: Record<string,
                               placeholder="e.g. Why Choose Lumine-C" />
                           </div>
 
-                          {/* Type-specific fields */}
+                          {/* Media Field */}
+                          <div>
+                            <GlobalMediaUploader
+                              label="Section Media (Image or Video)"
+                              preset={sec.type === "hero" ? "aplus_hero" : "general"}
+                              value={sec.imageUrl || sec.videoUrl || ""}
+                              onChange={(val) => {
+                                const url = typeof val === "string" ? val : Array.isArray(val) ? (typeof val[0] === "string" ? val[0] : val[0]?.url) : "";
+                                if (url.includes(".mp4") || url.includes("youtu") || url.includes("vimeo")) {
+                                  updateAplus(idx, { videoUrl: url, imageUrl: url });
+                                } else {
+                                  updateAplus(idx, { imageUrl: url });
+                                }
+                              }}
+                              folder="aplus"
+                            />
+                          </div>
+
                           {(sec.type === "hero" || sec.type === "fullWidth") && (
-                            <>
-                              <div>
-                                <label style={labelStyle}>Media — Image or Video</label>
-                                <p style={{ fontSize: 10, color: "var(--muted)", margin: "0 0 6px" }}>
-                                  📐 Recommended: <strong>1464 × 600 px</strong> · Ratio: <strong>~2.4:1</strong> · Formats: <strong>JPG, PNG, WEBP, GIF, MP4</strong> · Max: <strong>10 MB</strong>
-                                </p>
-                                <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
-                                  <label style={{ padding: "8px 14px", background: "var(--gold)", color: "#fff", border: "none", cursor: "pointer", fontSize: 11, fontWeight: 600 }}>
-                                    📤 Upload Image
-                                    <input type="file" accept="image/*" hidden onChange={async e => {
-                                      if (!e.target.files?.length) return;
-                                      const urls = await uploadFiles(e.target.files, "products");
-                                      if (urls.length) updateAplus(idx, { imageUrl: urls[0] });
-                                      e.target.value = "";
-                                    }} />
-                                  </label>
-                                  <label style={{ padding: "8px 14px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 11, fontWeight: 600 }}>
-                                    📤 Upload Video
-                                    <input type="file" accept="video/*" hidden onChange={async e => {
-                                      if (!e.target.files?.length) return;
-                                      const urls = await uploadFiles(e.target.files, "products");
-                                      if (urls.length) updateAplus(idx, { videoUrl: urls[0], imageUrl: "" });
-                                      e.target.value = "";
-                                    }} />
-                                  </label>
-                                </div>
-                                <input style={inputStyle} value={sec.imageUrl || sec.videoUrl || ""} onChange={e => {
-                                  const val = e.target.value;
-                                  if (val.includes(".mp4") || val.includes(".webm")) updateAplus(idx, { videoUrl: val, imageUrl: "" });
-                                  else updateAplus(idx, { imageUrl: val, videoUrl: "" });
-                                }}
-                                  placeholder="Image URL or Video URL" />
-                                {sec.imageUrl && <img src={sec.imageUrl} alt={sec.imageAlt || ""} style={{ width: "100%", maxHeight: 200, objectFit: "cover", marginTop: 8, border: "1px solid var(--line)" }} />}
-                                {sec.videoUrl && !sec.imageUrl && (
-                                  <video src={sec.videoUrl} controls style={{ width: "100%", maxHeight: 200, marginTop: 8, background: "#000" }} />
-                                )}
-                              </div>
-                              <div>
-                                <label style={labelStyle}>Alt Text</label>
-                                <input style={inputStyle} value={sec.imageAlt || ""} onChange={e => updateAplus(idx, { imageAlt: e.target.value })} placeholder="Describe the image" />
-                              </div>
-                              <div>
-                                <label style={labelStyle}>Overlay Text (optional)</label>
-                                <input style={inputStyle} value={sec.text || ""} onChange={e => updateAplus(idx, { text: e.target.value })} placeholder="Text overlay on the hero image" />
-                              </div>
-                            </>
+                            <div>
+                              <label style={labelStyle}>Overlay / Subtext (optional)</label>
+                              <input style={inputStyle} value={sec.text || ""} onChange={e => updateAplus(idx, { text: e.target.value })} placeholder="Text overlay on the hero image" />
+                            </div>
                           )}
 
                           {sec.type === "imageText" && (

@@ -36,6 +36,7 @@ export interface LocalDbSchema {
   paymentGateways: Array<Record<string, unknown>>;
   shippingProviders: Array<Record<string, unknown>>;
   shippingRules: Array<Record<string, unknown>>;
+  aplusTemplates: Array<Record<string, unknown>>;
 }
 
 const now = () => new Date().toISOString();
@@ -839,6 +840,93 @@ const initialSeedData: LocalDbSchema = {
       estimatedDaysNonMetro: "4-6 business days",
       serviceablePincodes: ["*"],
       active: true,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+  ],
+  aplusTemplates: [
+    {
+      id: "aplus-clinical-rigor",
+      title: "Pharmaceutical Rigor & Clinical Protocol",
+      description: "Comprehensive scientific backing, clinical comparison, and multi-stage testing protocol.",
+      category: "Science & Clinical",
+      published: true,
+      sections: [
+        {
+          id: "sec-hero-1",
+          type: "hero",
+          heading: "Science with Soul: Pharmaceutical Rigor in Every Batch",
+          text: "Engineered in our state-of-the-art laboratory in Mumbai. Validated by clinical dermatologists and pharmacists for high bioavailability and unmatched safety.",
+          imageUrl: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          imageAlt: "Queens Care Laboratory Clinical Rigor",
+          published: true,
+        },
+        {
+          id: "sec-imgtext-1",
+          type: "imageText",
+          heading: "Molecular Precision Formulation",
+          text: "Each active ingredient is stabilized using cold-process encapsulation. This shields vulnerable antioxidants like L-Ascorbic Acid and Hyaluronic polymers from oxidation, ensuring maximum cellular delivery upon topical application.",
+          imageUrl: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1000&q=85",
+          imageAlt: "Molecular Precision",
+          published: true,
+        },
+        {
+          id: "sec-benefits-1",
+          type: "benefits",
+          heading: "The Queens Care Quality Standard",
+          items: [
+            "✦ 100% Traceable Botanical & Active Ingredients",
+            "✦ Third-Party Multi-Heavy Metal & Microbiological Screened",
+            "✦ 0% Parabens, Phthalates, Sulfates, or Synthetic Dyes",
+            "✦ Cruelty-Free & Dermatologically Tested on Indian Skin Tones",
+          ],
+          published: true,
+        },
+        {
+          id: "sec-comp-1",
+          type: "comparison",
+          heading: "How Queens Care Compares to Generic Market Alternatives",
+          items: [
+            "Queens Care: High-purity pharmaceutical grade actives",
+            "Market Generic: Diluted cosmetic grade fillers",
+            "Queens Care: Micro-encapsulated stable formulation",
+            "Market Generic: Unshielded formulas prone to oxidation",
+            "Queens Care: Third-party certificate of analysis for every batch",
+            "Market Generic: Self-reported unverified claims",
+          ],
+          published: true,
+        },
+      ],
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "aplus-botanical-purity",
+      title: "Botanical Sourcing & Sustainable Extraction",
+      description: "Highlighting organic harvest, sustainable sourcing, and gentle supercritical fluid extraction.",
+      category: "Ingredients & Sourcing",
+      published: true,
+      sections: [
+        {
+          id: "sec-hero-2",
+          type: "hero",
+          heading: "Rooted in Nature. Perfected by Advanced Science.",
+          text: "We harvest potent wildcrafted botanicals across sustainable Indian agricultural belts and refine them under cleanroom conditions.",
+          imageUrl: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=1600&q=85",
+          published: true,
+        },
+        {
+          id: "sec-highlights-1",
+          type: "highlights",
+          heading: "Sustainable Extraction Highlights",
+          items: [
+            "Supercritical CO2 Extraction preserves fragile phytonutrients without chemical solvents.",
+            "Direct Fair-Trade partnerships with generational herb farmers.",
+            "Batch-level QR traceability right back to the harvest origin.",
+          ],
+          published: true,
+        },
+      ],
       createdAt: now(),
       updatedAt: now(),
     },

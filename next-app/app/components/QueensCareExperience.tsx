@@ -50,11 +50,13 @@ export default function QueensCareExperience() {
   const [cartCount, setCartCount] = useState(0);
   const [wish, setWish] = useState<string[]>([]);
   const [search, setSearch] = useState("");
-  const [logoUrl, setLogoUrl] = useState("");
   const [notice, setNotice] = useState("");
   const [menu, setMenu] = useState(false);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<{name?:string;email?:string;role?:string} | null>(null);
+  const [logoUrl, setLogoUrl] = useState<string>("");
+  const [logoHeight, setLogoHeight] = useState<string>("34px");
+  const [logoMaxWidth, setLogoMaxWidth] = useState<string>("180px");
   const [hpSections, setHpSections] = useState<Record<string, unknown>[]>([]);
 
   useEffect(() => {
@@ -65,6 +67,8 @@ export default function QueensCareExperience() {
         if(s.key==='theme_primary' && s.value) document.documentElement.style.setProperty('--purple', s.value);
         if(s.key==='theme_gold' && s.value) document.documentElement.style.setProperty('--gold', s.value);
         if(s.key==='logo_url' && s.value) setLogoUrl(s.value);
+        if(s.key==='logo_height_desktop' && s.value) setLogoHeight(`${s.value}px`);
+        if(s.key==='logo_max_width' && s.value) setLogoMaxWidth(`${s.value}px`);
       });
     }).catch(()=>{});
     fetch("/api/homepage").then(r=>r.json()).then(d=>{ if(d.sections?.length) setHpSections(d.sections); }).catch(()=>{});
@@ -121,7 +125,7 @@ export default function QueensCareExperience() {
   
   return <div className="site-shell">
     <div className="announcement"><span>{getHpContent("banner").text || "Complimentary delivery on orders above ₹1,500"}</span><DeliveryTimer/><Link href={getHpContent("banner").secondaryLink || "/doctors"}>{getHpContent("banner").secondaryText || "For healthcare professionals"} →</Link></div>
-    <header className="nav-wrap"><Link href="/" className="brand" aria-label="Queens Care home">{logoUrl ? <img src={logoUrl} alt="Queens Care" style={{width:34,height:34,borderRadius:'50%',objectFit:'cover'}} /> : <i>Q</i>}<span>QUEENS<br/><b>CARE</b></span></Link><nav className={menu ? "open" : ""}><a href="#collection">Shop</a><Link href="/about">About</Link><a href="#science">Our science</a><Link href="/blog">Journal</Link><Link href="/b2b">Partners</Link><Link href="/affiliate">Affiliate</Link><Link href="/doctors">Doctors</Link><Link href="/employee">Our Team</Link><Link href="/contact">Contact</Link></nav><div className="nav-actions"><Link href="/account" style={{fontSize:12, textDecoration:'none', color:'var(--ink)', marginRight:8, display:'flex', alignItems:'center', gap:4}} aria-label="Account">{user ? <span title={user.email}>Account</span> : <span>Sign In</span>}</Link><label className="search"><Icon>⌕</Icon><input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search care" aria-label="Search products" /></label><button className="icon-button" onClick={() => setNotice(wish.length ? `${wish.length} saved product${wish.length > 1 ? "s" : ""}.` : "Your saved list is waiting for its first ritual.")} aria-label="View wishlist">♡<em>{wish.length || ""}</em></button><CartBadge /><button className="bag-dummy" onClick={() => setNotice(cartCount ? `${cartCount} item${cartCount > 1 ? "s" : ""} in your care bag — checkout is ready.` : "Your care bag is empty.")}>Bag <b>{cartCount}</b></button><button className="menu" onClick={() => setMenu(!menu)} aria-label="Toggle navigation">☰</button></div></header>
+    <header className="nav-wrap"><Link href="/" className="brand" aria-label="Queens Care home">{logoUrl ? <img src={logoUrl} alt="Queens Care" style={{height:logoHeight,maxWidth:logoMaxWidth,objectFit:'contain'}} /> : <i>Q</i>}<span>QUEENS<br/><b>CARE</b></span></Link><nav className={menu ? "open" : ""}><a href="#collection">Shop</a><Link href="/about">About</Link><a href="#science">Our science</a><Link href="/blog">Journal</Link><Link href="/b2b">Partners</Link><Link href="/affiliate">Affiliate</Link><Link href="/doctors">Doctors</Link><Link href="/employee">Our Team</Link><Link href="/contact">Contact</Link></nav><div className="nav-actions"><Link href="/account" style={{fontSize:12, textDecoration:'none', color:'var(--ink)', marginRight:8, display:'flex', alignItems:'center', gap:4}} aria-label="Account">{user ? <span title={user.email}>Account</span> : <span>Sign In</span>}</Link><label className="search"><Icon>⌕</Icon><input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search care" aria-label="Search products" /></label><button className="icon-button" onClick={() => setNotice(wish.length ? `${wish.length} saved product${wish.length > 1 ? "s" : ""}.` : "Your saved list is waiting for its first ritual.")} aria-label="View wishlist">♡<em>{wish.length || ""}</em></button><CartBadge /><button className="bag-dummy" onClick={() => setNotice(cartCount ? `${cartCount} item${cartCount > 1 ? "s" : ""} in your care bag — checkout is ready.` : "Your care bag is empty.")}>Bag <b>{cartCount}</b></button><button className="menu" onClick={() => setMenu(!menu)} aria-label="Toggle navigation">☰</button></div></header>
     {notice && <div className="toast" role="status">{notice}<button onClick={() => setNotice("")}>×</button></div>}
     <main><CareScene />
       <section className="hero"><div className="hero-copy"><p className="eyebrow">{getHpContent("hero").eyebrow || "A higher standard of everyday care"}</p><h1 dangerouslySetInnerHTML={{ __html: getHpContent("hero").heading || "Science, made <em>personal.</em>" }} /><p className="lead">{getHpContent("hero").subtitle || "Intelligent formulations that turn your daily health rituals into small, powerful acts of self-respect."}</p><div className="hero-ctas"><a href={getHpContent("hero").ctaLink || "#collection"} className="button">{getHpContent("hero").ctaText || "Explore the collection"} <span>→</span></a><a href={getHpContent("hero").secondaryLink || "#science"} className="text-link">{getHpContent("hero").secondaryText || "How we formulate"} <span>↗</span></a></div><div className="ratings"><div className="avatars"><span>R</span><span>S</span><span>A</span></div><p><b>{getHpContent("hero").rating || "4.9 / 5"}</b> from {getHpContent("hero").ratingCount || "12,000+ care rituals"}</p></div></div><div className="hero-visual" aria-label="Abstract three dimensional pharmaceutical bottle composition"><div className="orb orb-one"/><div className="orb orb-two"/><div className="ring"/><div className="bottle"><div className="cap"/><div className="bottle-label"><i>Q</i><small>QUEENS CARE</small><b>LUMINE-C™</b><span>Radiance serum</span></div></div><p className="vertical-label">FORMULATED WITH INTENTION</p></div></section>
@@ -235,7 +239,7 @@ export default function QueensCareExperience() {
     </main>
     <footer>
       <div className="footer-top">
-        <Link href="/" className="brand inverse">{logoUrl ? <img src={logoUrl} alt="Queens Care" style={{width:41,height:41,borderRadius:'50%',objectFit:'cover'}} /> : <i>Q</i>}<span>QUEENS<br/><b>CARE</b></span></Link>
+        <Link href="/" className="brand inverse">{logoUrl ? <img src={logoUrl} alt="Queens Care" style={{height:logoHeight,maxWidth:logoMaxWidth,objectFit:'contain'}} /> : <i>Q</i>}<span>QUEENS<br/><b>CARE</b></span></Link>
         <p>Care is a practice.<br/>Make it <em>yours.</em></p>
         <form onSubmit={subscribe}>
           <label htmlFor="footer-email">A considered note, once in a while.</label>

@@ -1,212 +1,246 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
+import GlobalMediaUploader from "../components/GlobalMediaUploader";
 
-const DEFAULT_LOGO = ""; // empty = use fallback "Q" icon
-
-export default function LogoManager({ onSave }: { onSave: () => void }) {
-  const [currentLogo, setCurrentLogo] = useState("");
-  const [newUrl, setNewUrl] = useState("");
+export default function LogoManager({ onSave }: { onSave?: () => void }) {
+  const [logoUrl, setLogoUrl] = useState("");
+  const [desktopHeight, setDesktopHeight] = useState("36");
+  const [mobileHeight, setMobileHeight] = useState("28");
+  const [maxWidth, setMaxWidth] = useState("180");
   const [saving, setSaving] = useState(false);
-  const [msg, setMsg] = useState("");
-  const [isError, setIsError] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const fileRef = useRef<HTMLInputElement>(null);
+  const [feedback, setFeedback] = useState<{ msg: string; type: "success" | "error" } | null>(null);
 
   useEffect(() => {
     fetch("/api/settings")
-      .then(r => r.json())
-      .then(d => {
-        const logo = d.settings?.find((s: Record<string, unknown>) => s.key === "logo_url");
-        if (logo?.value) setCurrentLogo(String(logo.value));
+      .then((r) => r.json())
+      .then((d) => {
+        const settings = d.settings || [];
+        const logo = settings.find((s: Record<string, unknown>) => s.key === "logo_url");
+        if (logo?.value) setLogoUrl(String(logo.value));
+
+        const dh = settings.find((s: Record<string, unknown>) => s.key === "logo_height_desktop");
+        if (dh?.value) setDesktopHeight(String(dh.value));
+
+        const mh = settings.find((s: Record<string, unknown>) => s.key === "logo_height_mobile");
+        if (mh?.value) setMobileHeight(String(mh.value));
+
+        const mw = settings.find((s: Record<string, unknown>) => s.key === "logo_max_width");
+        if (mw?.value) setMaxWidth(String(mw.value));
       })
       .catch(() => {});
   }, []);
 
-  const saveLogo = async (value: string) => {
+  const handleSave = async () => {
     setSaving(true);
-    setIsError(false);
-    setMsg("");
+    setFeedback(null);
     try {
-      const res = await fetch("/api/admin/settings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ key: "logo_url", value, group: "branding" }),
-      });
-      if (res.ok) {
-        setCurrentLogo(value);
-        setMsg("Logo saved successfully!");
-        setTimeout(() => { onSave(); }, 300);
-      } else {
-        setIsError(true);
-        setMsg("Failed to save logo.");
-      }
-    } catch {
-      setIsError(true);
-      setMsg("Network error.");
-    }
-    setSaving(false);
-  };
+      const itemsToSave = [
+        { key: "logo_url", value: logoUrl, group: "branding" },
+        { key: "logo_height_desktop", value: desktopHeight, group: "branding" },
+        { key: "logo_height_mobile", value: mobileHeight, group: "branding" },
+        { key: "logo_max_width", value: maxWidth, group: "branding" },
+      ];
 
-  const handleUpload = async (files: FileList | null) => {
-    if (!files?.length) return;
-    setUploading(true);
-    const formData = new FormData();
-    Array.from(files).forEach(f => formData.append("files", f));
-    formData.append("folder", "logos");
-    try {
-      const res = await fetch("/api/upload", { method: "POST", body: formData });
-      const data = await res.json();
-      if (res.ok && data.files?.length) {
-        const url = data.files[0].url;
-        setNewUrl(url);
-        await saveLogo(url);
-      } else {
-        setIsError(true);
-        setMsg("Upload failed: " + (data.error || "Unknown error"));
+      for (const item of itemsToSave) {
+        await fetch("/api/admin/settings", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(item),
+        });
       }
-    } catch {
-      setIsError(true);
-      setMsg("Upload failed: network error");
-    }
-    setUploading(false);
-    if (fileRef.current) fileRef.current.value = "";
-  };
 
-  const handleSaveUrl = async () => {
-    if (!newUrl.trim()) {
-      setIsError(true);
-      setMsg("Please enter a logo URL.");
-      return;
+      setFeedback({ msg: "Brand logo & dimensions saved successfully! Changes are active across public header and footer.", type: "success" });
+      if (onSave) onSave();
+    } catch {
+      setFeedback({ msg: "Network error while saving logo settings.", type: "error" });
+    } finally {
+      setSaving(false);
     }
-    await saveLogo(newUrl.trim());
   };
 
   const handleReset = async () => {
-    await saveLogo(DEFAULT_LOGO);
-    setNewUrl("");
-    setMsg("Logo reset to default. The site will show the fallback brand icon.");
+    if (!confirm("Reset logo to default brand icon?")) return;
+    setLogoUrl("");
+    setDesktopHeight("36");
+    setMobileHeight("28");
+    setMaxWidth("180");
+    await fetch("/api/admin/settings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key: "logo_url", value: "", group: "branding" }),
+    });
+    setFeedback({ msg: "Logo reset to default fallback icon.", type: "success" });
+    if (onSave) onSave();
   };
 
   return (
-    <div style={{
-      padding: 24, background: "#fff", border: "2px solid var(--line)", marginBottom: 24, maxWidth: 700,
-    }}>
-      <h3 style={{ font: "18px var(--font-display)", margin: "0 0 4px", color: "var(--purple)" }}>
-        🖼️ Logo Management
-      </h3>
-      <p style={{ fontSize: 12, color: "var(--muted)", margin: "0 0 20px" }}>
-        Upload a new logo or enter a URL. Changes appear on the public website header and footer immediately.
-      </p>
-
-      {msg && (
-        <p style={{
-          padding: "8px 12px", marginBottom: 16, fontSize: 12, fontWeight: 500,
-          background: isError ? "#fde8e8" : "#e9f7e9", color: isError ? "#b34141" : "#2e7d32",
-          border: `1px solid ${isError ? "#f8b4b4" : "#c3e6cb"}`,
-        }}>{msg}</p>
-      )}
-
-      {/* Current Logo Preview */}
-      <div style={{ display: "flex", gap: 20, alignItems: "flex-start", marginBottom: 20 }}>
-        <div style={{ flexShrink: 0 }}>
-          <p style={{ fontSize: 11, fontWeight: 600, marginBottom: 6, textTransform: "uppercase" as const, letterSpacing: ".06em", color: "var(--muted)" }}>
-            Current Logo
-          </p>
-          <div style={{
-            width: 80, height: 80, border: "2px solid var(--line)", borderRadius: 8,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            background: currentLogo ? "#fff" : "#f5f0eb", overflow: "hidden",
-          }}>
-            {currentLogo ? (
-              <img src={currentLogo} alt="Current logo" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-            ) : (
-              <span style={{ fontSize: 32, fontWeight: 700, color: "var(--purple)" }}>Q</span>
-            )}
-          </div>
-          <p style={{ fontSize: 10, color: "var(--muted)", marginTop: 4, maxWidth: 80, wordBreak: "break-all" }}>
-            {currentLogo || "(default fallback)"}
+    <div style={{ background: "#fff", border: "1px solid var(--line)", padding: 24, maxWidth: 760 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+        <div>
+          <h3 style={{ font: "20px var(--font-display)", color: "var(--purple)", margin: 0 }}>
+            👑 Brand Logo & Identity Controls
+          </h3>
+          <p style={{ margin: "4px 0 0", fontSize: 13, color: "var(--muted)" }}>
+            Upload or replace the Queens Care brand logo. Adjust desktop and mobile sizes for perfect visual balance across the entire website.
           </p>
         </div>
-
-        <div style={{ flex: 1 }}>
-          {/* Upload Section */}
-          <p style={{ fontSize: 11, fontWeight: 600, marginBottom: 6, textTransform: "uppercase" as const, letterSpacing: ".06em", color: "var(--muted)" }}>
-            Upload New Logo
-          </p>
-          <p style={{ fontSize: 10, color: "var(--muted)", marginBottom: 6, lineHeight: 1.4 }}>
-            📐 Recommended: <strong>400 × 120 px</strong> · Transparent PNG/WebP preferred · Keep original ratio
-          </p>
-          <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
-            <label style={{
-              padding: "10px 20px", background: "var(--gold, #b8860b)", color: "#fff", border: "none",
-              cursor: "pointer", fontSize: 13, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 6,
-            }}>
-              📤 {uploading ? "Uploading…" : "Choose File"}
-              <input
-                ref={fileRef}
-                type="file"
-                accept="image/png,image/jpeg,image/webp,image/svg+xml"
-                hidden
-                onChange={e => handleUpload(e.target.files)}
-              />
-            </label>
-            <span style={{ fontSize: 11, color: "var(--muted)", alignSelf: "center" }}>PNG, JPG, WebP, SVG</span>
-          </div>
-
-          {/* URL Input */}
-          <p style={{ fontSize: 11, fontWeight: 600, marginBottom: 6, textTransform: "uppercase" as const, letterSpacing: ".06em", color: "var(--muted)" }}>
-            Or Enter Logo URL
-          </p>
-          <div style={{ display: "flex", gap: 8 }}>
-            <input
-              type="text"
-              value={newUrl}
-              onChange={e => setNewUrl(e.target.value)}
-              placeholder="https://example.com/logo.png or /uploads/logos/my-logo.png"
-              style={{
-                flex: 1, padding: "10px 14px", border: "1px solid var(--line)", fontSize: 13,
-              }}
-            />
-            <button
-              onClick={handleSaveUrl}
-              disabled={saving || !newUrl.trim()}
-              style={{
-                padding: "10px 20px", background: "var(--purple)", color: "#fff", border: "none",
-                cursor: saving ? "wait" : "pointer", fontSize: 12, fontWeight: 600, whiteSpace: "nowrap",
-              }}
-            >
-              {saving ? "Saving…" : "💾 Save URL"}
-            </button>
-          </div>
-        </div>
+        <button
+          type="button"
+          onClick={handleSave}
+          disabled={saving}
+          style={{ padding: "10px 24px", background: "var(--gold)", color: "#fff", border: "none", fontWeight: 700, fontSize: 13, cursor: saving ? "wait" : "pointer" }}
+        >
+          {saving ? "Saving…" : "Save Logo Settings →"}
+        </button>
       </div>
 
-      {/* Preview of new URL */}
-      {newUrl && (
-        <div style={{ marginBottom: 16, padding: "10px 14px", background: "#f5f0eb", border: "1px solid var(--line)" }}>
-          <p style={{ fontSize: 11, fontWeight: 600, marginBottom: 6 }}>New Logo Preview</p>
-          <div style={{ width: 80, height: 80, border: "1px solid var(--line)", borderRadius: 8, overflow: "hidden", background: "#fff" }}>
-            <img src={newUrl} alt="New logo preview" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-          </div>
+      {feedback && (
+        <div
+          style={{
+            padding: "12px 16px",
+            marginBottom: 20,
+            background: feedback.type === "success" ? "#e9f7e9" : "#fde8e8",
+            border: `1px solid ${feedback.type === "success" ? "#c3e6cb" : "#f8b4b4"}`,
+            color: feedback.type === "success" ? "#2e7d32" : "#b34141",
+            fontSize: 13,
+            fontWeight: 500,
+          }}
+        >
+          {feedback.type === "success" ? "✓ " : "✕ "}
+          {feedback.msg}
         </div>
       )}
 
-      {/* Actions */}
-      <div style={{ display: "flex", gap: 8, borderTop: "1px solid var(--line)", paddingTop: 16 }}>
-        <button
-          onClick={handleReset}
-          disabled={saving}
-          style={{
-            padding: "10px 20px", background: "#fff", color: "#b34141", border: "1px solid #e2c3c3",
-            cursor: saving ? "wait" : "pointer", fontSize: 12, fontWeight: 600,
-          }}
-        >
-          🔄 Reset to Default
-        </button>
-        <p style={{ fontSize: 11, color: "var(--muted)", alignSelf: "center", margin: 0 }}>
-          Reset removes the custom logo and restores the fallback "Q" brand icon.
-        </p>
+      {/* Global Media Uploader for Logo */}
+      <GlobalMediaUploader
+        label="Brand Logo File / URL (PNG, SVG, WebP with Transparent Background)"
+        preset="logo"
+        value={logoUrl}
+        onChange={(val) => setLogoUrl(typeof val === "string" ? val : Array.isArray(val) && val.length > 0 ? (typeof val[0] === "string" ? val[0] : val[0]?.url) : "")}
+        folder="logos"
+      />
+
+      {/* Logo Sizing Controls */}
+      <div style={{ marginTop: 20, borderTop: "1px solid var(--line)", paddingTop: 20 }}>
+        <h4 style={{ font: "15px var(--font-display)", color: "var(--purple)", margin: "0 0 14px" }}>
+          📐 Logo Display Size & Dimensions
+        </h4>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 20 }}>
+          <div>
+            <label style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", display: "block", marginBottom: 4 }}>
+              Desktop Height (px)
+            </label>
+            <input
+              type="number"
+              min={20}
+              max={100}
+              value={desktopHeight}
+              onChange={(e) => setDesktopHeight(e.target.value)}
+              style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--line)", fontSize: 13 }}
+            />
+            <span style={{ fontSize: 11, color: "var(--muted)", marginTop: 2, display: "block" }}>Default: 36px</span>
+          </div>
+
+          <div>
+            <label style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", display: "block", marginBottom: 4 }}>
+              Mobile Height (px)
+            </label>
+            <input
+              type="number"
+              min={16}
+              max={80}
+              value={mobileHeight}
+              onChange={(e) => setMobileHeight(e.target.value)}
+              style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--line)", fontSize: 13 }}
+            />
+            <span style={{ fontSize: 11, color: "var(--muted)", marginTop: 2, display: "block" }}>Default: 28px</span>
+          </div>
+
+          <div>
+            <label style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", display: "block", marginBottom: 4 }}>
+              Max Width (px)
+            </label>
+            <input
+              type="number"
+              min={50}
+              max={400}
+              value={maxWidth}
+              onChange={(e) => setMaxWidth(e.target.value)}
+              style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--line)", fontSize: 13 }}
+            />
+            <span style={{ fontSize: 11, color: "var(--muted)", marginTop: 2, display: "block" }}>Default: 180px</span>
+          </div>
+        </div>
+
+        {/* Live Preview Container */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 20 }}>
+          {/* Light Nav Preview */}
+          <div style={{ border: "1px solid var(--line)", padding: 16, background: "#faf8f5" }}>
+            <span style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "var(--muted)", display: "block", marginBottom: 10 }}>
+              Header Preview (Light Background)
+            </span>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", background: "#fff", border: "1px solid var(--line)" }}>
+              {logoUrl ? (
+                <img
+                  src={logoUrl}
+                  alt="Logo Preview"
+                  style={{ height: `${desktopHeight}px`, maxWidth: `${maxWidth}px`, objectFit: "contain" }}
+                />
+              ) : (
+                <div style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--purple)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700 }}>
+                  Q
+                </div>
+              )}
+              <span style={{ font: "700 13px/1 var(--font-display)", color: "var(--purple)", letterSpacing: ".08em" }}>
+                QUEENS CARE
+              </span>
+            </div>
+          </div>
+
+          {/* Dark Footer Preview */}
+          <div style={{ border: "1px solid #333", padding: 16, background: "#1a161f", color: "#fff" }}>
+            <span style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "#aaa", display: "block", marginBottom: 10 }}>
+              Footer Preview (Dark Background)
+            </span>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}>
+              {logoUrl ? (
+                <img
+                  src={logoUrl}
+                  alt="Logo Preview Dark"
+                  style={{ height: `${desktopHeight}px`, maxWidth: `${maxWidth}px`, objectFit: "contain" }}
+                />
+              ) : (
+                <div style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--gold)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700 }}>
+                  Q
+                </div>
+              )}
+              <span style={{ font: "700 13px/1 var(--font-display)", color: "#fff", letterSpacing: ".08em" }}>
+                QUEENS CARE
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Reset */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <button
+            type="button"
+            onClick={handleReset}
+            style={{ padding: "6px 14px", background: "#fff", color: "#b34141", border: "1px solid #f8b4b4", fontSize: 12, cursor: "pointer" }}
+          >
+            🔄 Reset to Default Brand Icon
+          </button>
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={saving}
+            style={{ padding: "8px 22px", background: "var(--purple)", color: "#fff", border: "none", fontWeight: 700, fontSize: 13, cursor: saving ? "wait" : "pointer" }}
+          >
+            {saving ? "Saving…" : "Save All Changes →"}
+          </button>
+        </div>
       </div>
     </div>
   );

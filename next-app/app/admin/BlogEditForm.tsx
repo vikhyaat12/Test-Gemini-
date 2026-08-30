@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import GlobalMediaUploader from "../components/GlobalMediaUploader";
 
 const BLOG_CATEGORIES = [
   "Wellness notes",
@@ -198,51 +199,41 @@ export default function BlogEditForm({
           </div>
         </div>
 
-        {/* Featured Image */}
-        <div>
-          <label style={labelStyle}>Featured Image URL</label>
-          <input
-            style={inputStyle}
-            value={String(form.image || "")}
-            onChange={(e) => setForm({ ...form, image: e.target.value })}
-          />
-        </div>
+        {/* Featured Image & Video Media */}
+        <GlobalMediaUploader
+          label="Featured Article Media (Image / Video MP4 / YouTube / Vimeo / GIF)"
+          preset="blog_featured"
+          allowVideo
+          value={String(form.image || form.videoUrl || "")}
+          onChange={(val) => {
+            const url = typeof val === "string" ? val : Array.isArray(val) && val.length > 0 ? (typeof val[0] === "string" ? val[0] : val[0]?.url) : "";
+            if (url.includes(".mp4") || url.includes("youtu") || url.includes("vimeo")) {
+              setForm({ ...form, videoUrl: url, image: url });
+            } else {
+              setForm({ ...form, image: url });
+            }
+          }}
+          folder="blog"
+        />
 
-        {/* Article Images */}
-        <div>
-          <label style={labelStyle}>
-            Article Images (comma separated URLs)
-          </label>
-          <textarea
-            style={{ ...inputStyle, minHeight: 60 }}
-            value={String(form.images || "")}
-            onChange={(e) => setForm({ ...form, images: e.target.value })}
-            placeholder="https://... , https://..."
-          />
-        </div>
-
-        {/* Video */}
-        <div
-          style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 12 }}
-        >
+        {/* Video Details */}
+        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 12 }}>
           <div>
-            <label style={labelStyle}>Video URL (YouTube/Vimeo)</label>
+            <label style={labelStyle}>Standalone Video URL (optional YouTube / Vimeo)</label>
             <input
               style={inputStyle}
               value={String(form.videoUrl || "")}
-              onChange={(e) =>
-                setForm({ ...form, videoUrl: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, videoUrl: e.target.value })}
+              placeholder="https://www.youtube.com/watch?v=..."
             />
           </div>
           <div>
-            <label style={labelStyle}>Video Title</label>
+            <label style={labelStyle}>Video Title / Caption</label>
             <input
               style={inputStyle}
               value={String(form.videoTitle || "")}
-              onChange={(e) =>
-                setForm({ ...form, videoTitle: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, videoTitle: e.target.value })}
+              placeholder="e.g. Clinical Demonstration"
             />
           </div>
         </div>

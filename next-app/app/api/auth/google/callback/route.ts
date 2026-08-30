@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { signSession, hashPassword } from "@/lib/auth";
+import { fileDb } from "@/lib/commerce/file-db";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -10,7 +11,7 @@ export async function GET(request: Request) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
   if (!code || !clientId || !clientSecret) {
-    return NextResponse.redirect(new URL("/account?error=google_auth_failed", siteUrl));
+    return NextResponse.redirect(new URL("/account?error=google_not_configured", siteUrl));
   }
 
   try {
@@ -19,7 +20,9 @@ export async function GET(request: Request) {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({
-        code, client_id: clientId, client_secret: clientSecret,
+        code,
+        client_id: clientId,
+        client_secret: clientSecret,
         redirect_uri: `${siteUrl}/api/auth/google/callback`,
         grant_type: "authorization_code",
       }),
@@ -34,32 +37,75 @@ export async function GET(request: Request) {
     const googleUser = await userRes.json();
     if (!googleUser.email) return NextResponse.redirect(new URL("/account?error=google_user_failed", siteUrl));
 
-    // Find or create user
-    let user = await prisma.user.findFirst({ where: { googleId: googleUser.id } });
-    if (!user) {
-      user = await prisma.user.findUnique({ where: { email: googleUser.email } });
+    // Find or create user with Prisma + fileDb fallback
+    let user: Record<string, unknown> | null = null;
+    try {
+      user = await prisma.user.findFirst({ where: { googleId: googleUser.id } }) as Record<string, unknown> | null;
+      if (!user) {
+        user = await prisma.user.findUnique({ where: { email: googleUser.email } }) as Record<string, unknown> | null;
+        if (user) {
+          user = await prisma.user.update({
+            where: { id: String(user.id) },
+            data: { googleId: googleUser.id, emailVerified: true, avatar: googleUser.picture || null },
+          }) as Record<string, unknown>;
+        } else {
+          user = await prisma.user.create({
+            data: {
+              email: googleUser.email,
+              name: googleUser.name || googleUser.email.split("@")[0],
+              role: "customer",
+              googleId: googleUser.id,
+              emailVerified: true,
+              avatar: googleUser.picture || null,
+              passwordHash: await hashPassword("google-oauth-" + Date.now()),
+            },
+          }) as Record<string, unknown>;
+        }
+      }
+    } catch {
+      // fileDb fallback
+      user = fileDb.findOne("users", (u) => u.googleId === googleUser.id || u.email === googleUser.email);
       if (user) {
-        // Link Google account to existing user
-        user = await prisma.user.update({ where: { id: user.id }, data: { googleId: googleUser.id, emailVerified: true, avatar: googleUser.picture || null } });
+        user = fileDb.update("users", String(user.id), {
+          googleId: googleUser.id,
+          name: googleUser.name || user.name,
+          avatar: googleUser.picture || user.avatar,
+        });
       } else {
-        // Create new user
-        user = await prisma.user.create({
-          data: {
-            email: googleUser.email, name: googleUser.name || googleUser.email.split("@")[0],
-            role: "customer", googleId: googleUser.id, emailVerified: true,
-            avatar: googleUser.picture || null, passwordHash: await hashPassword("google-oauth-" + Date.now()),
-          },
+        user = fileDb.insert("users", {
+          id: `usr-${Date.now().toString(36)}`,
+          email: googleUser.email,
+          name: googleUser.name || googleUser.email.split("@")[0],
+          role: "customer",
+          googleId: googleUser.id,
+          avatar: googleUser.picture || null,
+          passwordHash: await hashPassword("google-oauth-" + Date.now()),
         });
       }
     }
 
+    if (!user) {
+      return NextResponse.redirect(new URL("/account?error=google_user_failed", siteUrl));
+    }
+
     // Create session
     const response = NextResponse.redirect(new URL("/account", siteUrl));
-    response.cookies.set("qc_session", signSession({ id: user.id, name: user.name, email: user.email, role: user.role, createdAt: "" }), {
-      httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", path: "/", maxAge: 604800,
+    response.cookies.set("qc_session", signSession({
+      id: String(user.id),
+      name: String(user.name || "Customer"),
+      email: String(user.email),
+      role: String(user.role || "customer"),
+      createdAt: String(user.createdAt || new Date().toISOString()),
+    }), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 604800,
     });
     return response;
   } catch {
     return NextResponse.redirect(new URL("/account?error=google_auth_failed", siteUrl));
   }
 }
+

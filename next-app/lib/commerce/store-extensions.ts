@@ -991,9 +991,83 @@ export const videoStore = {
 };
 
 export const aplusStore = {
-  listByProduct: async (productId: string) => [],
-  upsert: async (data: Record<string, unknown>) => data,
-  delete: async (id: string) => {},
+  listTemplates: async () => {
+    return fileDb.findMany("aplusTemplates").sort((a, b) => new Date(String(b.createdAt || 0)).getTime() - new Date(String(a.createdAt || 0)).getTime());
+  },
+  getTemplate: async (id: string) => {
+    return fileDb.findOne("aplusTemplates", (t) => t.id === id);
+  },
+  createTemplate: async (data: Record<string, unknown>) => {
+    const id = (data.id as string) || `aplus-${Date.now().toString(36)}`;
+    return fileDb.insert("aplusTemplates", { ...data, id, createdAt: new Date().toISOString() });
+  },
+  updateTemplate: async (id: string, patch: Record<string, unknown>) => {
+    return fileDb.update("aplusTemplates", id, { ...patch, updatedAt: new Date().toISOString() });
+  },
+  deleteTemplate: async (id: string) => {
+    return fileDb.remove("aplusTemplates", id);
+  },
+  getByProduct: async (productIdOrSlug: string) => {
+    const product = fileDb.findOne("products", (p) => p.id === productIdOrSlug || p.slug === productIdOrSlug);
+    if (!product) return { sections: [], published: false, templateId: null };
+
+    let sections: Record<string, unknown>[] = [];
+    if (Array.isArray(product.aplusContent) && product.aplusContent.length > 0) {
+      sections = product.aplusContent as Record<string, unknown>[];
+    } else if (typeof product.aplusContent === "string" && product.aplusContent.startsWith("[")) {
+      try { sections = JSON.parse(product.aplusContent); } catch {}
+    }
+
+    // If no direct sections but an aplusTemplateId is linked, load from template
+    if (sections.length === 0 && product.aplusTemplateId) {
+      const template = fileDb.findOne("aplusTemplates", (t) => t.id === product.aplusTemplateId);
+      if (template && Array.isArray(template.sections)) {
+        sections = template.sections as Record<string, unknown>[];
+      }
+    }
+
+    return {
+      productId: product.id,
+      productSlug: product.slug,
+      templateId: product.aplusTemplateId || null,
+      sections,
+      published: Boolean(product.aplusPublished !== false && sections.length > 0),
+    };
+  },
+  attachToProduct: async (productIdOrSlug: string, templateId: string | null, customSections?: Record<string, unknown>[], published = true) => {
+    const product = fileDb.findOne("products", (p) => p.id === productIdOrSlug || p.slug === productIdOrSlug);
+    if (!product) return null;
+
+    const patch: Record<string, unknown> = {
+      aplusTemplateId: templateId || null,
+      aplusPublished: published,
+      updatedAt: new Date().toISOString(),
+    };
+
+    if (customSections) {
+      patch.aplusContent = customSections;
+    } else if (templateId) {
+      const template = fileDb.findOne("aplusTemplates", (t) => t.id === templateId);
+      if (template && Array.isArray(template.sections)) {
+        patch.aplusContent = template.sections;
+      }
+    }
+
+    return fileDb.update("products", product.id as string, patch);
+  },
+  listByProduct: async (productId: string) => {
+    const res = await aplusStore.getByProduct(productId);
+    return res.sections;
+  },
+  upsert: async (data: Record<string, unknown>) => {
+    if (data.productId) {
+      await aplusStore.attachToProduct(String(data.productId), String(data.templateId || ""), data.sections as Record<string, unknown>[], data.published !== false);
+    }
+    return data;
+  },
+  delete: async (id: string) => {
+    return fileDb.remove("aplusTemplates", id);
+  },
 };
 
 export const productQAStore = {

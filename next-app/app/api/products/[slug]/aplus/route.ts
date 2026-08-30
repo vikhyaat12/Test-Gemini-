@@ -1,26 +1,41 @@
 import { json, requireUser } from "@/lib/http";
 import { prisma } from "@/lib/prisma";
-
-async function findProduct(slug: string) { return prisma.product.findFirst({ where: { OR: [{ id: slug }, { slug }] } }); }
+import { aplusStore } from "@/lib/commerce/store-extensions";
+import { fileDb } from "@/lib/commerce/file-db";
 
 export async function GET(_req: Request, { params }: { params: Promise<{ slug: string }> }) {
-  const product = await findProduct((await params).slug);
-  if (!product) return json({ error: "Not found" }, 404);
-  return json({ sections: await prisma.productAPlusSection.findMany({ where: { productId: product.id }, orderBy: { sort: "asc" } }) });
+  const { slug } = await params;
+  const res = await aplusStore.getByProduct(slug);
+  return json({ sections: res.sections, published: res.published, templateId: res.templateId });
 }
 
 export async function POST(request: Request, { params }: { params: Promise<{ slug: string }> }) {
-  const user = await requireUser(["admin"]);
+  const user = await requireUser(["admin", "employee"]);
   if (!user) return json({ error: "Unauthorized" }, 401);
-  const product = await findProduct((await params).slug);
-  if (!product) return json({ error: "Not found" }, 404);
+  const { slug } = await params;
   const body = await request.json().catch(() => ({}));
-  if (!body.type) return json({ error: "Type required" }, 422);
-  const maxSort = await prisma.productAPlusSection.findFirst({ where: { productId: product.id }, orderBy: { sort: "desc" } });
-  const section = await prisma.productAPlusSection.create({
-    data: { productId: product.id, type: body.type, title: body.title || null, heading: body.heading || null, body: body.body || null, imageUrl: body.imageUrl || null, imageAlt: body.imageAlt || null, content: body.content || undefined, sort: (maxSort?.sort ?? -1) + 1 },
-  });
-  return json({ section }, 201);
+  
+  if (body.templateId !== undefined || body.sections !== undefined) {
+    const updated = await aplusStore.attachToProduct(slug, body.templateId || null, body.sections, body.published !== false);
+    return json({ success: true, product: updated });
+  }
+
+  const res = await aplusStore.getByProduct(slug);
+  const currentSections = res.sections || [];
+  const newSection = {
+    id: `sec-${Date.now().toString(36)}`,
+    type: body.type || "richText",
+    heading: body.heading || body.title || "",
+    text: body.text || body.body || "",
+    imageUrl: body.imageUrl || "",
+    videoUrl: body.videoUrl || "",
+    imageAlt: body.imageAlt || "",
+    items: body.items || [],
+    published: true,
+  };
+  const updatedSections = [...currentSections, newSection];
+  await aplusStore.attachToProduct(slug, res.templateId, updatedSections, true);
+  return json({ section: newSection, sections: updatedSections }, 201);
 }
 
 export async function PATCH(request: Request) {

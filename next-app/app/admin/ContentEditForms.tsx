@@ -1,18 +1,7 @@
 "use client";
 
-import { useState, useCallback } from "react";
-
-const uploadFile = async (files: FileList | File[], folder = "general"): Promise<string[]> => {
-  const formData = new FormData();
-  Array.from(files).forEach(f => formData.append("files", f));
-  formData.append("folder", folder);
-  try {
-    const res = await fetch("/api/upload", { method: "POST", body: formData });
-    const data = await res.json();
-    if (res.ok && data.files) return data.files.map((f: { url: string }) => f.url);
-    return [];
-  } catch { return []; }
-};
+import { useState } from "react";
+import GlobalMediaUploader from "../components/GlobalMediaUploader";
 
 const inputStyle = { width: "100%", padding: "10px 14px", border: "1px solid var(--line)", fontSize: 14 };
 const labelStyle = { fontSize: 11, fontWeight: 600 as const, display: "block" as const, marginBottom: 4 };
@@ -53,7 +42,7 @@ export function BannerEditForm({ item, onSave }: { item: Record<string, unknown>
   };
 
   return (
-    <div style={{ maxWidth: 600, marginTop: 20, padding: 20, background: "#fff", border: "1px solid var(--line)" }}>
+    <div style={{ maxWidth: 640, marginTop: 20, padding: 20, background: "#fff", border: "1px solid var(--line)" }}>
       <h3 style={{ font: "18px var(--font-display)", marginBottom: 16 }}>{form.isNew ? "New Banner" : "Edit Banner"}</h3>
       {msg && (
         <p
@@ -69,29 +58,40 @@ export function BannerEditForm({ item, onSave }: { item: Record<string, unknown>
           {msg}
         </p>
       )}
-      <div style={{ display: "grid", gap: 12 }}>
+      <div style={{ display: "grid", gap: 14 }}>
         <div><label style={labelStyle}>Title *</label><input style={inputStyle} value={String(form.title || "")} onChange={e => setForm({ ...form, title: e.target.value })} /></div>
         <div><label style={labelStyle}>Subtitle</label><input style={inputStyle} value={String(form.subtitle || "")} onChange={e => setForm({ ...form, subtitle: e.target.value })} /></div>
-        <div><label style={labelStyle}>Image</label>
-          <div style={{ display: "flex", gap: 6, marginBottom: 6 }}>
-            <label style={{ padding: "6px 12px", background: "var(--gold, #b8860b)", color: "#fff", border: "none", cursor: "pointer", fontSize: 11, fontWeight: 600 }}>
-              📤 Upload Image
-              <input type="file" accept="image/*" hidden onChange={async e => {
-                if (!e.target.files?.length) return;
-                const urls = await uploadFile(e.target.files, "banners");
-                if (urls.length) setForm({ ...form, image: urls[0], imageUrl: urls[0] });
-                e.target.value = "";
-              }} />
-            </label>
-            <span style={{ fontSize: 11, color: "var(--muted)", alignSelf: "center" }}>or paste URL:</span>
-          </div>
-          <input style={inputStyle} value={String(form.image || form.imageUrl || "")} onChange={e => setForm({ ...form, image: e.target.value, imageUrl: e.target.value })} />
-          {form.image ? <img src={String(form.image)} alt="" style={{ width: 120, height: 80, objectFit: "cover", marginTop: 8, border: "1px solid var(--line)" }} /> : null}
-        </div>
+        
+        {/* Global Desktop Media */}
+        <GlobalMediaUploader
+          label="Desktop Banner Media (Image / Video MP4 / YouTube / Vimeo / GIF)"
+          preset="banner_desktop"
+          allowVideo
+          value={String(form.image || form.imageUrl || form.videoUrl || "")}
+          onChange={(val) => {
+            const url = typeof val === "string" ? val : Array.isArray(val) && val.length > 0 ? (typeof val[0] === "string" ? val[0] : val[0]?.url) : "";
+            setForm({ ...form, image: url, imageUrl: url, videoUrl: url.includes(".mp4") || url.includes("youtu") || url.includes("vimeo") ? url : "" });
+          }}
+          folder="banners"
+        />
+
+        {/* Global Mobile Media */}
+        <GlobalMediaUploader
+          label="Mobile Banner Media (optional vertical format)"
+          preset="banner_mobile"
+          allowVideo
+          value={String(form.mobileImage || form.mobileImageUrl || "")}
+          onChange={(val) => {
+            const url = typeof val === "string" ? val : Array.isArray(val) && val.length > 0 ? (typeof val[0] === "string" ? val[0] : val[0]?.url) : "";
+            setForm({ ...form, mobileImage: url, mobileImageUrl: url });
+          }}
+          folder="banners"
+        />
+
         <div><label style={labelStyle}>Link / CTA URL</label><input style={inputStyle} value={String(form.link || form.linkUrl || "")} onChange={e => setForm({ ...form, link: e.target.value, linkUrl: e.target.value })} /></div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
           <div><label style={labelStyle}>Position</label><select style={inputStyle} value={String(form.position || "hero")} onChange={e => setForm({ ...form, position: e.target.value })}>
-            <option value="hero">Hero</option><option value="top">Top</option><option value="bottom">Bottom</option><option value="sidebar">Sidebar</option>
+            <option value="hero">Hero (Homepage)</option><option value="top">Top Notice</option><option value="bottom">Bottom Promo</option><option value="sidebar">Sidebar</option><option value="shop">Shop Page</option>
           </select></div>
           <div><label style={labelStyle}>Sort order</label><input type="number" style={inputStyle} value={Number(form.sort || 0)} onChange={e => setForm({ ...form, sort: Number(e.target.value) })} /></div>
           <div style={{ display: "flex", alignItems: "end", paddingBottom: 4 }}><label style={{ fontSize: 13 }}><input type="checkbox" checked={form.active !== false} onChange={e => setForm({ ...form, active: e.target.checked })} /> Active</label></div>
@@ -138,7 +138,7 @@ export function TestimonialEditForm({ item, onSave }: { item: Record<string, unk
   };
 
   return (
-    <div style={{ maxWidth: 600, marginTop: 20, padding: 20, background: "#fff", border: "1px solid var(--line)" }}>
+    <div style={{ maxWidth: 640, marginTop: 20, padding: 20, background: "#fff", border: "1px solid var(--line)" }}>
       <h3 style={{ font: "18px var(--font-display)", marginBottom: 16 }}>{form.isNew ? "New Testimonial" : "Edit Testimonial"}</h3>
       {msg && (
         <p
@@ -154,16 +154,33 @@ export function TestimonialEditForm({ item, onSave }: { item: Record<string, unk
           {msg}
         </p>
       )}
-      <div style={{ display: "grid", gap: 12 }}>
+      <div style={{ display: "grid", gap: 14 }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
           <div><label style={labelStyle}>Name *</label><input style={inputStyle} value={String(form.name || "")} onChange={e => setForm({ ...form, name: e.target.value })} /></div>
           <div><label style={labelStyle}>Title / Role</label><input style={inputStyle} value={String(form.title || "")} onChange={e => setForm({ ...form, title: e.target.value })} /></div>
         </div>
-        <div><label style={labelStyle}>Review / Testimonial *</label><textarea style={{ ...inputStyle, minHeight: 100 }} value={String(form.body || "")} onChange={e => setForm({ ...form, body: e.target.value })} /></div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+        <div><label style={labelStyle}>Review / Testimonial *</label><textarea style={{ ...inputStyle, minHeight: 90 }} value={String(form.body || "")} onChange={e => setForm({ ...form, body: e.target.value })} /></div>
+        
+        {/* Testimonial Image / Video */}
+        <GlobalMediaUploader
+          label="Testimonial Photo or Video Review (Image / MP4 / YouTube / Vimeo)"
+          preset="testimonial"
+          allowVideo
+          value={String(form.image || form.videoUrl || form.video || "")}
+          onChange={(val) => {
+            const url = typeof val === "string" ? val : Array.isArray(val) && val.length > 0 ? (typeof val[0] === "string" ? val[0] : val[0]?.url) : "";
+            if (url.includes(".mp4") || url.includes("youtu") || url.includes("vimeo")) {
+              setForm({ ...form, videoUrl: url, video: url, image: url });
+            } else {
+              setForm({ ...form, image: url });
+            }
+          }}
+          folder="testimonials"
+        />
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
           <div><label style={labelStyle}>Rating (1-5)</label><input type="number" min={1} max={5} style={inputStyle} value={Number(form.rating || 5)} onChange={e => setForm({ ...form, rating: Number(e.target.value) })} /></div>
-          <div><label style={labelStyle}>Image URL</label><input style={inputStyle} value={String(form.image || "")} onChange={e => setForm({ ...form, image: e.target.value })} /></div>
-          <div style={{ display: "flex", alignItems: "end", paddingBottom: 4 }}><label style={{ fontSize: 13 }}><input type="checkbox" checked={form.visible !== false} onChange={e => setForm({ ...form, visible: e.target.checked })} /> Visible</label></div>
+          <div style={{ display: "flex", alignItems: "end", paddingBottom: 4 }}><label style={{ fontSize: 13 }}><input type="checkbox" checked={form.visible !== false} onChange={e => setForm({ ...form, visible: e.target.checked })} /> Visible on Public Site</label></div>
         </div>
         <button onClick={save} disabled={saving} style={{ padding: "10px 20px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, width: "fit-content" }}>{saving ? "Saving…" : "Save Testimonial →"}</button>
       </div>

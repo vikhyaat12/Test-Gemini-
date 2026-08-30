@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { store } from "@/lib/commerce/store";
 import { prisma } from "@/lib/prisma";
+import { aplusStore } from "@/lib/commerce/store-extensions";
 import AddToCartButton from "@/app/components/AddToCartButton";
 import ProductGallery from "@/app/components/ProductGallery";
 import ProductTabs from "./ProductTabs";
@@ -89,32 +90,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       }
     } catch {}
   }
-  const aplusPrisma = full?.aplusSections || [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let aplusFallback: any[] = [];
-  try {
-    const raw = (product as Record<string, unknown>).aplusContent;
-    if (Array.isArray(raw)) aplusFallback = raw.map((s: Record<string, unknown>, i: number) => ({
-      id: `ap-${i}`,
-      type: String(s.type || 'richText'),
-      heading: String(s.heading || ''),
-      title: String(s.heading || ''),
-      text: String(s.text || ''),
-      body: String(s.text || ''),
-      imageUrl: String(s.imageUrl || ''),
-      imageAlt: String(s.imageAlt || ''),
-      videoUrl: String(s.videoUrl || ''),
-      ctaText: String(s.ctaText || ''),
-      ctaLink: String(s.ctaLink || ''),
-      items: Array.isArray(s.items) ? s.items as string[] : [],
-      published: s.published !== false,
-    }));
-  } catch {}
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const aplusRaw: any[] = aplusPrisma.length > 0 ? aplusPrisma : aplusFallback;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const aplusPublished = !!(product as any).aplusPublished;
-  const aplus: any[] = aplusPublished ? aplusRaw : [];
+  const aplusData = await aplusStore.getByProduct(product.slug);
+  const aplusRaw: Record<string, unknown>[] = aplusData.sections.length > 0 ? aplusData.sections : (full?.aplusSections || []);
+  const aplus = aplusData.published ? aplusRaw : [];
   const videos = full?.videos || [];
   const model3d = full?.model3d;
   const questions = full ? await getQA(full.id) : [];
