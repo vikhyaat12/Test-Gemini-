@@ -11,8 +11,9 @@ import LogoManager from "./LogoManager";
 import MediaLibrary from "./MediaLibrary";
 import PaymentGatewayManager from "./PaymentGatewayManager";
 import ShippingManager from "./ShippingManager";
+import APlusManager from "./APlusManager";
 
-type Tab = "dashboard" | "orders" | "products" | "product-edit" | "categories" | "customers" | "b2b" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers" | "homepage" | "marketing" | "payments" | "shipping";
+type Tab = "dashboard" | "orders" | "products" | "product-edit" | "aplus" | "categories" | "customers" | "b2b" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers" | "homepage" | "marketing" | "payments" | "shipping";
 
 const req = async (path: string, init?: RequestInit) => {
   const r = await fetch(path, { ...init, headers: { "Content-Type": "application/json", ...(init?.headers || {}) } });
@@ -163,6 +164,7 @@ export default function AdminDashboard() {
     { id: "dashboard", label: "Dashboard", icon: "📊" },
     { id: "orders", label: "Orders", icon: "📦" },
     { id: "products", label: "Products", icon: "🏷️" },
+    { id: "aplus", label: "A+ Content", icon: "✨" },
     { id: "categories", label: "Categories", icon: "📁" },
     { id: "customers", label: "Customers", icon: "👥" },
     { id: "b2b", label: "B2B", icon: "🏢" },
@@ -292,6 +294,11 @@ export default function AdminDashboard() {
                   }}
                 />
               </div>
+            )}
+
+            {/* ─── A+ CONTENT MANAGER ─── */}
+            {tab === "aplus" && (
+              <APlusManager />
             )}
 
             {/* ─── CATEGORIES TABLE ─── */}
