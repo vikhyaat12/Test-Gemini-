@@ -975,9 +975,9 @@
     {
       "id": "rec-mte80qtf-a3bvh",
       "createdAt": "2026-08-29T10:11:36.003Z",
-      "updatedAt": "2026-08-30T07:49:21.443Z",
+      "updatedAt": "2026-08-30T08:02:46.909Z",
       "key": "logo_url",
-      "value": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=300&q=80",
+      "value": "/uploads/logos/photo-from-vikhyaat-sikand-1788076960753.jpg",
       "group": "branding"
     },
     {
@@ -1103,7 +1103,7 @@
     {
       "id": "rec-mtffcjfo-rwdph",
       "createdAt": "2026-08-30T06:24:29.796Z",
-      "updatedAt": "2026-08-30T07:49:21.454Z",
+      "updatedAt": "2026-08-30T08:02:46.917Z",
       "key": "logo_height_desktop",
       "value": "45",
       "group": "branding"
@@ -1111,7 +1111,7 @@
     {
       "id": "rec-mtffcjg9-surch",
       "createdAt": "2026-08-30T06:24:29.817Z",
-      "updatedAt": "2026-08-30T06:25:40.524Z",
+      "updatedAt": "2026-08-30T08:02:46.927Z",
       "key": "logo_height_mobile",
       "value": "30",
       "group": "branding"
@@ -1119,7 +1119,7 @@
     {
       "id": "rec-mtffcjgn-je7ra",
       "createdAt": "2026-08-30T06:24:29.831Z",
-      "updatedAt": "2026-08-30T07:33:59.889Z",
+      "updatedAt": "2026-08-30T08:02:46.939Z",
       "key": "logo_max_width",
       "value": "220",
       "group": "branding"
@@ -1636,6 +1636,48 @@
       "size": 165,
       "alt": "brand-test-logo",
       "title": "brand-test-logo.svg",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtfisln8-3jvsl",
+      "createdAt": "2026-08-30T08:00:58.004Z",
+      "updatedAt": "2026-08-30T08:00:58.004Z",
+      "filename": "photo_from_vikhyaat_sikand-removebg-preview-1788076858002.png",
+      "type": "image",
+      "url": "/uploads/logos/photo_from_vikhyaat_sikand-removebg-preview-1788076858002.png",
+      "mimeType": "image/png",
+      "size": 143109,
+      "alt": "Photo_from_vikhyaat_sikand-removebg-preview",
+      "title": "Photo_from_vikhyaat_sikand-removebg-preview.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtfiswdz-37fvo",
+      "createdAt": "2026-08-30T08:01:11.927Z",
+      "updatedAt": "2026-08-30T08:01:11.927Z",
+      "filename": "photo-from-vikhyaat-sikand-1--1788076871925.jpg",
+      "type": "image",
+      "url": "/uploads/logos/photo-from-vikhyaat-sikand-1--1788076871925.jpg",
+      "mimeType": "image/jpeg",
+      "size": 15271,
+      "alt": "Photo from vikhyaat sikand (1)",
+      "title": "Photo from vikhyaat sikand (1).jpg",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtfiusxf-fori0",
+      "createdAt": "2026-08-30T08:02:40.755Z",
+      "updatedAt": "2026-08-30T08:02:40.755Z",
+      "filename": "photo-from-vikhyaat-sikand-1788076960753.jpg",
+      "type": "image",
+      "url": "/uploads/logos/photo-from-vikhyaat-sikand-1788076960753.jpg",
+      "mimeType": "image/jpeg",
+      "size": 21903,
+      "alt": "Photo from vikhyaat sikand",
+      "title": "Photo from vikhyaat sikand.jpg",
       "usedBy": "logos",
       "visible": true
     }
