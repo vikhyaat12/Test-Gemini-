@@ -66,6 +66,9 @@ export default function QueensCareExperience() {
       (d.settings||[]).forEach((s:{key:string;value:string})=>{
         if(s.key==='theme_primary' && s.value) document.documentElement.style.setProperty('--purple', s.value);
         if(s.key==='theme_gold' && s.value) document.documentElement.style.setProperty('--gold', s.value);
+        if(s.key==='theme_accent' && s.value) document.documentElement.style.setProperty('--accent', s.value);
+        if(s.key==='theme_bg' && s.value) document.documentElement.style.setProperty('--paper', s.value);
+        if(s.key==='theme_text' && s.value) document.documentElement.style.setProperty('--ink', s.value);
         if(s.key==='logo_url' && s.value) setLogoUrl(s.value);
         if(s.key==='logo_height_desktop' && s.value) setLogoHeight(`${s.value}px`);
         if(s.key==='logo_max_width' && s.value) setLogoMaxWidth(`${s.value}px`);
