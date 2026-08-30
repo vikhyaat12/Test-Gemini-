@@ -58,7 +58,7 @@
     {
       "id": "p-lumine",
       "slug": "lumine-c-serum",
-      "name": "Lumine-C Clinical Radiance 9305",
+      "name": "Lumine-C Clinical Radiance 3074",
       "brand": "Queens Care",
       "description": "A considered vitamin C ritual for daily radiance. Clinical-strength 15% L-Ascorbic Acid paired with Ferulic Acid and Vitamin E for maximum stability and absorption. Designed for everyday dermal health with visible results in 7 days.",
       "shortDescription": "Tested & verified bio-active vitamin C radiance formula with Ferulic acid.",
@@ -79,7 +79,7 @@
       "rating": 4.9,
       "reviewCount": 212,
       "createdAt": "2026-08-29T08:41:59.367Z",
-      "updatedAt": "2026-08-30T07:15:59.645Z",
+      "updatedAt": "2026-08-30T07:18:23.841Z",
       "thumbnail": "",
       "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "aplusContent": [
@@ -165,7 +165,7 @@
       ],
       "relatedProducts": [
         "biome-balance",
-        "sculpture-spf-50"
+        "nocturne-magnesium"
       ],
       "aplusPublished": true,
       "videos": [
@@ -177,7 +177,7 @@
         }
       ],
       "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
-      "aplusTemplateId": "aplus-mtfh6rkg"
+      "aplusTemplateId": "aplus-mtfh9uhx"
     },
     {
       "id": "p-biome",
@@ -483,6 +483,21 @@
       "featured": false,
       "published": true,
       "visible": true
+    },
+    {
+      "id": "bp-mtfh9unm",
+      "createdAt": "2026-08-30T07:18:23.602Z",
+      "updatedAt": "2026-08-30T07:18:23.602Z",
+      "slug": "clinical-dispatch-1788074303596",
+      "title": "Advancements in Bioavailable Vitamin C 3596",
+      "excerpt": "A clinical exploration into stable ascorbic acid delivery vectors.",
+      "body": "<p>Modern antioxidant research proves that microencapsulation shields active ascorbic molecules against premature oxidation.</p>",
+      "content": "<p>Modern antioxidant research proves that microencapsulation shields active ascorbic molecules against premature oxidation.</p>",
+      "category": "Expert series",
+      "author": "Dr. Vikram Singhania",
+      "featured": false,
+      "published": true,
+      "visible": true
     }
   ],
   "employees": [
@@ -495,11 +510,11 @@
       "photo": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=85",
       "phone": "+91 98111 44556",
       "email": "dr.singhania@queenscare.in",
-      "bio": "Executive clinical director overseeing laboratory safety protocols. Updated: 1788074159785",
+      "bio": "Executive clinical director overseeing laboratory safety protocols. Updated: 1788074303565",
       "slug": "vikram-singhania",
       "active": true,
       "createdAt": "2026-08-29T07:59:01.686Z",
-      "updatedAt": "2026-08-30T07:15:59.789Z"
+      "updatedAt": "2026-08-30T07:18:23.578Z"
     },
     {
       "id": "emp-1",
@@ -899,7 +914,7 @@
       "key": "theme_primary",
       "value": "#240E35",
       "group": "branding",
-      "updatedAt": "2026-08-30T07:15:59.705Z"
+      "updatedAt": "2026-08-30T07:18:23.463Z"
     },
     {
       "key": "theme_gold",
@@ -910,7 +925,7 @@
     {
       "id": "rec-mte80qtf-a3bvh",
       "createdAt": "2026-08-29T10:11:36.003Z",
-      "updatedAt": "2026-08-30T07:15:59.676Z",
+      "updatedAt": "2026-08-30T07:18:23.440Z",
       "key": "logo_url",
       "value": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=300&q=80",
       "group": "branding"
@@ -1118,6 +1133,21 @@
       "sort": 1,
       "active": true,
       "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mtfh9ukn-fqqtg",
+      "createdAt": "2026-08-30T07:18:23.495Z",
+      "updatedAt": "2026-08-30T07:18:23.495Z",
+      "title": "Spring Scientific Care Edition",
+      "subtitle": "Clinically formulated botanical essentials for restorative care.",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "mobileImage": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=85",
+      "link": "/shop",
+      "position": "hero",
+      "sort": 1,
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
     }
   ],
   "faqs": [
@@ -1256,6 +1286,18 @@
       "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "image": "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=80",
       "visible": true
+    },
+    {
+      "id": "rec-mtfh9ulu-tgq36",
+      "createdAt": "2026-08-30T07:18:23.538Z",
+      "updatedAt": "2026-08-30T07:18:23.538Z",
+      "name": "Dr. Vikram Sethi",
+      "title": "Lead Biochemist, BioCare Laboratories",
+      "body": "Queens Care formulas represent the gold standard in pharmaceutical precision and patient tolerability.",
+      "rating": 5,
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=80",
+      "visible": true
     }
   ],
   "offers": [
@@ -1384,6 +1426,29 @@
       "product": {
         "id": "p-lumine",
         "name": "Lumine-C Clinical Radiance 9305",
+        "slug": "lumine-c-serum"
+      },
+      "user": {
+        "name": "Dr. Rohini Verma"
+      },
+      "productId": "lumine-c-serum",
+      "customerName": "Dr. Rohini Verma",
+      "rating": 5,
+      "title": "Outstanding stability and skin barrier support",
+      "body": "Tested over 60 days in clinical trial cohort with zero adverse cutaneous responses.",
+      "image": ""
+    },
+    {
+      "id": "rev-mtfh9uqf",
+      "createdAt": "2026-08-30T07:18:23.703Z",
+      "updatedAt": "2026-08-30T07:18:23.703Z",
+      "visible": true,
+      "helpful": 0,
+      "verified": true,
+      "productSlug": "lumine-c-serum",
+      "product": {
+        "id": "p-lumine",
+        "name": "Lumine-C Clinical Radiance 3074",
         "slug": "lumine-c-serum"
       },
       "user": {
@@ -1540,6 +1605,17 @@
       "discountValue": 20,
       "description": "20% off all antioxidant formulations this weekend only.",
       "active": true
+    },
+    {
+      "id": "rec-mtfh9ura-5q4sf",
+      "createdAt": "2026-08-30T07:18:23.734Z",
+      "updatedAt": "2026-08-30T07:18:23.734Z",
+      "title": "Flash Antioxidant Festival",
+      "type": "flash",
+      "discountType": "percentage",
+      "discountValue": 20,
+      "description": "20% off all antioxidant formulations this weekend only.",
+      "active": true
     }
   ],
   "notifications": [
@@ -1585,7 +1661,7 @@
   ],
   "paymentGateways": [
     {
-      "id": "gw-razorpay",
+      "id": "razorpay",
       "provider": "razorpay",
       "displayName": "Razorpay (UPI, Cards, Netbanking, Wallets)",
       "description": "Accept UPI (Google Pay, PhonePe, Paytm), Credit/Debit Cards, Netbanking, and Wallets",
@@ -1604,10 +1680,10 @@
       ],
       "supportsRefunds": true,
       "createdAt": "2026-08-30T05:17:02.705Z",
-      "updatedAt": "2026-08-30T06:29:16.049Z"
+      "updatedAt": "2026-08-30T07:18:23.779Z"
     },
     {
-      "id": "gw-stripe",
+      "id": "stripe",
       "provider": "stripe",
       "displayName": "Stripe (International Cards & Apple Pay)",
       "description": "Accept Visa, Mastercard, Amex, Apple Pay, and Global payment methods",
@@ -1631,7 +1707,7 @@
       ],
       "supportsRefunds": true,
       "createdAt": "2026-08-30T05:17:02.705Z",
-      "updatedAt": "2026-08-30T05:17:02.705Z"
+      "updatedAt": "2026-08-30T07:18:23.793Z"
     },
     {
       "id": "gw-cashfree",
@@ -1842,7 +1918,7 @@
       ],
       "active": true,
       "createdAt": "2026-08-30T05:17:02.705Z",
-      "updatedAt": "2026-08-30T07:15:59.955Z"
+      "updatedAt": "2026-08-30T07:18:23.764Z"
     }
   ],
   "aplusTemplates": [
@@ -2043,6 +2119,24 @@
       "id": "aplus-mtfh6rkg",
       "createdAt": "2026-08-30T07:15:59.632Z",
       "updatedAt": "2026-08-30T07:15:59.632Z",
+      "title": "Molecular Bioavailability Protocol",
+      "description": "Pharmaceutical grade extraction standard",
+      "category": "Clinical Research",
+      "sections": [
+        {
+          "type": "hero",
+          "heading": "Cellular-Level Penetration Technology",
+          "text": "Engineered under ISO Class 5 cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          "published": true
+        }
+      ],
+      "published": true
+    },
+    {
+      "id": "aplus-mtfh9uhx",
+      "createdAt": "2026-08-30T07:18:23.397Z",
+      "updatedAt": "2026-08-30T07:18:23.397Z",
       "title": "Molecular Bioavailability Protocol",
       "description": "Pharmaceutical grade extraction standard",
       "category": "Clinical Research",
