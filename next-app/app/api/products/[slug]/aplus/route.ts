@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { json, requireUser } from "@/lib/api";
+import { json, requireUser } from "@/lib/http";
 import { aplusStore } from "@/lib/commerce/store-extensions";
 
 export async function GET(request: Request, { params }: { params: Promise<{ slug: string }> }) {
