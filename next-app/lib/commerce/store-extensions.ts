@@ -1604,7 +1604,7 @@ export const shippingStore = {
     },
 
     byId: async (id: string) => {
-      return fileDb.findOne("shippingProviders", (p: Record<string, unknown>) => p.id === id);
+      return fileDb.findOne("shippingProviders", (p: Record<string, unknown>) => p.id === id || p.provider === id || p.id === `ship-${id}`);
     },
 
     create: async (data: Record<string, unknown>) => {
@@ -1620,7 +1620,7 @@ export const shippingStore = {
     },
 
     update: async (id: string, patch: Record<string, unknown>) => {
-      const existing = fileDb.findOne("shippingProviders", (p: Record<string, unknown>) => p.id === id);
+      const existing = fileDb.findOne("shippingProviders", (p: Record<string, unknown>) => p.id === id || p.provider === id || p.id === `ship-${id}`);
       if (!existing) return null;
 
       const existingCreds = ((existing.credentials as Record<string, unknown>) || {});
@@ -1636,7 +1636,7 @@ export const shippingStore = {
         // Unset any previous default
         const all = fileDb.findMany("shippingProviders");
         for (const prov of all) {
-          if (prov.id !== id && prov.isDefault) {
+          if (prov.id !== existing.id && prov.isDefault) {
             fileDb.update("shippingProviders", String(prov.id), { isDefault: false });
           }
         }
@@ -1653,15 +1653,17 @@ export const shippingStore = {
         updatedAt: new Date().toISOString(),
       };
 
-      return fileDb.update("shippingProviders", id, updated);
+      return fileDb.update("shippingProviders", String(existing.id), updated);
     },
 
     delete: async (id: string) => {
-      return fileDb.remove("shippingProviders", id);
+      const existing = fileDb.findOne("shippingProviders", (p: Record<string, unknown>) => p.id === id || p.provider === id || p.id === `ship-${id}`);
+      if (!existing) return false;
+      return fileDb.remove("shippingProviders", String(existing.id));
     },
 
     testConnection: async (id: string) => {
-      const p = fileDb.findOne("shippingProviders", (item: Record<string, unknown>) => item.id === id);
+      const p = fileDb.findOne("shippingProviders", (item: Record<string, unknown>) => item.id === id || item.provider === id || item.id === `ship-${id}`);
       if (!p) return { success: false, message: "Shipping provider not found.", status: "not_configured" };
 
       const provider = String(p.provider);
