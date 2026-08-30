@@ -12,6 +12,7 @@ import MediaLibrary from "./MediaLibrary";
 import PaymentGatewayManager from "./PaymentGatewayManager";
 import ShippingManager from "./ShippingManager";
 import APlusManager from "./APlusManager";
+import EmployeeEditFormAdvanced from "./EmployeeEditFormAdvanced";
 
 type Tab = "dashboard" | "orders" | "products" | "product-edit" | "aplus" | "categories" | "customers" | "b2b" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers" | "homepage" | "marketing" | "payments" | "shipping";
 
@@ -411,7 +412,18 @@ export default function AdminDashboard() {
               </div>
             )}
             {tab === "employees" && editingItem?.employeeEdit && (
-              <EmployeeEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Employee saved."); setIsError(false); doRefresh(); }} inputStyle={inputStyle} labelStyle={labelStyle} />
+              <EmployeeEditFormAdvanced
+                item={editingItem}
+                onSave={() => {
+                  setEditingItem(null);
+                  setMessage("Employee saved successfully.");
+                  setIsError(false);
+                  doRefresh();
+                }}
+                onCancel={() => setEditingItem(null)}
+                inputStyle={inputStyle}
+                labelStyle={labelStyle}
+              />
             )}
 
             {/* ─── AFFILIATES ─── */}
