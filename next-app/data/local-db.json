@@ -58,7 +58,7 @@
     {
       "id": "p-lumine",
       "slug": "lumine-c-serum",
-      "name": "Lumine-C Clinical Radiance 3609",
+      "name": "Lumine-C Clinical Radiance 1666",
       "brand": "Queens Care",
       "description": "A considered vitamin C ritual for daily radiance. Clinical-strength 15% L-Ascorbic Acid paired with Ferulic Acid and Vitamin E for maximum stability and absorption. Designed for everyday dermal health with visible results in 7 days.",
       "shortDescription": "Tested & verified bio-active vitamin C radiance formula with Ferulic acid.",
@@ -79,7 +79,7 @@
       "rating": 4.9,
       "reviewCount": 212,
       "createdAt": "2026-08-29T08:41:59.367Z",
-      "updatedAt": "2026-08-30T07:42:44.112Z",
+      "updatedAt": "2026-08-30T07:44:12.444Z",
       "thumbnail": "",
       "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "aplusContent": [
@@ -191,7 +191,7 @@
         }
       ],
       "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
-      "aplusTemplateId": "aplus-mtfi55cx",
+      "aplusTemplateId": "aplus-mtfi71h4",
       "gifUrl": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnEzbXB3dzVqMDhkczhyYnk1NG9oZ3dtMDk0ZDRhNXlncXZ6bDVybyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjRrfIPjeiVyM/giphy.gif",
       "gifBadge": true
     },
@@ -514,6 +514,23 @@
       "featured": false,
       "published": true,
       "visible": true
+    },
+    {
+      "id": "bp-mtfi71zf",
+      "createdAt": "2026-08-30T07:44:12.747Z",
+      "updatedAt": "2026-08-30T07:44:12.747Z",
+      "slug": "science-report-1788075852733",
+      "title": "Formulation Efficacy Report 2733",
+      "excerpt": "Deep dive into topical antioxidant bioavailability.",
+      "body": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "content": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "category": "Science",
+      "author": "Dr. Vikram Singhania",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1200&q=85",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "featured": false,
+      "published": true,
+      "visible": true
     }
   ],
   "employees": [
@@ -526,11 +543,11 @@
       "photo": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=85",
       "phone": "+91 98111 44556",
       "email": "dr.singhania@queenscare.in",
-      "bio": "Lead Research Formulator. Verification timestamp: 1788075764040",
+      "bio": "Lead Research Formulator. Verification timestamp: 1788075852364",
       "slug": "vikram-singhania",
       "active": true,
       "createdAt": "2026-08-29T07:59:01.686Z",
-      "updatedAt": "2026-08-30T07:42:44.049Z"
+      "updatedAt": "2026-08-30T07:44:12.372Z"
     },
     {
       "id": "emp-1",
@@ -930,7 +947,7 @@
       "key": "theme_primary",
       "value": "#280D38",
       "group": "branding",
-      "updatedAt": "2026-08-30T07:42:43.928Z"
+      "updatedAt": "2026-08-30T07:44:12.222Z"
     },
     {
       "key": "theme_gold",
@@ -941,7 +958,7 @@
     {
       "id": "rec-mte80qtf-a3bvh",
       "createdAt": "2026-08-29T10:11:36.003Z",
-      "updatedAt": "2026-08-30T07:42:43.867Z",
+      "updatedAt": "2026-08-30T07:44:12.168Z",
       "key": "logo_url",
       "value": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=300&q=80",
       "group": "branding"
@@ -1069,7 +1086,7 @@
     {
       "id": "rec-mtffcjfo-rwdph",
       "createdAt": "2026-08-30T06:24:29.796Z",
-      "updatedAt": "2026-08-30T07:42:43.899Z",
+      "updatedAt": "2026-08-30T07:44:12.185Z",
       "key": "logo_height_desktop",
       "value": "45",
       "group": "branding"
@@ -1206,6 +1223,31 @@
       "id": "rec-mtfi55hj-kxfoy",
       "createdAt": "2026-08-30T07:42:43.975Z",
       "updatedAt": "2026-08-30T07:42:43.975Z",
+      "title": "Scientific Synthesis Video Banner",
+      "subtitle": "Experience cleanroom formulation precision.",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/about",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mtfi71ls-re4ru",
+      "createdAt": "2026-08-30T07:44:12.256Z",
+      "updatedAt": "2026-08-30T07:44:12.256Z",
+      "title": "Autumn Clinical Revival Banner",
+      "subtitle": "Cellular rejuvenation and antioxidant shield.",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/shop",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mtfi71mh-eyj8r",
+      "createdAt": "2026-08-30T07:44:12.281Z",
+      "updatedAt": "2026-08-30T07:44:12.281Z",
       "title": "Scientific Synthesis Video Banner",
       "subtitle": "Experience cleanroom formulation precision.",
       "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -1403,6 +1445,29 @@
       "id": "rec-mtfi55ir-pardq",
       "createdAt": "2026-08-30T07:42:44.019Z",
       "updatedAt": "2026-08-30T07:42:44.019Z",
+      "name": "Dr. Kabir Malhotra",
+      "title": "Lead Cosmetic Surgeon, Mumbai",
+      "body": "Exceptional clinical outcomes with post-procedural recovery.",
+      "rating": 5,
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mtfi71n5-ulng0",
+      "createdAt": "2026-08-30T07:44:12.305Z",
+      "updatedAt": "2026-08-30T07:44:12.305Z",
+      "name": "Dr. Aarti Subramanian",
+      "title": "Senior Dermatologist, Apollo Clinics",
+      "body": "Lumine-C sets a benchmark for antioxidant stability in medical aesthetic practice.",
+      "rating": 5,
+      "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mtfi71nw-jtrh6",
+      "createdAt": "2026-08-30T07:44:12.332Z",
+      "updatedAt": "2026-08-30T07:44:12.332Z",
       "name": "Dr. Kabir Malhotra",
       "title": "Lead Cosmetic Surgeon, Mumbai",
       "body": "Exceptional clinical outcomes with post-procedural recovery.",
@@ -1618,6 +1683,29 @@
       "title": "Clinical Tolerability Report 4057",
       "body": "Highly stable ascorbic formulation with rapid epidermal penetration.",
       "image": ""
+    },
+    {
+      "id": "rev-mtfi71pq",
+      "createdAt": "2026-08-30T07:44:12.398Z",
+      "updatedAt": "2026-08-30T07:44:12.398Z",
+      "visible": true,
+      "helpful": 0,
+      "verified": true,
+      "productSlug": "lumine-c-serum",
+      "product": {
+        "id": "p-lumine",
+        "name": "Lumine-C Clinical Radiance 1666",
+        "slug": "lumine-c-serum"
+      },
+      "user": {
+        "name": "Dr. Sneha Roy"
+      },
+      "productId": "lumine-c-serum",
+      "customerName": "Dr. Sneha Roy",
+      "rating": 5,
+      "title": "Clinical Tolerability Report 2390",
+      "body": "Highly stable ascorbic formulation with rapid epidermal penetration.",
+      "image": ""
     }
   ],
   "content": [],
@@ -1818,6 +1906,28 @@
       "discountValue": 250,
       "description": "Flat ₹250 instant reduction.",
       "active": true
+    },
+    {
+      "id": "rec-mtfi71v6-lox52",
+      "createdAt": "2026-08-30T07:44:12.594Z",
+      "updatedAt": "2026-08-30T07:44:12.594Z",
+      "title": "Flash Vitamin C Weekend Event",
+      "type": "flash",
+      "discountType": "percentage",
+      "discountValue": 30,
+      "description": "30% off all antioxidant formulations.",
+      "active": true
+    },
+    {
+      "id": "rec-mtfi71w2-sru5o",
+      "createdAt": "2026-08-30T07:44:12.626Z",
+      "updatedAt": "2026-08-30T07:44:12.626Z",
+      "title": "Lightning 3-Hour Botanical Drop",
+      "type": "lightning",
+      "discountType": "flat",
+      "discountValue": 250,
+      "description": "Flat ₹250 instant reduction.",
+      "active": true
     }
   ],
   "notifications": [
@@ -1863,6 +1973,16 @@
       "message": "Applicable pan-India across 19,000+ pin codes.",
       "link": "/shop",
       "active": true
+    },
+    {
+      "id": "rec-mtfi71wt-ge8rl",
+      "createdAt": "2026-08-30T07:44:12.653Z",
+      "updatedAt": "2026-08-30T07:44:12.653Z",
+      "_kind": "notifications",
+      "title": "Free Express Shipping On All Orders Above ₹999",
+      "message": "Applicable pan-India across 19,000+ pin codes.",
+      "link": "/shop",
+      "active": true
     }
   ],
   "promoBanners": [
@@ -1902,7 +2022,7 @@
       ],
       "supportsRefunds": true,
       "createdAt": "2026-08-30T05:17:02.705Z",
-      "updatedAt": "2026-08-30T07:42:44.204Z"
+      "updatedAt": "2026-08-30T07:44:12.532Z"
     },
     {
       "id": "stripe",
@@ -2011,7 +2131,7 @@
       "maxOrderValue": 15000,
       "instructions": "Please keep exact cash or UPI QR app ready when the delivery partner arrives.",
       "createdAt": "2026-08-30T05:17:02.705Z",
-      "updatedAt": "2026-08-30T07:42:44.233Z"
+      "updatedAt": "2026-08-30T07:44:12.561Z"
     }
   ],
   "shippingProviders": [
@@ -2140,7 +2260,7 @@
       ],
       "active": true,
       "createdAt": "2026-08-30T05:17:02.705Z",
-      "updatedAt": "2026-08-30T07:42:44.174Z"
+      "updatedAt": "2026-08-30T07:44:12.502Z"
     }
   ],
   "aplusTemplates": [
@@ -2413,6 +2533,32 @@
       "id": "aplus-mtfi55cx",
       "createdAt": "2026-08-30T07:42:43.809Z",
       "updatedAt": "2026-08-30T07:42:43.832Z",
+      "title": "Molecular Bio-Shield Protocol",
+      "description": "Advanced stabilization standards",
+      "category": "Dermal Science",
+      "sections": [
+        {
+          "type": "hero",
+          "heading": "Cellular-Level Antioxidant Shield",
+          "text": "Micro-encapsulated formula tested under ISO cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          "published": true
+        },
+        {
+          "type": "video_text",
+          "heading": "Application & Absorption Protocol",
+          "text": "Demonstration of topical bioavailability.",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+          "published": true
+        }
+      ],
+      "published": true
+    },
+    {
+      "id": "aplus-mtfi71h4",
+      "createdAt": "2026-08-30T07:44:12.088Z",
+      "updatedAt": "2026-08-30T07:44:12.118Z",
       "title": "Molecular Bio-Shield Protocol",
       "description": "Advanced stabilization standards",
       "category": "Dermal Science",
