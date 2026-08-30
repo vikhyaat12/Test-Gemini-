@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ReticleDev } from "./reticle-dev";
+import Providers from "./providers";
 
 export const metadata: Metadata = {
   title: {
@@ -29,7 +30,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <Providers>
+          {children}
+        </Providers>
         {process.env.NODE_ENV === "development" ? <ReticleDev /> : null}
       </body>
     </html>

@@ -398,12 +398,46 @@ export function ProductEditFormAdvanced({ item, onSave }: { item: Record<string,
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12 }}>
               <div><label style={labelStyle}>Stock Quantity</label><input type="number" style={inputStyle} value={Number(form.stock || 0)} onChange={e => setForm({ ...form, stock: Number(e.target.value) })} /></div>
               <div><label style={labelStyle}>Low Stock Threshold</label><input type="number" style={inputStyle} value={Number(form.lowStockThreshold || 10)} onChange={e => setForm({ ...form, lowStockThreshold: Number(e.target.value) })} /></div>
-              <div style={{ display: "flex", alignItems: "end", paddingBottom: 4 }}><label style={{ fontSize: 13 }}><input type="checkbox" checked={form.active !== false} onChange={e => setForm({ ...form, active: e.target.checked })} /> Active</label></div>
-              <div style={{ display: "flex", alignItems: "end", paddingBottom: 4 }}><label style={{ fontSize: 13 }}><input type="checkbox" checked={form.visible !== false} onChange={e => setForm({ ...form, visible: e.target.checked })} /> Visible</label></div>
+              <div><label style={labelStyle}>Product Status</label>
+                <select style={inputStyle} value={String(form.status || (form.active !== false ? 'active' : 'inactive'))} onChange={e => {
+                  const val = e.target.value;
+                  setForm({ ...form, status: val, active: val === 'active' || val === 'out_of_stock', visible: val !== 'hidden' });
+                }}>
+                  <option value="active">✅ Active</option>
+                  <option value="inactive">⏸️ Inactive</option>
+                  <option value="out_of_stock">🚫 Out of Stock</option>
+                  <option value="hidden">👁️‍🗨️ Hidden (not in listings)</option>
+                </select>
+              </div>
+              <div><label style={labelStyle}>Stock Override</label>
+                <select style={inputStyle} value={Number(form.stock || 0) <= 0 ? 'oos' : 'in_stock'} onChange={e => {
+                  setForm({ ...form, stock: e.target.value === 'oos' ? 0 : Number(form.lowStockThreshold || 10) + 1 });
+                }}>
+                  <option value="in_stock">In Stock</option>
+                  <option value="oos">Out of Stock</option>
+                </select>
+              </div>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
               <div style={{ display: "flex", alignItems: "end", paddingBottom: 4 }}><label style={{ fontSize: 13 }}><input type="checkbox" checked={!!form.homepageVisible} onChange={e => setForm({ ...form, homepageVisible: e.target.checked })} /> Show on Homepage</label></div>
+              <div><label style={labelStyle}>Out of Stock Message</label><input style={inputStyle} value={String(form.outOfStockMessage || '')} onChange={e => setForm({ ...form, outOfStockMessage: e.target.value })} placeholder="Currently unavailable — restocking soon" /></div>
             </div>
+            {/* Status Summary */}
+            {(() => {
+              const stockNum = Number(form.stock || 0);
+              const st = String(form.status || (form.active !== false ? 'active' : 'inactive'));
+              const labels: Record<string, {color: string; text: string}> = {
+                active: { color: '#2e7d32', text: 'ACTIVE — visible on public site' },
+                inactive: { color: '#d4ad65', text: 'INACTIVE — not shown publicly' },
+                out_of_stock: { color: '#e65100', text: 'OUT OF STOCK — page visible but cannot purchase' },
+                hidden: { color: '#b34141', text: 'HIDDEN — removed from all public listings' },
+              };
+              const info = labels[st] || labels.active;
+              return <div style={{ padding: 12, background: stockNum <= 0 ? '#fff3cd' : '#e9f7e9', border: `1px solid ${stockNum <= 0 ? '#ffc107' : '#c3e6cb'}`, fontSize: 12 }}>
+                <b>Status Summary: </b>
+                <span style={{ color: info.color, fontWeight: 600 }}>{info.text}</span>
+              </div>;
+            })()}
           </div>
         </div>
       )}

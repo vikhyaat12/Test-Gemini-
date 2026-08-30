@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import * as THREE from "three";
+import { QRCodeSVG } from "qrcode.react";
 
 export type EmployeeData = {
   id?: string;
@@ -27,8 +28,22 @@ export type EmployeeData = {
     borderColor?: string;
     objectFit?: "cover" | "contain";
     shadow?: boolean;
+    zoom?: number;
+    positionX?: number;
+    positionY?: number;
+    rotation?: number;
   };
+  verified?: boolean;
+  themeColors?: Record<string, string>;
+  socialLinks?: Record<string, { url: string; enabled: boolean }>;
 };
+
+const QC_DEFAULTS = { primary: "#2A0F3A", gold: "#C19A6B", background: "#FAF8F5", cardBg: "#FFFFFF", text: "#333333", badgeBg: "#D4AF37", buttonBg: "#2A0F3A", gradient: "" };
+function resolveTheme(emp: EmployeeData) {
+  const tc = emp.themeColors || {};
+  const get = (k: string) => tc[k] || QC_DEFAULTS[k as keyof typeof QC_DEFAULTS] || "";
+  return { primary: get("primary"), gold: get("gold"), background: get("background"), cardBg: get("cardBg"), text: get("text"), badgeBg: get("badgeBg"), buttonBg: get("buttonBg"), gradient: get("gradient") };
+}
 
 // 3D Background Canvas for Employee Hero
 function Employee3DScene() {
@@ -162,6 +177,10 @@ export default function EmployeeProfileClient({
   const [showQrModal, setShowQrModal] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
+  const theme = resolveTheme(employee);
+  const isActive = employee.active !== false;
+  const isVerified = employee.verified !== false;
+
   const photo = employee.photo || employee.profileImage || "";
   const photoSettings = employee.photoSettings || {
     desktopSize: 180,
@@ -201,10 +220,9 @@ export default function EmployeeProfileClient({
   // Build verification QR URL
   const currentOrigin = typeof window !== "undefined" ? window.location.origin : "https://queenscare.in";
   const profileUrl = `${currentOrigin}/employee/${employee.slug}`;
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(profileUrl)}`;
 
   return (
-    <div style={{ background: "#faf8f5", minHeight: "100vh", paddingBottom: 80, color: "#2A0F3A" }}>
+    <div style={{ background: theme.background, minHeight: "100vh", paddingBottom: 80, color: theme.primary }}>
       {/* Top Breadcrumb Header */}
       <div style={{ background: "#ffffff", borderBottom: "1px solid #eae5db", padding: "14px 24px" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -252,11 +270,11 @@ export default function EmployeeProfileClient({
       <section
         style={{
           position: "relative",
-          background: "linear-gradient(145deg, #180524 0%, #2A0F3A 60%, #150320 100%)",
+          background: theme.gradient || `linear-gradient(145deg, ${theme.primary}ee 0%, ${theme.primary} 60%, ${theme.primary}dd 100%)`,
           color: "#ffffff",
           padding: "70px 24px 80px",
           overflow: "hidden",
-          borderBottom: "2px solid #D4AF37",
+          borderBottom: `2px solid ${theme.gold}`,
         }}
       >
         <Employee3DScene />
@@ -286,20 +304,22 @@ export default function EmployeeProfileClient({
                 }}
               >
                 {photo ? (
-                  <img
-                    src={photo}
-                    alt={employee.name}
-                    style={{
-                      width: desktopSize,
-                      height: desktopSize,
-                      maxWidth: "100%",
-                      borderRadius: `${borderRadius}%`,
-                      objectFit,
-                      border: `${borderWidth}px solid ${borderColor}`,
-                      boxShadow: hasShadow ? "0 18px 45px rgba(0,0,0,0.6), 0 0 30px rgba(212,175,55,0.3)" : "none",
-                      display: "block",
-                    }}
-                  />
+                  <div style={{ width: desktopSize, height: desktopSize, borderRadius: `${borderRadius}%`, overflow: "hidden", border: `${borderWidth}px solid ${borderColor}`, boxShadow: hasShadow ? "0 18px 45px rgba(0,0,0,0.6), 0 0 30px rgba(212,175,55,0.3)" : "none", display: "block" }}>
+                    <img
+                      src={photo}
+                      alt={employee.name}
+                      style={{
+                        width: `${(photoSettings.zoom || 1) * 100}%`,
+                        height: `${(photoSettings.zoom || 1) * 100}%`,
+                        objectPosition: `${photoSettings.positionX ?? 50}% ${photoSettings.positionY ?? 50}%`,
+                        borderRadius: 0,
+                        objectFit: "cover",
+                        border: "none",
+                        display: "block",
+                        transform: `rotate(${photoSettings.rotation ?? 0}deg)`,
+                      }}
+                    />
+                  </div>
                 ) : (
                   <div
                     style={{
@@ -321,8 +341,8 @@ export default function EmployeeProfileClient({
                   </div>
                 )}
 
-                {/* Verified Badge */}
-                {employee.active !== false ? (
+                {/* Verification Badge */}
+                {isActive && isVerified ? (
                   <div
                     style={{
                       position: "absolute",
@@ -338,12 +358,29 @@ export default function EmployeeProfileClient({
                       justifyContent: "center",
                       fontSize: 18,
                       fontWeight: "bold",
-                      border: "3px solid #ffffff",
-                      boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+                      border: `3px solid ${theme.gold}`,
+                      boxShadow: `0 4px 12px rgba(0,0,0,0.3), 0 0 12px ${theme.gold}44`,
                     }}
-                    title="Verified Active Employee"
+                    title="Queens Care Verified Employee"
                   >
                     ✓
+                  </div>
+                ) : isActive ? (
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: 8,
+                      right: 8,
+                      background: "#10b981",
+                      color: "#ffffff",
+                      padding: "2px 8px",
+                      borderRadius: 10,
+                      fontSize: 10,
+                      fontWeight: "bold",
+                      border: "2px solid #fff",
+                    }}
+                  >
+                    Active
                   </div>
                 ) : (
                   <div
@@ -370,9 +407,9 @@ export default function EmployeeProfileClient({
               <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, marginBottom: 12 }}>
                 <span
                   style={{
-                    background: "rgba(212,175,55,0.2)",
-                    border: "1px solid #D4AF37",
-                    color: "#D4AF37",
+                    background: isActive && isVerified ? "rgba(212,175,55,0.2)" : isActive ? "rgba(16,185,129,0.15)" : "rgba(107,114,128,0.15)",
+                    border: `1px solid ${isActive && isVerified ? theme.gold : isActive ? "#10b981" : "#6b7280"}`,
+                    color: isActive && isVerified ? theme.gold : isActive ? "#10b981" : "#6b7280",
                     padding: "4px 12px",
                     borderRadius: 20,
                     fontSize: 11,
@@ -381,7 +418,7 @@ export default function EmployeeProfileClient({
                     letterSpacing: "0.1em",
                   }}
                 >
-                  ✓ VERIFIED ACTIVE EMPLOYEE
+                  {isActive && isVerified ? "✓ VERIFIED QUEENS CARE EMPLOYEE" : isActive ? "ACTIVE EMPLOYEE" : "INACTIVE EMPLOYEE"}
                 </span>
                 <span
                   style={{
@@ -432,8 +469,8 @@ export default function EmployeeProfileClient({
                       alignItems: "center",
                       gap: 8,
                       padding: "10px 20px",
-                      background: "linear-gradient(135deg, #D4AF37 0%, #C19A6B 100%)",
-                      color: "#180524",
+                      background: `linear-gradient(135deg, ${theme.gold} 0%, ${theme.gold}cc 100%)`,
+                      color: theme.primary,
                       fontWeight: 700,
                       fontSize: 13,
                       borderRadius: 6,
@@ -442,7 +479,7 @@ export default function EmployeeProfileClient({
                       transition: "transform 0.15s ease",
                     }}
                   >
-                    <span>✉</span> Email Specialist
+                    <span>✉</span> Email Employee
                   </a>
                 )}
                 {employee.phone && (
@@ -491,6 +528,62 @@ export default function EmployeeProfileClient({
         </div>
       </section>
 
+      {/* SOCIAL MEDIA LINKS */}
+      {(() => {
+        const socials = employee.socialLinks || {};
+        const enabledSocials = Object.entries(socials).filter(([, v]) => v.enabled && v.url);
+        if (enabledSocials.length === 0) return null;
+        const socialIcons: Record<string, { label: string; icon: string; color: string }> = {
+          linkedin: { label: "LinkedIn", icon: "💼", color: "#0077B5" },
+          instagram: { label: "Instagram", icon: "📷", color: "#E4405F" },
+          facebook: { label: "Facebook", icon: "📘", color: "#1877F2" },
+          youtube: { label: "YouTube", icon: "🎬", color: "#FF0000" },
+          twitter: { label: "X / Twitter", icon: "𝕏", color: "#1DA1F2" },
+          website: { label: "Website", icon: "🌐", color: theme.gold },
+        };
+        return (
+          <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px", marginTop: 24 }}>
+            <div style={{ background: theme.cardBg, borderRadius: 12, padding: 24, border: "1px solid #eae5db", boxShadow: "0 10px 25px rgba(0,0,0,0.03)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+                <span style={{ width: 4, height: 20, background: theme.gold, borderRadius: 2 }} />
+                <h3 style={{ font: "18px var(--font-display)", color: theme.primary, margin: 0 }}>Connect With {employee.name.split(" ")[0]}</h3>
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+                {enabledSocials.map(([key, val]) => {
+                  const cfg = socialIcons[key] || { label: key, icon: "🔗", color: theme.gold };
+                  return (
+                    <a
+                      key={key}
+                      href={val.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Connect with ${employee.name} on ${cfg.label}`}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 8,
+                        padding: "10px 18px",
+                        background: "#faf8f5",
+                        border: `1px solid ${cfg.color}33`,
+                        borderRadius: 8,
+                        textDecoration: "none",
+                        color: cfg.color,
+                        fontWeight: 600,
+                        fontSize: 13,
+                        transition: "all 0.2s ease",
+                      }}
+                    >
+                      <span style={{ fontSize: 18 }}>{cfg.icon}</span>
+                      <span>{cfg.label}</span>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
       {/* MAIN CONTENT BODY */}
       <div style={{ maxWidth: 1100, margin: "-30px auto 0", padding: "0 24px", position: "relative", zIndex: 2 }}>
         <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 24 }}>
@@ -508,11 +601,11 @@ export default function EmployeeProfileClient({
             >
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
                 <span style={{ width: 4, height: 20, background: "#C19A6B", borderRadius: 2 }} />
-                <h2 style={{ font: "20px var(--font-display)", color: "#2A0F3A", margin: 0 }}>
+                <h2 style={{ font: "20px var(--font-display)", color: theme.primary, margin: 0 }}>
                   Professional Profile & Clinical Experience
                 </h2>
               </div>
-              <p style={{ fontSize: 15, lineHeight: 1.8, color: "#374151", margin: 0 }}>
+              <p style={{ fontSize: 15, lineHeight: 1.8, color: theme.text, margin: 0 }}>
                 {employee.bio ||
                   `${employee.name} serves as ${employee.designation || "a clinical specialist"} in the ${employee.department || "Pharmaceutical Research & Formulation"} department at Queens Care Laboratories, upholding evidence-based scientific standards and quality assurance.`}
               </p>
@@ -663,23 +756,23 @@ export default function EmployeeProfileClient({
                 boxShadow: "0 10px 25px rgba(0,0,0,0.03)",
               }}
             >
-              <h3 style={{ font: "16px var(--font-display)", color: "#2A0F3A", margin: "0 0 16px 0" }}>
+              <h3 style={{ font: "16px var(--font-display)", color: theme.primary, margin: "0 0 16px 0" }}>
                 Employment Verification
               </h3>
 
               <div style={{ display: "grid", gap: 12, fontSize: 13 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #f3f4f6", paddingBottom: 8 }}>
                   <span style={{ color: "#6b7280" }}>Official ID</span>
-                  <code style={{ fontWeight: 700, color: "#2A0F3A" }}>{employee.employeeId || employee.slug}</code>
+                  <code style={{ fontWeight: 700, color: theme.primary }}>{employee.employeeId || employee.slug}</code>
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #f3f4f6", paddingBottom: 8 }}>
                   <span style={{ color: "#6b7280" }}>Department</span>
-                  <span style={{ fontWeight: 600, color: "#2A0F3A", textAlign: "right" }}>{employee.department || "General"}</span>
+                  <span style={{ fontWeight: 600, color: theme.primary, textAlign: "right" }}>{employee.department || "General"}</span>
                 </div>
                 {employee.email && (
                   <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #f3f4f6", paddingBottom: 8 }}>
                     <span style={{ color: "#6b7280" }}>Email</span>
-                    <a href={`mailto:${employee.email}`} style={{ color: "#2A0F3A", fontWeight: 600, textDecoration: "none" }}>
+                    <a href={`mailto:${employee.email}`} style={{ color: theme.primary, fontWeight: 600, textDecoration: "none" }}>
                       {employee.email}
                     </a>
                   </div>
@@ -694,18 +787,25 @@ export default function EmployeeProfileClient({
                 )}
                 <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 4 }}>
                   <span style={{ color: "#6b7280" }}>Status</span>
-                  <span style={{ color: "#10b981", fontWeight: 700 }}>Active & Verified</span>
+                  <span style={{ color: isActive ? (isVerified ? "#10b981" : theme.gold) : "#6b7280", fontWeight: 700 }}>
+                    {isActive && isVerified ? "✓ Active & Verified" : isActive ? "Active" : "Inactive"}
+                  </span>
                 </div>
               </div>
 
               <div style={{ marginTop: 20, textAlign: "center" }}>
-                <img
-                  src={qrCodeUrl}
-                  alt="Verification QR"
-                  style={{ width: 140, height: 140, borderRadius: 8, border: "1px solid #d1d5db", padding: 6, background: "#fff", display: "inline-block" }}
-                />
-                <div style={{ fontSize: 11, color: "#6b7280", marginTop: 8 }}>
-                  Scan to verify authentic credentials on queenscare.in
+                <div style={{ display: "inline-block", padding: 12, background: "#fff", borderRadius: 12, border: "2px solid #D4AF37", boxShadow: "0 4px 16px rgba(212,175,55,0.15)" }}>
+                  <QRCodeSVG
+                    value={profileUrl}
+                    size={140}
+                    level="M"
+                    bgColor="#ffffff"
+                    fgColor="#2A0F3A"
+                    style={{ display: "block" }}
+                  />
+                </div>
+                <div style={{ fontSize: 11, color: "#6b7280", marginTop: 8, lineHeight: 1.5 }}>
+                  Scan the QR code to verify this employee profile on the official Queens Care Laboratories website.
                 </div>
               </div>
             </div>
@@ -823,8 +923,15 @@ export default function EmployeeProfileClient({
             </div>
             <h3 style={{ font: "22px var(--font-display)", color: "#2A0F3A", margin: "8px 0 16px" }}>{employee.name}</h3>
 
-            <div style={{ padding: 12, background: "#faf8f5", borderRadius: 12, display: "inline-block", border: "1px solid #eae5db" }}>
-              <img src={qrCodeUrl} alt="Employee QR" style={{ width: 200, height: 200, display: "block" }} />
+            <div style={{ padding: 16, background: "#faf8f5", borderRadius: 12, display: "inline-block", border: "2px solid #D4AF37", boxShadow: "0 4px 16px rgba(212,175,55,0.15)" }}>
+              <QRCodeSVG
+                value={profileUrl}
+                size={200}
+                level="M"
+                bgColor="#ffffff"
+                fgColor="#2A0F3A"
+                style={{ display: "block" }}
+              />
             </div>
 
             <div style={{ fontSize: 12, color: "#4b5563", marginTop: 14 }}>

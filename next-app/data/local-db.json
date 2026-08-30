@@ -5,7 +5,7 @@
       "email": "admin@queenscare.in",
       "name": "Queens Care Admin",
       "role": "admin",
-      "passwordHash": "local-dev-only",
+      "passwordHash": "scrypt$32947424c2c0266ad39c1e6b49a3b747$13558144f7b4dc502c70a6e6d4e8f2fa26c3a4d09981c70f2ec49248e0fa1225e26d46ccde3a68982277db05b0a28b90f9f7f3f060ddb7d4091d33abdc8875cf",
       "createdAt": "2026-08-29T07:59:01.685Z",
       "updatedAt": "2026-08-29T07:59:01.685Z"
     },
@@ -52,6 +52,15 @@
       "name": "Admin User",
       "role": "customer",
       "passwordHash": "scrypt$427396a3a89cd88cf2f412b41227d633$7881c310a3770de2e345c34b9c735c0a4f66e7def00ba23184f300f8472b7fa799bea9c18b086385d36dee09ff7b6c128b4c94926ec2e2aa201eaf073a8b206c"
+    },
+    {
+      "id": "usr-d28df0a7",
+      "createdAt": "2026-08-30T11:13:01.769Z",
+      "updatedAt": "2026-08-30T11:13:01.769Z",
+      "email": "admin2@queenscare.in",
+      "name": "Admin2",
+      "role": "admin",
+      "passwordHash": "scrypt$83cf084dad17510d547ac80d0687e91a$b99896409403e01ed019f20d2c5cd66d48e0132346779b560b1838394743d2ccdf22cd0474c909d02d9c1b1e37eb3bd9b5c04492e55e4067c1790cda58ebfa4c"
     }
   ],
   "products": [
@@ -616,18 +625,18 @@
     {
       "id": "rec-mte8eg3c-9gjss",
       "createdAt": "2026-08-29T10:22:15.288Z",
-      "updatedAt": "2026-08-30T08:45:27.924Z",
+      "updatedAt": "2026-08-30T09:22:54.496Z",
       "name": "Sanjay Walia",
       "slug": "sanjay-walia",
       "employeeId": "1122",
       "designation": "CEO",
       "department": "CEO",
-      "photo": null,
+      "photo": "/uploads/employees/52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f-1788081544369.png",
       "phone": "8881215329",
       "email": "Sanjaywalia32",
       "bio": "Working as ceo queens care",
       "active": true,
-      "profileImage": null,
+      "profileImage": "/uploads/employees/52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f-1788081544369.png",
       "gallery": [],
       "videos": [],
       "photoSettings": {
@@ -1057,9 +1066,9 @@
     {
       "id": "rec-mte80qtf-a3bvh",
       "createdAt": "2026-08-29T10:11:36.003Z",
-      "updatedAt": "2026-08-30T08:33:47.849Z",
+      "updatedAt": "2026-08-30T09:09:28.433Z",
       "key": "logo_url",
-      "value": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=300&q=80",
+      "value": "/uploads/logos/photo_from_vikhyaat_sikand-removebg-preview-1788076858002.png",
       "group": "branding"
     },
     {
@@ -1832,6 +1841,76 @@
       "filename": "52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f-1788079539374.png",
       "type": "image",
       "url": "/uploads/employees/52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f-1788079539374.png",
+      "mimeType": "image/png",
+      "size": 1681321,
+      "alt": "52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f92ba",
+      "title": "52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f92ba.png",
+      "usedBy": "employees",
+      "visible": true
+    },
+    {
+      "id": "rec-mtfkfcvd-4hvfy",
+      "createdAt": "2026-08-30T08:46:39.336Z",
+      "updatedAt": "2026-08-30T08:46:39.337Z",
+      "filename": "52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f-1788079599331.png",
+      "type": "image",
+      "url": "/uploads/employees/52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f-1788079599331.png",
+      "mimeType": "image/png",
+      "size": 1681321,
+      "alt": "52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f92ba",
+      "title": "52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f92ba.png",
+      "usedBy": "employees",
+      "visible": true
+    },
+    {
+      "id": "rec-mtfkmpvy-0otd7",
+      "createdAt": "2026-08-30T08:52:22.797Z",
+      "updatedAt": "2026-08-30T08:52:22.798Z",
+      "filename": "test-logo-1788079942598.png",
+      "type": "image",
+      "url": "/uploads/logos/test-logo-1788079942598.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "test-logo",
+      "title": "test-logo.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtfkmq56-atpqv",
+      "createdAt": "2026-08-30T08:52:23.130Z",
+      "updatedAt": "2026-08-30T08:52:23.130Z",
+      "filename": "test-logo-1788079943128.png",
+      "type": "image",
+      "url": "/uploads/logos/test-logo-1788079943128.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "test-logo",
+      "title": "test-logo.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtfl82rt-mlug0",
+      "createdAt": "2026-08-30T09:08:59.272Z",
+      "updatedAt": "2026-08-30T09:08:59.273Z",
+      "filename": "photo_from_vikhyaat_sikand-removebg-preview-1788076858002-1788080939265.png",
+      "type": "image",
+      "url": "/uploads/logos/photo_from_vikhyaat_sikand-removebg-preview-1788076858002-1788080939265.png",
+      "mimeType": "image/png",
+      "size": 143109,
+      "alt": "photo_from_vikhyaat_sikand-removebg-preview-1788076858002",
+      "title": "photo_from_vikhyaat_sikand-removebg-preview-1788076858002.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtfll1o6-77fwe",
+      "createdAt": "2026-08-30T09:19:04.374Z",
+      "updatedAt": "2026-08-30T09:19:04.374Z",
+      "filename": "52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f-1788081544369.png",
+      "type": "image",
+      "url": "/uploads/employees/52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f-1788081544369.png",
       "mimeType": "image/png",
       "size": 1681321,
       "alt": "52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f92ba",
@@ -3007,6 +3086,186 @@
         }
       ],
       "published": true
+    }
+  ],
+  "pushSubscriptions": [
+    {
+      "id": "rec-mtfpllsv-mskr0",
+      "createdAt": "2026-08-30T11:11:28.927Z",
+      "updatedAt": "2026-08-30T11:11:28.927Z",
+      "endpoint": "https://test-endpoint.example.com/push/test123",
+      "keys": {
+        "p256dh": "test-key",
+        "auth": "test-auth"
+      },
+      "expirationTime": null,
+      "userAgent": "curl/8.21.0",
+      "active": true
+    }
+  ],
+  "pushNotificationHistory": [
+    {
+      "id": "rec-mtfpo0gk-ka1hr",
+      "createdAt": "2026-08-30T11:13:21.236Z",
+      "updatedAt": "2026-08-30T11:13:21.441Z",
+      "title": "Test Notification",
+      "message": "Push notifications are working!",
+      "url": "/shop",
+      "status": "partially_sent",
+      "sentCount": 0,
+      "failedCount": 1,
+      "expiredCount": 0,
+      "sentBy": "usr-d28df0a7",
+      "totalSubscribers": 1,
+      "sentAt": "2026-08-30T11:13:21.396Z"
+    }
+  ],
+  "pageSettings": [
+    {
+      "id": "pg-home",
+      "slug": "",
+      "title": "Home",
+      "label": "Home",
+      "headerVisible": true,
+      "footerVisible": true,
+      "sortOrder": 0,
+      "active": true,
+      "createdAt": "2026-07-30T00:00:00.000Z",
+      "updatedAt": "2026-07-30T00:00:00.000Z"
+    },
+    {
+      "id": "pg-about",
+      "slug": "about",
+      "title": "About",
+      "label": "About",
+      "headerVisible": true,
+      "footerVisible": true,
+      "sortOrder": 1,
+      "active": true,
+      "createdAt": "2026-07-30T00:00:00.000Z",
+      "updatedAt": "2026-07-30T00:00:00.000Z"
+    },
+    {
+      "id": "pg-science",
+      "slug": "#science",
+      "title": "Our Science",
+      "label": "Our science",
+      "headerVisible": true,
+      "footerVisible": true,
+      "sortOrder": 2,
+      "active": true,
+      "isAnchor": true,
+      "createdAt": "2026-07-30T00:00:00.000Z",
+      "updatedAt": "2026-07-30T00:00:00.000Z"
+    },
+    {
+      "id": "pg-blog",
+      "slug": "blog",
+      "title": "Blog",
+      "label": "Blog",
+      "headerVisible": true,
+      "footerVisible": true,
+      "sortOrder": 3,
+      "active": true,
+      "createdAt": "2026-07-30T00:00:00.000Z",
+      "updatedAt": "2026-07-30T00:00:00.000Z"
+    },
+    {
+      "id": "pg-contact",
+      "slug": "contact",
+      "title": "Contact",
+      "label": "Contact",
+      "headerVisible": true,
+      "footerVisible": true,
+      "sortOrder": 4,
+      "active": true,
+      "createdAt": "2026-07-30T00:00:00.000Z",
+      "updatedAt": "2026-07-30T00:00:00.000Z"
+    },
+    {
+      "id": "pg-b2b",
+      "slug": "b2b",
+      "title": "Partners",
+      "label": "Partners",
+      "headerVisible": false,
+      "footerVisible": true,
+      "sortOrder": 5,
+      "active": true,
+      "createdAt": "2026-07-30T00:00:00.000Z",
+      "updatedAt": "2026-08-30T11:56:20.565Z"
+    },
+    {
+      "id": "pg-affiliate",
+      "slug": "affiliate",
+      "title": "Affiliate",
+      "label": "Affiliate",
+      "headerVisible": false,
+      "footerVisible": true,
+      "sortOrder": 6,
+      "active": true,
+      "createdAt": "2026-07-30T00:00:00.000Z",
+      "updatedAt": "2026-07-30T00:00:00.000Z"
+    },
+    {
+      "id": "pg-doctors",
+      "slug": "doctors",
+      "title": "Doctors",
+      "label": "Doctors",
+      "headerVisible": false,
+      "footerVisible": true,
+      "sortOrder": 7,
+      "active": true,
+      "createdAt": "2026-07-30T00:00:00.000Z",
+      "updatedAt": "2026-07-30T00:00:00.000Z"
+    },
+    {
+      "id": "pg-employee",
+      "slug": "employee",
+      "title": "Our Team",
+      "label": "Our Team",
+      "headerVisible": false,
+      "footerVisible": true,
+      "sortOrder": 8,
+      "active": true,
+      "createdAt": "2026-07-30T00:00:00.000Z",
+      "updatedAt": "2026-07-30T00:00:00.000Z"
+    },
+    {
+      "id": "pg-shop",
+      "slug": "#collection",
+      "title": "Shop",
+      "label": "Shop",
+      "headerVisible": true,
+      "footerVisible": true,
+      "sortOrder": 9,
+      "active": true,
+      "isAnchor": true,
+      "createdAt": "2026-07-30T00:00:00.000Z",
+      "updatedAt": "2026-07-30T00:00:00.000Z"
+    },
+    {
+      "id": "pg-privacy",
+      "slug": "privacy",
+      "title": "Privacy Policy",
+      "label": "Privacy",
+      "headerVisible": false,
+      "footerVisible": true,
+      "sortOrder": 10,
+      "active": true,
+      "createdAt": "2026-07-30T00:00:00.000Z",
+      "updatedAt": "2026-07-30T00:00:00.000Z"
+    },
+    {
+      "id": "pg-terms",
+      "slug": "terms",
+      "title": "Terms & Conditions",
+      "label": "Terms",
+      "headerVisible": false,
+      "footerVisible": true,
+      "sortOrder": 11,
+      "active": true,
+      "createdAt": "2026-07-30T00:00:00.000Z",
+      "updatedAt": "2026-07-30T00:00:00.000Z"
     }
   ]
 }

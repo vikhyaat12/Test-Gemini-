@@ -43,6 +43,8 @@ type BlogPostItem = {
 
 function Icon({ children }: { children: string }) { return <span aria-hidden="true">{children}</span>; }
 
+import { SocialBrandIcon } from "./SocialIcons";
+
 export default function QueensCareExperience() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
@@ -57,7 +59,21 @@ export default function QueensCareExperience() {
   const [logoUrl, setLogoUrl] = useState<string>("");
   const [logoHeight, setLogoHeight] = useState<string>("34px");
   const [logoMaxWidth, setLogoMaxWidth] = useState<string>("180px");
+  const [logoFailed, setLogoFailed] = useState(false);
   const [hpSections, setHpSections] = useState<Record<string, unknown>[]>([]);
+  const [socialLinks, setSocialLinks] = useState<
+    Array<{
+      id: string;
+      platform: string;
+      label: string;
+      url: string;
+      iconSize?: number;
+      desktopIconSize?: number;
+      mobileIconSize?: number;
+      customIconUrl?: string;
+      openNewTab?: boolean;
+    }>
+  >([]);
 
   useEffect(() => {
     fetch("/api/auth/me").then(r=>r.json()).then(d=>{ if(d.user) setUser(d.user); }).catch(()=>{});
@@ -69,12 +85,13 @@ export default function QueensCareExperience() {
         if(s.key==='theme_accent' && s.value) document.documentElement.style.setProperty('--accent', s.value);
         if(s.key==='theme_bg' && s.value) document.documentElement.style.setProperty('--paper', s.value);
         if(s.key==='theme_text' && s.value) document.documentElement.style.setProperty('--ink', s.value);
-        if(s.key==='logo_url' && s.value) setLogoUrl(s.value);
+        if(s.key==='logo_url' && s.value) { setLogoUrl(s.value); setLogoFailed(false); }
         if(s.key==='logo_height_desktop' && s.value) setLogoHeight(`${s.value}px`);
         if(s.key==='logo_max_width' && s.value) setLogoMaxWidth(`${s.value}px`);
       });
     }).catch(()=>{});
     fetch("/api/homepage").then(r=>r.json()).then(d=>{ if(d.sections?.length) setHpSections(d.sections); }).catch(()=>{});
+    fetch("/api/social-links").then(r=>r.json()).then(d=>{ setSocialLinks(d.links || []); }).catch(()=>{});
     fetch("/api/blog").then(r=>r.json()).then(d=>{ if(d.posts?.length) setBlogPosts(d.posts); }).catch(()=>{});
   }, []);
 
@@ -126,12 +143,19 @@ export default function QueensCareExperience() {
   const toggleWish = (name: string) => setWish((items) => items.includes(name) ? items.filter((item) => item !== name) : [...items, name]);
   const subscribe = (event: FormEvent<HTMLFormElement>) => { event.preventDefault(); setNotice("You're on the Queens Care list. Thank you."); };
   
+  // CMS content helpers
+  const heroVis = getHpContent("heroVisual");
+  const scienceContent = getHpContent("science");
+  const ritualContent = getHpContent("ritual");
+  const affiliateContent = getHpContent("affiliate");
+  const journalContent = getHpContent("newsletter");
+  
   return <div className="site-shell">
     <div className="announcement"><span>{getHpContent("banner").text || "Complimentary delivery on orders above ₹1,500"}</span><DeliveryTimer/><Link href={getHpContent("banner").secondaryLink || "/doctors"}>{getHpContent("banner").secondaryText || "For healthcare professionals"} →</Link></div>
-    <header className="nav-wrap"><Link href="/" className="brand" aria-label="Queens Care home">{logoUrl ? <img src={logoUrl} alt="Queens Care" style={{height:logoHeight,maxWidth:logoMaxWidth,objectFit:'contain'}} /> : <i>Q</i>}<span>QUEENS<br/><b>CARE</b></span></Link><nav className={menu ? "open" : ""}><a href="#collection">Shop</a><Link href="/about">About</Link><a href="#science">Our science</a><Link href="/blog">Journal</Link><Link href="/b2b">Partners</Link><Link href="/affiliate">Affiliate</Link><Link href="/doctors">Doctors</Link><Link href="/employee">Our Team</Link><Link href="/contact">Contact</Link></nav><div className="nav-actions"><Link href="/account" style={{fontSize:12, textDecoration:'none', color:'var(--ink)', marginRight:8, display:'flex', alignItems:'center', gap:4}} aria-label="Account">{user ? <span title={user.email}>Account</span> : <span>Sign In</span>}</Link><label className="search"><Icon>⌕</Icon><input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search care" aria-label="Search products" /></label><button className="icon-button" onClick={() => setNotice(wish.length ? `${wish.length} saved product${wish.length > 1 ? "s" : ""}.` : "Your saved list is waiting for its first ritual.")} aria-label="View wishlist">♡<em>{wish.length || ""}</em></button><CartBadge /><button className="bag-dummy" onClick={() => setNotice(cartCount ? `${cartCount} item${cartCount > 1 ? "s" : ""} in your care bag — checkout is ready.` : "Your care bag is empty.")}>Bag <b>{cartCount}</b></button><button className="menu" onClick={() => setMenu(!menu)} aria-label="Toggle navigation">☰</button></div></header>
+    <header className="nav-wrap"><Link href="/" className="brand" aria-label="Queens Care home">{logoUrl && !logoFailed ? <img src={logoUrl} alt="Queens Care" style={{height:logoHeight,maxWidth:logoMaxWidth,objectFit:'contain'}} onError={()=>setLogoFailed(true)} /> : <i>Q</i>}<span>QUEENS<br/><b>CARE</b></span></Link><nav className={menu ? "open" : ""}><a href="#collection">Shop</a><Link href="/about">About</Link><a href="#science">Our science</a><Link href="/blog">Blog</Link><Link href="/contact">Contact</Link></nav><div className="nav-actions"><Link href="/account" style={{fontSize:12, textDecoration:'none', color:'var(--ink)', marginRight:8, display:'flex', alignItems:'center', gap:4}} aria-label="Account">{user ? <span title={user.email}>Account</span> : <span>Sign In</span>}</Link><label className="search"><Icon>⌕</Icon><input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search care" aria-label="Search products" /></label><button className="icon-button" onClick={() => setNotice(wish.length ? `${wish.length} saved product${wish.length > 1 ? "s" : ""}.` : "Your saved list is waiting for its first ritual.")} aria-label="View wishlist">♡<em>{wish.length || ""}</em></button><CartBadge /><button className="bag-dummy" onClick={() => setNotice(cartCount ? `${cartCount} item${cartCount > 1 ? "s" : ""} in your care bag — checkout is ready.` : "Your care bag is empty.")}>Bag <b>{cartCount}</b></button><button className="menu" onClick={() => setMenu(!menu)} aria-label="Toggle navigation">☰</button></div></header>
     {notice && <div className="toast" role="status">{notice}<button onClick={() => setNotice("")}>×</button></div>}
     <main><CareScene />
-      <section className="hero"><div className="hero-copy"><p className="eyebrow">{getHpContent("hero").eyebrow || "A higher standard of everyday care"}</p><h1 dangerouslySetInnerHTML={{ __html: getHpContent("hero").heading || "Science, made <em>personal.</em>" }} /><p className="lead">{getHpContent("hero").subtitle || "Intelligent formulations that turn your daily health rituals into small, powerful acts of self-respect."}</p><div className="hero-ctas"><a href={getHpContent("hero").ctaLink || "#collection"} className="button">{getHpContent("hero").ctaText || "Explore the collection"} <span>→</span></a><a href={getHpContent("hero").secondaryLink || "#science"} className="text-link">{getHpContent("hero").secondaryText || "How we formulate"} <span>↗</span></a></div><div className="ratings"><div className="avatars"><span>R</span><span>S</span><span>A</span></div><p><b>{getHpContent("hero").rating || "4.9 / 5"}</b> from {getHpContent("hero").ratingCount || "12,000+ care rituals"}</p></div></div><div className="hero-visual" aria-label="Abstract three dimensional pharmaceutical bottle composition"><div className="orb orb-one"/><div className="orb orb-two"/><div className="ring"/><div className="bottle"><div className="cap"/><div className="bottle-label"><i>Q</i><small>QUEENS CARE</small><b>LUMINE-C™</b><span>Radiance serum</span></div></div><p className="vertical-label">FORMULATED WITH INTENTION</p></div></section>
+      <section className="hero"><div className="hero-copy"><p className="eyebrow">{getHpContent("hero").eyebrow || "A higher standard of everyday care"}</p><h1 dangerouslySetInnerHTML={{ __html: getHpContent("hero").heading || "Science, made <em>personal.</em>" }} /><p className="lead">{getHpContent("hero").subtitle || "Intelligent formulations that turn your daily health rituals into small, powerful acts of self-respect."}</p><div className="hero-ctas"><a href={getHpContent("hero").ctaLink || "#collection"} className="button">{getHpContent("hero").ctaText || "Explore the collection"} <span>→</span></a><a href={getHpContent("hero").secondaryLink || "#science"} className="text-link">{getHpContent("hero").secondaryText || "How we formulate"} <span>↗</span></a></div><div className="ratings"><div className="avatars"><span>R</span><span>S</span><span>A</span></div><p><b>{getHpContent("hero").rating || "4.9 / 5"}</b> from {getHpContent("hero").ratingCount || "12,000+ care rituals"}</p></div></div>{heroVis.enabled !== false && <div className="hero-visual" aria-label="Abstract three dimensional pharmaceutical bottle composition"><div className="orb orb-one"/><div className="orb orb-two"/><div className="ring"/><div className="bottle"><div className="cap"/><div className="bottle-label"><i>Q</i><small>QUEENS CARE</small><b>{heroVis.productName || "LUMINE-C™"}</b><span>{heroVis.subtitle || "Radiance serum"}</span></div></div><p className="vertical-label">{heroVis.verticalLabel || "FORMULATED WITH INTENTION"}</p></div>}</section>
       <section className="trust-strip">{(getHpContent("trust").badges || ["Made in India", "Third-party tested", "Traceable ingredients", "Designed with doctors"]).map((b: string) => <span key={b}>✦ {b}</span>)}</section>
       <section className="collection section" id="collection"><div className="section-head"><div><p className="eyebrow">{getHpContent("collection").eyebrow || "The care edit"}</p><h2 dangerouslySetInnerHTML={{ __html: (getHpContent("collection").heading || "Considered essentials<br/>for your <em>whole self.</em>") }} /></div><a href="#collection" className="text-link">{getHpContent("collection").ctaText || "Shop all care"} <span>→</span></a></div><div className="category-row">{categories.map((cat, index) => <button key={cat} onClick={() => setSearch(cat)}><span>0{index + 1}</span>{cat}<b>→</b></button>)}</div>{loading ? (
         <p style={{ marginTop: 40, color: "var(--muted)", textAlign: "center" }}>Loading collection…</p>
@@ -140,18 +164,18 @@ export default function QueensCareExperience() {
           <div className="product-grid">{shown.map((product) => <Link href={`/products/${product.slug}`} key={product.id} style={{ textDecoration: "none", color: "inherit" }}><article className="product"><div className="product-image"><Image src={product.image} alt={product.name} fill sizes="(max-width: 650px) 50vw, 25vw"/><span className="pill">{product.tag}</span><button className="heart" onClick={(e: React.MouseEvent) => { e.preventDefault(); e.stopPropagation(); toggleWish(product.name); }} aria-label={`Save ${product.name}`}>{wish.includes(product.name) ? "♥" : "♡"}</button><button className="quick-add" onClick={(e: React.MouseEvent) => { e.preventDefault(); e.stopPropagation(); add(product); }}>Add to bag</button></div><p>{product.category}</p><h3>{product.name}</h3><small>{product.note}</small><div className="price"><b>₹{product.price.toLocaleString("en-IN")}</b><span>★★★★★</span></div></article></Link>)}</div>{shown.length === 0 && products.length > 0 && <p className="empty">No results yet. Try &ldquo;wellness&rdquo; or choose a care category above.</p>}
         </>
       )}</section>
-      <section className="science" id="science"><div className="science-image"><Image src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1200&q=85" alt="Laboratory researcher at work" fill sizes="(max-width: 650px) 100vw, 50vw"/><div className="stat-card"><b>97<sup>%</sup></b><span>of customers feel a difference within 30 days*</span></div></div><div className="science-copy"><p className="eyebrow">The Queens Care standard</p><h2>Precision you can feel. <em>Proof you can see.</em></h2><p>We bring pharmaceutical rigor to the products that live on your shelf. Each formula begins with a real need, is built around meaningful dosage, and is independently tested for purity.</p><div className="principles"><div><b>01</b><span><strong>Purposeful dosage</strong>Not marketing-magic ingredients.</span></div><div><b>02</b><span><strong>Radical clarity</strong>Every ingredient has a reason to be here.</span></div><div><b>03</b><span><strong>Better by design</strong>Elegant rituals, lower-impact choices.</span></div></div><Link className="button light" href="/about">Meet our standard <span>→</span></Link></div></section>
-      <section className="ritual section"><div className="section-head"><div><p className="eyebrow">Build your ritual</p><h2>Care that meets you<br/><em>where you are.</em></h2></div><p className="side-copy">Not sure where to begin? Let our guided care finder create a considered starting point in under two minutes.</p></div><div className="ritual-cards"><a href="#collection" className="ritual-card amber"><span>01</span><h3>I want to feel<br/>more <em>energised.</em></h3><b>Discover energy care →</b></a><a href="#collection" className="ritual-card lavender"><span>02</span><h3>I want a calmer<br/><em>evening.</em></h3><b>Discover sleep care →</b></a><a href="#collection" className="ritual-card rose"><span>03</span><h3>I want to glow<br/>from <em>within.</em></h3><b>Discover dermal care →</b></a></div></section>
+      <section className="science" id="science"><div className="science-image"><Image src={scienceContent.imageUrl || "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1200&q=85"} alt="Laboratory researcher at work" fill sizes="(max-width: 650px) 100vw, 50vw"/><div className="stat-card"><b>{scienceContent.stat || "97"}<sup>%</sup></b><span>{scienceContent.statText || "of customers feel a difference within 30 days*"}</span></div></div><div className="science-copy"><p className="eyebrow">{scienceContent.eyebrow || "The Queens Care standard"}</p><h2 dangerouslySetInnerHTML={{ __html: scienceContent.heading || "Precision you can feel. <em>Proof you can see.</em>" }} /><p>{scienceContent.description || "We bring pharmaceutical rigor to the products that live on your shelf. Each formula begins with a real need, is built around meaningful dosage, and is independently tested for purity."}</p><div className="principles">{((scienceContent.principles as Array<Record<string,string>>) || [{number:"01",title:"Purposeful dosage",text:"Not marketing-magic ingredients."},{number:"02",title:"Radical clarity",text:"Every ingredient has a reason to be here."},{number:"03",title:"Better by design",text:"Elegant rituals, lower-impact choices."}]).map((p,i) => <div key={i}><b>{p.number}</b><span><strong>{p.title}</strong>{p.text}</span></div>)}</div><Link className="button light" href={scienceContent.ctaLink || "/about"}>{scienceContent.ctaText || "Meet our standard"} <span>→</span></Link></div></section>
+      <section className="ritual section"><div className="section-head"><div><p className="eyebrow">{ritualContent.eyebrow || "Build your ritual"}</p><h2 dangerouslySetInnerHTML={{ __html: ritualContent.heading || "Care that meets you<br/><em>where you are.</em>" }} /></div><p className="side-copy">{ritualContent.sideText || "Not sure where to begin? Let our guided care finder create a considered starting point in under two minutes."}</p></div><div className="ritual-cards">{((ritualContent.cards as Array<Record<string,string>>) || [{number:"01",heading:"I want to feel<br/>more <em>energised.</em>",cta:"Discover energy care →",link:"#collection",color:"amber"},{number:"02",heading:"I want a calmer<br/><em>evening.</em>",cta:"Discover sleep care →",link:"#collection",color:"lavender"},{number:"03",heading:"I want to glow<br/>from <em>within.</em>",cta:"Discover dermal care →",link:"#collection",color:"rose"}]).filter((c:Record<string,string>)=>c.heading).map((card:Record<string,string>,i:number) => <a key={i} href={card.link || "#collection"} className={`ritual-card ${card.color || "amber"}`}><span>{card.number}</span><h3 dangerouslySetInnerHTML={{ __html: card.heading }} /><b>{card.cta}</b></a>)}</div></section>
       <section className="quote"><div className="quote-mark">&ldquo;</div><blockquote>{getHpContent("testimonial").quote || "For the first time, my wellness routine feels less like a chore — and more like a quiet promise to myself."}</blockquote><div><b>{getHpContent("testimonial").author || "Meera Shah"}</b><span>{getHpContent("testimonial").attribution || "Queens Care member since 2023"}</span></div><div className="quote-controls"><button aria-label="Previous testimonial">←</button><span>01 / 03</span><button aria-label="Next testimonial">→</button></div></section>
 
       {/* ─── JOURNAL / BLOG SECTION ─── */}
       <section className="journal section" id="journal">
         <div className="section-head">
           <div>
-            <p className="eyebrow">{getHpContent("newsletter").eyebrow || "The care journal"}</p>
-            <h2>Ideas, insights and<br/><em>everyday care.</em></h2>
+            <p className="eyebrow">{journalContent.eyebrow || "The care journal"}</p>
+            <h2 dangerouslySetInnerHTML={{ __html: journalContent.heading || "Ideas, insights and<br/><em>everyday care.</em>" }} />
           </div>
-          <Link href="/blog" className="text-link">View all journal <span>→</span></Link>
+          <Link href="/blog" className="text-link">{journalContent.ctaText || "View all journal"} <span>→</span></Link>
         </div>
         <div className="journal-grid">
           {blogPosts.slice(0, 2).map((post) => (
@@ -175,8 +199,8 @@ export default function QueensCareExperience() {
           )}
           <article className="journal-cta">
             <span>THE<br/>CARE<br/>LETTER</span>
-            <h3>{getHpContent("newsletter").heading || "A smarter kind of inbox."}</h3>
-            <p>{getHpContent("newsletter").subtitle || "Thoughtful dispatches on science, care, and living well."}</p>
+            <h3>{journalContent.heading || "A smarter kind of inbox."}</h3>
+            <p>{journalContent.subtitle || "Thoughtful dispatches on science, care, and living well."}</p>
             <form onSubmit={subscribe}>
               <input type="email" required aria-label="Your email address" placeholder="Your email address"/>
               <button aria-label="Subscribe">→</button>
@@ -185,54 +209,52 @@ export default function QueensCareExperience() {
         </div>
       </section>
 
-      {/* ─── BECOME AN AFFILIATE SECTION ─── */}
-      <section className="section" style={{ background: "var(--paper)", borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)", padding: "72px 0" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 48, alignItems: "center" }}>
-          <div>
-            <p className="eyebrow" style={{ color: "var(--gold)" }}>PARTNERSHIP PROGRAMME</p>
-            <h2 style={{ font: "clamp(28px, 4vw, 42px)/1.15 var(--font-display)", letterSpacing: "-.02em", margin: "12px 0 20px" }}>
-              Partner with Queens Care Laboratories
-            </h2>
-            <p style={{ fontSize: 16, lineHeight: 1.8, color: "var(--muted)", marginBottom: 28 }}>
-              Share science-backed formulations you believe in and earn through your personalized referral link. Enjoy transparent tracking, dedicated creator support, and straightforward monthly withdrawals.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14, marginBottom: 32 }}>
-              <div style={{ padding: "16px 14px", background: "#fff", border: "1px solid var(--line)" }}>
-                <b style={{ fontSize: 20, color: "var(--purple)", display: "block" }}>10%</b>
-                <span style={{ fontSize: 11, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".06em" }}>Commission</span>
+      {/* ═══ AFFILIATE / PARTNERSHIP SECTION (CMS-driven) ═══ */}
+      {getHp("affiliate") && (
+        <section className="section" style={{ background: "var(--paper)", borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)", padding: "72px 0" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 48, alignItems: "center" }}>
+            <div>
+              <p className="eyebrow" style={{ color: "var(--gold)" }}>{affiliateContent.eyebrow || "PARTNERSHIP PROGRAMME"}</p>
+              <h2 style={{ font: "clamp(28px, 4vw, 42px)/1.15 var(--font-display)", letterSpacing: "-.02em", margin: "12px 0 20px" }}>
+                {affiliateContent.heading || "Partner with Queens Care Laboratories"}
+              </h2>
+              <p style={{ fontSize: 16, lineHeight: 1.8, color: "var(--muted)", marginBottom: 28 }}>
+                {affiliateContent.description || "Share science-backed formulations you believe in and earn through your personalized referral link."}
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14, marginBottom: 32 }}>
+                {((affiliateContent.stats as Array<Record<string,string>>) || [{value:"10%",label:"Commission"},{value:"30 Days",label:"Cookie Window"},{value:"Direct",label:"Monthly Payouts"}]).map((stat:Record<string,string>,i:number) => (
+                  <div key={i} style={{ padding: "16px 14px", background: "#fff", border: "1px solid var(--line)" }}>
+                    <b style={{ fontSize: 20, color: "var(--purple)", display: "block" }}>{stat.value}</b>
+                    <span style={{ fontSize: 11, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".06em" }}>{stat.label}</span>
+                  </div>
+                ))}
               </div>
-              <div style={{ padding: "16px 14px", background: "#fff", border: "1px solid var(--line)" }}>
-                <b style={{ fontSize: 20, color: "var(--purple)", display: "block" }}>30 Days</b>
-                <span style={{ fontSize: 11, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".06em" }}>Cookie Window</span>
-              </div>
-              <div style={{ padding: "16px 14px", background: "#fff", border: "1px solid var(--line)" }}>
-                <b style={{ fontSize: 20, color: "var(--purple)", display: "block" }}>Direct</b>
-                <span style={{ fontSize: 11, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".06em" }}>Monthly Payouts</span>
-              </div>
+              <Link href={affiliateContent.ctaLink || "/affiliate"} className="button" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                {affiliateContent.ctaText || "BECOME AN AFFILIATE"} <span>→</span>
+              </Link>
             </div>
-            <Link href="/affiliate" className="button" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-              BECOME AN AFFILIATE <span>→</span>
-            </Link>
+            <div style={{ position: "relative", aspectRatio: "4/3", borderRadius: 4, overflow: "hidden", border: "1px solid var(--line)" }}>
+              <img src={affiliateContent.imageUrl || "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=1000&q=85"} alt="Queens Care Laboratory Formulations" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            </div>
           </div>
-          <div style={{ position: "relative", aspectRatio: "4/3", borderRadius: 4, overflow: "hidden", border: "1px solid var(--line)" }}>
-            <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=1000&q=85" alt="Queens Care Laboratory Formulations" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ─── DOCTORS & HEALTHCARE PROFESSIONALS / CONSULT SECTION ─── */}
       <section className="consult">
         <div>
           <p className="eyebrow">{getHpContent("consult").eyebrow || "Care, with a human on the other end"}</p>
-          <h2>{getHpContent("consult").heading || "Questions deserve<br/>thoughtful answers."}</h2>
+          <h2 dangerouslySetInnerHTML={{ __html: getHpContent("consult").heading || "Questions deserve<br/>thoughtful answers." }} />
           <p>{getHpContent("consult").description || "Our care team is here to help you make confident choices — no pressure, no jargon."}</p>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
             <Link href={getHpContent("consult").ctaLink || "/contact"} className="button">
               {getHpContent("consult").ctaText || "Talk to our care team"} <span>→</span>
             </Link>
-            <Link href="/doctors" className="button" style={{ background: "transparent", color: "var(--purple)", border: "1px solid var(--purple)" }}>
-              For healthcare professionals <span>→</span>
-            </Link>
+            {(getHpContent("consult").secondaryCtaText || getHpContent("consult").secondaryCtaLink) && (
+              <Link href={getHpContent("consult").secondaryCtaLink || "/doctors"} className="button" style={{ background: "transparent", color: "var(--purple)", border: "1px solid var(--purple)" }}>
+                {getHpContent("consult").secondaryCtaText || "For healthcare professionals"} <span>→</span>
+              </Link>
+            )}
           </div>
         </div>
         <div className="consult-image">
@@ -242,7 +264,7 @@ export default function QueensCareExperience() {
     </main>
     <footer>
       <div className="footer-top">
-        <Link href="/" className="brand inverse">{logoUrl ? <img src={logoUrl} alt="Queens Care" style={{height:logoHeight,maxWidth:logoMaxWidth,objectFit:'contain'}} /> : <i>Q</i>}<span>QUEENS<br/><b>CARE</b></span></Link>
+        <Link href="/" className="brand inverse">{logoUrl && !logoFailed ? <img src={logoUrl} alt="Queens Care" style={{height:logoHeight,maxWidth:logoMaxWidth,objectFit:'contain'}} onError={()=>setLogoFailed(true)} /> : <i>Q</i>}<span>QUEENS<br/><b>CARE</b></span></Link>
         <p>Care is a practice.<br/>Make it <em>yours.</em></p>
         <form onSubmit={subscribe}>
           <label htmlFor="footer-email">A considered note, once in a while.</label>
@@ -283,6 +305,49 @@ export default function QueensCareExperience() {
       </div>
       <div className="footer-bottom">
         <span>© 2026 Queens Care Laboratories. All rights reserved.</span>
+        {socialLinks && socialLinks.length > 0 && (
+          <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+            {socialLinks.map((link) => {
+              const size = Number(link.desktopIconSize || link.iconSize || 20);
+              return (
+                <a
+                  key={link.id}
+                  href={link.url}
+                  target={link.openNewTab !== false ? "_blank" : undefined}
+                  rel={link.openNewTab !== false ? "noopener noreferrer" : undefined}
+                  title={link.label}
+                  aria-label={link.label}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: size + 10,
+                    height: size + 10,
+                    borderRadius: "50%",
+                    background: "rgba(255,255,255,0.06)",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    transition: "all 0.2s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.background = "rgba(212,175,55,0.2)";
+                    (e.currentTarget as HTMLAnchorElement).style.borderColor = "#D4AF37";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.06)";
+                    (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,255,255,0.12)";
+                  }}
+                >
+                  <SocialBrandIcon
+                    platform={link.platform}
+                    size={size}
+                    customIconUrl={link.customIconUrl}
+                    color="#ffffff"
+                  />
+                </a>
+              );
+            })}
+          </div>
+        )}
         <span>India · English</span>
         <span>Queens Care Laboratories · India</span>
       </div>

@@ -182,12 +182,23 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
           {/* ─── STOCK & ADD TO CART ─── */}
           <div className="product-meta">
-            {product.stock > 0 ? <p style={{ color: "#4caf50" }}>In stock: {product.stock} units</p> : <p style={{ color: "#b34141" }}>Out of stock</p>}
+            {(() => {
+              const status = String((product as Record<string, unknown>).status || (product.active !== false ? 'active' : 'inactive'));
+              const oosMsg = String((product as Record<string, unknown>).outOfStockMessage || '');
+              const isOos = product.stock <= 0 || status === 'out_of_stock';
+              if (status === 'inactive') return <p style={{ color: "#d4ad65" }}>This product is currently unavailable.</p>;
+              if (isOos) return <><p style={{ color: "#b34141", fontWeight: 600 }}>Out of Stock</p>{oosMsg && <p style={{ color: "var(--muted)", fontSize: 13 }}>{oosMsg}</p>}</>;
+              return <p style={{ color: "#4caf50" }}>In stock: {product.stock} units</p>;
+            })()}
             <p>SKU: {product.slug}</p>
           </div>
           <div className="product-actions">
-            <AddToCartButton productId={product.slug} />
-            <Link className="button" href="/checkout">Checkout <span>→</span></Link>
+            {(() => {
+              const status = String((product as Record<string, unknown>).status || (product.active !== false ? 'active' : 'inactive'));
+              const isOos = product.stock <= 0 || status === 'out_of_stock' || status === 'inactive';
+              if (isOos) return <button disabled style={{ padding: '16px 32px', background: '#ccc', color: '#666', border: 'none', cursor: 'not-allowed', fontSize: 14, fontWeight: 600, letterSpacing: '.03em' }}>Out of Stock</button>;
+              return <><AddToCartButton productId={product.slug} /><Link className="button" href="/checkout">Checkout <span>→</span></Link></>;
+            })()}
           </div>
         </div>
       </div>

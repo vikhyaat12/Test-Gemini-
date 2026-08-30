@@ -13,8 +13,11 @@ import PaymentGatewayManager from "./PaymentGatewayManager";
 import ShippingManager from "./ShippingManager";
 import APlusManager from "./APlusManager";
 import EmployeeEditFormAdvanced from "./EmployeeEditFormAdvanced";
+import PushNotificationPanel from "./PushNotificationPanel";
+import PageManagement from "./PageManagement";
+import SocialMediaLinksManager from "./SocialMediaLinksManager";
 
-type Tab = "dashboard" | "orders" | "products" | "product-edit" | "aplus" | "categories" | "customers" | "b2b" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers" | "homepage" | "marketing" | "payments" | "shipping";
+type Tab = "dashboard" | "orders" | "products" | "product-edit" | "aplus" | "categories" | "customers" | "b2b" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers" | "homepage" | "marketing" | "payments" | "shipping" | "push" | "pages" | "social-links";
 
 const req = async (path: string, init?: RequestInit) => {
   const r = await fetch(path, { ...init, headers: { "Content-Type": "application/json", ...(init?.headers || {}) } });
@@ -53,7 +56,7 @@ function Table({ columns, rows, onEdit, onDelete, onStatusChange }: { columns: {
 const ENDPOINTS: Record<Tab, string | null> = {
   dashboard: "/api/admin/dashboard",
   orders: "/api/admin/orders",
-  products: "/api/products",
+  products: "/api/products?all=true",
   categories: "/api/admin/categories",
   customers: "/api/admin/customers",
   b2b: "/api/admin/b2b",
@@ -73,6 +76,9 @@ const ENDPOINTS: Record<Tab, string | null> = {
   marketing: "/api/admin/marketing",
   payments: "/api/admin/payments",
   shipping: "/api/admin/shipping/providers",
+  push: "/api/admin/push/history",
+  pages: "/api/admin/pages",
+  "social-links": "/api/admin/social-links",
   aplus: "/api/admin/aplus",
   "product-edit": null,
 };
@@ -182,8 +188,11 @@ export default function AdminDashboard() {
     { id: "marketing", label: "Marketing", icon: "📣" },
     { id: "payments", label: "Payments", icon: "💳" },
     { id: "shipping", label: "Shipping", icon: "🚚" },
+    { id: "push", label: "Push Notifications", icon: "📱" },
     { id: "media", label: "Media", icon: "🖼️" },
     { id: "settings", label: "Settings", icon: "⚙️" },
+    { id: "pages", label: "Pages", icon: "📑" },
+    { id: "social-links", label: "Social Links", icon: "🔗" },
     { id: "homepage", label: "Homepage", icon: "🏠" },
   ];
 
@@ -671,6 +680,15 @@ export default function AdminDashboard() {
             )}
             {tab === "shipping" && (
               <ShippingManager />
+            )}
+            {tab === "push" && (
+              <PushNotificationPanel />
+            )}
+            {tab === "pages" && (
+              <PageManagement />
+            )}
+            {tab === "social-links" && (
+              <SocialMediaLinksManager />
             )}
           </>
         )}

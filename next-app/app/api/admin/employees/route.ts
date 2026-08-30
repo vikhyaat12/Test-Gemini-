@@ -28,6 +28,7 @@ export async function POST(request: Request) {
       email: body.email || null,
       bio: body.bio || null,
       active: body.active !== false,
+      verified: body.verified !== false,
       gallery: Array.isArray(body.gallery) ? body.gallery : [],
       videos: Array.isArray(body.videos) ? body.videos : [],
       photoSettings: body.photoSettings || {
@@ -62,11 +63,13 @@ export async function PATCH(request: Request) {
     "profileImage",
     "phone",
     "email",
-    "bio",
-    "active",
-    "gallery",
-    "videos",
-    "photoSettings",
+    "bio",      "active",
+      "verified",
+      "gallery",
+      "videos",
+      "photoSettings",
+      "themeColors",
+      "socialLinks",
   ]) {
     if (k in body) data[k] = body[k];
   }

@@ -1,9 +1,20 @@
 import { json, requireUser, safeText } from "@/lib/http";
 import { store } from "@/lib/commerce/store";
 
-export async function GET() {
+export async function GET(request: Request) {
   const products = await store.products.all();
-  return json({ products });
+  const url = new URL(request.url);
+  // Admin requests with ?all=true see everything; public listings filter
+  if (url.searchParams.get('all') === 'true') {
+    return json({ products });
+  }
+  const visibleProducts = products.filter((p: Record<string, unknown>) => {
+    if (p.active === false) return false;
+    if (p.visible === false) return false;
+    if (p.status === 'hidden') return false;
+    return true;
+  });
+  return json({ products: visibleProducts });
 }
 
 export async function POST(request: Request) {

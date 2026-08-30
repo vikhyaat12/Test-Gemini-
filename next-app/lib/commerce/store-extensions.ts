@@ -1283,6 +1283,78 @@ export const notificationStore = {
   delete: async (id: string) => fileDb.remove("notifications", id),
 };
 
+// ─── PUSH SUBSCRIPTIONS ─────────────────────────────────────────────────────
+export const pushSubscriptionStore = {
+  list: async () => fileDb.findMany("pushSubscriptions"),
+  active: async () => fileDb.findMany("pushSubscriptions", (s) => s.active !== false),
+  upsert: async (endpoint: string, data: Record<string, unknown>) => {
+    const existing = fileDb.findOne("pushSubscriptions", (s) => s.endpoint === endpoint);
+    if (existing) {
+      return fileDb.update("pushSubscriptions", existing.id as string, { ...data, active: true });
+    }
+    return fileDb.insert("pushSubscriptions", { ...data, endpoint, active: true });
+  },
+  deactivate: async (endpoint: string) => {
+    const existing = fileDb.findOne("pushSubscriptions", (s) => s.endpoint === endpoint);
+    if (existing) {
+      return fileDb.update("pushSubscriptions", existing.id as string, { active: false });
+    }
+    return null;
+  },
+  remove: async (endpoint: string) => {
+    const existing = fileDb.findOne("pushSubscriptions", (s) => s.endpoint === endpoint);
+    if (existing) {
+      return fileDb.remove("pushSubscriptions", existing.id as string);
+    }
+    return null;
+  },
+};
+
+// ─── PUSH NOTIFICATION HISTORY ───────────────────────────────────────────────
+export const pushHistoryStore = {
+  list: async () => fileDb.findMany("pushNotificationHistory").sort((a: Record<string, unknown>, b: Record<string, unknown>) => new Date(String(b.createdAt || b.sentAt || "")).getTime() - new Date(String(a.createdAt || a.sentAt || "")).getTime()),
+  create: async (data: Record<string, unknown>) => fileDb.insert("pushNotificationHistory", data),
+  update: async (id: string, data: Record<string, unknown>) => fileDb.update("pushNotificationHistory", id, data),
+};
+
+// ─── PAGE SETTINGS (NAVIGATION MANAGEMENT) ──────────────────────────────────
+export const pageSettingsStore = {
+  list: async () => fileDb.findMany("pageSettings").sort((a: Record<string, unknown>, b: Record<string, unknown>) => (Number(a.sortOrder) || 0) - (Number(b.sortOrder) || 0)),
+  active: async () => fileDb.findMany("pageSettings", (p) => p.active !== false).sort((a: Record<string, unknown>, b: Record<string, unknown>) => (Number(a.sortOrder) || 0) - (Number(b.sortOrder) || 0)),
+  headerVisible: async () => fileDb.findMany("pageSettings", (p) => p.active !== false && p.headerVisible !== false).sort((a: Record<string, unknown>, b: Record<string, unknown>) => (Number(a.sortOrder) || 0) - (Number(b.sortOrder) || 0)),
+  footerVisible: async () => fileDb.findMany("pageSettings", (p) => p.active !== false && p.footerVisible !== false).sort((a: Record<string, unknown>, b: Record<string, unknown>) => (Number(a.sortOrder) || 0) - (Number(b.sortOrder) || 0)),
+  byId: async (id: string) => fileDb.findOne("pageSettings", (p) => p.id === id),
+  bySlug: async (slug: string) => fileDb.findOne("pageSettings", (p) => p.slug === slug),
+  create: async (data: Record<string, unknown>) => fileDb.insert("pageSettings", data),
+  update: async (id: string, data: Record<string, unknown>) => fileDb.update("pageSettings", id, data),
+  remove: async (id: string) => fileDb.remove("pageSettings", id),
+};
+
+// ─── SOCIAL MEDIA LINKS ─────────────────────────────────────────────────────
+export const socialMediaLinksStore = {
+  list: async () => fileDb.findMany("socialMediaLinks").sort((a: Record<string, unknown>, b: Record<string, unknown>) => (Number(a.sortOrder) || 0) - (Number(b.sortOrder) || 0)),
+  visible: async () => fileDb.findMany("socialMediaLinks", (s) => s.visible !== false && Boolean(s.url)).sort((a: Record<string, unknown>, b: Record<string, unknown>) => (Number(a.sortOrder) || 0) - (Number(b.sortOrder) || 0)),
+  byId: async (id: string) => fileDb.findOne("socialMediaLinks", (s) => s.id === id),
+  create: async (data: Record<string, unknown>) => fileDb.insert("socialMediaLinks", data),
+  update: async (id: string, data: Record<string, unknown>) => fileDb.update("socialMediaLinks", id, data),
+  delete: async (id: string) => fileDb.remove("socialMediaLinks", id),
+  reorder: async (orderedIds: string[]) => {
+    orderedIds.forEach((id, idx) => {
+      fileDb.update("socialMediaLinks", id, { sortOrder: idx });
+    });
+  },
+  hideAll: async () => {
+    fileDb.findMany("socialMediaLinks").forEach((s: Record<string, unknown>) => {
+      fileDb.update("socialMediaLinks", String(s.id), { visible: false });
+    });
+  },
+  unhideAll: async () => {
+    fileDb.findMany("socialMediaLinks").forEach((s: Record<string, unknown>) => {
+      fileDb.update("socialMediaLinks", String(s.id), { visible: true });
+    });
+  },
+};
+
 // ─── PROMO BANNERS ──────────────────────────────────────────────────────────
 export const promoBannerStore = {
   list: async () => fileDb.findMany("promoBanners").sort((a: Record<string, unknown>, b: Record<string, unknown>) => (Number(a.sort) || 0) - (Number(b.sort) || 0)),

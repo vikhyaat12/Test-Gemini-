@@ -273,23 +273,35 @@ export default function GlobalMediaUploader({
       const res = await fetch("/api/upload", { method: "POST", body: formData });
       const data = await res.json();
       if (res.ok && data.files?.length) {
-        const newItems: MediaItem[] = data.files.map((f: { url: string; name: string; type: string }, idx: number) => {
-          const parsed = parseMediaInfo(f.url);
-          return {
-            id: `up-${Date.now()}-${idx}`,
-            url: f.url,
-            title: f.name,
-            type: parsed.type,
-            posterUrl: parsed.posterUrl,
-          };
-        });
+        // Separate successful uploads from errors
+        const errored = data.files.filter((f: { url?: string; error?: string }) => f.error && !f.url);
+        const succeeded = data.files.filter((f: { url?: string; error?: string }) => f.url && !f.error);
 
-        if (multiple) {
-          emitChange([...items, ...newItems]);
+        if (errored.length > 0 && succeeded.length === 0) {
+          setError(errored.map((e: { name: string; error: string }) => `${e.name}: ${e.error}`).join('; '));
         } else {
-          emitChange([newItems[0]]);
+          const newItems: MediaItem[] = succeeded.map((f: { url: string; name: string; type: string }, idx: number) => {
+            const parsed = parseMediaInfo(f.url);
+            return {
+              id: `up-${Date.now()}-${idx}`,
+              url: f.url,
+              title: f.name,
+              type: parsed.type,
+              posterUrl: parsed.posterUrl,
+            };
+          });
+
+          if (multiple) {
+            emitChange([...items, ...newItems]);
+          } else {
+            emitChange([newItems[0]]);
+          }
+          if (errored.length > 0) {
+            setError(`${succeeded.length} uploaded. ${errored.length} failed: ${errored[0].error}`);
+          } else {
+            setError("");
+          }
         }
-        setError("");
       } else {
         setError(data.error || "Upload failed. Please check file format and size.");
       }

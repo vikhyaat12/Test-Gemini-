@@ -11,6 +11,10 @@ export type PhotoSettings = {
   borderColor: string;
   objectFit: "cover" | "contain";
   shadow: boolean;
+  zoom: number;
+  positionX: number;
+  positionY: number;
+  rotation: number;
 };
 
 export type EmployeeFormProps = {
@@ -51,13 +55,24 @@ export default function EmployeeEditFormAdvanced({
       objectFit: "cover",
       shadow: true,
     },
+    verified: true,
+    themeColors: {
+      primary: "",
+      gold: "",
+      background: "",
+      cardBg: "",
+      text: "",
+      badgeBg: "",
+      buttonBg: "",
+      gradient: "",
+    },
     ...item,
   });
 
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState("");
   const [isError, setIsError] = useState(false);
-  const [activeTab, setActiveTab] = useState<"general" | "photo" | "gallery" | "videos">("general");
+  const [activeTab, setActiveTab] = useState<"general" | "photo" | "gallery" | "videos" | "theme">("general");
 
   useEffect(() => {
     setForm((prev) => ({
@@ -73,9 +88,25 @@ export default function EmployeeEditFormAdvanced({
         borderRadius: 50,
         borderWidth: 3,
         borderColor: "#D4AF37",
-        objectFit: "cover",
-        shadow: true,
-        ...((item.photoSettings as Partial<PhotoSettings>) || {}),
+      objectFit: "cover",
+      shadow: true,
+      zoom: 1,
+      positionX: 50,
+      positionY: 50,
+      rotation: 0,
+      ...((item.photoSettings as Partial<PhotoSettings>) || {}),
+      },
+      verified: item.verified !== undefined ? item.verified : true,
+      themeColors: {
+        primary: "",
+        gold: "",
+        background: "",
+        cardBg: "",
+        text: "",
+        badgeBg: "",
+        buttonBg: "",
+        gradient: "",
+        ...((item.themeColors as Record<string, string>) || {}),
       },
     }));
   }, [item]);
@@ -323,6 +354,7 @@ export default function EmployeeEditFormAdvanced({
           { id: "photo", label: "2. Photo & Size Controls", icon: "🖼️" },
           { id: "gallery", label: `3. Gallery (${gallery.length})`, icon: "📸" },
           { id: "videos", label: `4. Videos (${videos.length})`, icon: "🎬" },
+          { id: "theme", label: "5. Theme & Branding", icon: "🎨" },
         ].map((tab) => (
           <button
             key={tab.id}
@@ -441,7 +473,50 @@ export default function EmployeeEditFormAdvanced({
             />
           </div>
 
-          <div style={{ padding: 14, background: "#f9fafb", borderRadius: 8, border: "1px solid #e5e7eb" }}>
+          {/* Social Media & Professional Links */}
+          <div style={{ padding: 18, background: "#f9fafb", borderRadius: 8, border: "1px solid #e5e7eb" }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: "#2A0F3A", marginBottom: 14, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+              🔗 Social Media & Professional Links
+            </div>
+            {([
+              { key: "linkedin", label: "LinkedIn", placeholder: "https://linkedin.com/in/..." },
+              { key: "instagram", label: "Instagram", placeholder: "https://instagram.com/..." },
+              { key: "facebook", label: "Facebook", placeholder: "https://facebook.com/..." },
+              { key: "youtube", label: "YouTube", placeholder: "https://youtube.com/@..." },
+              { key: "twitter", label: "X / Twitter", placeholder: "https://x.com/..." },
+              { key: "website", label: "Personal Website", placeholder: "https://example.com" },
+            ] as const).map((s) => {
+              const social = ((form.socialLinks as Record<string, { url: string; enabled: boolean }>) || {})[s.key] || { url: "", enabled: false };
+              return (
+                <div key={s.key} style={{ marginBottom: 10, display: "grid", gridTemplateColumns: "1fr auto auto", gap: 8, alignItems: "center" }}>
+                  <input
+                    style={{ ...defaultInputStyle, fontSize: 12 }}
+                    placeholder={s.placeholder}
+                    value={social.url}
+                    onChange={(e) => {
+                      const sl = { ...((form.socialLinks as Record<string, { url: string; enabled: boolean }>) || {}), [s.key]: { ...social, url: e.target.value } };
+                      setForm({ ...form, socialLinks: sl });
+                    }}
+                  />
+                  <label style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, color: "#6b7280", cursor: "pointer", whiteSpace: "nowrap" }}>
+                    <input
+                      type="checkbox"
+                      checked={social.enabled}
+                      onChange={(e) => {
+                        const sl = { ...((form.socialLinks as Record<string, { url: string; enabled: boolean }>) || {}), [s.key]: { ...social, enabled: e.target.checked } };
+                        setForm({ ...form, socialLinks: sl });
+                      }}
+                      style={{ accentColor: "#2A0F3A" }}
+                    />
+                    Show
+                  </label>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: "#4b5563", minWidth: 80 }}>{s.label}</span>
+                </div>
+              );
+            })}
+          </div>
+
+          <div style={{ padding: 14, background: "#f9fafb", borderRadius: 8, border: "1px solid #e5e7eb", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
             <label style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#1f2937" }}>
               <input
                 type="checkbox"
@@ -449,7 +524,16 @@ export default function EmployeeEditFormAdvanced({
                 onChange={(e) => setForm({ ...form, active: e.target.checked })}
                 style={{ width: 18, height: 18, accentColor: "#2A0F3A" }}
               />
-              <span>Verified Active Employee (Profile is public, verifiable, and accessible via QR Code)</span>
+              <span>Active Employee (Profile is publicly accessible)</span>
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#1f2937" }}>
+              <input
+                type="checkbox"
+                checked={form.verified !== false}
+                onChange={(e) => setForm({ ...form, verified: e.target.checked })}
+                style={{ width: 18, height: 18, accentColor: "#2A0F3A" }}
+              />
+              <span>Queens Care Verified Employee (Blue verification badge)</span>
             </label>
           </div>
         </div>
@@ -565,8 +649,62 @@ export default function EmployeeEditFormAdvanced({
                 </div>
               </div>
 
+              {/* Photo Adjustment Controls */}
+              <div style={{ borderTop: "1px solid #e5e7eb", paddingTop: 14, marginTop: 14 }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "#2A0F3A", marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  🔧 Photo Adjustment
+                </div>
+
+                {/* Zoom */}
+                <div style={{ marginBottom: 12 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, fontWeight: 600, marginBottom: 4 }}>
+                    <span>Zoom</span>
+                    <span style={{ color: "#C19A6B", fontWeight: 700 }}>{((photoSettings.zoom || 1) * 100).toFixed(0)}%</span>
+                  </div>
+                  <input type="range" min="1" max="2" step="0.05" value={photoSettings.zoom || 1} onChange={(e) => updatePhotoSettings({ zoom: Number(e.target.value) })} style={{ width: "100%", accentColor: "#2A0F3A" }} />
+                </div>
+
+                {/* Position X */}
+                <div style={{ marginBottom: 12 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, fontWeight: 600, marginBottom: 4 }}>
+                    <span>Horizontal Position</span>
+                    <span style={{ color: "#C19A6B", fontWeight: 700 }}>{photoSettings.positionX ?? 50}%</span>
+                  </div>
+                  <input type="range" min="0" max="100" step="1" value={photoSettings.positionX ?? 50} onChange={(e) => updatePhotoSettings({ positionX: Number(e.target.value) })} style={{ width: "100%", accentColor: "#2A0F3A" }} />
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: "#9ca3af" }}><span>Left</span><span>Center</span><span>Right</span></div>
+                </div>
+
+                {/* Position Y */}
+                <div style={{ marginBottom: 12 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, fontWeight: 600, marginBottom: 4 }}>
+                    <span>Vertical Position</span>
+                    <span style={{ color: "#C19A6B", fontWeight: 700 }}>{photoSettings.positionY ?? 50}%</span>
+                  </div>
+                  <input type="range" min="0" max="100" step="1" value={photoSettings.positionY ?? 50} onChange={(e) => updatePhotoSettings({ positionY: Number(e.target.value) })} style={{ width: "100%", accentColor: "#2A0F3A" }} />
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: "#9ca3af" }}><span>Top</span><span>Center</span><span>Bottom</span></div>
+                </div>
+
+                {/* Rotation */}
+                <div style={{ marginBottom: 12 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, fontWeight: 600, marginBottom: 4 }}>
+                    <span>Rotation</span>
+                    <span style={{ color: "#C19A6B", fontWeight: 700 }}>{photoSettings.rotation ?? 0}°</span>
+                  </div>
+                  <input type="range" min="-5" max="5" step="0.5" value={photoSettings.rotation ?? 0} onChange={(e) => updatePhotoSettings({ rotation: Number(e.target.value) })} style={{ width: "100%", accentColor: "#2A0F3A" }} />
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: "#9ca3af" }}><span>-5°</span><span>0°</span><span>+5°</span></div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => updatePhotoSettings({ zoom: 1, positionX: 50, positionY: 50, rotation: 0 })}
+                  style={{ padding: "6px 12px", fontSize: 11, background: "#f3f4f6", border: "1px solid #d1d5db", borderRadius: 4, cursor: "pointer", color: "#6b7280", width: "100%" }}
+                >
+                  🔄 Reset Photo Adjustment
+                </button>
+              </div>
+
               {/* Object Fit & Shadow */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 14 }}>
                 <div>
                   <label style={{ fontSize: 11, fontWeight: 600, color: "#4b5563", display: "block", marginBottom: 4 }}>Image Fit</label>
                   <select
@@ -612,20 +750,22 @@ export default function EmployeeEditFormAdvanced({
             >
               <div style={{ position: "relative", display: "inline-block", margin: "0 auto 16px" }}>
                 {form.photo || form.profileImage ? (
-                  <img
-                    src={String(form.photo || form.profileImage)}
-                    alt={String(form.name || "Preview")}
-                    style={{
-                      width: photoSettings.desktopSize,
-                      height: photoSettings.desktopSize,
-                      maxWidth: "100%",
-                      borderRadius: `${photoSettings.borderRadius}%`,
-                      objectFit: photoSettings.objectFit,
-                      border: `${photoSettings.borderWidth}px solid ${photoSettings.borderColor}`,
-                      boxShadow: photoSettings.shadow ? "0 12px 32px rgba(0,0,0,0.4)" : "none",
-                      display: "block",
-                    }}
-                  />
+                  <div style={{ width: photoSettings.desktopSize, height: photoSettings.desktopSize, borderRadius: `${photoSettings.borderRadius}%`, overflow: "hidden", border: `${photoSettings.borderWidth}px solid ${photoSettings.borderColor}`, boxShadow: photoSettings.shadow ? "0 12px 32px rgba(0,0,0,0.4)" : "none", display: "block" }}>
+                    <img
+                      src={String(form.photo || form.profileImage)}
+                      alt={String(form.name || "Preview")}
+                      style={{
+                        width: `${(photoSettings.zoom || 1) * 100}%`,
+                        height: `${(photoSettings.zoom || 1) * 100}%`,
+                        objectPosition: `${photoSettings.positionX ?? 50}% ${photoSettings.positionY ?? 50}%`,
+                        borderRadius: 0,
+                        objectFit: "cover",
+                        border: "none",
+                        display: "block",
+                        transform: `rotate(${photoSettings.rotation ?? 0}deg)`,
+                      }}
+                    />
+                  </div>
                 ) : (
                   <div
                     style={{
@@ -838,6 +978,123 @@ export default function EmployeeEditFormAdvanced({
               ))}
             </div>
           )}
+        </div>
+      )}
+
+      {/* TAB 5: THEME & BRANDING */}
+      {activeTab === "theme" && (
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 24 }}>
+          <div>
+            <div style={{ padding: 18, background: "#f9fafb", borderRadius: 8, border: "1px solid #e5e7eb" }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#2A0F3A", marginBottom: 14, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                🎨 Employee Profile Theme Colors
+              </div>
+              <p style={{ fontSize: 12, color: "#6b7280", marginBottom: 16, lineHeight: 1.5 }}>
+                Customize the visual theme of this employee's public profile page. Leave empty to use the global Queens Care default theme.
+              </p>
+
+              {([
+                { key: "primary", label: "Primary Color", default: "#2A0F3A" },
+                { key: "gold", label: "Gold / Accent Color", default: "#C19A6B" },
+                { key: "background", label: "Background Color", default: "#FAF8F5" },
+                { key: "cardBg", label: "Card Background", default: "#FFFFFF" },
+                { key: "text", label: "Text Color", default: "#333333" },
+                { key: "badgeBg", label: "Badge Color", default: "#D4AF37" },
+                { key: "buttonBg", label: "Button Color", default: "#2A0F3A" },
+              ] as const).map((c) => {
+                const tc = (form.themeColors as Record<string, string>) || {};
+                const val = tc[c.key] || "";
+                return (
+                  <div key={c.key} style={{ marginBottom: 12 }}>
+                    <label style={{ fontSize: 11, fontWeight: 600, color: "#4b5563", display: "block", marginBottom: 4 }}>{c.label}</label>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <input
+                        type="color"
+                        value={val || c.default}
+                        onChange={(e) => setForm({ ...form, themeColors: { ...((form.themeColors as Record<string, string>) || {}), [c.key]: e.target.value } })}
+                        style={{ width: 36, height: 36, border: "none", cursor: "pointer", borderRadius: 4 }}
+                      />
+                      <input
+                        style={{ ...defaultInputStyle, flex: 1 }}
+                        placeholder={c.default}
+                        value={val}
+                        onChange={(e) => setForm({ ...form, themeColors: { ...((form.themeColors as Record<string, string>) || {}), [c.key]: e.target.value } })}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const tc2 = { ...((form.themeColors as Record<string, string>) || {}) };
+                          delete tc2[c.key];
+                          setForm({ ...form, themeColors: tc2 });
+                        }}
+                        style={{ padding: "6px 10px", fontSize: 11, background: "#e5e7eb", border: "none", borderRadius: 4, cursor: "pointer", color: "#6b7280" }}
+                      >
+                        Reset
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+
+              <div style={{ marginTop: 16 }}>
+                <label style={{ fontSize: 11, fontWeight: 600, color: "#4b5563", display: "block", marginBottom: 4 }}>Optional Gradient CSS</label>
+                <input
+                  style={defaultInputStyle}
+                  placeholder="e.g. linear-gradient(135deg, #2A0F3A 0%, #4A1A66 100%)"
+                  value={String(((form.themeColors as Record<string, string>) || {}).gradient || "")}
+                  onChange={(e) => setForm({ ...form, themeColors: { ...((form.themeColors as Record<string, string>) || {}), gradient: e.target.value } })}
+                />
+              </div>
+
+              <div style={{ marginTop: 16, display: "flex", gap: 10 }}>
+                <button
+                  type="button"
+                  onClick={() => setForm({ ...form, themeColors: { primary: "#2A0F3A", gold: "#C19A6B", background: "#FAF8F5", cardBg: "#FFFFFF", text: "#333333", badgeBg: "#D4AF37", buttonBg: "#2A0F3A", gradient: "" } })}
+                  style={{ padding: "8px 14px", background: "#f3f4f6", border: "1px solid #d1d5db", borderRadius: 6, fontSize: 12, cursor: "pointer", fontWeight: 600 }}
+                >
+                  🔄 Reset to Queens Care Default
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setForm({ ...form, themeColors: { primary: "", gold: "", background: "", cardBg: "", text: "", badgeBg: "", buttonBg: "", gradient: "" } })}
+                  style={{ padding: "8px 14px", background: "#fff", border: "1px solid #d1d5db", borderRadius: 6, fontSize: 12, cursor: "pointer" }}
+                >
+                  Clear All (Use Global Theme)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Live Theme Preview */}
+          <div>
+            <div style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#6b7280", marginBottom: 10 }}>
+              👁️ Live Theme Preview
+            </div>
+            <div style={{ borderRadius: 12, overflow: "hidden", border: "1px solid #e5e7eb", boxShadow: "0 8px 24px rgba(0,0,0,0.08)" }}>
+              <div style={{ padding: 16, background: ((form.themeColors as Record<string, string>) || {}).gradient || ((form.themeColors as Record<string, string>) || {}).primary || "#2A0F3A", color: "#fff", textAlign: "center" }}>
+                <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", opacity: 0.8 }}>QUEENS CARE LABORATORIES</div>
+                <div style={{ fontSize: 14, fontWeight: 700, marginTop: 4 }}>{String(form.name || "Employee Name")}</div>
+                <div style={{ fontSize: 11, opacity: 0.8, marginTop: 2 }}>{String(form.designation || "Designation")}</div>
+              </div>
+              <div style={{ padding: 16, background: ((form.themeColors as Record<string, string>) || {}).background || "#FAF8F5" }}>
+                <div style={{ background: ((form.themeColors as Record<string, string>) || {}).cardBg || "#FFFFFF", padding: 14, borderRadius: 8, border: "1px solid #eae5db" }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: ((form.themeColors as Record<string, string>) || {}).primary || "#2A0F3A", marginBottom: 6, textTransform: "uppercase" }}>Employment Verification</div>
+                  <div style={{ fontSize: 11, color: ((form.themeColors as Record<string, string>) || {}).text || "#333333", marginBottom: 4 }}>ID: {String(form.employeeId || "QC-EMP")}</div>
+                  <div style={{ fontSize: 11, color: ((form.themeColors as Record<string, string>) || {}).text || "#333333", marginBottom: 8 }}>Dept: {String(form.department || "Department")}</div>
+                  {form.active !== false && form.verified !== false && (
+                    <div style={{ display: "inline-block", padding: "3px 10px", background: ((form.themeColors as Record<string, string>) || {}).badgeBg || "#D4AF37", color: "#fff", borderRadius: 12, fontSize: 10, fontWeight: 700 }}>
+                      ✓ VERIFIED
+                    </div>
+                  )}
+                  <div style={{ marginTop: 10 }}>
+                    <div style={{ display: "inline-block", padding: "6px 14px", background: ((form.themeColors as Record<string, string>) || {}).buttonBg || "#2A0F3A", color: "#fff", borderRadius: 6, fontSize: 11, fontWeight: 600 }}>
+                      Email Employee
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

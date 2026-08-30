@@ -37,6 +37,10 @@ export interface LocalDbSchema {
   shippingProviders: Array<Record<string, unknown>>;
   shippingRules: Array<Record<string, unknown>>;
   aplusTemplates: Array<Record<string, unknown>>;
+  pushSubscriptions: Array<Record<string, unknown>>;
+  pushNotificationHistory: Array<Record<string, unknown>>;
+  pageSettings: Array<Record<string, unknown>>;
+  socialMediaLinks: Array<Record<string, unknown>>;
 }
 
 const now = () => new Date().toISOString();
@@ -476,6 +480,65 @@ const initialSeedData: LocalDbSchema = {
         text: "Complimentary delivery on orders above ₹1,500",
         secondaryText: "For healthcare professionals",
         secondaryLink: "/doctors",
+      },
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "hs-ritual",
+      title: "Ritual Cards",
+      type: "ritual",
+      sort: 6,
+      active: true,
+      visible: true,
+      content: {
+        eyebrow: "Build your ritual",
+        heading: "Care that meets you<br/><em>where you are.</em>",
+        sideText: "Not sure where to begin? Let our guided care finder create a considered starting point in under two minutes.",
+        cards: [
+          { number: "01", heading: "I want to feel<br/>more <em>energised.</em>", cta: "Discover energy care →", link: "#collection", color: "amber" },
+          { number: "02", heading: "I want a calmer<br/><em>evening.</em>", cta: "Discover sleep care →", link: "#collection", color: "lavender" },
+          { number: "03", heading: "I want to glow<br/>from <em>within.</em>", cta: "Discover dermal care →", link: "#collection", color: "rose" },
+        ],
+      },
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "hs-affiliate",
+      title: "Partnership / Affiliate",
+      type: "affiliate",
+      sort: 8,
+      active: true,
+      visible: true,
+      content: {
+        eyebrow: "PARTNERSHIP PROGRAMME",
+        heading: "Partner with Queens Care Laboratories",
+        description: "Share science-backed formulations you believe in and earn through your personalized referral link. Enjoy transparent tracking, dedicated creator support, and straightforward monthly withdrawals.",
+        stats: [
+          { value: "10%", label: "Commission" },
+          { value: "30 Days", label: "Cookie Window" },
+          { value: "Direct", label: "Monthly Payouts" },
+        ],
+        ctaText: "BECOME AN AFFILIATE",
+        ctaLink: "/affiliate",
+        imageUrl: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=1000&q=85",
+      },
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "hs-hero-visual",
+      title: "Hero 3D Visual (LUMINE-C™)",
+      type: "heroVisual",
+      sort: 5,
+      active: true,
+      visible: true,
+      content: {
+        productName: "LUMINE-C™",
+        subtitle: "Radiance serum",
+        verticalLabel: "FORMULATED WITH INTENTION",
+        enabled: true,
       },
       createdAt: now(),
       updatedAt: now(),
@@ -930,6 +993,29 @@ const initialSeedData: LocalDbSchema = {
       createdAt: now(),
       updatedAt: now(),
     },
+  ],
+  pushSubscriptions: [],
+  pushNotificationHistory: [],
+  socialMediaLinks: [
+    { id: "sml-instagram", platform: "instagram", label: "Instagram", url: "https://instagram.com/queenscare", icon: "instagram", visible: true, iconSize: 20, sortOrder: 0, createdAt: now(), updatedAt: now() },
+    { id: "sml-facebook", platform: "facebook", label: "Facebook", url: "https://facebook.com/queenscare", icon: "facebook", visible: true, iconSize: 20, sortOrder: 1, createdAt: now(), updatedAt: now() },
+    { id: "sml-youtube", platform: "youtube", label: "YouTube", url: "https://youtube.com/@queenscare", icon: "youtube", visible: true, iconSize: 20, sortOrder: 2, createdAt: now(), updatedAt: now() },
+    { id: "sml-linkedin", platform: "linkedin", label: "LinkedIn", url: "https://linkedin.com/company/queenscare", icon: "linkedin", visible: true, iconSize: 20, sortOrder: 3, createdAt: now(), updatedAt: now() },
+    { id: "sml-twitter", platform: "twitter", label: "X / Twitter", url: "https://x.com/queenscare", icon: "twitter", visible: true, iconSize: 20, sortOrder: 4, createdAt: now(), updatedAt: now() },
+  ],
+  pageSettings: [
+    { id: "pg-home", slug: "", title: "Home", label: "Home", headerVisible: true, footerVisible: true, sortOrder: 0, active: true, createdAt: "2026-07-30T00:00:00.000Z", updatedAt: "2026-07-30T00:00:00.000Z" },
+    { id: "pg-about", slug: "about", title: "About", label: "About", headerVisible: true, footerVisible: true, sortOrder: 1, active: true, createdAt: "2026-07-30T00:00:00.000Z", updatedAt: "2026-07-30T00:00:00.000Z" },
+    { id: "pg-science", slug: "#science", title: "Our Science", label: "Our science", headerVisible: true, footerVisible: true, sortOrder: 2, active: true, isAnchor: true, createdAt: "2026-07-30T00:00:00.000Z", updatedAt: "2026-07-30T00:00:00.000Z" },
+    { id: "pg-blog", slug: "blog", title: "Blog", label: "Blog", headerVisible: true, footerVisible: true, sortOrder: 3, active: true, createdAt: "2026-07-30T00:00:00.000Z", updatedAt: "2026-07-30T00:00:00.000Z" },
+    { id: "pg-contact", slug: "contact", title: "Contact", label: "Contact", headerVisible: true, footerVisible: true, sortOrder: 4, active: true, createdAt: "2026-07-30T00:00:00.000Z", updatedAt: "2026-07-30T00:00:00.000Z" },
+    { id: "pg-b2b", slug: "b2b", title: "Partners", label: "Partners", headerVisible: false, footerVisible: true, sortOrder: 5, active: true, createdAt: "2026-07-30T00:00:00.000Z", updatedAt: "2026-07-30T00:00:00.000Z" },
+    { id: "pg-affiliate", slug: "affiliate", title: "Affiliate", label: "Affiliate", headerVisible: false, footerVisible: true, sortOrder: 6, active: true, createdAt: "2026-07-30T00:00:00.000Z", updatedAt: "2026-07-30T00:00:00.000Z" },
+    { id: "pg-doctors", slug: "doctors", title: "Doctors", label: "Doctors", headerVisible: false, footerVisible: true, sortOrder: 7, active: true, createdAt: "2026-07-30T00:00:00.000Z", updatedAt: "2026-07-30T00:00:00.000Z" },
+    { id: "pg-employee", slug: "employee", title: "Our Team", label: "Our Team", headerVisible: false, footerVisible: true, sortOrder: 8, active: true, createdAt: "2026-07-30T00:00:00.000Z", updatedAt: "2026-07-30T00:00:00.000Z" },
+    { id: "pg-shop", slug: "#collection", title: "Shop", label: "Shop", headerVisible: true, footerVisible: true, sortOrder: 9, active: true, isAnchor: true, createdAt: "2026-07-30T00:00:00.000Z", updatedAt: "2026-07-30T00:00:00.000Z" },
+    { id: "pg-privacy", slug: "privacy", title: "Privacy Policy", label: "Privacy", headerVisible: false, footerVisible: true, sortOrder: 10, active: true, createdAt: "2026-07-30T00:00:00.000Z", updatedAt: "2026-07-30T00:00:00.000Z" },
+    { id: "pg-terms", slug: "terms", title: "Terms & Conditions", label: "Terms", headerVisible: false, footerVisible: true, sortOrder: 11, active: true, createdAt: "2026-07-30T00:00:00.000Z", updatedAt: "2026-07-30T00:00:00.000Z" },
   ],
 };
 

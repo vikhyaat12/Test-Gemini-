@@ -10,6 +10,7 @@ export default function LogoManager({ onSave }: { onSave?: () => void }) {
   const [maxWidth, setMaxWidth] = useState("180");
   const [saving, setSaving] = useState(false);
   const [feedback, setFeedback] = useState<{ msg: string; type: "success" | "error" } | null>(null);
+  const [previewFailed, setPreviewFailed] = useState(false);
 
   useEffect(() => {
     fetch("/api/settings")
@@ -42,15 +43,25 @@ export default function LogoManager({ onSave }: { onSave?: () => void }) {
         { key: "logo_max_width", value: maxWidth, group: "branding" },
       ];
 
+      let anyFailed = false;
+      let lastError = "";
       for (const item of itemsToSave) {
-        await fetch("/api/admin/settings", {
+        const res = await fetch("/api/admin/settings", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(item),
         });
+        if (!res.ok) {
+          anyFailed = true;
+          try { const d = await res.json(); lastError = d.error || `Server error ${res.status}`; } catch { lastError = `Server error ${res.status}`; }
+        }
       }
 
-      setFeedback({ msg: "Brand logo & dimensions saved successfully! Changes are active across public header and footer.", type: "success" });
+      if (anyFailed) {
+        setFeedback({ msg: `Save failed: ${lastError || "Check your admin login session and try again."}`, type: "error" });
+      } else {
+        setFeedback({ msg: "Brand logo & dimensions saved successfully! Changes are active across public header and footer.", type: "success" });
+      }
       if (onSave) onSave();
     } catch {
       setFeedback({ msg: "Network error while saving logo settings.", type: "error" });
@@ -117,7 +128,18 @@ export default function LogoManager({ onSave }: { onSave?: () => void }) {
         label="Brand Logo File / URL (PNG, SVG, WebP with Transparent Background)"
         preset="logo"
         value={logoUrl}
-        onChange={(val) => setLogoUrl(typeof val === "string" ? val : Array.isArray(val) && val.length > 0 ? (typeof val[0] === "string" ? val[0] : val[0]?.url) : "")}
+        onChange={(val) => {
+          if (typeof val === "string") {
+            setLogoUrl(val);
+          } else if (Array.isArray(val) && val.length > 0) {
+            const first = val[0];
+            setLogoUrl(typeof first === "string" ? first : (first?.url || ""));
+          } else {
+            setLogoUrl("");
+          }
+          setFeedback(null);
+          setPreviewFailed(false);
+        }}
         folder="logos"
       />
 
@@ -182,11 +204,12 @@ export default function LogoManager({ onSave }: { onSave?: () => void }) {
               Header Preview (Light Background)
             </span>
             <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", background: "#fff", border: "1px solid var(--line)" }}>
-              {logoUrl ? (
+              {logoUrl && !previewFailed ? (
                 <img
                   src={logoUrl}
                   alt="Logo Preview"
                   style={{ height: `${desktopHeight}px`, maxWidth: `${maxWidth}px`, objectFit: "contain" }}
+                  onError={() => setPreviewFailed(true)}
                 />
               ) : (
                 <div style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--purple)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700 }}>
@@ -205,11 +228,12 @@ export default function LogoManager({ onSave }: { onSave?: () => void }) {
               Footer Preview (Dark Background)
             </span>
             <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}>
-              {logoUrl ? (
+              {logoUrl && !previewFailed ? (
                 <img
                   src={logoUrl}
                   alt="Logo Preview Dark"
                   style={{ height: `${desktopHeight}px`, maxWidth: `${maxWidth}px`, objectFit: "contain" }}
+                  onError={() => setPreviewFailed(true)}
                 />
               ) : (
                 <div style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--gold)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700 }}>
