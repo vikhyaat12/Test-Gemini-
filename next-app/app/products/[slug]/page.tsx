@@ -239,85 +239,98 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       {aplus.length > 0 && (
         <section style={{ marginTop: 48, maxWidth: 900 }}>
           <h2 style={{ font: "22px var(--font-display)", marginBottom: 24 }}>About this product</h2>
-          {aplus.filter((s: Record<string, unknown>) => s.published !== false).map(section => (
-            <div key={section.id} style={{ marginBottom: 32 }}>
-              {/* Rich Text */}
-              {(section.type === "rich_text" || section.type === "richText") && (
-                <div>
-                  {section.heading && <h3 style={{ font: "20px var(--font-display)", marginBottom: 12 }}>{section.heading}</h3>}
-                  {(section.text || section.body) && <div style={{ fontSize: 14, lineHeight: 1.8, color: "var(--ink)" }} dangerouslySetInnerHTML={{ __html: section.text || section.body || "" }} />}
-                  {section.imageUrl && <img src={section.imageUrl} alt={section.imageAlt || ""} style={{ width: "100%", marginTop: 16 }} />}
-                </div>
-              )}
-              {/* Hero / Hero Banner */}
-              {(section.type === "hero" || section.type === "hero_banner") && (
-                <div style={{ position: "relative", width: "100%", aspectRatio: "21/9", overflow: "hidden" }}>
-                  {section.imageUrl && <img src={section.imageUrl} alt={section.imageAlt || section.heading || ""} style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
-                  {section.heading && <div style={{ position: "absolute", bottom: 20, left: 20, right: 20, color: "#fff", background: "rgba(0,0,0,0.5)", padding: "16px 24px" }}><h3 style={{ margin: 0, fontSize: 22 }}>{section.heading}</h3>{section.text && <p style={{ margin: "4px 0 0", fontSize: 14, opacity: 0.9 }}>{section.text}</p>}</div>}
-                </div>
-              )}
-              {/* Full Width Image */}
-              {section.type === "fullWidth" && (
-                <div>
-                  {section.imageUrl && <img src={section.imageUrl} alt={section.imageAlt || section.heading || ""} style={{ width: "100%" }} />}
-                  {section.heading && <h3 style={{ font: "20px var(--font-display)", marginTop: 16, marginBottom: 8 }}>{section.heading}</h3>}
-                  {section.text && <p style={{ fontSize: 14, lineHeight: 1.8, color: "var(--ink)" }}>{section.text}</p>}
-                </div>
-              )}
-              {/* Image + Text */}
-              {(section.type === "imageText" || section.type === "image_text") && (
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, alignItems: "center" }}>
-                  {section.imageUrl && <img src={section.imageUrl} alt={section.imageAlt || ""} style={{ width: "100%" }} />}
+          {(aplus as Array<Record<string, unknown>>).filter((s) => s.published !== false).map((section, idx) => {
+            const secId = typeof section.id === "string" ? section.id : `aplus-${idx}`;
+            const secType = String(section.type || "");
+            const secHeading = String(section.heading || section.title || "");
+            const secText = String(section.text || section.body || "");
+            const secImageUrl = typeof section.imageUrl === "string" ? section.imageUrl : "";
+            const secImageAlt = typeof section.imageAlt === "string" ? section.imageAlt : "";
+            const secVideoUrl = typeof section.videoUrl === "string" ? section.videoUrl : "";
+            const secItems = Array.isArray(section.items) ? (section.items as string[]) : [];
+            const secCtaText = typeof section.ctaText === "string" ? section.ctaText : "";
+            const secCtaLink = typeof section.ctaLink === "string" ? section.ctaLink : "/shop";
+
+            return (
+              <div key={secId} style={{ marginBottom: 32 }}>
+                {/* Rich Text */}
+                {(secType === "rich_text" || secType === "richText") && (
                   <div>
-                    {section.heading && <h3 style={{ font: "20px var(--font-display)" }}>{section.heading}</h3>}
-                    {(section.body || section.text) && <p style={{ fontSize: 14, lineHeight: 1.8, color: "var(--ink)" }}>{section.body || section.text}</p>}
+                    {secHeading && <h3 style={{ font: "20px var(--font-display)", marginBottom: 12 }}>{secHeading}</h3>}
+                    {secText && <div style={{ fontSize: 14, lineHeight: 1.8, color: "var(--ink)" }} dangerouslySetInnerHTML={{ __html: secText }} />}
+                    {secImageUrl && <img src={secImageUrl} alt={secImageAlt} style={{ width: "100%", marginTop: 16 }} />}
                   </div>
-                </div>
-              )}
-              {/* Benefits / Features / Comparison / Highlights — grid of items */}
-              {(section.type === "benefits" || section.type === "features" || section.type === "comparison" || section.type === "highlights") && (
-                <div>
-                  {section.heading && <h3 style={{ font: "20px var(--font-display)", marginBottom: 12 }}>{section.heading}</h3>}
-                  {(section.items && section.items.length > 0) && (
-                    <div style={{ display: "grid", gridTemplateColumns: section.type === "comparison" ? "repeat(auto-fill, minmax(200px, 1fr))" : "repeat(auto-fill, minmax(250px, 1fr))", gap: 16 }}>
-                      {section.items.map((item: string, idx: number) => (
-                        <div key={idx} style={{ padding: 16, background: "var(--paper)", border: "1px solid var(--line)", borderRadius: section.type === "highlights" ? 8 : 0 }}>
-                          <p style={{ fontSize: 14, lineHeight: 1.6 }}>{item}</p>
-                        </div>
-                      ))}
+                )}
+                {/* Hero / Hero Banner */}
+                {(secType === "hero" || secType === "hero_banner") && (
+                  <div style={{ position: "relative", width: "100%", aspectRatio: "21/9", overflow: "hidden" }}>
+                    {secImageUrl && <img src={secImageUrl} alt={secImageAlt || secHeading} style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
+                    {secHeading && <div style={{ position: "absolute", bottom: 20, left: 20, right: 20, color: "#fff", background: "rgba(0,0,0,0.5)", padding: "16px 24px" }}><h3 style={{ margin: 0, fontSize: 22 }}>{secHeading}</h3>{secText && <p style={{ margin: "4px 0 0", fontSize: 14, opacity: 0.9 }}>{secText}</p>}</div>}
+                  </div>
+                )}
+                {/* Full Width Image */}
+                {secType === "fullWidth" && (
+                  <div>
+                    {secImageUrl && <img src={secImageUrl} alt={secImageAlt || secHeading} style={{ width: "100%" }} />}
+                    {secHeading && <h3 style={{ font: "20px var(--font-display)", marginTop: 16, marginBottom: 8 }}>{secHeading}</h3>}
+                    {secText && <p style={{ fontSize: 14, lineHeight: 1.8, color: "var(--ink)" }}>{secText}</p>}
+                  </div>
+                )}
+                {/* Image + Text */}
+                {(secType === "imageText" || secType === "image_text") && (
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, alignItems: "center" }}>
+                    {secImageUrl && <img src={secImageUrl} alt={secImageAlt} style={{ width: "100%" }} />}
+                    <div>
+                      {secHeading && <h3 style={{ font: "20px var(--font-display)" }}>{secHeading}</h3>}
+                      {secText && <p style={{ fontSize: 14, lineHeight: 1.8, color: "var(--ink)" }}>{secText}</p>}
                     </div>
-                  )}
-                  {section.imageUrl && <img src={section.imageUrl} alt="" style={{ width: "100%", marginTop: 16 }} />}
-                  {(section.text || section.body) && !section.items?.length && <p style={{ fontSize: 14, lineHeight: 1.8, color: "var(--ink)" }}>{section.text || section.body}</p>}
-                </div>
-              )}
-              {/* Video Section */}
-              {section.type === "video" && (
-                <div>
-                  {section.heading && <h3 style={{ font: "20px var(--font-display)", marginBottom: 12 }}>{section.heading}</h3>}
-                  {section.videoUrl && (
-                    <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden" }}>
-                      <iframe src={section.videoUrl.includes("youtube") ? section.videoUrl.replace("watch?v=", "embed/").replace("youtu.be/", "youtube.com/embed/") : section.videoUrl} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }} allowFullScreen loading="lazy" title={section.heading || "Product video"} />
-                    </div>
-                  )}
-                  {!section.videoUrl && section.imageUrl && <img src={section.imageUrl} alt="" style={{ width: "100%" }} />}
-                  {section.text && <p style={{ fontSize: 13, color: "var(--muted)", marginTop: 8, textAlign: "center" }}>{section.text}</p>}
-                </div>
-              )}
-              {/* CTA Section */}
-              {section.type === "cta" && (
-                <div style={{ textAlign: "center", padding: "48px 24px", background: section.imageUrl ? `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${section.imageUrl}) center/cover` : "var(--paper)", borderRadius: 4 }}>
-                  {section.heading && <h3 style={{ font: "24px var(--font-display)", color: section.imageUrl ? "#fff" : "var(--purple)", marginBottom: 8 }}>{section.heading}</h3>}
-                  {section.text && <p style={{ fontSize: 14, color: section.imageUrl ? "#eee" : "var(--ink)", marginBottom: 20, maxWidth: 600, margin: "0 auto 20px" }}>{section.text}</p>}
-                  {section.ctaText && (
-                    <a href={section.ctaLink || "/shop"} style={{ display: "inline-block", padding: "14px 32px", background: "var(--purple)", color: "#fff", textDecoration: "none", fontSize: 14, fontWeight: 600, letterSpacing: ".03em" }}>
-                      {section.ctaText}
-                    </a>
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
+                  </div>
+                )}
+                {/* Benefits / Features / Comparison / Highlights */}
+                {(secType === "benefits" || secType === "features" || secType === "comparison" || secType === "highlights") && (
+                  <div>
+                    {secHeading && <h3 style={{ font: "20px var(--font-display)", marginBottom: 12 }}>{secHeading}</h3>}
+                    {secItems.length > 0 && (
+                      <div style={{ display: "grid", gridTemplateColumns: secType === "comparison" ? "repeat(auto-fill, minmax(200px, 1fr))" : "repeat(auto-fill, minmax(250px, 1fr))", gap: 16 }}>
+                        {secItems.map((item: string, i: number) => (
+                          <div key={i} style={{ padding: 16, background: "var(--paper)", border: "1px solid var(--line)", borderRadius: secType === "highlights" ? 8 : 0 }}>
+                            <p style={{ fontSize: 14, lineHeight: 1.6 }}>{item}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {secImageUrl && <img src={secImageUrl} alt="" style={{ width: "100%", marginTop: 16 }} />}
+                    {secText && secItems.length === 0 && <p style={{ fontSize: 14, lineHeight: 1.8, color: "var(--ink)" }}>{secText}</p>}
+                  </div>
+                )}
+                {/* Video Section */}
+                {secType === "video" && (
+                  <div>
+                    {secHeading && <h3 style={{ font: "20px var(--font-display)", marginBottom: 12 }}>{secHeading}</h3>}
+                    {secVideoUrl && (
+                      <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden" }}>
+                        <iframe src={secVideoUrl.includes("youtube") ? secVideoUrl.replace("watch?v=", "embed/").replace("youtu.be/", "youtube.com/embed/") : secVideoUrl} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }} allowFullScreen loading="lazy" title={secHeading || "Product video"} />
+                      </div>
+                    )}
+                    {!secVideoUrl && secImageUrl && <img src={secImageUrl} alt="" style={{ width: "100%" }} />}
+                    {secText && <p style={{ fontSize: 13, color: "var(--muted)", marginTop: 8, textAlign: "center" }}>{secText}</p>}
+                  </div>
+                )}
+                {/* CTA Section */}
+                {secType === "cta" && (
+                  <div style={{ textAlign: "center", padding: "48px 24px", background: secImageUrl ? `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${secImageUrl}) center/cover` : "var(--paper)", borderRadius: 4 }}>
+                    {secHeading && <h3 style={{ font: "24px var(--font-display)", color: secImageUrl ? "#fff" : "var(--purple)", marginBottom: 8 }}>{secHeading}</h3>}
+                    {secText && <p style={{ fontSize: 14, color: secImageUrl ? "#eee" : "var(--ink)", marginBottom: 20, maxWidth: 600, margin: "0 auto 20px" }}>{secText}</p>}
+                    {secCtaText && (
+                      <a href={secCtaLink} style={{ display: "inline-block", padding: "14px 32px", background: "var(--purple)", color: "#fff", textDecoration: "none", fontSize: 14, fontWeight: 600, letterSpacing: ".03em" }}>
+                        {secCtaText}
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </section>
       )}
 
