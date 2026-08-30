@@ -58,7 +58,7 @@
     {
       "id": "p-lumine",
       "slug": "lumine-c-serum",
-      "name": "Lumine-C Serum",
+      "name": "Lumine-C Clinical Radiance 9305",
       "brand": "Queens Care",
       "description": "A considered vitamin C ritual for daily radiance. Clinical-strength 15% L-Ascorbic Acid paired with Ferulic Acid and Vitamin E for maximum stability and absorption. Designed for everyday dermal health with visible results in 7 days.",
       "shortDescription": "Tested & verified bio-active vitamin C radiance formula with Ferulic acid.",
@@ -66,11 +66,11 @@
       "price": 1550,
       "stock": 51,
       "lowStockThreshold": 10,
-      "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80",
+      "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=85",
       "images": [
-        "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1608248597359-218274577884?auto=format&fit=crop&w=800&q=80",
-        "/uploads/logos/brand-test-logo-1788071140315.svg"
+        "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=85",
+        "https://images.unsplash.com/photo-1608248597359-218274577884?auto=format&fit=crop&w=800&q=85",
+        "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=800&q=85"
       ],
       "active": true,
       "visible": true,
@@ -79,24 +79,15 @@
       "rating": 4.9,
       "reviewCount": 212,
       "createdAt": "2026-08-29T08:41:59.367Z",
-      "updatedAt": "2026-08-30T06:29:16.119Z",
+      "updatedAt": "2026-08-30T07:15:59.645Z",
       "thumbnail": "",
       "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "aplusContent": [
         {
           "type": "hero",
-          "heading": "State of the Art Cleanroom Formulation",
+          "heading": "Cellular-Level Penetration Technology",
           "text": "Engineered under ISO Class 5 cleanroom conditions.",
           "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
-          "published": true
-        },
-        {
-          "type": "comparison",
-          "heading": "Queens Care vs Generic Market Brands",
-          "items": [
-            "Queens Care: High-bioavailability microencapsulation",
-            "Generic: Raw unshielded active oxidizes quickly"
-          ],
           "published": true
         }
       ],
@@ -179,14 +170,14 @@
       "aplusPublished": true,
       "videos": [
         {
-          "id": "vid-test-1",
+          "id": "vid-main-regimen",
           "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-          "title": "Regimen Demonstration Video",
-          "posterUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80"
+          "title": "Clinical Application Protocol",
+          "posterUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85"
         }
       ],
-      "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80",
-      "aplusTemplateId": "aplus-mtffe1wo"
+      "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+      "aplusTemplateId": "aplus-mtfh6rkg"
     },
     {
       "id": "p-biome",
@@ -477,6 +468,21 @@
       "visible": true,
       "createdAt": "2026-08-29T07:59:01.686Z",
       "updatedAt": "2026-08-29T07:59:01.686Z"
+    },
+    {
+      "id": "bp-mtfh6rpj",
+      "createdAt": "2026-08-30T07:15:59.815Z",
+      "updatedAt": "2026-08-30T07:15:59.815Z",
+      "slug": "clinical-dispatch-1788074159799",
+      "title": "Advancements in Bioavailable Vitamin C 9799",
+      "excerpt": "A clinical exploration into stable ascorbic acid delivery vectors.",
+      "body": "<p>Modern antioxidant research proves that microencapsulation shields active ascorbic molecules against premature oxidation.</p>",
+      "content": "<p>Modern antioxidant research proves that microencapsulation shields active ascorbic molecules against premature oxidation.</p>",
+      "category": "Expert series",
+      "author": "Dr. Vikram Singhania",
+      "featured": false,
+      "published": true,
+      "visible": true
     }
   ],
   "employees": [
@@ -489,11 +495,11 @@
       "photo": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=85",
       "phone": "+91 98111 44556",
       "email": "dr.singhania@queenscare.in",
-      "bio": "Chief Formulation Scientist directing evidence-based dermal clinical trials.",
+      "bio": "Executive clinical director overseeing laboratory safety protocols. Updated: 1788074159785",
       "slug": "vikram-singhania",
       "active": true,
       "createdAt": "2026-08-29T07:59:01.686Z",
-      "updatedAt": "2026-08-30T06:28:13.418Z"
+      "updatedAt": "2026-08-30T07:15:59.789Z"
     },
     {
       "id": "emp-1",
@@ -891,9 +897,9 @@
     },
     {
       "key": "theme_primary",
-      "value": "#2A0F3A",
-      "group": "theme",
-      "updatedAt": "2026-08-29T16:43:24.985Z"
+      "value": "#240E35",
+      "group": "branding",
+      "updatedAt": "2026-08-30T07:15:59.705Z"
     },
     {
       "key": "theme_gold",
@@ -904,9 +910,9 @@
     {
       "id": "rec-mte80qtf-a3bvh",
       "createdAt": "2026-08-29T10:11:36.003Z",
-      "updatedAt": "2026-08-30T06:25:40.502Z",
+      "updatedAt": "2026-08-30T07:15:59.676Z",
       "key": "logo_url",
-      "value": "/uploads/logos/brand-test-logo-1788071140315.svg",
+      "value": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=300&q=80",
       "group": "branding"
     },
     {
@@ -1097,6 +1103,21 @@
       "sort": 1,
       "active": true,
       "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mtfh6rmw-ohnv4",
+      "createdAt": "2026-08-30T07:15:59.720Z",
+      "updatedAt": "2026-08-30T07:15:59.720Z",
+      "title": "Spring Scientific Care Edition",
+      "subtitle": "Clinically formulated botanical essentials for restorative care.",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "mobileImage": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=85",
+      "link": "/shop",
+      "position": "hero",
+      "sort": 1,
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
     }
   ],
   "faqs": [
@@ -1223,6 +1244,18 @@
       "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80",
       "visible": true
+    },
+    {
+      "id": "rec-mtfh6rnt-npggi",
+      "createdAt": "2026-08-30T07:15:59.753Z",
+      "updatedAt": "2026-08-30T07:15:59.753Z",
+      "name": "Dr. Vikram Sethi",
+      "title": "Lead Biochemist, BioCare Laboratories",
+      "body": "Queens Care formulas represent the gold standard in pharmaceutical precision and patient tolerability.",
+      "rating": 5,
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=80",
+      "visible": true
     }
   ],
   "offers": [
@@ -1339,7 +1372,31 @@
       "updatedAt": "2026-08-29T07:59:01.686Z"
     }
   ],
-  "reviews": [],
+  "reviews": [
+    {
+      "id": "rev-mtfh6rrq",
+      "createdAt": "2026-08-30T07:15:59.894Z",
+      "updatedAt": "2026-08-30T07:15:59.894Z",
+      "visible": true,
+      "helpful": 0,
+      "verified": true,
+      "productSlug": "lumine-c-serum",
+      "product": {
+        "id": "p-lumine",
+        "name": "Lumine-C Clinical Radiance 9305",
+        "slug": "lumine-c-serum"
+      },
+      "user": {
+        "name": "Dr. Rohini Verma"
+      },
+      "productId": "lumine-c-serum",
+      "customerName": "Dr. Rohini Verma",
+      "rating": 5,
+      "title": "Outstanding stability and skin barrier support",
+      "body": "Tested over 60 days in clinical trial cohort with zero adverse cutaneous responses.",
+      "image": ""
+    }
+  ],
   "content": [],
   "wishlistItems": [],
   "marketing": [
@@ -1471,6 +1528,17 @@
       ],
       "startDate": "2026-10-01T00:00:00Z",
       "endDate": "2026-11-15T23:59:59Z",
+      "active": true
+    },
+    {
+      "id": "rec-mtfh6rsk-tfag5",
+      "createdAt": "2026-08-30T07:15:59.924Z",
+      "updatedAt": "2026-08-30T07:15:59.924Z",
+      "title": "Flash Antioxidant Festival",
+      "type": "flash",
+      "discountType": "percentage",
+      "discountValue": 20,
+      "description": "20% off all antioxidant formulations this weekend only.",
       "active": true
     }
   ],
@@ -1761,7 +1829,7 @@
     {
       "id": "rule-default",
       "name": "Standard Indian Shipping Policy",
-      "freeShippingThreshold": 1200,
+      "freeShippingThreshold": 1100,
       "standardShippingFee": 99,
       "expressShippingFee": 199,
       "codHandlingFee": 20,
@@ -1774,7 +1842,7 @@
       ],
       "active": true,
       "createdAt": "2026-08-30T05:17:02.705Z",
-      "updatedAt": "2026-08-30T06:29:16.088Z"
+      "updatedAt": "2026-08-30T07:15:59.955Z"
     }
   ],
   "aplusTemplates": [
@@ -1966,6 +2034,24 @@
             "Queens Care: High-bioavailability microencapsulation",
             "Generic: Raw unshielded active oxidizes quickly"
           ],
+          "published": true
+        }
+      ],
+      "published": true
+    },
+    {
+      "id": "aplus-mtfh6rkg",
+      "createdAt": "2026-08-30T07:15:59.632Z",
+      "updatedAt": "2026-08-30T07:15:59.632Z",
+      "title": "Molecular Bioavailability Protocol",
+      "description": "Pharmaceutical grade extraction standard",
+      "category": "Clinical Research",
+      "sections": [
+        {
+          "type": "hero",
+          "heading": "Cellular-Level Penetration Technology",
+          "text": "Engineered under ISO Class 5 cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
           "published": true
         }
       ],

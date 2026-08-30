@@ -1401,11 +1401,11 @@ export const paymentGatewayStore = {
   },
 
   byId: async (id: string) => {
-    return fileDb.findOne("paymentGateways", (gw: Record<string, unknown>) => gw.id === id);
+    return fileDb.findOne("paymentGateways", (gw: Record<string, unknown>) => gw.id === id || gw.provider === id || gw.id === `gw-${id}`);
   },
 
   byProvider: async (provider: string) => {
-    return fileDb.findOne("paymentGateways", (gw: Record<string, unknown>) => gw.provider === provider);
+    return fileDb.findOne("paymentGateways", (gw: Record<string, unknown>) => gw.provider === provider || gw.id === provider || gw.id === `gw-${provider}`);
   },
 
   create: async (data: Record<string, unknown>) => {
@@ -1421,7 +1421,7 @@ export const paymentGatewayStore = {
   },
 
   update: async (id: string, patch: Record<string, unknown>) => {
-    const existing = fileDb.findOne("paymentGateways", (gw: Record<string, unknown>) => gw.id === id);
+    const existing = fileDb.findOne("paymentGateways", (gw: Record<string, unknown>) => gw.id === id || gw.provider === id || gw.id === `gw-${id}`);
     if (!existing) return null;
 
     const existingCreds = ((existing.credentials as Record<string, unknown>) || {});
@@ -1448,15 +1448,17 @@ export const paymentGatewayStore = {
       updatedAt: new Date().toISOString(),
     };
 
-    return fileDb.update("paymentGateways", id, updated);
+    return fileDb.update("paymentGateways", String(existing.id), updated);
   },
 
   delete: async (id: string) => {
-    return fileDb.remove("paymentGateways", id);
+    const existing = fileDb.findOne("paymentGateways", (gw: Record<string, unknown>) => gw.id === id || gw.provider === id || gw.id === `gw-${id}`);
+    if (!existing) return false;
+    return fileDb.remove("paymentGateways", String(existing.id));
   },
 
   testConnection: async (id: string) => {
-    const gw = fileDb.findOne("paymentGateways", (g: Record<string, unknown>) => g.id === id);
+    const gw = fileDb.findOne("paymentGateways", (g: Record<string, unknown>) => g.id === id || g.provider === id || g.id === `gw-${id}`);
     if (!gw) return { success: false, message: "Payment gateway not found.", status: "not_configured" };
 
     const provider = String(gw.provider);
