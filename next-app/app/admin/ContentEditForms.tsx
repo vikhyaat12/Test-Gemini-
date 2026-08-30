@@ -359,3 +359,164 @@ export function SettingsEditForm({ item, onSave }: { item: Record<string, unknow
     </div>
   );
 }
+
+/* ─── REVIEW EDIT FORM ─── */
+export function ReviewEditForm({ item, products, onSave }: { item: Record<string, unknown>; products?: Record<string, unknown>[]; onSave: () => void }) {
+  const [form, setForm] = useState(item);
+  const [saving, setSaving] = useState(false);
+  const [msg, setMsg] = useState("");
+  const [isError, setIsError] = useState(false);
+
+  const save = async () => {
+    setSaving(true);
+    setIsError(false);
+    setMsg("");
+    const method = form.isNew ? "POST" : "PATCH";
+    const endpoint = "/api/admin/reviews";
+    const body = form.isNew ? form : { reviewId: form.id, ...form };
+    try {
+      const res = await fetch(endpoint, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const d = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setIsError(false);
+        setMsg("Review saved successfully!");
+        setTimeout(onSave, 400);
+      } else {
+        setIsError(true);
+        setMsg(d.error || "Failed to save review.");
+      }
+    } catch {
+      setIsError(true);
+      setMsg("Network error.");
+    }
+    setSaving(false);
+  };
+
+  return (
+    <div style={{ maxWidth: 640, marginTop: 20, padding: 20, background: "#fff", border: "1px solid var(--line)" }}>
+      <h3 style={{ font: "18px var(--font-display)", marginBottom: 16 }}>{form.isNew ? "Add Product Review" : "Edit Review"}</h3>
+      {msg && (
+        <p
+          style={{
+            padding: "8px 12px",
+            background: isError ? "#fde8e8" : "#e9f7e9",
+            fontSize: 12,
+            color: isError ? "#b34141" : "#2e7d32",
+            marginBottom: 12,
+            border: isError ? "1px solid #f8b4b4" : "1px solid #c3e6cb",
+          }}
+        >
+          {msg}
+        </p>
+      )}
+      <div style={{ display: "grid", gap: 14 }}>
+        <div>
+          <label style={labelStyle}>Product *</label>
+          {products && products.length > 0 ? (
+            <select
+              style={inputStyle}
+              value={String(form.productId || "")}
+              onChange={e => setForm({ ...form, productId: e.target.value })}
+            >
+              <option value="">Select a Product</option>
+              {products.map(p => (
+                <option key={String(p.id)} value={String(p.slug || p.id)}>
+                  {String(p.name)} ({String(p.slug || p.id)})
+                </option>
+              ))}
+            </select>
+          ) : (
+            <input
+              style={inputStyle}
+              placeholder="Product ID or Slug (e.g. lumine-c-serum)"
+              value={String(form.productId || "")}
+              onChange={e => setForm({ ...form, productId: e.target.value })}
+            />
+          )}
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <div>
+            <label style={labelStyle}>Customer / Reviewer Name *</label>
+            <input
+              style={inputStyle}
+              value={String(form.customerName || (form.user as Record<string, unknown>)?.name || form.author || "")}
+              onChange={e => setForm({ ...form, customerName: e.target.value, author: e.target.value })}
+              placeholder="e.g. Dr. Priya Nair"
+            />
+          </div>
+          <div>
+            <label style={labelStyle}>Rating (1 - 5 Stars) *</label>
+            <input
+              type="number"
+              min={1}
+              max={5}
+              style={inputStyle}
+              value={Number(form.rating || 5)}
+              onChange={e => setForm({ ...form, rating: Number(e.target.value) })}
+            />
+          </div>
+        </div>
+
+        <div>
+          <label style={labelStyle}>Review Headline / Title</label>
+          <input
+            style={inputStyle}
+            value={String(form.title || "")}
+            onChange={e => setForm({ ...form, title: e.target.value })}
+            placeholder="e.g. Visible radiance in 2 weeks"
+          />
+        </div>
+
+        <div>
+          <label style={labelStyle}>Review Text / Feedback *</label>
+          <textarea
+            style={{ ...inputStyle, minHeight: 90 }}
+            value={String(form.body || form.text || "")}
+            onChange={e => setForm({ ...form, body: e.target.value, text: e.target.value })}
+            placeholder="Write clinical or customer review comments..."
+          />
+        </div>
+
+        <GlobalMediaUploader
+          label="Customer Review Photo / Media (optional)"
+          preset="testimonial"
+          value={String(form.image || "")}
+          onChange={(val) => {
+            const url = typeof val === "string" ? val : Array.isArray(val) && val.length > 0 ? (typeof val[0] === "string" ? val[0] : val[0]?.url) : "";
+            setForm({ ...form, image: url });
+          }}
+          folder="reviews"
+        />
+
+        <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
+          <label style={{ fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
+            <input
+              type="checkbox"
+              checked={form.verified !== false}
+              onChange={e => setForm({ ...form, verified: e.target.checked })}
+            />
+            Verified Purchase Badge
+          </label>
+          <label style={{ fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
+            <input
+              type="checkbox"
+              checked={form.visible !== false}
+              onChange={e => setForm({ ...form, visible: e.target.checked })}
+            />
+            Visible on Public Product Page
+          </label>
+        </div>
+
+        <button onClick={save} disabled={saving} style={{ padding: "10px 20px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, width: "fit-content" }}>
+          {saving ? "Saving…" : "Save Review →"}
+        </button>
+      </div>
+    </div>
+  );
+}
+

@@ -455,17 +455,26 @@ export const store = {
 	},
 	reviews: {
 		list: async (productId?: string) => {
+			let idMatch = productId;
+			let slugMatch = productId;
+			if (productId) {
+				const prod = fileDb.findOne("products", p => p.id === productId || p.slug === productId);
+				if (prod) {
+					idMatch = prod.id;
+					slugMatch = prod.slug;
+				}
+			}
 			if (usePrisma) {
 				try {
 					return (await prisma.review.findMany({
-						where: { ...(productId ? { productId } : {}), visible: true },
+						where: { ...(productId ? { OR: [{ productId: idMatch }, { productId: slugMatch }] } : {}), visible: true },
 						include: { user: true, product: true },
 						orderBy: { createdAt: "desc" },
 					})) as unknown as Review[];
 				} catch {}
 			}
-			const all = fileDb.findMany("reviews", r => !productId || r.productId === productId);
-			return all as unknown as Review[];
+			const all = fileDb.findMany("reviews", r => !productId || r.productId === idMatch || r.productId === slugMatch || r.productSlug === slugMatch);
+			return all.filter(r => r.visible !== false) as unknown as Review[];
 		},
 		all: async () => {
 			if (usePrisma) {
@@ -478,7 +487,11 @@ export const store = {
 			}
 			return fileDb.findMany("reviews") as unknown as Review[];
 		},
-		create: async (input: Partial<Review>) => {
+		create: async (input: Partial<Review> & Record<string, unknown>) => {
+			let prod = null;
+			if (input.productId) {
+				prod = fileDb.findOne("products", p => p.id === input.productId || p.slug === input.productId);
+			}
 			if (usePrisma) {
 				try {
 					const r = (await prisma.review.create({ data: input as unknown as Prisma.ReviewCreateInput })) as unknown as Review;
@@ -486,7 +499,17 @@ export const store = {
 					return r;
 				} catch {}
 			}
-			const item = fileDb.insert("reviews", { visible: true, helpful: 0, verified: false, ...input });
+			const item = fileDb.insert("reviews", {
+				id: `rev-${Date.now().toString(36)}`,
+				visible: true,
+				helpful: 0,
+				verified: true,
+				createdAt: new Date().toISOString(),
+				productSlug: prod?.slug || input.productSlug || input.productId,
+				product: prod ? { id: prod.id, name: prod.name, slug: prod.slug } : null,
+				user: { name: input.customerName || input.author || "Verified Customer" },
+				...input,
+			});
 			return item as unknown as Review;
 		},
 		updateVisibility: async (reviewId: string, visible: boolean) => {

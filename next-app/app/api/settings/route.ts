@@ -5,7 +5,8 @@ export async function GET() {
   const all = await settingStore.getAll();
   // Only expose safe public settings
   const publicKeys = [
-    "theme_primary", "theme_gold", "logo_url", "logo_height_desktop", "logo_height_mobile", "logo_max_width", "logo_alt",
+    "theme_primary", "theme_secondary", "theme_gold", "theme_accent", "theme_bg", "theme_text", "theme_surface",
+    "logo_url", "logo_height_desktop", "logo_height_mobile", "logo_max_width", "logo_alt", "favicon_url",
     "site_name", "site_tagline", "contact_email", "contact_phone", "free_shipping_enabled", "free_shipping_threshold",
     "shipping_charge", "shipping_message", "handling_charge", "handling_charge_enabled", "delivery_enabled",
     "delivery_standard_days", "delivery_express_days", "delivery_cod_enabled", "delivery_same_day",

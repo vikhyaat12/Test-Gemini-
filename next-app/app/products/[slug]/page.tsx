@@ -75,16 +75,16 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
   const specs = (full?.specifications && full.specifications.length > 0) ? full.specifications : fallbackSpecs;
   const faqs = full?.productFaqs || [];
-  const reviews = full?.reviews || [];
+  const reviews = (full?.reviews && full.reviews.length > 0) ? full.reviews : (await store.reviews.list(product.slug));
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let related: any[] = (full?.relatedFrom || []).map(r => r.relatedProduct).filter(Boolean);
-  // Fallback: read relatedProducts slugs from the product itself
+  // Fallback: read relatedProducts slugs/ids from the product itself
   if (related.length === 0) {
     try {
       const rawRelated = (product as Record<string, unknown>).relatedProducts;
       if (Array.isArray(rawRelated) && rawRelated.length > 0) {
-        related = (await Promise.all(rawRelated.map(async (slug: string) => {
-          const p = await store.products.bySlug(slug);
+        related = (await Promise.all(rawRelated.map(async (ident: string) => {
+          const p = await store.products.bySlug(ident) || fileDb.findOne("products", prod => prod.id === ident || prod.slug === ident);
           return p ? { id: p.id, slug: p.slug, name: p.name, image: p.image, price: p.price } : null;
         }))).filter(Boolean);
       }
@@ -93,7 +93,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const aplusData = await aplusStore.getByProduct(product.slug);
   const aplusRaw: Record<string, unknown>[] = aplusData.sections.length > 0 ? aplusData.sections : (full?.aplusSections || []);
   const aplus = aplusData.published ? aplusRaw : [];
-  const videos = full?.videos || [];
+  const rawVideos = (product as Record<string, unknown>).videos;
+  const fallbackVideos = Array.isArray(rawVideos) ? rawVideos : [];
+  const videos = (full?.videos && full.videos.length > 0) ? full.videos : fallbackVideos;
   const model3d = full?.model3d;
   const questions = full ? await getQA(full.id) : [];
 

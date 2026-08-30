@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import BlogEditForm from "./BlogEditForm";
-import { BannerEditForm, TestimonialEditForm, OfferEditForm, SettingsEditForm } from "./ContentEditForms";
+import { BannerEditForm, TestimonialEditForm, OfferEditForm, SettingsEditForm, ReviewEditForm } from "./ContentEditForms";
 import { ProductEditFormAdvanced } from "./ProductEditFormAdvanced";
 import HomepageSectionEdit from "./HomepageSectionEdit";
 import MarketingPanel from "./MarketingPanel";
@@ -509,18 +509,33 @@ export default function AdminDashboard() {
             )}
 
             {/* ─── REVIEWS ─── */}
-            {tab === "reviews" && (
-              <Table
-                columns={[
-                  { key: "product", label: "Product", render: (v) => String((v as Record<string, unknown>)?.name || "—") },
-                  { key: "user", label: "User", render: (v) => String((v as Record<string, unknown>)?.name || "—") },
-                  { key: "rating", label: "Rating", render: (v) => "★".repeat(Number(v)) },
-                  { key: "title", label: "Title" },
-                  { key: "visible", label: "Visible", render: (v) => v ? "✓" : "✗" },
-                ]}
-                rows={((data.reviews as Record<string, unknown>[]) || [])}
-                onEdit={(row) => { req("/api/admin/reviews", { method: "PATCH", body: JSON.stringify({ reviewId: row.id, visible: !row.visible }) }); setMessage("Review visibility toggled."); doRefresh(); }}
-                onDelete={(row) => { req(`/api/admin/reviews?reviewId=${row.id}`, { method: "DELETE" }); setMessage("Review deleted."); doRefresh(); }}
+            {tab === "reviews" && !editingItem?.reviewEdit && (
+              <div>
+                <button
+                  onClick={() => setEditingItem({ _type: "review", reviewEdit: true, isNew: true, rating: 5, verified: true, visible: true })}
+                  style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, marginBottom: 16 }}
+                >
+                  + Add Review
+                </button>
+                <Table
+                  columns={[
+                    { key: "product", label: "Product", render: (v, row) => String((v as Record<string, unknown>)?.name || row.productSlug || row.productId || "—") },
+                    { key: "user", label: "Customer", render: (v, row) => String((v as Record<string, unknown>)?.name || row.customerName || row.author || "—") },
+                    { key: "rating", label: "Rating", render: (v) => "★".repeat(Number(v || 5)) },
+                    { key: "title", label: "Title" },
+                    { key: "visible", label: "Visible", render: (v) => v !== false ? "✓" : "✗" },
+                  ]}
+                  rows={((data.reviews as Record<string, unknown>[]) || [])}
+                  onEdit={(row) => setEditingItem({ ...row, _type: "review", reviewEdit: true })}
+                  onDelete={(row) => { req(`/api/admin/reviews?reviewId=${row.id}`, { method: "DELETE" }); setMessage("Review deleted."); doRefresh(); }}
+                />
+              </div>
+            )}
+            {tab === "reviews" && editingItem?.reviewEdit && (
+              <ReviewEditForm
+                item={editingItem}
+                products={((data.products as Record<string, unknown>[]) || [])}
+                onSave={() => { setEditingItem(null); setMessage("Review saved."); setIsError(false); doRefresh(); }}
               />
             )}
 
