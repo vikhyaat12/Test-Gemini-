@@ -1,6 +1,6 @@
 import { json, requireUser } from "@/lib/http";
 import { store } from "@/lib/commerce/store";
-import { affiliateStore } from "@/lib/commerce/store-extensions";
+import { affiliateStore, couponStore, shippingStore, paymentGatewayStore } from "@/lib/commerce/store-extensions";
 import type { CartLine, ShippingDetails } from "@/lib/commerce/types";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -78,10 +78,36 @@ export async function POST(request: Request) {
 
   if (errors.length) { const msg=errors[0].reason.startsWith("Insufficient stock")?errors[0].reason:"Your bag needs attention. Please review the items."; return json({ error: msg, details: errors }, 422); }
 
-  // server-side shipping: free above INR 1,500, otherwise a flat INR 99 fee
-  const FREE_SHIPPING_THRESHOLD = 1500, SHIPPING_FEE = 99;
-  const shippingFee = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
-  const total = subtotal + shippingFee;
+  // payment & shipping method selection
+  const paymentMethod = String(body?.paymentMethod || "cod").toLowerCase();
+  const shippingMethod = String(body?.shippingMethod || "standard").toLowerCase();
+
+  // coupon discount validation
+  let discount = 0;
+  const couponCode = body?.couponCode ? String(body.couponCode).trim().toUpperCase() : undefined;
+  if (couponCode) {
+    const coupon = await couponStore.byCode(couponCode);
+    if (coupon && coupon.isActive) {
+      if (coupon.type === "percentage") {
+        discount = Math.round((subtotal * Number(coupon.discount)) / 100);
+      } else {
+        discount = Math.min(subtotal, Number(coupon.discount));
+      }
+    }
+  }
+
+  // dynamic server-side shipping rate calculation
+  const shippingCalc = await shippingStore.rules.calculate(subtotal - discount, shipping.pincode, shippingMethod);
+  const shippingFee = shippingCalc.shippingFee;
+  
+  // COD handling fee
+  let codFee = 0;
+  if (paymentMethod === "cod") {
+    const gw = await paymentGatewayStore.byProvider("cod");
+    codFee = Number(gw?.codCharge || shippingCalc.codFee || 0);
+  }
+
+  const total = Math.max(0, subtotal - discount + shippingFee + codFee);
 
   // duplicate prevention: same user + same cart + same total within 10 minutes
   const cartLines: CartLine[] = resolvedLines.map((r) => ({ productId: r.productId, quantity: r.quantity }));
@@ -104,7 +130,14 @@ export async function POST(request: Request) {
 
   // create order with server-validated total, canonical product slugs, and unit prices
   const orderLines = resolvedLines.map((r) => ({ productId: r.productId, quantity: r.quantity, unitPrice: r.unitPrice }));
-  const order = await store.orders.create(userId, orderLines, total, shipping);
+  const order = await store.orders.create(userId, orderLines, total, shipping, {
+    subtotal,
+    discount,
+    shippingFee: shippingFee + codFee,
+    couponCode,
+    paymentMethod,
+    paymentStatus: paymentMethod === "cod" ? "cod_pending" : "pending",
+  });
 
   // Affiliate conversion attribution
   const cookieHeader = request.headers.get("cookie") || "";

@@ -34,6 +34,24 @@
       "passwordHash": "scrypt$088a21d3eda57dcd7d9f478f77462a08$e50998b2613a7116c91c6afa73f58b5f2063ae665509423985aa97d3a316f9c644341322e7d403cf0a78576c9fa2b56940537bda538cf39cc9111e213087068e",
       "createdAt": "2026-08-29T07:59:01.685Z",
       "updatedAt": "2026-08-29T07:59:01.685Z"
+    },
+    {
+      "id": "usr-67355ebe",
+      "createdAt": "2026-08-29T09:11:17.895Z",
+      "updatedAt": "2026-08-29T09:11:17.895Z",
+      "email": "admin2@test.com",
+      "name": "Test Admin2",
+      "role": "customer",
+      "passwordHash": "scrypt$e3857fd13b41945efe959d06ef38460b$63fbd5d2be465198075f17f8ee37253e04a6d7b6fe01b1345bad137c536b8eb3330a6a456702084f62de86101a9aeedb2085737969404f51c0e58f64710a756a"
+    },
+    {
+      "id": "usr-d1fa80d9",
+      "createdAt": "2026-08-29T09:12:16.702Z",
+      "updatedAt": "2026-08-29T09:12:16.702Z",
+      "email": "admin3@test.com",
+      "name": "Admin User",
+      "role": "customer",
+      "passwordHash": "scrypt$427396a3a89cd88cf2f412b41227d633$7881c310a3770de2e345c34b9c735c0a4f66e7def00ba23184f300f8472b7fa799bea9c18b086385d36dee09ff7b6c128b4c94926ec2e2aa201eaf073a8b206c"
     }
   ],
   "products": [
@@ -42,12 +60,10 @@
       "slug": "lumine-c-serum",
       "name": "Lumine-C Serum",
       "brand": "Queens Care",
-      "description": "A considered vitamin C ritual for daily radiance.",
+      "description": "A considered vitamin C ritual for daily radiance. Clinical-strength 15% L-Ascorbic Acid paired with Ferulic Acid and Vitamin E for maximum stability and absorption. Designed for everyday dermal health with visible results in 7 days.",
       "shortDescription": "Vitamin C radiance formula with ferulic acid & hyaluronic booster.",
       "category": "Dermal care",
       "price": 1490,
-      "mrp": 1890,
-      "discount": 21,
       "stock": 46,
       "lowStockThreshold": 10,
       "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=85",
@@ -58,22 +74,134 @@
       "active": true,
       "visible": true,
       "featured": true,
-      "homepageVisible": true,
-      "benefits": [
-        "Visible radiance",
-        "Antioxidant protection",
-        "Lightweight daily finish"
-      ],
-      "ingredients": "Aqua, 15% L-Ascorbic Acid, Tocopherol (Vitamin E), Ferulic Acid, Hyaluronic Acid, Sodium Citrate.",
-      "usage": "Apply 4–5 drops each morning after cleansing. Follow with broad-spectrum SPF 50.",
-      "safetyInfo": "For external use only. Patch test recommended before first application.",
-      "tags": "serum, vitamin c, skincare, radiance, antioxidant",
-      "seoTitle": "Lumine-C Radiance Serum | Queens Care Laboratories",
-      "seoDescription": "Clinical-strength Vitamin C serum formulated for everyday dermal health.",
+      "homepageVisible": false,
       "rating": 4.9,
       "reviewCount": 212,
-      "createdAt": "2026-08-29T07:59:01.685Z",
-      "updatedAt": "2026-08-29T07:59:01.685Z"
+      "createdAt": "2026-08-29T08:41:59.367Z",
+      "updatedAt": "2026-08-29T16:26:24.307Z",
+      "thumbnail": "",
+      "video": "",
+      "aplusContent": [
+        {
+          "type": "hero",
+          "heading": "The Science of Radiance",
+          "text": "Powered by 15% stabilized Vitamin C",
+          "imageUrl": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=1200",
+          "imageAlt": "Lumine-C hero",
+          "published": true
+        },
+        {
+          "type": "benefits",
+          "heading": "Why Choose Lumine-C",
+          "items": [
+            "15% Stabilized L-Ascorbic Acid",
+            "Enhanced with Vitamin E + Ferulic Acid",
+            "Third-party tested for purity",
+            "No parabens or sulfates",
+            "Dermatologically tested",
+            "Made in India"
+          ],
+          "published": true
+        },
+        {
+          "type": "richText",
+          "heading": "The Ingredients Behind the Glow",
+          "text": "<p>Lumine-C combines <strong>15% stabilized Vitamin C</strong> with <em>Vitamin E</em> and <em>Ferulic Acid</em> for maximum antioxidant protection.</p><p>Each ingredient is selected for its clinical evidence and combined at optimal concentrations for visible results within 4 weeks.</p>",
+          "published": true
+        },
+        {
+          "type": "video",
+          "heading": "See How It Works",
+          "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+          "text": "Watch our product demonstration",
+          "published": true
+        },
+        {
+          "type": "cta",
+          "heading": "Experience the Queens Care Difference",
+          "text": "Join thousands of customers who trust Lumine-C for their daily skincare ritual.",
+          "ctaText": "Shop Lumine-C",
+          "ctaLink": "/products/lumine-c-serum",
+          "published": true
+        }
+      ],
+      "mrp": 1890,
+      "discount": 21,
+      "benefits": [
+        "Visible radiance in 7 days",
+        "Antioxidant protection against free radicals",
+        "Lightweight daily finish without greasiness"
+      ],
+      "ingredients": "Aqua, 15% L-Ascorbic Acid, Tocopherol (Vitamin E), Ferulic Acid, Hyaluronic Acid, Sodium Citrate, Phenoxyethanol.",
+      "usage": "Apply 4-5 drops each morning after cleansing. Follow with broad-spectrum SPF 50.",
+      "safetyInfo": "For external use only. Patch test recommended before first application. Store in a cool, dry place away from direct sunlight.",
+      "tags": "serum, vitamin c, skincare, radiance, antioxidant",
+      "seoTitle": "Lumine-C Radiance Serum | Queens Care Laboratories",
+      "seoDescription": "Clinical-strength Vitamin C serum formulated for everyday dermal health. Visible results in 7 days.",
+      "sku": "QCL-LUM-C-30",
+      "taxRate": 18,
+      "manufacturer": "Queens Care Laboratories Pvt. Ltd., New Delhi, India",
+      "bestSeller": true,
+      "newArrival": false,
+      "specifications": [
+        {
+          "name": "Pack Size",
+          "value": "30ml"
+        },
+        {
+          "name": "Net Quantity",
+          "value": "1 unit"
+        },
+        {
+          "name": "Form",
+          "value": "Serum"
+        },
+        {
+          "name": "Key Ingredient",
+          "value": "15% L-Ascorbic Acid"
+        },
+        {
+          "name": "Skin Type",
+          "value": "All skin types"
+        },
+        {
+          "name": "Manufacturer",
+          "value": "Queens Care Laboratories Pvt. Ltd."
+        },
+        {
+          "name": "Country of Origin",
+          "value": "India"
+        },
+        {
+          "name": "Shelf Life",
+          "value": "24 months"
+        }
+      ],
+      "variants": [
+        {
+          "id": "v-1",
+          "name": "30ml",
+          "sku": "QCL-LUM-C-30",
+          "price": 1490,
+          "mrp": 1890,
+          "stock": 46,
+          "active": true
+        },
+        {
+          "id": "v-2",
+          "name": "50ml",
+          "sku": "QCL-LUM-C-50",
+          "price": 2290,
+          "mrp": 2890,
+          "stock": 28,
+          "active": true
+        }
+      ],
+      "relatedProducts": [
+        "biome-balance",
+        "sculpture-spf-50"
+      ],
+      "aplusPublished": true
     },
     {
       "id": "p-biome",
@@ -103,12 +231,51 @@
       ],
       "ingredients": "Lactobacillus rhamnosus GG, Bifidobacterium lactis HN019, Inulin prebiotic fiber, Plant cellulose capsule.",
       "usage": "Take 1 capsule daily with water, ideally 20 minutes before your first meal.",
-      "safetyInfo": "Store in a cool dry place below 25°C. No refrigeration required.",
+      "safetyInfo": "Store in a cool dry place below 25C. No refrigeration required.",
       "tags": "probiotics, gut health, digestion, synbiotic",
       "rating": 4.8,
       "reviewCount": 174,
       "createdAt": "2026-08-29T07:59:01.685Z",
-      "updatedAt": "2026-08-29T07:59:01.685Z"
+      "updatedAt": "2026-08-29T11:11:06.539Z",
+      "thumbnail": "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=900&q=85",
+      "sku": "QCL-BIO-60",
+      "manufacturer": "Queens Care Laboratories Pvt. Ltd., New Delhi, India",
+      "specifications": [
+        {
+          "name": "Pack Size",
+          "value": "60 capsules"
+        },
+        {
+          "name": "CFU Count",
+          "value": "30 billion"
+        },
+        {
+          "name": "Form",
+          "value": "Capsule"
+        },
+        {
+          "name": "Country of Origin",
+          "value": "India"
+        }
+      ],
+      "variants": [
+        {
+          "id": "v-1",
+          "name": "30 capsules",
+          "price": 690,
+          "mrp": 890,
+          "stock": 40,
+          "active": true
+        },
+        {
+          "id": "v-2",
+          "name": "60 capsules",
+          "price": 1190,
+          "mrp": 1490,
+          "stock": 61,
+          "active": true
+        }
+      ]
     },
     {
       "id": "p-nocturne",
@@ -143,7 +310,29 @@
       "rating": 4.7,
       "reviewCount": 96,
       "createdAt": "2026-08-29T07:59:01.685Z",
-      "updatedAt": "2026-08-29T07:59:01.685Z"
+      "updatedAt": "2026-08-29T11:11:06.977Z",
+      "thumbnail": "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=900&q=85",
+      "sku": "QCL-NOC-60",
+      "manufacturer": "Queens Care Laboratories Pvt. Ltd., New Delhi, India",
+      "specifications": [
+        {
+          "name": "Pack Size",
+          "value": "60 capsules"
+        },
+        {
+          "name": "Key Ingredient",
+          "value": "Magnesium Glycinate 200mg"
+        },
+        {
+          "name": "Form",
+          "value": "Capsule"
+        },
+        {
+          "name": "Country of Origin",
+          "value": "India"
+        }
+      ],
+      "newArrival": true
     },
     {
       "id": "p-sculpture",
@@ -178,7 +367,28 @@
       "rating": 4.8,
       "reviewCount": 141,
       "createdAt": "2026-08-29T07:59:01.685Z",
-      "updatedAt": "2026-08-29T07:59:01.685Z"
+      "updatedAt": "2026-08-29T11:11:08.385Z",
+      "thumbnail": "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?auto=format&fit=crop&w=900&q=85",
+      "sku": "QCL-SCR-50",
+      "manufacturer": "Queens Care Laboratories Pvt. Ltd., New Delhi, India",
+      "specifications": [
+        {
+          "name": "Pack Size",
+          "value": "50ml"
+        },
+        {
+          "name": "SPF",
+          "value": "50 PA++++"
+        },
+        {
+          "name": "Form",
+          "value": "Sunscreen"
+        },
+        {
+          "name": "Country of Origin",
+          "value": "India"
+        }
+      ]
     }
   ],
   "categories": [
@@ -289,7 +499,7 @@
       "id": "emp-1042",
       "name": "Dr. Vikram Singhania",
       "employeeId": "QC-EMP-1042",
-      "designation": "Lead Research Scientist & Medical Affairs",
+      "designation": "Principal Formulation Scientist",
       "department": "Research & Development",
       "photo": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=85",
       "phone": "+91 98111 44556",
@@ -298,7 +508,7 @@
       "slug": "vikram-singhania",
       "active": true,
       "createdAt": "2026-08-29T07:59:01.686Z",
-      "updatedAt": "2026-08-29T07:59:01.686Z"
+      "updatedAt": "2026-08-29T09:43:26.211Z"
     },
     {
       "id": "emp-1",
@@ -329,6 +539,21 @@
       "active": true,
       "createdAt": "2026-08-29T07:59:01.686Z",
       "updatedAt": "2026-08-29T07:59:01.686Z"
+    },
+    {
+      "id": "rec-mte8eg3c-9gjss",
+      "createdAt": "2026-08-29T10:22:15.288Z",
+      "updatedAt": "2026-08-29T10:22:15.288Z",
+      "name": "Sanjay Walia",
+      "slug": "sanjay-walia",
+      "employeeId": "1122",
+      "designation": "CEO",
+      "department": "CEO",
+      "photo": "https://kommodo.ai/i/mRhh7jqH0XWnFw8rDRQ5",
+      "phone": "8881215329",
+      "email": "Sanjaywalia32",
+      "bio": "Working as ceo queens care",
+      "active": true
     }
   ],
   "coupons": [
@@ -379,6 +604,18 @@
       "startDate": null,
       "createdAt": "2026-08-29T07:59:01.686Z",
       "updatedAt": "2026-08-29T07:59:01.686Z"
+    },
+    {
+      "id": "rec-mte4tiez-9xzxo",
+      "createdAt": "2026-08-29T08:41:59.676Z",
+      "updatedAt": "2026-08-29T08:41:59.676Z",
+      "code": "QCVERIFY534",
+      "type": "percentage",
+      "discount": 15,
+      "minOrder": 500,
+      "isActive": true,
+      "createdByUserId": "usr-admin-1",
+      "usedCount": 0
     }
   ],
   "b2bApplications": [
@@ -442,7 +679,17 @@
       "createdAt": "2026-08-29T07:59:01.686Z"
     }
   ],
-  "affiliateClicks": [],
+  "affiliateClicks": [
+    {
+      "id": "rec-mte4tigd-lzm81",
+      "createdAt": "2026-08-29T08:41:59.725Z",
+      "updatedAt": "2026-08-29T08:41:59.725Z",
+      "linkId": "direct",
+      "affiliateId": "aff-1",
+      "ip": "::1",
+      "userAgent": "node"
+    }
+  ],
   "affiliateCommissions": [
     {
       "id": "afc-1",
@@ -458,7 +705,7 @@
   "homepageSections": [
     {
       "id": "hs-hero",
-      "title": "Hero",
+      "title": "Science & Evidence (Updated Live)",
       "type": "hero",
       "sort": 0,
       "active": true,
@@ -472,10 +719,11 @@
         "secondaryText": "How we formulate",
         "secondaryLink": "/#science",
         "rating": "4.9 / 5",
-        "ratingCount": "12,000+ care rituals"
+        "ratingCount": "12,000+ care rituals",
+        "updated": true
       },
       "createdAt": "2026-08-29T07:59:01.686Z",
-      "updatedAt": "2026-08-29T07:59:01.686Z"
+      "updatedAt": "2026-08-29T08:41:59.551Z"
     },
     {
       "id": "hs-trust",
@@ -518,34 +766,18 @@
       "active": true,
       "visible": true,
       "content": {
-        "imageUrl": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1200&q=85",
-        "stat": "97%",
-        "statText": "of customers feel a difference within 30 days*",
+        "imageUrl": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1400&q=85",
+        "stat": "98%",
+        "statText": "TEST: Updated stat via admin",
         "eyebrow": "The Queens Care standard",
         "heading": "Precision you can feel. Proof you can see.",
-        "description": "We bring pharmaceutical rigor to the products that live on your shelf. Each formula begins with a real need, is built around meaningful dosage, and is independently tested for purity.",
-        "principles": [
-          {
-            "number": "01",
-            "title": "Purposeful dosage",
-            "text": "Not marketing-magic ingredients."
-          },
-          {
-            "number": "02",
-            "title": "Radical clarity",
-            "text": "Every ingredient has a reason to be here."
-          },
-          {
-            "number": "03",
-            "title": "Better by design",
-            "text": "Elegant rituals, lower-impact choices."
-          }
-        ],
+        "description": "Test description.",
+        "principles": [],
         "ctaText": "Meet our standard",
         "ctaLink": "/about"
       },
       "createdAt": "2026-08-29T07:59:01.686Z",
-      "updatedAt": "2026-08-29T07:59:01.686Z"
+      "updatedAt": "2026-08-29T10:08:38.511Z"
     },
     {
       "id": "hs-announcement",
@@ -560,7 +792,7 @@
         "secondaryLink": "/doctors"
       },
       "createdAt": "2026-08-29T07:59:01.686Z",
-      "updatedAt": "2026-08-29T07:59:01.686Z"
+      "updatedAt": "2026-08-29T09:43:23.164Z"
     }
   ],
   "settings": [
@@ -590,15 +822,143 @@
     },
     {
       "key": "theme_primary",
-      "value": "#2d1b4e",
+      "value": "#2A0F3A",
       "group": "theme",
-      "updatedAt": "2026-08-29T07:59:01.686Z"
+      "updatedAt": "2026-08-29T16:43:24.985Z"
     },
     {
       "key": "theme_gold",
       "value": "#d4ad65",
       "group": "theme",
       "updatedAt": "2026-08-29T07:59:01.686Z"
+    },
+    {
+      "id": "rec-mte80qtf-a3bvh",
+      "createdAt": "2026-08-29T10:11:36.003Z",
+      "updatedAt": "2026-08-29T19:10:24.828Z",
+      "key": "logo_url",
+      "value": "/uploads/logos/photo_from_vikhyaat_sikand-removebg-preview-1788030624584.png",
+      "group": "branding"
+    },
+    {
+      "id": "rec-mtea6lcw-ywjw3",
+      "createdAt": "2026-08-29T11:12:08.096Z",
+      "updatedAt": "2026-08-29T11:12:08.096Z",
+      "key": "free_shipping_enabled",
+      "value": "true",
+      "group": "shipping"
+    },
+    {
+      "id": "rec-mtea6lok-e8eng",
+      "createdAt": "2026-08-29T11:12:08.516Z",
+      "updatedAt": "2026-08-29T11:12:08.516Z",
+      "key": "free_shipping_threshold",
+      "value": "1500",
+      "group": "shipping"
+    },
+    {
+      "id": "rec-mtea6lrz-qpdfh",
+      "createdAt": "2026-08-29T11:12:08.639Z",
+      "updatedAt": "2026-08-29T11:12:08.639Z",
+      "key": "shipping_charge",
+      "value": "99",
+      "group": "shipping"
+    },
+    {
+      "id": "rec-mtea6lul-ai6wb",
+      "createdAt": "2026-08-29T11:12:08.733Z",
+      "updatedAt": "2026-08-29T11:12:08.733Z",
+      "key": "shipping_message",
+      "value": "FREE SHIPPING on orders above ?1,500",
+      "group": "shipping"
+    },
+    {
+      "id": "rec-mtea6lx5-skxs9",
+      "createdAt": "2026-08-29T11:12:08.825Z",
+      "updatedAt": "2026-08-29T11:12:08.825Z",
+      "key": "handling_charge",
+      "value": "0",
+      "group": "shipping"
+    },
+    {
+      "id": "rec-mtea6m04-ktvuc",
+      "createdAt": "2026-08-29T11:12:08.932Z",
+      "updatedAt": "2026-08-29T11:12:08.932Z",
+      "key": "handling_charge_enabled",
+      "value": "false",
+      "group": "shipping"
+    },
+    {
+      "id": "rec-mtemg3nj-qwxxa",
+      "createdAt": "2026-08-29T16:55:27.103Z",
+      "updatedAt": "2026-08-29T16:55:27.103Z",
+      "key": "delivery_enabled",
+      "value": "true",
+      "group": "delivery"
+    },
+    {
+      "id": "rec-mtemg3s1-kotff",
+      "createdAt": "2026-08-29T16:55:27.266Z",
+      "updatedAt": "2026-08-29T16:55:27.266Z",
+      "key": "delivery_standard_days",
+      "value": "3",
+      "group": "delivery"
+    },
+    {
+      "id": "rec-mtemg3uq-bhdiq",
+      "createdAt": "2026-08-29T16:55:27.362Z",
+      "updatedAt": "2026-08-29T16:55:27.362Z",
+      "key": "delivery_express_days",
+      "value": "1",
+      "group": "delivery"
+    },
+    {
+      "id": "rec-mtemg3wy-ggoya",
+      "createdAt": "2026-08-29T16:55:27.442Z",
+      "updatedAt": "2026-08-29T16:55:27.442Z",
+      "key": "delivery_cod_enabled",
+      "value": "true",
+      "group": "delivery"
+    },
+    {
+      "id": "rec-mtemg3zz-jqh79",
+      "createdAt": "2026-08-29T16:55:27.551Z",
+      "updatedAt": "2026-08-29T16:55:27.551Z",
+      "key": "delivery_same_day",
+      "value": "false",
+      "group": "delivery"
+    },
+    {
+      "id": "rec-mtemg42o-4fbo2",
+      "createdAt": "2026-08-29T16:55:27.648Z",
+      "updatedAt": "2026-08-29T16:55:27.648Z",
+      "key": "delivery_same_day_cutoff",
+      "value": "14:00",
+      "group": "delivery"
+    },
+    {
+      "id": "rec-mtemg44j-ne36q",
+      "createdAt": "2026-08-29T16:55:27.715Z",
+      "updatedAt": "2026-08-29T16:55:27.715Z",
+      "key": "delivery_serviceable_pincodes",
+      "value": "110001,110002,110003,110004,110005,400001,400002,400003,560001,560002,600001,600002,700001,700002,500001,500002,302001,201001,226001,411001",
+      "group": "delivery"
+    },
+    {
+      "id": "rec-mtemg46m-deeqb",
+      "createdAt": "2026-08-29T16:55:27.790Z",
+      "updatedAt": "2026-08-29T16:55:27.790Z",
+      "key": "delivery_serviceable_ranges",
+      "value": "110001-110099,400001-400099,560001-560099,600001-600099,700001-700099,500001-500099",
+      "group": "delivery"
+    },
+    {
+      "id": "rec-mtemg496-ykmbi",
+      "createdAt": "2026-08-29T16:55:27.882Z",
+      "updatedAt": "2026-08-29T16:55:27.882Z",
+      "key": "delivery_metro_pincodes",
+      "value": "110,400,560,600,700,500,302,201,226,411",
+      "group": "delivery"
     }
   ],
   "banners": [
@@ -739,5 +1099,179 @@
     }
   ],
   "reviews": [],
-  "content": []
+  "content": [],
+  "wishlistItems": [],
+  "marketing": [
+    {
+      "id": "md-1",
+      "type": "flash_deal",
+      "title": "Lumine-C Serum Flash Sale",
+      "products": [
+        "lumine-c-serum"
+      ],
+      "dealPrice": 1290,
+      "originalPrice": 1490,
+      "discount": 13,
+      "startDate": "2026-08-29T10:49:57.450Z",
+      "endDate": "2026-09-05T10:49:57.450Z",
+      "quantityLimit": 50,
+      "maxPerUser": 2,
+      "active": true,
+      "badge": "FLASH DEAL",
+      "createdAt": "2026-08-29T10:49:57.450Z",
+      "updatedAt": "2026-08-29T10:49:57.450Z"
+    },
+    {
+      "id": "md-2",
+      "type": "limited_offer",
+      "title": "Welcome Radiance Offer",
+      "products": [],
+      "discount": 10,
+      "couponCode": "WELCOME10",
+      "startDate": "2026-08-29T10:49:57.450Z",
+      "endDate": "2026-09-28T10:49:57.450Z",
+      "active": true,
+      "badge": "10% OFF",
+      "createdAt": "2026-08-29T10:49:57.450Z",
+      "updatedAt": "2026-08-29T10:49:57.450Z"
+    },
+    {
+      "id": "md-3",
+      "type": "free_shipping",
+      "title": "Free Shipping on Orders Above ₹1,500",
+      "minCartValue": 1500,
+      "active": true,
+      "startDate": "2026-08-29T10:49:57.450Z",
+      "endDate": "2026-11-27T10:49:57.450Z",
+      "createdAt": "2026-08-29T10:49:57.450Z",
+      "updatedAt": "2026-08-29T10:49:57.450Z"
+    },
+    {
+      "id": "rec-mte9jhjq-53csh",
+      "createdAt": "2026-08-29T10:54:10.070Z",
+      "updatedAt": "2026-08-29T10:54:10.070Z",
+      "type": "lightning_deal",
+      "title": "Biome Balance Lightning",
+      "dealPrice": 990,
+      "originalPrice": 1190,
+      "discount": 17,
+      "startDate": "2026-08-29T00:00:00Z",
+      "endDate": "2026-09-05T23:59:59Z",
+      "quantityLimit": 100,
+      "active": true,
+      "badge": "LIGHTNING"
+    },
+    {
+      "id": "rec-mte9jhrw-luz8f",
+      "createdAt": "2026-08-29T10:54:10.364Z",
+      "updatedAt": "2026-08-29T10:54:10.364Z",
+      "type": "limited_offer",
+      "title": "Season Special",
+      "discount": 15,
+      "couponCode": "SEASON15",
+      "startDate": "2026-08-29T00:00:00Z",
+      "endDate": "2026-09-30T23:59:59Z",
+      "active": true,
+      "badge": "15% OFF"
+    },
+    {
+      "id": "rec-mte9k34q-ded72",
+      "createdAt": "2026-08-29T10:54:38.042Z",
+      "updatedAt": "2026-08-29T10:54:38.042Z",
+      "type": "coupon",
+      "code": "TESTCOUPON20",
+      "discount": 20,
+      "minOrder": 1000,
+      "active": true,
+      "description": "Test coupon"
+    },
+    {
+      "id": "rec-mte9k4bj-nbofg",
+      "createdAt": "2026-08-29T10:54:39.583Z",
+      "updatedAt": "2026-08-29T10:54:39.583Z",
+      "type": "buy_x_get_y",
+      "title": "Buy 2 Get 1 Free",
+      "buyQty": 2,
+      "getQty": 1,
+      "discount": 100,
+      "active": true,
+      "startDate": "2026-08-29T00:00:00Z",
+      "endDate": "2026-09-30T23:59:59Z"
+    },
+    {
+      "id": "rec-mte9k4gp-lywkr",
+      "createdAt": "2026-08-29T10:54:39.769Z",
+      "updatedAt": "2026-08-29T10:54:39.769Z",
+      "type": "qty_discount",
+      "title": "Bulk Discount",
+      "minQty": 3,
+      "discount": 15,
+      "active": true
+    },
+    {
+      "id": "rec-mte9k4k5-w3mls",
+      "createdAt": "2026-08-29T10:54:39.893Z",
+      "updatedAt": "2026-08-29T10:54:39.893Z",
+      "type": "free_shipping",
+      "title": "Free Shipping",
+      "minCartValue": 1500,
+      "active": true
+    },
+    {
+      "id": "rec-mte9k540-solx2",
+      "createdAt": "2026-08-29T10:54:40.608Z",
+      "updatedAt": "2026-08-29T10:54:40.608Z",
+      "type": "campaign",
+      "title": "Diwali Campaign",
+      "description": "Diwali special promotion",
+      "products": [
+        "lumine-c-serum",
+        "biome-balance"
+      ],
+      "startDate": "2026-10-01T00:00:00Z",
+      "endDate": "2026-11-15T23:59:59Z",
+      "active": true
+    }
+  ],
+  "notifications": [
+    {
+      "id": "ntf-1",
+      "type": "promotion",
+      "title": "Free delivery on orders above ₹1,500",
+      "message": "Enjoy complimentary shipping on your wellness essentials.",
+      "link": "/shop",
+      "active": true,
+      "startDate": "2026-08-29T10:49:57.450Z",
+      "endDate": "2026-11-27T10:49:57.450Z",
+      "createdAt": "2026-08-29T10:49:57.450Z",
+      "updatedAt": "2026-08-29T10:49:57.450Z"
+    },
+    {
+      "id": "rec-mte9k4vg-hgyan",
+      "createdAt": "2026-08-29T10:54:40.300Z",
+      "updatedAt": "2026-08-29T10:54:40.300Z",
+      "_kind": "notifications",
+      "type": "new_product",
+      "title": "New Arrival!",
+      "message": "Check out our latest product.",
+      "link": "/shop",
+      "active": true
+    }
+  ],
+  "promoBanners": [
+    {
+      "id": "rec-mte9k4np-vzvm9",
+      "createdAt": "2026-08-29T10:54:40.021Z",
+      "updatedAt": "2026-08-29T10:54:40.021Z",
+      "_kind": "promoBanners",
+      "heading": "Mega Sale",
+      "subheading": "Up to 30% off",
+      "imageUrl": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=1400&q=85",
+      "ctaText": "Shop Now",
+      "ctaUrl": "/shop",
+      "placement": "homepage",
+      "active": true,
+      "sort": 0
+    }
+  ]
 }

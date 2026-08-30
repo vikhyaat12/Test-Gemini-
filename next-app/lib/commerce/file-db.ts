@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync, statSync } from "fs";
 import { join, resolve } from "path";
 
 const DATA_DIR = resolve(process.cwd(), "data");
@@ -30,6 +30,12 @@ export interface LocalDbSchema {
   reviews: Array<Record<string, unknown>>;
   content: Array<Record<string, unknown>>;
   wishlistItems: Array<Record<string, unknown>>;
+  marketing: Array<Record<string, unknown>>;
+  notifications: Array<Record<string, unknown>>;
+  promoBanners: Array<Record<string, unknown>>;
+  paymentGateways: Array<Record<string, unknown>>;
+  shippingProviders: Array<Record<string, unknown>>;
+  shippingRules: Array<Record<string, unknown>>;
 }
 
 const now = () => new Date().toISOString();
@@ -206,7 +212,7 @@ const initialSeedData: LocalDbSchema = {
       slug: "afternoon-slump-not-a-personality-flaw",
       title: "Why your afternoon slump is not a personality flaw",
       excerpt: "The 3pm dip is physiology, not a lack of willpower. Here is what is actually happening.",
-      body: "<p>Most people blame themselves for the mid-afternoon crash. In reality it is a predictable dip in your circadian rhythm, compounded by blood-sugar swings and the cognitive cost of a busy morning.</p><p>Understanding the mechanism is the first step to working with your body instead of against it. Small, well-timed rituals — hydration, a short walk, and purposefully-dosed support — move the needle far more than another coffee.</p><h3>The science behind the dip</h3><p>Your body runs on a roughly 24-hour cycle. Between 1pm and 3pm, your core temperature drops slightly, and alertness follows. This is not a sign of poor health — it is a feature of human biology.</p><p>Add a high-glycemic lunch to the mix, and you get a blood-sugar spike followed by a sharp drop. The result: that foggy, can’t-focus feeling that arrives like clockwork.</p><h3>What actually helps</h3><ul><li><strong>Hydrate first</strong> — Dehydration alone accounts for significant cognitive fatigue.</li><li><strong>Move briefly</strong> — A 10-minute walk resets circulation and cortisol.</li><li><strong>Choose steady energy</strong> — Protein-rich snacks and considered supplementation outperform caffeine.</li><li><strong>Embrace the dip</strong> — Schedule creative work for your peak hours and administrative tasks for the valley.</li></ul><p>Care is a practice, and energy is one of its most rewarding returns.</p>",
+      body: "<p>Most people blame themselves for the mid-afternoon crash. In reality it is a predictable dip in your circadian rhythm, compounded by blood-sugar swings and the cognitive cost of a busy morning.</p><p>Understanding the mechanism is the first step to working with your body instead of against it. Small, well-timed rituals — hydration, a short walk, and purposefully-dosed support — move the needle far more than another coffee.</p><h3>The science behind the dip</h3><p>Your body runs on a roughly 24-hour cycle. Between 1pm and 3pm, your core temperature drops slightly, and alertness follows. This is not a sign of poor health — it is a feature of human biology.</p><p>Add a high-glycemic lunch to the mix, and you get a blood-sugar spike followed by a sharp drop. The result: that foggy, can't-focus feeling that arrives like clockwork.</p><h3>What actually helps</h3><ul><li><strong>Hydrate first</strong> — Dehydration alone accounts for significant cognitive fatigue.</li><li><strong>Move briefly</strong> — A 10-minute walk resets circulation and cortisol.</li><li><strong>Choose steady energy</strong> — Protein-rich snacks and considered supplementation outperform caffeine.</li><li><strong>Embrace the dip</strong> — Schedule creative work for your peak hours and administrative tasks for the valley.</li></ul><p>Care is a practice, and energy is one of its most rewarding returns.</p>",
       category: "Wellness notes",
       author: "Queens Care Research Team",
       readTime: "6 min read",
@@ -225,7 +231,7 @@ const initialSeedData: LocalDbSchema = {
       slug: "what-clinically-studied-really-means",
       title: "The truth about what \"clinically studied\" really means",
       excerpt: "Not all evidence is equal. A short, honest guide to reading supplement claims like a scientist.",
-      body: "<p>“Clinically studied” can mean anything from a rigorous randomised controlled trial to a single small study funded by the seller. The words that matter are sample size, control group, dose, and independence.</p><h2>What to look for</h2><p>When evaluating a supplement claim, ask these questions:</p><ol><li><strong>Sample size</strong> — Was the study conducted on 12 people or 1,200?</li><li><strong>Control group</strong> — Did it include a placebo comparison?</li><li><strong>Dose</strong> — Was the dose used in the study the same as what’s in the product?</li><li><strong>Independence</strong> — Was the study funded by an unbiased third party?</li></ol><p>At Queens Care we start from a real need, formulate around a meaningful dose, and test independently for purity. This piece walks through the questions worth asking before any product earns a place on your shelf.</p>",
+      body: "<p>&ldquo;Clinically studied&rdquo; can mean anything from a rigorous randomised controlled trial to a single small study funded by the seller. The words that matter are sample size, control group, dose, and independence.</p><h2>What to look for</h2><p>When evaluating a supplement claim, ask these questions:</p><ol><li><strong>Sample size</strong> — Was the study conducted on 12 people or 1,200?</li><li><strong>Control group</strong> — Did it include a placebo comparison?</li><li><strong>Dose</strong> — Was the dose used in the study the same as what's in the product?</li><li><strong>Independence</strong> — Was the study funded by an unbiased third party?</li></ol><p>At Queens Care we start from a real need, formulate around a meaningful dose, and test independently for purity. This piece walks through the questions worth asking before any product earns a place on your shelf.</p>",
       category: "Expert series",
       author: "Dr. Priya Sharma",
       readTime: "4 min read",
@@ -533,9 +539,326 @@ const initialSeedData: LocalDbSchema = {
   reviews: [],
   content: [],
   wishlistItems: [],
+  marketing: [
+    {
+      id: "md-1",
+      type: "flash_deal",
+      title: "Lumine-C Serum Flash Sale",
+      products: ["lumine-c-serum"],
+      dealPrice: 1290,
+      originalPrice: 1490,
+      discount: 13,
+      startDate: new Date().toISOString(),
+      endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+      quantityLimit: 50,
+      maxPerUser: 2,
+      active: true,
+      badge: "FLASH DEAL",
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "md-2",
+      type: "limited_offer",
+      title: "Welcome Radiance Offer",
+      products: [],
+      discount: 10,
+      couponCode: "WELCOME10",
+      startDate: new Date().toISOString(),
+      endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+      active: true,
+      badge: "10% OFF",
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "md-3",
+      type: "free_shipping",
+      title: "Free Shipping on Orders Above ₹1,500",
+      minCartValue: 1500,
+      active: true,
+      startDate: new Date().toISOString(),
+      endDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
+      createdAt: now(),
+      updatedAt: now(),
+    },
+  ],
+  notifications: [
+    {
+      id: "ntf-1",
+      type: "promotion",
+      title: "Free delivery on orders above ₹1,500",
+      message: "Enjoy complimentary shipping on your wellness essentials.",
+      link: "/shop",
+      active: true,
+      startDate: new Date().toISOString(),
+      endDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
+      createdAt: now(),
+      updatedAt: now(),
+    },
+  ],
+  promoBanners: [],
+  paymentGateways: [
+    {
+      id: "gw-razorpay",
+      provider: "razorpay",
+      displayName: "Razorpay (UPI, Cards, Netbanking, Wallets)",
+      description: "Accept UPI (Google Pay, PhonePe, Paytm), Credit/Debit Cards, Netbanking, and Wallets",
+      icon: "⚡",
+      mode: "test",
+      enabled: true,
+      isConfigured: Boolean(process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || process.env.RAZORPAY_KEY_SECRET),
+      credentials: {
+        keyId: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "",
+        keySecret: process.env.RAZORPAY_KEY_SECRET || "",
+        webhookSecret: process.env.RAZORPAY_WEBHOOK_SECRET || "",
+      },
+      sort: 1,
+      supportedCurrencies: ["INR"],
+      supportsRefunds: true,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "gw-stripe",
+      provider: "stripe",
+      displayName: "Stripe (International Cards & Apple Pay)",
+      description: "Accept Visa, Mastercard, Amex, Apple Pay, and Global payment methods",
+      icon: "💳",
+      mode: "test",
+      enabled: false,
+      isConfigured: false,
+      credentials: {
+        publishableKey: "",
+        secretKey: "",
+        webhookSecret: "",
+      },
+      sort: 2,
+      supportedCurrencies: ["INR", "USD", "EUR", "GBP", "AED", "SGD"],
+      supportsRefunds: true,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "gw-cashfree",
+      provider: "cashfree",
+      displayName: "Cashfree Payments",
+      description: "Seamless checkout for Indian cards, UPI, PayLater and Netbanking",
+      icon: "💸",
+      mode: "test",
+      enabled: false,
+      isConfigured: false,
+      credentials: {
+        appId: "",
+        secretKey: "",
+      },
+      sort: 3,
+      supportedCurrencies: ["INR"],
+      supportsRefunds: true,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "gw-payu",
+      provider: "payu",
+      displayName: "PayU Money",
+      description: "Direct debit, cards, EMI and popular Indian digital wallets",
+      icon: "🏦",
+      mode: "test",
+      enabled: false,
+      isConfigured: false,
+      credentials: {
+        merchantKey: "",
+        merchantSalt: "",
+      },
+      sort: 4,
+      supportedCurrencies: ["INR"],
+      supportsRefunds: true,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "gw-phonepe",
+      provider: "phonepe",
+      displayName: "PhonePe PG (Direct UPI & QR)",
+      description: "High-converting UPI and QR checkout flow directly powered by PhonePe",
+      icon: "📱",
+      mode: "test",
+      enabled: false,
+      isConfigured: false,
+      credentials: {
+        merchantId: "",
+        saltKey: "",
+        saltIndex: "1",
+      },
+      sort: 5,
+      supportedCurrencies: ["INR"],
+      supportsRefunds: true,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "gw-cod",
+      provider: "cod",
+      displayName: "Cash on Delivery (COD)",
+      description: "Pay with cash or UPI QR upon package arrival at your doorstep",
+      icon: "💵",
+      mode: "live",
+      enabled: true,
+      isConfigured: true,
+      credentials: {},
+      sort: 6,
+      codCharge: 0,
+      minOrderValue: 0,
+      maxOrderValue: 15000,
+      instructions: "Please keep exact cash or UPI QR app ready when the delivery partner arrives.",
+      createdAt: now(),
+      updatedAt: now(),
+    },
+  ],
+  shippingProviders: [
+    {
+      id: "ship-shiprocket",
+      provider: "shiprocket",
+      name: "Shiprocket",
+      description: "Multi-courier logistics aggregator (Bluedart, Delhivery, Shadowfax, DTDC, Ekart)",
+      icon: "🚀",
+      enabled: true,
+      isDefault: true,
+      mode: "test",
+      isConfigured: false,
+      credentials: {
+        email: "",
+        password: "",
+        pickupLocation: "Primary Warehouse Mumbai",
+        channelId: "",
+      },
+      sort: 1,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "ship-delhivery",
+      provider: "delhivery",
+      name: "Delhivery Direct",
+      description: "Direct express & surface logistics across 18,500+ Indian pincodes",
+      icon: "📦",
+      enabled: false,
+      isDefault: false,
+      mode: "test",
+      isConfigured: false,
+      credentials: {
+        apiToken: "",
+        clientName: "",
+        warehouseName: "QueensCare Main Hub",
+      },
+      sort: 2,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "ship-shipway",
+      provider: "shipway",
+      name: "Shipway",
+      description: "E-commerce carrier tracking and NDR automation",
+      icon: "🚚",
+      enabled: false,
+      isDefault: false,
+      mode: "test",
+      isConfigured: false,
+      credentials: {
+        username: "",
+        licenseKey: "",
+      },
+      sort: 3,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "ship-pickrr",
+      provider: "pickrr",
+      name: "Pickrr / ClickPost",
+      description: "AI-powered multi-courier dispatch and real-time tracking",
+      icon: "📍",
+      enabled: false,
+      isDefault: false,
+      mode: "test",
+      isConfigured: false,
+      credentials: {
+        authToken: "",
+      },
+      sort: 4,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "ship-nimbuspost",
+      provider: "nimbuspost",
+      name: "NimbusPost",
+      description: "Automated shipping engine with lowest shipping rates across India",
+      icon: "☁️",
+      enabled: false,
+      isDefault: false,
+      mode: "test",
+      isConfigured: false,
+      credentials: {
+        email: "",
+        password: "",
+      },
+      sort: 5,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "ship-local",
+      provider: "local",
+      name: "Queens Care Express Logistics (Local Engine)",
+      description: "Built-in reliable rule-based shipping calculator and serviceability engine",
+      icon: "🏷️",
+      enabled: true,
+      isDefault: false,
+      mode: "live",
+      isConfigured: true,
+      credentials: {},
+      sort: 6,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+  ],
+  shippingRules: [
+    {
+      id: "rule-default",
+      name: "Standard Indian Shipping Policy",
+      freeShippingThreshold: 1500,
+      standardShippingFee: 99,
+      expressShippingFee: 199,
+      codHandlingFee: 0,
+      minOrderValue: 0,
+      maxOrderValue: 100000,
+      estimatedDaysMetro: "2-3 business days",
+      estimatedDaysNonMetro: "4-6 business days",
+      serviceablePincodes: ["*"],
+      active: true,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+  ],
 };
 
-let inMemoryData: LocalDbSchema | null = null;
+/**
+ * File-based database with disk-only reads.
+ *
+ * FIX: The previous implementation used a module-level `inMemoryData` singleton
+ * which caused stale-data bugs in Turbopack dev mode — different worker threads
+ * could hold separate copies of the cache, so writes in one thread weren't visible
+ * in another.
+ *
+ * This version always reads from disk (using fs.stat mtime for a cheap staleness
+ * check) and writes through to disk synchronously. Every `get()` call returns
+ * the latest persisted state. The DB file is ~30KB which reads in <1ms on SSD.
+ */
+let _cachedData: LocalDbSchema | null = null;
+let _cacheMtimeMs = 0;
 
 function ensureDataDir() {
   try {
@@ -545,44 +868,69 @@ function ensureDataDir() {
   } catch {}
 }
 
+function readFromDisk(): LocalDbSchema {
+  ensureDataDir();
+  try {
+    if (existsSync(DB_FILE)) {
+      const raw = readFileSync(DB_FILE, "utf-8");
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === "object") {
+        const merged: LocalDbSchema = {
+          ...initialSeedData,
+          ...parsed,
+        };
+        return merged;
+      }
+    }
+  } catch {}
+
+  // First-time init: write seed data to DB_FILE
+  const initialized: LocalDbSchema = structuredClone(initialSeedData);
+  try {
+    ensureDataDir();
+    writeFileSync(DB_FILE, JSON.stringify(initialized, null, 2), "utf-8");
+  } catch {}
+  return initialized;
+}
+
+/**
+ * Get current file modification time in ms, or 0 if unavailable.
+ */
+function getFileMtimeMs(): number {
+  try {
+    const st = statSync(DB_FILE);
+    return st.mtimeMs;
+  } catch {
+    return 0;
+  }
+}
+
 export const fileDb = {
   get(): LocalDbSchema {
-    if (inMemoryData) return inMemoryData;
-    ensureDataDir();
-    try {
-      if (existsSync(DB_FILE)) {
-        const raw = readFileSync(DB_FILE, "utf-8");
-        const parsed = JSON.parse(raw);
-        if (parsed && typeof parsed === "object") {
-          // Merge with any missing collections from initialSeedData
-          const merged: LocalDbSchema = {
-            ...initialSeedData,
-            ...parsed,
-          };
-          inMemoryData = merged;
-          return merged;
-        }
-      }
-    } catch {}
-
-    // First time init: write initialSeedData to DB_FILE
-    const initialized: LocalDbSchema = structuredClone(initialSeedData);
-    inMemoryData = initialized;
-    this.flush();
-    return initialized;
+    // Always check if the file on disk is newer than our cache.
+    // This handles cross-thread/cross-worker writes seamlessly.
+    const diskMtime = getFileMtimeMs();
+    if (_cachedData && diskMtime === _cacheMtimeMs) {
+      return _cachedData;
+    }
+    _cachedData = readFromDisk();
+    _cacheMtimeMs = diskMtime;
+    return _cachedData;
   },
 
   flush() {
-    if (!inMemoryData) return;
+    if (!_cachedData) return;
     ensureDataDir();
     try {
-      writeFileSync(DB_FILE, JSON.stringify(inMemoryData, null, 2), "utf-8");
+      writeFileSync(DB_FILE, JSON.stringify(_cachedData, null, 2), "utf-8");
+      // Update our own mtime cache so we don't re-read what we just wrote
+      _cacheMtimeMs = getFileMtimeMs();
     } catch {}
   },
 
   save(partial: Partial<LocalDbSchema>) {
     const current = this.get();
-    inMemoryData = { ...current, ...partial };
+    _cachedData = { ...current, ...partial };
     this.flush();
   },
 

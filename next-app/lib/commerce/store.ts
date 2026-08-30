@@ -55,45 +55,47 @@ export const store = {
 					return up as unknown as Product;
 				} catch {}
 			}
-			const id = input.id || `p-${Date.now().toString(36)}`;
-			const slug = input.slug || String(input.name || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+			const id = input.id || (input.slug ? fileDb.findOne("products", p => p.slug === input.slug)?.id : undefined) || `p-${Date.now().toString(36)}`;
+			const slug = input.slug || (input.id ? fileDb.findOne("products", p => p.id === input.id)?.slug : undefined) || String(input.name || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+			const existing = (fileDb.findOne("products", (p) => p.id === id || p.slug === slug) || {}) as Record<string, unknown>;
 			const item = {
 				id,
 				slug,
-				name: input.name || "",
-				brand: input.brand || "Queens Care",
-				description: input.description || "",
-				shortDescription: input.shortDescription || "",
-				category: input.category || "General",
-				price: Number(input.price || 0),
-				mrp: input.mrp ? Number(input.mrp) : undefined,
-				discount: input.discount ? Number(input.discount) : undefined,
-				stock: Number(input.stock || 0),
-				lowStockThreshold: input.lowStockThreshold ? Number(input.lowStockThreshold) : 10,
-				image: input.image || "",
-				images: input.images || (input.image ? [input.image] : []),
-				thumbnail: input.thumbnail || input.image,
-				video: input.video,
-				active: input.active !== false,
-				visible: input.visible !== false,
-				featured: Boolean(input.featured),
-				homepageVisible: Boolean(input.homepageVisible),
-				benefits: input.benefits,
-				ingredients: input.ingredients,
-				usage: input.usage,
-				safetyInfo: input.safetyInfo,
-				tags: input.tags,
-				searchKeywords: input.searchKeywords,
-				seoTitle: input.seoTitle,
-				seoDescription: input.seoDescription,
-				altText: input.altText,
-				rating: input.rating ?? 5.0,
-				reviewCount: input.reviewCount ?? 0,
-				createdAt: input.createdAt || now(),
-				updatedAt: now(),
+				name: existing.name || input.name || "",
+				brand: existing.brand || input.brand || "Queens Care",
+				description: existing.description || input.description || "",
+				shortDescription: existing.shortDescription || input.shortDescription || "",
+				category: existing.category || input.category || "General",
+				price: Number(input.price !== undefined ? input.price : (existing.price || 0)),
+				mrp: input.mrp !== undefined ? Number(input.mrp) : (existing.mrp ? Number(existing.mrp) : undefined),
+				discount: input.discount !== undefined ? Number(input.discount) : (existing.discount ? Number(existing.discount) : undefined),
+				stock: Number(input.stock !== undefined ? input.stock : (existing.stock || 0)),
+				lowStockThreshold: Number(input.lowStockThreshold !== undefined ? input.lowStockThreshold : (existing.lowStockThreshold || 10)),
+				image: input.image || existing.image || "",
+				images: input.images || existing.images || (input.image ? [input.image] : []),
+				thumbnail: input.thumbnail || existing.thumbnail || input.image || existing.image,
+				video: input.video !== undefined ? input.video : existing.video,
+				active: input.active !== undefined ? input.active : (existing.active !== false),
+				visible: input.visible !== undefined ? input.visible : (existing.visible !== false),
+				featured: input.featured !== undefined ? Boolean(input.featured) : Boolean(existing.featured),
+				homepageVisible: input.homepageVisible !== undefined ? Boolean(input.homepageVisible) : Boolean(existing.homepageVisible),
+				benefits: input.benefits || existing.benefits,
+				ingredients: input.ingredients || existing.ingredients,
+				usage: input.usage || existing.usage,
+				safetyInfo: input.safetyInfo || existing.safetyInfo,
+				tags: input.tags || existing.tags,
+				searchKeywords: input.searchKeywords || existing.searchKeywords,
+				seoTitle: input.seoTitle || existing.seoTitle,
+				seoDescription: input.seoDescription || existing.seoDescription,
+				altText: input.altText || existing.altText,
+				rating: input.rating !== undefined ? input.rating : (existing.rating ?? 5.0),
+				reviewCount: input.reviewCount !== undefined ? input.reviewCount : (existing.reviewCount ?? 0),
+				createdAt: existing.createdAt || input.createdAt || now(),
+				...existing,
 				...input,
+				updatedAt: now(),
 			};
-			const updated = fileDb.update("products", { id, slug }, item as Record<string, unknown>);
+			const updated = fileDb.update("products", { id: String(id), slug: String(slug) }, item as Record<string, unknown>);
 			return updated as unknown as Product;
 		},
 		delete: async (idOrSlug: string): Promise<boolean> => {
@@ -210,19 +212,28 @@ export const store = {
 			const found = fileDb.findOne("orders", o => o.id === id);
 			return found as unknown as Order | null;
 		},
-		create: async (userId: string, lines: OrderLineInput[], total: number, shipping?: ShippingDetails) => {
+		create: async (userId: string, lines: OrderLineInput[], total: number, shipping?: ShippingDetails, details?: { subtotal?: number; discount?: number; shippingFee?: number; couponCode?: string; paymentMethod?: string; paymentStatus?: PaymentStatus; trackingCode?: string; courier?: string; notes?: string }) => {
+			const trackingCode = details?.trackingCode || `QC${Math.floor(100000 + Math.random() * 899999)}`;
+			const subtotal = details?.subtotal !== undefined ? details.subtotal : total;
+			const discount = details?.discount || 0;
+			const shippingFee = details?.shippingFee || 0;
+			const paymentMethod = details?.paymentMethod || "cod";
+			const paymentStatus = details?.paymentStatus || (paymentMethod === "cod" ? "cod_pending" : "pending");
+
 			if (usePrisma) {
 				try {
 					const data: Record<string, unknown> = {
 						userId,
-						subtotal: total,
-						discount: 0,
-						shippingFee: 0,
+						subtotal,
+						discount,
+						shippingFee,
 						tax: 0,
 						total,
 						status: "pending",
-						paymentStatus: "pending",
-						trackingCode: `QC${Math.floor(100000 + Math.random() * 899999)}`,
+						paymentStatus,
+						paymentMethod,
+						couponCode: details?.couponCode,
+						trackingCode,
 						lines: { create: lines.map((l) => ({ product: { connect: { slug: l.productId } }, quantity: l.quantity, unitPrice: l.unitPrice ?? 0 })) }
 					};
 					if (shipping) data.shipping = shipping;
@@ -235,17 +246,19 @@ export const store = {
 				id: `QC-${Date.now().toString(36).toUpperCase()}`,
 				userId,
 				lines,
-				subtotal: total,
-				discount: 0,
-				couponCode: undefined,
-				shippingFee: 0,
+				subtotal,
+				discount,
+				couponCode: details?.couponCode,
+				shippingFee,
 				tax: 0,
 				total,
 				status: "pending",
-				paymentStatus: "pending",
-				trackingCode: `QC${Math.floor(100000 + Math.random() * 899999)}`,
+				paymentStatus,
+				paymentMethod,
+				trackingCode,
 				createdAt: now(),
-				shipping
+				shipping,
+				notes: details?.notes,
 			};
 			fileDb.insert("orders", item as unknown as Record<string, unknown>);
 			return item;
@@ -338,15 +351,16 @@ export const store = {
 			return (found as unknown as BlogPost) || null;
 		},
 		save: async (input: Partial<BlogPost>) => {
-			const slug = input.slug || String(input.title || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+			const id = String(input.id || (input.slug ? fileDb.findOne("blogPosts", p => p.slug === input.slug)?.id : undefined) || `bp-${Date.now().toString(36)}`);
+			const slug = String(input.slug || (input.id ? fileDb.findOne("blogPosts", p => p.id === input.id)?.slug : undefined) || String(input.title || "").toLowerCase().replace(/[^a-z0-9]+/g, "-"));
 			if (usePrisma) {
 				try {
-					const { id, ...data } = input;
-					if (id) {
-						const existing = await prisma.blogPost.findUnique({ where: { id } });
+					const { id: inputId, ...data } = input;
+					if (inputId) {
+						const existing = await prisma.blogPost.findUnique({ where: { id: inputId } });
 						if (existing) {
 							const up = (await prisma.blogPost.update({
-								where: { id },
+								where: { id: inputId },
 								data: { ...data, slug } as Prisma.BlogPostUpdateInput,
 							})) as unknown as BlogPost;
 							fileDb.update("blogPosts", { id: up.id, slug: up.slug }, up as unknown as Record<string, unknown>);
@@ -362,33 +376,36 @@ export const store = {
 					return up;
 				} catch {}
 			}
-			const id = input.id || `bp-${Date.now().toString(36)}`;
+			const existing = (fileDb.findOne("blogPosts", (p) => p.id === id || p.slug === slug) || {}) as Record<string, unknown>;
 			const record = {
 				id,
 				slug,
-				title: input.title || "",
-				excerpt: input.excerpt || "",
-				body: input.body || "",
-				content: input.content || input.body,
-				category: input.category || "Wellness notes",
-				tags: input.tags || "",
-				author: input.author || "Queens Care Editorial",
-				readTime: input.readTime || "5 min read",
-				image: input.image || "",
-				images: input.images || "",
-				videoUrl: input.videoUrl || "",
-				videoTitle: input.videoTitle || "",
-				featured: Boolean(input.featured),
-				seoTitle: input.seoTitle || input.title,
-				seoDescription: input.seoDescription || input.excerpt,
-				ogImage: input.ogImage || input.image,
-				published: input.published !== false,
-				visible: input.visible !== false,
-				createdAt: input.createdAt || now(),
-				updatedAt: now(),
+				title: input.title || existing.title || "",
+				excerpt: input.excerpt || existing.excerpt || "",
+				body: input.body || input.content || existing.body || existing.content || "",
+				content: input.content || input.body || existing.content || existing.body || "",
+				category: input.category || existing.category || "Wellness notes",
+				tags: input.tags || existing.tags || "",
+				author: input.author || existing.author || "Queens Care Research Team",
+				readTime: input.readTime || existing.readTime || "5 min read",
+				image: input.image || existing.image || "",
+				images: input.images || existing.images || "",
+				videoUrl: input.videoUrl !== undefined ? input.videoUrl : existing.videoUrl,
+				videoTitle: input.videoTitle !== undefined ? input.videoTitle : existing.videoTitle,
+				featured: input.featured !== undefined ? Boolean(input.featured) : Boolean(existing.featured),
+				seoTitle: input.seoTitle || existing.seoTitle || input.title || existing.title,
+				seoDescription: input.seoDescription || existing.seoDescription || input.excerpt || existing.excerpt,
+				ogImage: input.ogImage || existing.ogImage || input.image || existing.image,
+				published: input.published !== undefined ? Boolean(input.published) : (existing.published !== false),
+				visible: input.visible !== undefined ? Boolean(input.visible) : (existing.visible !== false),
+				createdAt: existing.createdAt || input.createdAt || now(),
+				...existing,
 				...input,
+				updatedAt: now(),
 			};
-			const saved = fileDb.update("blogPosts", { id, slug }, record as Record<string, unknown>);
+			if (input.content && !record.body) record.body = input.content;
+			if (input.body && !record.content) record.content = input.body;
+			const saved = fileDb.update("blogPosts", { id: String(id), slug: String(slug) }, record as Record<string, unknown>);
 			return saved as unknown as BlogPost;
 		},
 		delete: async (idOrSlug: string) => {

@@ -7,6 +7,8 @@ import { prisma } from "@/lib/prisma";
 import AddToCartButton from "@/app/components/AddToCartButton";
 import ProductGallery from "@/app/components/ProductGallery";
 import ProductTabs from "./ProductTabs";
+import DeliveryCalculator from "@/app/components/DeliveryCalculator";
+import RecommendationsSection from "@/app/components/RecommendationsSection";
 
 export const dynamic = "force-dynamic";
 
@@ -73,8 +75,46 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const specs = (full?.specifications && full.specifications.length > 0) ? full.specifications : fallbackSpecs;
   const faqs = full?.productFaqs || [];
   const reviews = full?.reviews || [];
-  const related = (full?.relatedFrom || []).map(r => r.relatedProduct).filter(Boolean);
-  const aplus = full?.aplusSections || [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let related: any[] = (full?.relatedFrom || []).map(r => r.relatedProduct).filter(Boolean);
+  // Fallback: read relatedProducts slugs from the product itself
+  if (related.length === 0) {
+    try {
+      const rawRelated = (product as Record<string, unknown>).relatedProducts;
+      if (Array.isArray(rawRelated) && rawRelated.length > 0) {
+        related = (await Promise.all(rawRelated.map(async (slug: string) => {
+          const p = await store.products.bySlug(slug);
+          return p ? { id: p.id, slug: p.slug, name: p.name, image: p.image, price: p.price } : null;
+        }))).filter(Boolean);
+      }
+    } catch {}
+  }
+  const aplusPrisma = full?.aplusSections || [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let aplusFallback: any[] = [];
+  try {
+    const raw = (product as Record<string, unknown>).aplusContent;
+    if (Array.isArray(raw)) aplusFallback = raw.map((s: Record<string, unknown>, i: number) => ({
+      id: `ap-${i}`,
+      type: String(s.type || 'richText'),
+      heading: String(s.heading || ''),
+      title: String(s.heading || ''),
+      text: String(s.text || ''),
+      body: String(s.text || ''),
+      imageUrl: String(s.imageUrl || ''),
+      imageAlt: String(s.imageAlt || ''),
+      videoUrl: String(s.videoUrl || ''),
+      ctaText: String(s.ctaText || ''),
+      ctaLink: String(s.ctaLink || ''),
+      items: Array.isArray(s.items) ? s.items as string[] : [],
+      published: s.published !== false,
+    }));
+  } catch {}
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const aplusRaw: any[] = aplusPrisma.length > 0 ? aplusPrisma : aplusFallback;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const aplusPublished = !!(product as any).aplusPublished;
+  const aplus: any[] = aplusPublished ? aplusRaw : [];
   const videos = full?.videos || [];
   const model3d = full?.model3d;
   const questions = full ? await getQA(full.id) : [];
@@ -135,10 +175,23 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             </div>
           )}
 
+          {/* ─── BADGES ─── */}
+          {Boolean((product as Record<string, unknown>).bestSeller) && (
+            <div style={{ display: "inline-block", padding: "4px 12px", background: "var(--gold)", color: "#fff", fontSize: 10, fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase" as const, marginTop: 12 }}>BEST SELLER</div>
+          )}
+          {Boolean((product as Record<string, unknown>).newArrival) && (
+            <div style={{ display: "inline-block", padding: "4px 12px", background: "#4caf50", color: "#fff", fontSize: 10, fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase" as const, marginTop: 12, marginLeft: 8 }}>NEW ARRIVAL</div>
+          )}
+          {Boolean((product as Record<string, unknown>).featured) && (
+            <div style={{ display: "inline-block", padding: "4px 12px", background: "var(--purple)", color: "#fff", fontSize: 10, fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase" as const, marginTop: 12, marginLeft: 8 }}>FEATURED</div>
+          )}
           <div className="trust-signals">
             <span>✦ Third-party tested</span>
             <span>✦ Traceable ingredients</span>
             <span>✦ Made in India</span>
+          </div>
+          <div style={{ marginTop: 12 }}>
+            <DeliveryCalculator productPrice={product.price} />
           </div>
 
           {/* ─── STOCK & ADD TO CART ─── */}
@@ -203,30 +256,81 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       {aplus.length > 0 && (
         <section style={{ marginTop: 48, maxWidth: 900 }}>
           <h2 style={{ font: "22px var(--font-display)", marginBottom: 24 }}>About this product</h2>
-          {aplus.map(section => (
+          {aplus.filter((s: Record<string, unknown>) => s.published !== false).map(section => (
             <div key={section.id} style={{ marginBottom: 32 }}>
-              {section.type === "hero_banner" && section.imageUrl && (
-                <div style={{ position: "relative", width: "100%", aspectRatio: "21/9", overflow: "hidden" }}>
-                  <img src={section.imageUrl} alt={section.imageAlt || section.title || ""} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                  {section.heading && <div style={{ position: "absolute", bottom: 20, left: 20, color: "#fff", background: "rgba(0,0,0,0.5)", padding: "12px 20px" }}><h3 style={{ margin: 0 }}>{section.heading}</h3></div>}
+              {/* Rich Text */}
+              {(section.type === "rich_text" || section.type === "richText") && (
+                <div>
+                  {section.heading && <h3 style={{ font: "20px var(--font-display)", marginBottom: 12 }}>{section.heading}</h3>}
+                  {(section.text || section.body) && <div style={{ fontSize: 14, lineHeight: 1.8, color: "var(--ink)" }} dangerouslySetInnerHTML={{ __html: section.text || section.body || "" }} />}
+                  {section.imageUrl && <img src={section.imageUrl} alt={section.imageAlt || ""} style={{ width: "100%", marginTop: 16 }} />}
                 </div>
               )}
-              {section.type === "image_text" && (
+              {/* Hero / Hero Banner */}
+              {(section.type === "hero" || section.type === "hero_banner") && (
+                <div style={{ position: "relative", width: "100%", aspectRatio: "21/9", overflow: "hidden" }}>
+                  {section.imageUrl && <img src={section.imageUrl} alt={section.imageAlt || section.heading || ""} style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
+                  {section.heading && <div style={{ position: "absolute", bottom: 20, left: 20, right: 20, color: "#fff", background: "rgba(0,0,0,0.5)", padding: "16px 24px" }}><h3 style={{ margin: 0, fontSize: 22 }}>{section.heading}</h3>{section.text && <p style={{ margin: "4px 0 0", fontSize: 14, opacity: 0.9 }}>{section.text}</p>}</div>}
+                </div>
+              )}
+              {/* Full Width Image */}
+              {section.type === "fullWidth" && (
+                <div>
+                  {section.imageUrl && <img src={section.imageUrl} alt={section.imageAlt || section.heading || ""} style={{ width: "100%" }} />}
+                  {section.heading && <h3 style={{ font: "20px var(--font-display)", marginTop: 16, marginBottom: 8 }}>{section.heading}</h3>}
+                  {section.text && <p style={{ fontSize: 14, lineHeight: 1.8, color: "var(--ink)" }}>{section.text}</p>}
+                </div>
+              )}
+              {/* Image + Text */}
+              {(section.type === "imageText" || section.type === "image_text") && (
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, alignItems: "center" }}>
                   {section.imageUrl && <img src={section.imageUrl} alt={section.imageAlt || ""} style={{ width: "100%" }} />}
                   <div>
-                    {section.title && <p className="eyebrow">{section.title}</p>}
                     {section.heading && <h3 style={{ font: "20px var(--font-display)" }}>{section.heading}</h3>}
-                    {section.body && <p style={{ fontSize: 14, lineHeight: 1.8, color: "var(--ink)" }}>{section.body}</p>}
+                    {(section.body || section.text) && <p style={{ fontSize: 14, lineHeight: 1.8, color: "var(--ink)" }}>{section.body || section.text}</p>}
                   </div>
                 </div>
               )}
-              {section.type === "rich_text" && (
+              {/* Benefits / Features / Comparison / Highlights — grid of items */}
+              {(section.type === "benefits" || section.type === "features" || section.type === "comparison" || section.type === "highlights") && (
                 <div>
-                  {section.title && <p className="eyebrow">{section.title}</p>}
                   {section.heading && <h3 style={{ font: "20px var(--font-display)", marginBottom: 12 }}>{section.heading}</h3>}
-                  {section.body && <p style={{ fontSize: 14, lineHeight: 1.8, color: "var(--ink)" }}>{section.body}</p>}
-                  {section.imageUrl && <img src={section.imageUrl} alt={section.imageAlt || ""} style={{ width: "100%", marginTop: 16 }} />}
+                  {(section.items && section.items.length > 0) && (
+                    <div style={{ display: "grid", gridTemplateColumns: section.type === "comparison" ? "repeat(auto-fill, minmax(200px, 1fr))" : "repeat(auto-fill, minmax(250px, 1fr))", gap: 16 }}>
+                      {section.items.map((item: string, idx: number) => (
+                        <div key={idx} style={{ padding: 16, background: "var(--paper)", border: "1px solid var(--line)", borderRadius: section.type === "highlights" ? 8 : 0 }}>
+                          <p style={{ fontSize: 14, lineHeight: 1.6 }}>{item}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {section.imageUrl && <img src={section.imageUrl} alt="" style={{ width: "100%", marginTop: 16 }} />}
+                  {(section.text || section.body) && !section.items?.length && <p style={{ fontSize: 14, lineHeight: 1.8, color: "var(--ink)" }}>{section.text || section.body}</p>}
+                </div>
+              )}
+              {/* Video Section */}
+              {section.type === "video" && (
+                <div>
+                  {section.heading && <h3 style={{ font: "20px var(--font-display)", marginBottom: 12 }}>{section.heading}</h3>}
+                  {section.videoUrl && (
+                    <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden" }}>
+                      <iframe src={section.videoUrl.includes("youtube") ? section.videoUrl.replace("watch?v=", "embed/").replace("youtu.be/", "youtube.com/embed/") : section.videoUrl} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }} allowFullScreen loading="lazy" title={section.heading || "Product video"} />
+                    </div>
+                  )}
+                  {!section.videoUrl && section.imageUrl && <img src={section.imageUrl} alt="" style={{ width: "100%" }} />}
+                  {section.text && <p style={{ fontSize: 13, color: "var(--muted)", marginTop: 8, textAlign: "center" }}>{section.text}</p>}
+                </div>
+              )}
+              {/* CTA Section */}
+              {section.type === "cta" && (
+                <div style={{ textAlign: "center", padding: "48px 24px", background: section.imageUrl ? `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${section.imageUrl}) center/cover` : "var(--paper)", borderRadius: 4 }}>
+                  {section.heading && <h3 style={{ font: "24px var(--font-display)", color: section.imageUrl ? "#fff" : "var(--purple)", marginBottom: 8 }}>{section.heading}</h3>}
+                  {section.text && <p style={{ fontSize: 14, color: section.imageUrl ? "#eee" : "var(--ink)", marginBottom: 20, maxWidth: 600, margin: "0 auto 20px" }}>{section.text}</p>}
+                  {section.ctaText && (
+                    <a href={section.ctaLink || "/shop"} style={{ display: "inline-block", padding: "14px 32px", background: "var(--purple)", color: "#fff", textDecoration: "none", fontSize: 14, fontWeight: 600, letterSpacing: ".03em" }}>
+                      {section.ctaText}
+                    </a>
+                  )}
                 </div>
               )}
             </div>
@@ -245,10 +349,13 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         questions={questions.map(q => ({ id: q.id, question: q.question, answer: q.answer || null, createdAt: String(q.createdAt) }))}
       />
 
-      {/* ─── RELATED PRODUCTS ─── */}
+      {/* ─── RECOMMENDATIONS ENGINE ─── */}
+      <RecommendationsSection currentSlug={product.slug} title="You may also like" limit={4} />
+
+      {/* ─── RELATED PRODUCTS (manual fallback) ─── */}
       {related.length > 0 && (
         <section style={{ marginTop: 48 }}>
-          <h2 style={{ font: "22px var(--font-display)", marginBottom: 20 }}>You may also like</h2>
+          <h2 style={{ font: "22px var(--font-display)", marginBottom: 20 }}>Related products</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 20 }}>
             {related.map(p => (
               <Link href={`/products/${p.slug}`} key={p.id} style={{ textDecoration: "none", color: "inherit" }}>

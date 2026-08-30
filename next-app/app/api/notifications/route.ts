@@ -1,8 +1,7 @@
-import { json, requireUser } from "@/lib/http";
-import { store } from "@/lib/commerce/store";
+import { json } from "@/lib/http";
+import { notificationStore } from "@/lib/commerce/store-extensions";
 
 export async function GET() {
-  const u = await requireUser();
-  return u ? json({ notifications: await store.notifications.list(u.id) }) : json({ error: "Unauthorized" }, 401);
+  const items = await notificationStore.active();
+  return json({ notifications: items });
 }
-

@@ -6,8 +6,13 @@ import BlogEditForm from "./BlogEditForm";
 import { BannerEditForm, TestimonialEditForm, OfferEditForm, SettingsEditForm } from "./ContentEditForms";
 import { ProductEditFormAdvanced } from "./ProductEditFormAdvanced";
 import HomepageSectionEdit from "./HomepageSectionEdit";
+import MarketingPanel from "./MarketingPanel";
+import LogoManager from "./LogoManager";
+import MediaLibrary from "./MediaLibrary";
+import PaymentGatewayManager from "./PaymentGatewayManager";
+import ShippingManager from "./ShippingManager";
 
-type Tab = "dashboard" | "orders" | "products" | "product-edit" | "categories" | "customers" | "b2b" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers" | "homepage";
+type Tab = "dashboard" | "orders" | "products" | "product-edit" | "categories" | "customers" | "b2b" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers" | "homepage" | "marketing" | "payments" | "shipping";
 
 const req = async (path: string, init?: RequestInit) => {
   const r = await fetch(path, { ...init, headers: { "Content-Type": "application/json", ...(init?.headers || {}) } });
@@ -63,6 +68,9 @@ const ENDPOINTS: Record<Tab, string | null> = {
   settings: "/api/admin/settings",
   offers: "/api/admin/offers",
   homepage: "/api/admin/homepage",
+  marketing: "/api/admin/marketing",
+  payments: "/api/admin/payments",
+  shipping: "/api/admin/shipping/providers",
   "product-edit": null,
 };
 
@@ -167,7 +175,9 @@ export default function AdminDashboard() {
     { id: "reviews", label: "Reviews", icon: "⭐" },
     { id: "banners", label: "Banners", icon: "🎯" },
     { id: "testimonials", label: "Testimonials", icon: "💬" },
-    { id: "offers", label: "Offers", icon: "🏷️" },
+    { id: "marketing", label: "Marketing", icon: "📣" },
+    { id: "payments", label: "Payments", icon: "💳" },
+    { id: "shipping", label: "Shipping", icon: "🚚" },
     { id: "media", label: "Media", icon: "🖼️" },
     { id: "settings", label: "Settings", icon: "⚙️" },
     { id: "homepage", label: "Homepage", icon: "🏠" },
@@ -572,21 +582,13 @@ export default function AdminDashboard() {
 
             {/* ─── MEDIA ─── */}
             {tab === "media" && (
-              <Table
-                columns={[
-                  { key: "filename", label: "File" },
-                  { key: "type", label: "Type", render: (v) => <Badge status={String(v)} /> },
-                  { key: "alt", label: "Alt Text" },
-                  { key: "size", label: "Size", render: (v) => v ? `${(Number(v) / 1024).toFixed(1)} KB` : "—" },
-                ]}
-                rows={((data.media as Record<string, unknown>[]) || [])}
-                onDelete={(row) => handleDelete("/api/admin/media", String(row.id))}
-              />
+              <MediaLibrary />
             )}
 
             {/* ─── SETTINGS ─── */}
             {tab === "settings" && !editingItem?.settingEdit && (
               <div>
+                <LogoManager onSave={doRefresh} />
                 <button onClick={() => setEditingItem({ _type: "setting", settingEdit: true, isNew: true })} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, marginBottom: 16 }}>+ Add Setting</button>
                 <Table
                   columns={[
@@ -625,6 +627,15 @@ export default function AdminDashboard() {
             )}
             {tab === "homepage" && editingItem?.hpEdit && (
               <HomepageSectionEdit item={editingItem} onSave={() => { setEditingItem(null); setMessage("Section saved."); setIsError(false); doRefresh(); }} />
+            )}
+            {tab === "marketing" && (
+              <MarketingPanel />
+            )}
+            {tab === "payments" && (
+              <PaymentGatewayManager />
+            )}
+            {tab === "shipping" && (
+              <ShippingManager />
             )}
           </>
         )}

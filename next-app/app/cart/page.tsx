@@ -7,7 +7,6 @@ import { getCartLines, subscribeCart, updateCartLine, removeFromCart } from "@/l
 
 
 type Product = { id: string; slug: string; name: string; price: number; image: string; category: string; stock: number };
-const FREE = 1500, FEE = 99;
 const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 
 export default function Page() {
@@ -17,6 +16,8 @@ export default function Page() {
   const [lines, setLines] = useState<CartLine[]>(() => getCartLines());
   const [products, setProducts] = useState<Product[]>([]);
   const [productError, setProductError] = useState(false);
+  const [freeThreshold, setFreeThreshold] = useState(1500);
+  const [standardFee, setStandardFee] = useState(99);
 
   const fetchProducts = () =>
     fetch("/api/products")
@@ -24,13 +25,24 @@ export default function Page() {
       .then((d) => Array.isArray(d?.products) && setProducts(d.products))
       .catch(() => setProductError(true));
 
+  const fetchRules = () =>
+    fetch("/api/shipping/rules")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d?.freeShippingThreshold !== undefined) setFreeThreshold(Number(d.freeShippingThreshold));
+        if (d?.standardShippingFee !== undefined) setStandardFee(Number(d.standardShippingFee));
+      })
+      .catch(() => {});
+
   const loadProducts = () => {
     setProductError(false);
     fetchProducts();
+    fetchRules();
   };
 
   useEffect(() => {
     fetchProducts();
+    fetchRules();
     return subscribeCart((nextLines) => setLines(nextLines));
   }, []);
 
@@ -40,7 +52,7 @@ export default function Page() {
   }).filter(Boolean) as (Product & { quantity: number })[], [lines, products]);
 
   const subtotal = items.reduce((s, it) => s + it.price * it.quantity, 0);
-  const shippingFee = items.length === 0 ? 0 : subtotal >= FREE ? 0 : FEE;
+  const shippingFee = items.length === 0 ? 0 : subtotal >= freeThreshold ? 0 : standardFee;
   const total = subtotal + shippingFee;
   const count = lines.reduce((s, l) => s + l.quantity, 0);
 
@@ -93,11 +105,11 @@ export default function Page() {
             <div className="cart-totals">
               <div><span>Subtotal ({count} item{count === 1 ? "" : "s"})</span><b>{inr(subtotal)}</b></div>
               <div><span>Shipping</span><b>{shippingFee === 0 ? "Free" : inr(shippingFee)}</b></div>
-              {shippingFee > 0 && <p className="cart-hint">Add {inr(FREE - subtotal)} more for free shipping.</p>}
+              {shippingFee > 0 && <p className="cart-hint">Add {inr(freeThreshold - subtotal)} more for free shipping.</p>}
               <div className="cart-total"><span>Total</span><b>{inr(total)}</b></div>
             </div>
             <Link href="/checkout" className="button cart-cta">Checkout <span>→</span></Link>
-            <p className="cart-note">Complimentary delivery on orders above {inr(FREE)}. Secure payments.</p>
+            <p className="cart-note">Complimentary delivery on orders above {inr(freeThreshold)}. Secure payments.</p>
           </aside>
         </div>
       ) : (
