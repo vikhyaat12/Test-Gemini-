@@ -1290,7 +1290,7 @@ export const paymentGatewayStore = {
           credentials: maskedCreds,
         };
       })
-      .sort((a, b) => (Number(a.sort) || 0) - (Number(b.sort) || 0));
+      .sort((a: Record<string, unknown>, b: Record<string, unknown>) => (Number(a.sort) || 0) - (Number(b.sort) || 0));
   },
 
   // Returns safe public list for checkout (NEVER includes secrets)
@@ -1524,7 +1524,7 @@ export const shippingStore = {
             credentials: masked,
           };
         })
-        .sort((a, b) => (Number(a.sort) || 0) - (Number(b.sort) || 0));
+        .sort((a: Record<string, unknown>, b: Record<string, unknown>) => (Number(a.sort) || 0) - (Number(b.sort) || 0));
     },
 
     byId: async (id: string) => {

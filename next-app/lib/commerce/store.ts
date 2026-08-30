@@ -2,7 +2,7 @@ import { randomUUID } from "crypto";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { fileDb } from "./file-db";
-import type { AuthUser, B2BApplication, BlogPost, CartLine, ContactMessage, Notification, Order, Product, Review, ShippingDetails, SiteContent, User } from "./types";
+import type { AuthUser, B2BApplication, BlogPost, CartLine, ContactMessage, Notification, Order, PaymentStatus, Product, Review, ShippingDetails, SiteContent, User } from "./types";
 
 type OrderLineInput = CartLine & { unitPrice?: number };
 const now = () => new Date().toISOString();

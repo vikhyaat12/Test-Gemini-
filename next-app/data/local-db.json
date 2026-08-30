@@ -64,7 +64,7 @@
       "shortDescription": "Vitamin C radiance formula with ferulic acid & hyaluronic booster.",
       "category": "Dermal care",
       "price": 1490,
-      "stock": 46,
+      "stock": 45,
       "lowStockThreshold": 10,
       "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=85",
       "images": [
@@ -78,7 +78,7 @@
       "rating": 4.9,
       "reviewCount": 212,
       "createdAt": "2026-08-29T08:41:59.367Z",
-      "updatedAt": "2026-08-29T16:26:24.307Z",
+      "updatedAt": "2026-08-30T05:19:40.471Z",
       "thumbnail": "",
       "video": "",
       "aplusContent": [
@@ -701,7 +701,39 @@
     }
   ],
   "affiliateWithdrawals": [],
-  "orders": [],
+  "orders": [
+    {
+      "id": "QC-MTFD16EW",
+      "createdAt": "2026-08-30T05:19:40.472Z",
+      "updatedAt": "2026-08-30T05:19:40.473Z",
+      "userId": "guest-mtfd16eu",
+      "lines": [
+        {
+          "productId": "lumine-c-serum",
+          "quantity": 1,
+          "unitPrice": 1490
+        }
+      ],
+      "subtotal": 1490,
+      "discount": 0,
+      "shippingFee": 0,
+      "tax": 0,
+      "total": 1490,
+      "status": "pending",
+      "paymentStatus": "cod_pending",
+      "paymentMethod": "cod",
+      "trackingCode": "QC596821",
+      "shipping": {
+        "fullName": "Vikram Malhotra",
+        "email": "vikram@example.com",
+        "phone": "+91 98765 43210",
+        "address": "74 Marine Drive, Nariman Point",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "pincode": "400001"
+      }
+    }
+  ],
   "homepageSections": [
     {
       "id": "hs-hero",
@@ -1272,6 +1304,268 @@
       "placement": "homepage",
       "active": true,
       "sort": 0
+    }
+  ],
+  "paymentGateways": [
+    {
+      "id": "gw-razorpay",
+      "provider": "razorpay",
+      "displayName": "Razorpay (UPI, Cards, Netbanking, Wallets)",
+      "description": "Accept UPI (Google Pay, PhonePe, Paytm), Credit/Debit Cards, Netbanking, and Wallets",
+      "icon": "⚡",
+      "mode": "test",
+      "enabled": true,
+      "isConfigured": true,
+      "credentials": {
+        "keyId": "rzp_test_qc1234567890ab",
+        "keySecret": "sec_qc_secret_key_verified_99",
+        "webhookSecret": ""
+      },
+      "sort": 1,
+      "supportedCurrencies": [
+        "INR"
+      ],
+      "supportsRefunds": true,
+      "createdAt": "2026-08-30T05:17:02.705Z",
+      "updatedAt": "2026-08-30T05:19:40.409Z"
+    },
+    {
+      "id": "gw-stripe",
+      "provider": "stripe",
+      "displayName": "Stripe (International Cards & Apple Pay)",
+      "description": "Accept Visa, Mastercard, Amex, Apple Pay, and Global payment methods",
+      "icon": "💳",
+      "mode": "test",
+      "enabled": false,
+      "isConfigured": false,
+      "credentials": {
+        "publishableKey": "",
+        "secretKey": "",
+        "webhookSecret": ""
+      },
+      "sort": 2,
+      "supportedCurrencies": [
+        "INR",
+        "USD",
+        "EUR",
+        "GBP",
+        "AED",
+        "SGD"
+      ],
+      "supportsRefunds": true,
+      "createdAt": "2026-08-30T05:17:02.705Z",
+      "updatedAt": "2026-08-30T05:17:02.705Z"
+    },
+    {
+      "id": "gw-cashfree",
+      "provider": "cashfree",
+      "displayName": "Cashfree Payments",
+      "description": "Seamless checkout for Indian cards, UPI, PayLater and Netbanking",
+      "icon": "💸",
+      "mode": "test",
+      "enabled": false,
+      "isConfigured": false,
+      "credentials": {
+        "appId": "",
+        "secretKey": ""
+      },
+      "sort": 3,
+      "supportedCurrencies": [
+        "INR"
+      ],
+      "supportsRefunds": true,
+      "createdAt": "2026-08-30T05:17:02.705Z",
+      "updatedAt": "2026-08-30T05:17:02.705Z"
+    },
+    {
+      "id": "gw-payu",
+      "provider": "payu",
+      "displayName": "PayU Money",
+      "description": "Direct debit, cards, EMI and popular Indian digital wallets",
+      "icon": "🏦",
+      "mode": "test",
+      "enabled": false,
+      "isConfigured": false,
+      "credentials": {
+        "merchantKey": "",
+        "merchantSalt": ""
+      },
+      "sort": 4,
+      "supportedCurrencies": [
+        "INR"
+      ],
+      "supportsRefunds": true,
+      "createdAt": "2026-08-30T05:17:02.705Z",
+      "updatedAt": "2026-08-30T05:17:02.705Z"
+    },
+    {
+      "id": "gw-phonepe",
+      "provider": "phonepe",
+      "displayName": "PhonePe PG (Direct UPI & QR)",
+      "description": "High-converting UPI and QR checkout flow directly powered by PhonePe",
+      "icon": "📱",
+      "mode": "test",
+      "enabled": false,
+      "isConfigured": false,
+      "credentials": {
+        "merchantId": "",
+        "saltKey": "",
+        "saltIndex": "1"
+      },
+      "sort": 5,
+      "supportedCurrencies": [
+        "INR"
+      ],
+      "supportsRefunds": true,
+      "createdAt": "2026-08-30T05:17:02.705Z",
+      "updatedAt": "2026-08-30T05:17:02.705Z"
+    },
+    {
+      "id": "gw-cod",
+      "provider": "cod",
+      "displayName": "Cash on Delivery (COD)",
+      "description": "Pay with cash or UPI QR upon package arrival at your doorstep",
+      "icon": "💵",
+      "mode": "live",
+      "enabled": true,
+      "isConfigured": true,
+      "credentials": {},
+      "sort": 6,
+      "codCharge": 0,
+      "minOrderValue": 0,
+      "maxOrderValue": 15000,
+      "instructions": "Please keep exact cash or UPI QR app ready when the delivery partner arrives.",
+      "createdAt": "2026-08-30T05:17:02.705Z",
+      "updatedAt": "2026-08-30T05:17:02.705Z"
+    }
+  ],
+  "shippingProviders": [
+    {
+      "id": "ship-shiprocket",
+      "provider": "shiprocket",
+      "name": "Shiprocket",
+      "description": "Multi-courier logistics aggregator (Bluedart, Delhivery, Shadowfax, DTDC, Ekart)",
+      "icon": "🚀",
+      "enabled": true,
+      "isDefault": true,
+      "mode": "test",
+      "isConfigured": true,
+      "credentials": {
+        "email": "logistics@queenscare.in",
+        "password": "sr_password_verified",
+        "pickupLocation": "Central Hub Mumbai Bandra",
+        "channelId": ""
+      },
+      "sort": 1,
+      "createdAt": "2026-08-30T05:17:02.705Z",
+      "updatedAt": "2026-08-30T05:19:40.426Z"
+    },
+    {
+      "id": "ship-delhivery",
+      "provider": "delhivery",
+      "name": "Delhivery Direct",
+      "description": "Direct express & surface logistics across 18,500+ Indian pincodes",
+      "icon": "📦",
+      "enabled": false,
+      "isDefault": false,
+      "mode": "test",
+      "isConfigured": false,
+      "credentials": {
+        "apiToken": "",
+        "clientName": "",
+        "warehouseName": "QueensCare Main Hub"
+      },
+      "sort": 2,
+      "createdAt": "2026-08-30T05:17:02.705Z",
+      "updatedAt": "2026-08-30T05:17:02.705Z"
+    },
+    {
+      "id": "ship-shipway",
+      "provider": "shipway",
+      "name": "Shipway",
+      "description": "E-commerce carrier tracking and NDR automation",
+      "icon": "🚚",
+      "enabled": false,
+      "isDefault": false,
+      "mode": "test",
+      "isConfigured": false,
+      "credentials": {
+        "username": "",
+        "licenseKey": ""
+      },
+      "sort": 3,
+      "createdAt": "2026-08-30T05:17:02.705Z",
+      "updatedAt": "2026-08-30T05:17:02.705Z"
+    },
+    {
+      "id": "ship-pickrr",
+      "provider": "pickrr",
+      "name": "Pickrr / ClickPost",
+      "description": "AI-powered multi-courier dispatch and real-time tracking",
+      "icon": "📍",
+      "enabled": false,
+      "isDefault": false,
+      "mode": "test",
+      "isConfigured": false,
+      "credentials": {
+        "authToken": ""
+      },
+      "sort": 4,
+      "createdAt": "2026-08-30T05:17:02.705Z",
+      "updatedAt": "2026-08-30T05:17:02.705Z"
+    },
+    {
+      "id": "ship-nimbuspost",
+      "provider": "nimbuspost",
+      "name": "NimbusPost",
+      "description": "Automated shipping engine with lowest shipping rates across India",
+      "icon": "☁️",
+      "enabled": false,
+      "isDefault": false,
+      "mode": "test",
+      "isConfigured": false,
+      "credentials": {
+        "email": "",
+        "password": ""
+      },
+      "sort": 5,
+      "createdAt": "2026-08-30T05:17:02.705Z",
+      "updatedAt": "2026-08-30T05:17:02.705Z"
+    },
+    {
+      "id": "ship-local",
+      "provider": "local",
+      "name": "Queens Care Express Logistics (Local Engine)",
+      "description": "Built-in reliable rule-based shipping calculator and serviceability engine",
+      "icon": "🏷️",
+      "enabled": true,
+      "isDefault": false,
+      "mode": "live",
+      "isConfigured": true,
+      "credentials": {},
+      "sort": 6,
+      "createdAt": "2026-08-30T05:17:02.705Z",
+      "updatedAt": "2026-08-30T05:17:02.705Z"
+    }
+  ],
+  "shippingRules": [
+    {
+      "id": "rule-default",
+      "name": "Standard Indian Shipping Policy",
+      "freeShippingThreshold": 1200,
+      "standardShippingFee": 99,
+      "expressShippingFee": 199,
+      "codHandlingFee": 20,
+      "minOrderValue": 0,
+      "maxOrderValue": 100000,
+      "estimatedDaysMetro": "2-3 business days",
+      "estimatedDaysNonMetro": "4-5 business days",
+      "serviceablePincodes": [
+        "*"
+      ],
+      "active": true,
+      "createdAt": "2026-08-30T05:17:02.705Z",
+      "updatedAt": "2026-08-30T05:19:40.439Z"
     }
   ]
 }
