@@ -5,7 +5,7 @@
       "email": "admin@queenscare.in",
       "name": "Queens Care Admin",
       "role": "admin",
-      "passwordHash": "scrypt$32947424c2c0266ad39c1e6b49a3b747$13558144f7b4dc502c70a6e6d4e8f2fa26c3a4d09981c70f2ec49248e0fa1225e26d46ccde3a68982277db05b0a28b90f9f7f3f060ddb7d4091d33abdc8875cf",
+      "passwordHash": "local-dev-only",
       "createdAt": "2026-08-29T07:59:01.685Z",
       "updatedAt": "2026-08-29T07:59:01.685Z"
     },
@@ -616,17 +616,29 @@
     {
       "id": "rec-mte8eg3c-9gjss",
       "createdAt": "2026-08-29T10:22:15.288Z",
-      "updatedAt": "2026-08-29T10:22:15.288Z",
+      "updatedAt": "2026-08-30T08:45:27.924Z",
       "name": "Sanjay Walia",
       "slug": "sanjay-walia",
       "employeeId": "1122",
       "designation": "CEO",
       "department": "CEO",
-      "photo": "https://kommodo.ai/i/mRhh7jqH0XWnFw8rDRQ5",
+      "photo": null,
       "phone": "8881215329",
       "email": "Sanjaywalia32",
       "bio": "Working as ceo queens care",
-      "active": true
+      "active": true,
+      "profileImage": null,
+      "gallery": [],
+      "videos": [],
+      "photoSettings": {
+        "desktopSize": 180,
+        "mobileSize": 130,
+        "borderRadius": 50,
+        "borderWidth": 3,
+        "borderColor": "#D4AF37",
+        "objectFit": "cover",
+        "shadow": true
+      }
     },
     {
       "id": "rec-mtfjyam7-fso18",
@@ -1797,6 +1809,34 @@
       "alt": "Photo from vikhyaat sikand",
       "title": "Photo from vikhyaat sikand.jpg",
       "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtfkb93l-hpz03",
+      "createdAt": "2026-08-30T08:43:27.824Z",
+      "updatedAt": "2026-08-30T08:43:27.825Z",
+      "filename": "52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f-1788079407819.png",
+      "type": "image",
+      "url": "/uploads/employees/52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f-1788079407819.png",
+      "mimeType": "image/png",
+      "size": 1681321,
+      "alt": "52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f92ba",
+      "title": "52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f92ba.png",
+      "usedBy": "employees",
+      "visible": true
+    },
+    {
+      "id": "rec-mtfke2lw-n4cyz",
+      "createdAt": "2026-08-30T08:45:39.380Z",
+      "updatedAt": "2026-08-30T08:45:39.380Z",
+      "filename": "52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f-1788079539374.png",
+      "type": "image",
+      "url": "/uploads/employees/52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f-1788079539374.png",
+      "mimeType": "image/png",
+      "size": 1681321,
+      "alt": "52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f92ba",
+      "title": "52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f92ba.png",
+      "usedBy": "employees",
       "visible": true
     }
   ],
