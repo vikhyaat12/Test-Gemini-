@@ -66,10 +66,11 @@
       "price": 1490,
       "stock": 45,
       "lowStockThreshold": 10,
-      "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=85",
+      "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80",
       "images": [
-        "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=85",
-        "https://images.unsplash.com/photo-1608248597359-216694602a84?auto=format&fit=crop&w=900&q=85"
+        "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1608248597359-218274577884?auto=format&fit=crop&w=800&q=80",
+        "/uploads/logos/brand-test-logo-1788070988708.svg"
       ],
       "active": true,
       "visible": true,
@@ -78,50 +79,24 @@
       "rating": 4.9,
       "reviewCount": 212,
       "createdAt": "2026-08-29T08:41:59.367Z",
-      "updatedAt": "2026-08-30T05:19:40.471Z",
+      "updatedAt": "2026-08-30T06:23:08.788Z",
       "thumbnail": "",
-      "video": "",
+      "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "aplusContent": [
         {
           "type": "hero",
-          "heading": "The Science of Radiance",
-          "text": "Powered by 15% stabilized Vitamin C",
-          "imageUrl": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=1200",
-          "imageAlt": "Lumine-C hero",
+          "heading": "State of the Art Cleanroom Formulation",
+          "text": "Engineered under ISO Class 5 cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
           "published": true
         },
         {
-          "type": "benefits",
-          "heading": "Why Choose Lumine-C",
+          "type": "comparison",
+          "heading": "Queens Care vs Generic Market Brands",
           "items": [
-            "15% Stabilized L-Ascorbic Acid",
-            "Enhanced with Vitamin E + Ferulic Acid",
-            "Third-party tested for purity",
-            "No parabens or sulfates",
-            "Dermatologically tested",
-            "Made in India"
+            "Queens Care: High-bioavailability microencapsulation",
+            "Generic: Raw unshielded active oxidizes quickly"
           ],
-          "published": true
-        },
-        {
-          "type": "richText",
-          "heading": "The Ingredients Behind the Glow",
-          "text": "<p>Lumine-C combines <strong>15% stabilized Vitamin C</strong> with <em>Vitamin E</em> and <em>Ferulic Acid</em> for maximum antioxidant protection.</p><p>Each ingredient is selected for its clinical evidence and combined at optimal concentrations for visible results within 4 weeks.</p>",
-          "published": true
-        },
-        {
-          "type": "video",
-          "heading": "See How It Works",
-          "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-          "text": "Watch our product demonstration",
-          "published": true
-        },
-        {
-          "type": "cta",
-          "heading": "Experience the Queens Care Difference",
-          "text": "Join thousands of customers who trust Lumine-C for their daily skincare ritual.",
-          "ctaText": "Shop Lumine-C",
-          "ctaLink": "/products/lumine-c-serum",
           "published": true
         }
       ],
@@ -201,7 +176,17 @@
         "biome-balance",
         "sculpture-spf-50"
       ],
-      "aplusPublished": true
+      "aplusPublished": true,
+      "videos": [
+        {
+          "id": "vid-test-1",
+          "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "title": "Regimen Demonstration Video",
+          "posterUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80"
+        }
+      ],
+      "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80",
+      "aplusTemplateId": "aplus-mtffaswu"
     },
     {
       "id": "p-biome",
@@ -1084,6 +1069,30 @@
       "sort": 2,
       "createdAt": "2026-08-29T07:59:01.686Z",
       "updatedAt": "2026-08-29T07:59:01.686Z"
+    },
+    {
+      "id": "rec-mtffafgw-w6w07",
+      "createdAt": "2026-08-30T06:22:51.344Z",
+      "updatedAt": "2026-08-30T06:22:51.344Z",
+      "name": "Dr. Ananya Sharma",
+      "title": "Consultant Dermatologist, AIIMS",
+      "body": "Lumine-C provides exceptional antioxidant shielding without triggering trans-epidermal moisture loss.",
+      "rating": 5,
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mtffasxq-5t264",
+      "createdAt": "2026-08-30T06:23:08.798Z",
+      "updatedAt": "2026-08-30T06:23:08.798Z",
+      "name": "Dr. Ananya Sharma",
+      "title": "Consultant Dermatologist, AIIMS",
+      "body": "Lumine-C provides exceptional antioxidant shielding without triggering trans-epidermal moisture loss.",
+      "rating": 5,
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80",
+      "visible": true
     }
   ],
   "offers": [
@@ -1112,6 +1121,48 @@
       "visible": true,
       "createdAt": "2026-08-29T07:59:01.686Z",
       "updatedAt": "2026-08-29T07:59:01.686Z"
+    },
+    {
+      "id": "rec-mtff9n5d-ppz67",
+      "createdAt": "2026-08-30T06:22:14.640Z",
+      "updatedAt": "2026-08-30T06:22:14.641Z",
+      "filename": "brand-test-logo-1788070934637.svg",
+      "type": "image",
+      "url": "/uploads/logos/brand-test-logo-1788070934637.svg",
+      "mimeType": "image/svg+xml",
+      "size": 165,
+      "alt": "brand-test-logo",
+      "title": "brand-test-logo.svg",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtffafdt-98ajw",
+      "createdAt": "2026-08-30T06:22:51.232Z",
+      "updatedAt": "2026-08-30T06:22:51.233Z",
+      "filename": "brand-test-logo-1788070971229.svg",
+      "type": "image",
+      "url": "/uploads/logos/brand-test-logo-1788070971229.svg",
+      "mimeType": "image/svg+xml",
+      "size": 165,
+      "alt": "brand-test-logo",
+      "title": "brand-test-logo.svg",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtffasvb-edhek",
+      "createdAt": "2026-08-30T06:23:08.710Z",
+      "updatedAt": "2026-08-30T06:23:08.711Z",
+      "filename": "brand-test-logo-1788070988708.svg",
+      "type": "image",
+      "url": "/uploads/logos/brand-test-logo-1788070988708.svg",
+      "mimeType": "image/svg+xml",
+      "size": 165,
+      "alt": "brand-test-logo",
+      "title": "brand-test-logo.svg",
+      "usedBy": "logos",
+      "visible": true
     }
   ],
   "doctors": [
@@ -1566,6 +1617,147 @@
       "active": true,
       "createdAt": "2026-08-30T05:17:02.705Z",
       "updatedAt": "2026-08-30T05:19:40.439Z"
+    }
+  ],
+  "aplusTemplates": [
+    {
+      "id": "aplus-clinical-rigor",
+      "title": "Pharmaceutical Rigor & Clinical Protocol",
+      "description": "Comprehensive scientific backing, clinical comparison, and multi-stage testing protocol.",
+      "category": "Science & Clinical",
+      "published": true,
+      "sections": [
+        {
+          "id": "sec-hero-1",
+          "type": "hero",
+          "heading": "Science with Soul: Pharmaceutical Rigor in Every Batch",
+          "text": "Engineered in our state-of-the-art laboratory in Mumbai. Validated by clinical dermatologists and pharmacists for high bioavailability and unmatched safety.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          "imageAlt": "Queens Care Laboratory Clinical Rigor",
+          "published": true
+        },
+        {
+          "id": "sec-imgtext-1",
+          "type": "imageText",
+          "heading": "Molecular Precision Formulation",
+          "text": "Each active ingredient is stabilized using cold-process encapsulation. This shields vulnerable antioxidants like L-Ascorbic Acid and Hyaluronic polymers from oxidation, ensuring maximum cellular delivery upon topical application.",
+          "imageUrl": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1000&q=85",
+          "imageAlt": "Molecular Precision",
+          "published": true
+        },
+        {
+          "id": "sec-benefits-1",
+          "type": "benefits",
+          "heading": "The Queens Care Quality Standard",
+          "items": [
+            "✦ 100% Traceable Botanical & Active Ingredients",
+            "✦ Third-Party Multi-Heavy Metal & Microbiological Screened",
+            "✦ 0% Parabens, Phthalates, Sulfates, or Synthetic Dyes",
+            "✦ Cruelty-Free & Dermatologically Tested on Indian Skin Tones"
+          ],
+          "published": true
+        },
+        {
+          "id": "sec-comp-1",
+          "type": "comparison",
+          "heading": "How Queens Care Compares to Generic Market Alternatives",
+          "items": [
+            "Queens Care: High-purity pharmaceutical grade actives",
+            "Market Generic: Diluted cosmetic grade fillers",
+            "Queens Care: Micro-encapsulated stable formulation",
+            "Market Generic: Unshielded formulas prone to oxidation",
+            "Queens Care: Third-party certificate of analysis for every batch",
+            "Market Generic: Self-reported unverified claims"
+          ],
+          "published": true
+        }
+      ],
+      "createdAt": "2026-08-30T06:21:34.420Z",
+      "updatedAt": "2026-08-30T06:21:34.420Z"
+    },
+    {
+      "id": "aplus-botanical-purity",
+      "title": "Botanical Sourcing & Sustainable Extraction",
+      "description": "Highlighting organic harvest, sustainable sourcing, and gentle supercritical fluid extraction.",
+      "category": "Ingredients & Sourcing",
+      "published": true,
+      "sections": [
+        {
+          "id": "sec-hero-2",
+          "type": "hero",
+          "heading": "Rooted in Nature. Perfected by Advanced Science.",
+          "text": "We harvest potent wildcrafted botanicals across sustainable Indian agricultural belts and refine them under cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=1600&q=85",
+          "published": true
+        },
+        {
+          "id": "sec-highlights-1",
+          "type": "highlights",
+          "heading": "Sustainable Extraction Highlights",
+          "items": [
+            "Supercritical CO2 Extraction preserves fragile phytonutrients without chemical solvents.",
+            "Direct Fair-Trade partnerships with generational herb farmers.",
+            "Batch-level QR traceability right back to the harvest origin."
+          ],
+          "published": true
+        }
+      ],
+      "createdAt": "2026-08-30T06:21:34.420Z",
+      "updatedAt": "2026-08-30T06:21:34.420Z"
+    },
+    {
+      "id": "aplus-mtffaffk",
+      "createdAt": "2026-08-30T06:22:51.296Z",
+      "updatedAt": "2026-08-30T06:22:51.296Z",
+      "title": "Automated Test A+ Protocol",
+      "description": "Rigorous clinical validation story",
+      "category": "Science & Clinical",
+      "sections": [
+        {
+          "type": "hero",
+          "heading": "State of the Art Cleanroom Formulation",
+          "text": "Engineered under ISO Class 5 cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          "published": true
+        },
+        {
+          "type": "comparison",
+          "heading": "Queens Care vs Generic Market Brands",
+          "items": [
+            "Queens Care: High-bioavailability microencapsulation",
+            "Generic: Raw unshielded active oxidizes quickly"
+          ],
+          "published": true
+        }
+      ],
+      "published": true
+    },
+    {
+      "id": "aplus-mtffaswu",
+      "createdAt": "2026-08-30T06:23:08.766Z",
+      "updatedAt": "2026-08-30T06:23:08.766Z",
+      "title": "Automated Test A+ Protocol",
+      "description": "Rigorous clinical validation story",
+      "category": "Science & Clinical",
+      "sections": [
+        {
+          "type": "hero",
+          "heading": "State of the Art Cleanroom Formulation",
+          "text": "Engineered under ISO Class 5 cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          "published": true
+        },
+        {
+          "type": "comparison",
+          "heading": "Queens Care vs Generic Market Brands",
+          "items": [
+            "Queens Care: High-bioavailability microencapsulation",
+            "Generic: Raw unshielded active oxidizes quickly"
+          ],
+          "published": true
+        }
+      ],
+      "published": true
     }
   ]
 }

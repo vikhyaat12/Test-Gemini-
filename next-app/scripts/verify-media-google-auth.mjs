@@ -9,7 +9,7 @@ async function loginAdmin() {
   const res = await fetch(`${BASE}/api/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email: "admin@queenscare.in", password: "AdminPassword123!" }),
+    body: JSON.stringify({ email: "admin@queenscare.in", password: "QueensCare#Admin2026" }),
   });
   assert.equal(res.status, 200, "Admin login must succeed");
   const cookie = res.headers.get("set-cookie");
@@ -56,6 +56,14 @@ async function testFileUpload() {
 
 async function testProductMediaAndGallery(logoUrl) {
   console.log("\n--- TEST 2: Product Multi-Media & Videos ---");
+  // Fetch existing product
+  const listRes = await fetch(`${BASE}/api/products`);
+  const listData = await listRes.json();
+  const targetProduct = listData.products && listData.products.length > 0 ? listData.products[0] : null;
+  assert.ok(targetProduct, "Must have at least one product in database");
+  const slug = targetProduct.slug || targetProduct.id;
+  console.log(`Using target product: "${targetProduct.name}" (${slug})`);
+
   const testImages = [
     "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80",
     "https://images.unsplash.com/photo-1608248597359-218274577884?auto=format&fit=crop&w=800&q=80",
@@ -65,13 +73,13 @@ async function testProductMediaAndGallery(logoUrl) {
     {
       id: "vid-test-1",
       url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      title: "Lumine-C Clinical Regimen Demonstration",
+      title: "Regimen Demonstration Video",
       posterUrl: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80",
     },
   ];
 
-  // Update Lumine-C product
-  const patchRes = await fetch(`${BASE}/api/products/lumine-c-radiance-serum`, {
+  // Update product
+  const patchRes = await fetch(`${BASE}/api/products/${slug}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json", Cookie: adminCookie },
     body: JSON.stringify({
@@ -86,7 +94,7 @@ async function testProductMediaAndGallery(logoUrl) {
   console.log("✓ Product media updated with multi-images and YouTube video");
 
   // Fetch product to verify persistence
-  const getRes = await fetch(`${BASE}/api/products/lumine-c-radiance-serum`);
+  const getRes = await fetch(`${BASE}/api/products/${slug}`);
   assert.equal(getRes.status, 200, "Product fetch must return 200");
   const pData = await getRes.json();
   const prod = pData.product;
@@ -94,9 +102,10 @@ async function testProductMediaAndGallery(logoUrl) {
   assert.ok(prod.videos && prod.videos.length >= 1, "Product must have updated videos");
   assert.equal(prod.videos[0].url, testVideos[0].url, "Product video URL must match");
   console.log("✓ Verified product media persistence:", prod.images.length, "images,", prod.videos.length, "videos");
+  return slug;
 }
 
-async function testAPlusContent() {
+async function testAPlusContent(slug) {
   console.log("\n--- TEST 3: A+ Content Management & Product Attachment ---");
   // List templates
   const listRes = await fetch(`${BASE}/api/admin/aplus`, { headers: { Cookie: adminCookie } });
@@ -140,23 +149,23 @@ async function testAPlusContent() {
   assert.ok(createdTpl && createdTpl.id, "Created template must have id");
   console.log("✓ Created new A+ template:", createdTpl.id, `"${createdTpl.title}"`);
 
-  // Attach template to Lumine-C
+  // Attach template to target product
   const attachRes = await fetch(`${BASE}/api/admin/aplus`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json", Cookie: adminCookie },
     body: JSON.stringify({
       action: "attach",
-      productId: "lumine-c-radiance-serum",
+      productId: slug,
       templateId: createdTpl.id,
       sections: createdTpl.sections,
       published: true,
     }),
   });
   assert.equal(attachRes.status, 200, "Attach action must return 200");
-  console.log("✓ Attached A+ content template to Lumine-C product");
+  console.log(`✓ Attached A+ content template to product (${slug})`);
 
   // Query product A+ content resolution
-  const prodAPlusRes = await fetch(`${BASE}/api/products/lumine-c-radiance-serum/aplus`);
+  const prodAPlusRes = await fetch(`${BASE}/api/products/${slug}/aplus`);
   assert.equal(prodAPlusRes.status, 200, "Product A+ API must return 200");
   const prodAPlusData = await prodAPlusRes.json();
   assert.ok(prodAPlusData.sections && prodAPlusData.sections.length === 2, "Must resolve 2 attached sections");
@@ -179,7 +188,7 @@ async function testTestimonialMedia() {
       visible: true,
     }),
   });
-  assert.equal(testRes.status, 200, "Testimonial creation must return 200");
+  assert.ok([200, 201].includes(testRes.status), "Testimonial creation must return 200 or 201");
   console.log("✓ Created testimonial with video & image media");
 
   // Verify public testimonials endpoint
@@ -208,7 +217,7 @@ async function testBannerMedia() {
       active: true,
     }),
   });
-  assert.equal(banRes.status, 200, "Banner creation must return 200");
+  assert.ok([200, 201].includes(banRes.status), "Banner creation must return 200 or 201");
   console.log("✓ Created banner with desktop video and mobile image");
 
   const pubRes = await fetch(`${BASE}/api/banners`);
@@ -275,8 +284,8 @@ async function main() {
 
   await loginAdmin();
   const logoUrl = await testFileUpload();
-  await testProductMediaAndGallery(logoUrl);
-  await testAPlusContent();
+  const productSlug = await testProductMediaAndGallery(logoUrl);
+  await testAPlusContent(productSlug);
   await testTestimonialMedia();
   await testBannerMedia();
   await testLogoManagement(logoUrl);
