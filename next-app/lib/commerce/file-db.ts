@@ -41,6 +41,10 @@ export interface LocalDbSchema {
   pushNotificationHistory: Array<Record<string, unknown>>;
   pageSettings: Array<Record<string, unknown>>;
   socialMediaLinks: Array<Record<string, unknown>>;
+  careerApplications: Array<Record<string, unknown>>;
+  newsletterSubscribers: Array<Record<string, unknown>>;
+  contactEnquiries: Array<Record<string, unknown>>;
+  notificationSettings: Array<Record<string, unknown>>;
 }
 
 const now = () => new Date().toISOString();
@@ -529,16 +533,24 @@ const initialSeedData: LocalDbSchema = {
     },
     {
       id: "hs-hero-visual",
-      title: "Hero 3D Visual (LUMINE-C™)",
+      title: "Hero 3D Visual (LIKO-Q™)",
       type: "heroVisual",
       sort: 5,
       active: true,
       visible: true,
       content: {
-        productName: "LUMINE-C™",
-        subtitle: "Radiance serum",
-        verticalLabel: "FORMULATED WITH INTENTION",
+        productName: "LIKO-Q™",
+        subtitle: "Lycopene, Vitamins & Minerals Suspension",
+        verticalLabel: "PHARMACEUTICAL RIGOR · 200ML",
+        customImageUrl: "/uploads/liko-q-suspension.png",
         enabled: true,
+        scale: 1.0,
+        autoRotate: true,
+        rotationSpeed: 1.0,
+        mouseInteraction: true,
+        lightingIntensity: 1.6,
+        accentColor: "#D4AF37",
+        bgEffect: "studio",
       },
       createdAt: now(),
       updatedAt: now(),

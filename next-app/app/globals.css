@@ -24,3 +24,19 @@
    animations (orb float, ring spin, floating bottle) and instant-ifies transitions
    while preserving each element's resting state. */
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+
+/* Brand Logo Styling */
+.site-logo-img {
+  height: var(--logo-height-desktop, 36px);
+  max-width: var(--logo-max-width, 180px);
+  width: auto;
+  object-fit: contain;
+  background: transparent;
+  display: inline-block;
+  vertical-align: middle;
+}
+@media (max-width: 650px) {
+  .site-logo-img {
+    height: var(--logo-height-mobile, 28px);
+  }
+}

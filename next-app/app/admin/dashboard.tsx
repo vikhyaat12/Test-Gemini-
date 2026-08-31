@@ -653,24 +653,201 @@ export default function AdminDashboard() {
             {/* ─── HOMEPAGE SECTIONS ─── */}
             {tab === "homepage" && !editingItem?.hpEdit && (
               <div>
-                <p style={{ fontSize: 13, color: "var(--muted)", marginBottom: 16 }}>Manage the homepage sections that visitors see. Drag to reorder, toggle active/visible, or edit content.</p>
-                <button onClick={() => setEditingItem({ _type: "homepage", hpEdit: true, isNew: true, type: "custom", sort: (data.sections as Record<string, unknown>[] || []).length })} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, marginBottom: 16 }}>+ Add Section</button>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 12 }}>
+                  <div>
+                    <h3 style={{ font: "20px var(--font-display)", color: "#2A0F3A", margin: "0 0 4px" }}>Homepage Content & 3D Manager</h3>
+                    <p style={{ fontSize: 13, color: "var(--muted)", margin: 0 }}>Manage, reorder, show/hide, or edit all public homepage sections, copy, media, and 3D visual parameters.</p>
+                  </div>
+                  <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+                    <a
+                      href="/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        padding: "8px 14px",
+                        background: "#fff",
+                        color: "#2A0F3A",
+                        border: "1px solid var(--line)",
+                        borderRadius: 4,
+                        fontSize: 12,
+                        fontWeight: 600,
+                        textDecoration: "none",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 6,
+                      }}
+                    >
+                      <span>👁️ Preview Live Homepage</span>
+                      <span>↗</span>
+                    </a>
+                    <button
+                      onClick={() =>
+                        setEditingItem({
+                          _type: "homepage",
+                          hpEdit: true,
+                          isNew: true,
+                          type: "custom",
+                          title: "New Custom Section",
+                          sort: ((data.sections as Record<string, unknown>[]) || []).length,
+                          active: true,
+                          visible: true,
+                        })
+                      }
+                      style={{ padding: "8px 16px", background: "var(--purple)", color: "#D4AF37", border: "none", borderRadius: 4, cursor: "pointer", fontSize: 12, fontWeight: 700 }}
+                    >
+                      + Add New Section
+                    </button>
+                  </div>
+                </div>
+
                 <Table
                   columns={[
-                    { key: "title", label: "Section" },
-                    { key: "type", label: "Type" },
-                    { key: "sort", label: "Sort" },
-                    { key: "active", label: "Active", render: (v) => v ? "✓" : "✗" },
-                    { key: "visible", label: "Visible", render: (v) => v ? "✓" : "✗" },
+                    {
+                      key: "title",
+                      label: "Section Title",
+                      render: (v, row) => (
+                        <div>
+                          <b style={{ color: "#2A0F3A", fontSize: 13 }}>{String(v || row.type || "Untitled Section")}</b>
+                          <div style={{ fontSize: 11, color: "var(--muted)" }}>Type: <code>{String(row.type)}</code></div>
+                        </div>
+                      ),
+                    },
+                    {
+                      key: "sort",
+                      label: "Order",
+                      render: (v, row) => (
+                        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                          <span style={{ fontWeight: 700, fontSize: 12, minWidth: 20 }}>{Number(v || 0)}</span>
+                          <button
+                            type="button"
+                            title="Move Up"
+                            onClick={async () => {
+                              const newSort = Math.max(0, Number(v || 0) - 1);
+                              await fetch("/api/admin/homepage", {
+                                method: "PATCH",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ id: row.id, sort: newSort }),
+                              });
+                              doRefresh();
+                            }}
+                            style={{ padding: "2px 6px", fontSize: 10, cursor: "pointer", border: "1px solid var(--line)", background: "#fff", borderRadius: 2 }}
+                          >
+                            ▲
+                          </button>
+                          <button
+                            type="button"
+                            title="Move Down"
+                            onClick={async () => {
+                              const newSort = Number(v || 0) + 1;
+                              await fetch("/api/admin/homepage", {
+                                method: "PATCH",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ id: row.id, sort: newSort }),
+                              });
+                              doRefresh();
+                            }}
+                            style={{ padding: "2px 6px", fontSize: 10, cursor: "pointer", border: "1px solid var(--line)", background: "#fff", borderRadius: 2 }}
+                          >
+                            ▼
+                          </button>
+                        </div>
+                      ),
+                    },
+                    {
+                      key: "visible",
+                      label: "Public Visibility",
+                      render: (v, row) => (
+                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          <span
+                            style={{
+                              padding: "2px 8px",
+                              borderRadius: 12,
+                              fontSize: 10,
+                              fontWeight: 700,
+                              background: v !== false && row.active !== false ? "#e8f5e9" : "#ffebee",
+                              color: v !== false && row.active !== false ? "#2e7d32" : "#c62828",
+                            }}
+                          >
+                            {v !== false && row.active !== false ? "● VISIBLE" : "○ HIDDEN"}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={async () => {
+                              const nextVisible = v === false ? true : false;
+                              await fetch("/api/admin/homepage", {
+                                method: "PATCH",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ id: row.id, visible: nextVisible }),
+                              });
+                              doRefresh();
+                            }}
+                            style={{
+                              padding: "3px 8px",
+                              fontSize: 11,
+                              cursor: "pointer",
+                              border: "1px solid var(--line)",
+                              borderRadius: 3,
+                              background: "#fff",
+                              color: "#2A0F3A",
+                            }}
+                          >
+                            {v !== false ? "Hide" : "Unhide"}
+                          </button>
+                        </div>
+                      ),
+                    },
+                    {
+                      key: "id",
+                      label: "Actions",
+                      render: (_, row) => (
+                        <div style={{ display: "flex", gap: 6 }}>
+                          <button
+                            type="button"
+                            onClick={() => setEditingItem({ ...row, _type: "homepage", hpEdit: true })}
+                            style={{ padding: "4px 10px", fontSize: 11, fontWeight: 600, background: "var(--purple)", color: "#fff", border: "none", borderRadius: 3, cursor: "pointer" }}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            type="button"
+                            title="Duplicate Section"
+                            onClick={async () => {
+                              const copyPayload = {
+                                title: `${String(row.title || row.type)} (Copy)`,
+                                type: row.type,
+                                content: row.content,
+                                sort: Number(row.sort || 0) + 1,
+                                active: true,
+                                visible: true,
+                              };
+                              await fetch("/api/admin/homepage", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify(copyPayload),
+                              });
+                              doRefresh();
+                            }}
+                            style={{ padding: "4px 8px", fontSize: 11, background: "#f5f3ef", color: "#2A0F3A", border: "1px solid var(--line)", borderRadius: 3, cursor: "pointer" }}
+                          >
+                            📋 Copy
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDelete("/api/admin/homepage", String(row.id))}
+                            style={{ padding: "4px 8px", fontSize: 11, background: "#ffebee", color: "#c62828", border: "1px solid #ffcdd2", borderRadius: 3, cursor: "pointer" }}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      ),
+                    },
                   ]}
                   rows={((data.sections as Record<string, unknown>[]) || [])}
-                  onEdit={(row) => setEditingItem({ ...row, _type: "homepage", hpEdit: true })}
-                  onDelete={(row) => handleDelete("/api/admin/homepage", String(row.id))}
                 />
               </div>
             )}
             {tab === "homepage" && editingItem?.hpEdit && (
-              <HomepageSectionEdit item={editingItem} onSave={() => { setEditingItem(null); setMessage("Section saved."); setIsError(false); doRefresh(); }} />
+              <HomepageSectionEdit item={editingItem} onSave={() => { setEditingItem(null); setMessage("Section saved successfully."); setIsError(false); doRefresh(); }} />
             )}
             {tab === "marketing" && (
               <MarketingPanel />

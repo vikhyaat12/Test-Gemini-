@@ -30,6 +30,10 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ sl
   }
 }
 
+export async function PUT(request: Request, context: { params: Promise<{ slug: string }> }) {
+  return PATCH(request, context);
+}
+
 export async function DELETE(_req: Request, { params }: { params: Promise<{ slug: string }> }) {
   const user = await requireUser(["admin"]);
   if (!user) return json({ error: "Unauthorized" }, 401);

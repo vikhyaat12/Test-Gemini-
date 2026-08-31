@@ -65,12 +65,117 @@
   ],
   "products": [
     {
+      "id": "p-liko-q",
+      "slug": "liko-q-suspension",
+      "name": "Liko-Q Suspension (200ml)",
+      "brand": "Queens Care",
+      "description": "Lycopene, Multivitamins & Multiminerals Oral Suspension in delicious orange flavour. Pharmaceutical-grade cellular antioxidant vitality formula designed to promote overall well-being, immune resilience, and cardiovascular health.",
+      "shortDescription": "Lycopene with Vitamin A, E, C, Zinc Gluconate & Selenium in delicious orange flavour.",
+      "category": "Antioxidant & Vitality",
+      "price": 165,
+      "mrp": 210,
+      "discount": 21,
+      "stock": 120,
+      "lowStockThreshold": 15,
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+      "images": [
+        "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+        "https://images.unsplash.com/photo-1608248597359-218274577884?auto=format&fit=crop&w=800&q=85",
+        "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=800&q=85"
+      ],
+      "active": true,
+      "visible": true,
+      "featured": true,
+      "homepageVisible": true,
+      "rating": 5,
+      "reviewCount": 184,
+      "benefits": [
+        "Potent Lycopene 10% USP antioxidant protection",
+        "Essential Vitamins A, E & C synergy for cellular vitality",
+        "Zinc Gluconate & Selenium for strong immune defence",
+        "Delicious orange flavour suitable for daily wellness"
+      ],
+      "ingredients": "Each 5ml contains: Lycopene 10% USP 2000 mcg, Vitamin A (as Palmitate) 2500 IU, Vitamin E Acetate 10 IU, Vitamin C 50 mg, Zinc Gluconate 3 mg, Selenium (as Sodium Selenite) 35 mcg.",
+      "usage": "Take 5ml to 10ml daily as directed by your healthcare professional. Shake well before use.",
+      "safetyInfo": "Store below 25°C in a dry place. Protect from light. Keep out of reach of children.",
+      "tags": "lycopene, antioxidant, vitamins, minerals, suspension, orange, syrup, vitality",
+      "seoTitle": "Liko-Q Suspension 200ml | Queens Care Laboratories",
+      "seoDescription": "Buy Liko-Q Suspension - Lycopene, Multivitamins & Minerals Oral Suspension in Delicious Orange Flavour by Queens Care Laboratories.",
+      "sku": "QCL-LIKO-Q-200",
+      "taxRate": 12,
+      "manufacturer": "Queens Care Laboratories Pvt. Ltd., New Delhi, India",
+      "bestSeller": true,
+      "newArrival": true,
+      "specifications": [
+        {
+          "name": "Pack Size",
+          "value": "200ml"
+        },
+        {
+          "name": "Dosage Form",
+          "value": "Oral Suspension"
+        },
+        {
+          "name": "Flavour",
+          "value": "Delicious Orange"
+        },
+        {
+          "name": "Key Active",
+          "value": "Lycopene 10% USP"
+        }
+      ],
+      "createdAt": "2026-08-30T19:00:00.000Z",
+      "updatedAt": "2026-08-30T19:13:53.968Z",
+      "thumbnail": "/uploads/liko-q-suspension.png",
+      "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videos": [
+        {
+          "id": "vid-direct-mp4",
+          "url": "https://www.w3schools.com/html/mov_bbb.mp4",
+          "title": "Clinical Regimen Demonstration",
+          "posterUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85"
+        },
+        {
+          "id": "vid-yt-embed",
+          "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "title": "Expert Dermatologist Protocol",
+          "posterUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85"
+        }
+      ],
+      "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+      "gifUrl": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnEzbXB3dzVqMDhkczhyYnk1NG9oZ3dtMDk0ZDRhNXlncXZ6bDVybyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjRrfIPjeiVyM/giphy.gif",
+      "gifBadge": true,
+      "aplusTemplateId": "aplus-mtg6tzng",
+      "aplusPublished": true,
+      "aplusContent": [
+        {
+          "type": "hero",
+          "heading": "Cellular-Level Antioxidant Shield",
+          "text": "Micro-encapsulated formula tested under ISO cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          "published": true
+        },
+        {
+          "type": "video_text",
+          "heading": "Application & Absorption Protocol",
+          "text": "Demonstration of topical bioavailability.",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+          "published": true
+        }
+      ],
+      "relatedProducts": [
+        "lumine-c-serum",
+        "biome-balance"
+      ]
+    },
+    {
       "id": "p-lumine",
       "slug": "lumine-c-serum",
-      "name": "Lumine-C Clinical Radiance 7571",
+      "name": "Lumine-C Clinical Radiance 7437",
       "brand": "Queens Care",
       "description": "A considered vitamin C ritual for daily radiance. Clinical-strength 15% L-Ascorbic Acid paired with Ferulic Acid and Vitamin E for maximum stability and absorption. Designed for everyday dermal health with visible results in 7 days.",
-      "shortDescription": "Tested & verified bio-active vitamin C radiance formula with Ferulic acid.",
+      "shortDescription": "Reference-quality dermatological clinical serum with micro-encapsulated bioavailability.",
       "category": "Dermal care",
       "price": 1550,
       "stock": 51,
@@ -88,7 +193,7 @@
       "rating": 4.9,
       "reviewCount": 212,
       "createdAt": "2026-08-29T08:41:59.367Z",
-      "updatedAt": "2026-08-30T08:33:48.131Z",
+      "updatedAt": "2026-08-30T18:55:47.980Z",
       "thumbnail": "",
       "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "aplusContent": [
@@ -200,7 +305,7 @@
         }
       ],
       "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
-      "aplusTemplateId": "aplus-mtfjytjg",
+      "aplusTemplateId": "aplus-mtg66ppk",
       "gifUrl": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnEzbXB3dzVqMDhkczhyYnk1NG9oZ3dtMDk0ZDRhNXlncXZ6bDVybyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjRrfIPjeiVyM/giphy.gif",
       "gifBadge": true
     },
@@ -574,6 +679,91 @@
       "featured": false,
       "published": true,
       "visible": true
+    },
+    {
+      "id": "bp-mtg4nfzj",
+      "createdAt": "2026-08-30T18:12:48.943Z",
+      "updatedAt": "2026-08-30T18:12:48.944Z",
+      "slug": "science-report-1788113568929",
+      "title": "Formulation Efficacy Report 8929",
+      "excerpt": "Deep dive into topical antioxidant bioavailability.",
+      "body": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "content": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "category": "Science",
+      "author": "Dr. Vikram Singhania",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1200&q=85",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "featured": false,
+      "published": true,
+      "visible": true
+    },
+    {
+      "id": "bp-mtg5m6hf",
+      "createdAt": "2026-08-30T18:39:49.588Z",
+      "updatedAt": "2026-08-30T18:39:49.588Z",
+      "slug": "science-report-1788115189573",
+      "title": "Formulation Efficacy Report 9573",
+      "excerpt": "Deep dive into topical antioxidant bioavailability.",
+      "body": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "content": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "category": "Science",
+      "author": "Dr. Vikram Singhania",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1200&q=85",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "featured": false,
+      "published": true,
+      "visible": true
+    },
+    {
+      "id": "bp-mtg66q8h",
+      "createdAt": "2026-08-30T18:55:48.306Z",
+      "updatedAt": "2026-08-30T18:55:48.306Z",
+      "slug": "science-report-1788116148283",
+      "title": "Formulation Efficacy Report 8284",
+      "excerpt": "Deep dive into topical antioxidant bioavailability.",
+      "body": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "content": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "category": "Science",
+      "author": "Dr. Vikram Singhania",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1200&q=85",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "featured": false,
+      "published": true,
+      "visible": true
+    },
+    {
+      "id": "bp-mtg6ic3t",
+      "createdAt": "2026-08-30T19:04:49.865Z",
+      "updatedAt": "2026-08-30T19:04:49.865Z",
+      "slug": "science-report-1788116689850",
+      "title": "Formulation Efficacy Report 9850",
+      "excerpt": "Deep dive into topical antioxidant bioavailability.",
+      "body": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "content": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "category": "Science",
+      "author": "Dr. Vikram Singhania",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1200&q=85",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "featured": false,
+      "published": true,
+      "visible": true
+    },
+    {
+      "id": "bp-mtg6u06r",
+      "createdAt": "2026-08-30T19:13:54.291Z",
+      "updatedAt": "2026-08-30T19:13:54.291Z",
+      "slug": "science-report-1788117234270",
+      "title": "Formulation Efficacy Report 4271",
+      "excerpt": "Deep dive into topical antioxidant bioavailability.",
+      "body": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "content": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "category": "Science",
+      "author": "Dr. Vikram Singhania",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1200&q=85",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "featured": false,
+      "published": true,
+      "visible": true
     }
   ],
   "employees": [
@@ -586,11 +776,11 @@
       "photo": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=85",
       "phone": "+91 98111 44556",
       "email": "dr.singhania@queenscare.in",
-      "bio": "Lead Research Formulator. Verification timestamp: 1788078828047",
+      "bio": "Lead Research Formulator. Verification timestamp: 1788117233876",
       "slug": "vikram-singhania",
       "active": true,
       "createdAt": "2026-08-29T07:59:01.686Z",
-      "updatedAt": "2026-08-30T08:33:48.063Z"
+      "updatedAt": "2026-08-30T19:13:53.887Z"
     },
     {
       "id": "emp-1",
@@ -943,18 +1133,17 @@
       "visible": true,
       "content": {
         "eyebrow": "A higher standard of everyday care",
-        "heading": "Science, made personal.",
-        "subtitle": "Intelligent formulations that turn your daily health rituals into small, powerful acts of self-respect.",
+        "heading": "Clinical Intelligence, Made <em>Personal.</em>",
+        "subtitle": "Dermatological formulations engineered for daily cellular vitality and precision wellness.",
         "ctaText": "Explore the collection",
         "ctaLink": "/#collection",
         "secondaryText": "How we formulate",
         "secondaryLink": "/#science",
         "rating": "4.9 / 5",
-        "ratingCount": "12,000+ care rituals",
-        "updated": true
+        "ratingCount": "12,500+ care rituals"
       },
       "createdAt": "2026-08-29T07:59:01.686Z",
-      "updatedAt": "2026-08-30T06:28:13.465Z"
+      "updatedAt": "2026-08-30T19:13:34.761Z"
     },
     {
       "id": "hs-trust",
@@ -1024,6 +1213,30 @@
       },
       "createdAt": "2026-08-29T07:59:01.686Z",
       "updatedAt": "2026-08-29T09:43:23.164Z"
+    },
+    {
+      "id": "hs-hero-visual",
+      "title": "Hero 3D Visual (LIKO-Q™)",
+      "type": "heroVisual",
+      "sort": 5,
+      "active": true,
+      "visible": true,
+      "createdAt": "2026-08-30T18:54:25.422Z",
+      "updatedAt": "2026-08-30T19:13:34.717Z",
+      "content": {
+        "productName": "LIKO-Q™",
+        "subtitle": "Lycopene, Multivitamins & Minerals Suspension",
+        "verticalLabel": "PHARMACEUTICAL RIGOR · 200ML",
+        "customImageUrl": "/uploads/liko-q-suspension.png",
+        "enabled": true,
+        "scale": 1,
+        "autoRotate": true,
+        "rotationSpeed": 1,
+        "mouseInteraction": true,
+        "lightingIntensity": 1.6,
+        "accentColor": "#D4AF37",
+        "bgEffect": "studio"
+      }
     }
   ],
   "settings": [
@@ -1055,7 +1268,7 @@
       "key": "theme_primary",
       "value": "#280D38",
       "group": "branding",
-      "updatedAt": "2026-08-30T08:33:47.910Z"
+      "updatedAt": "2026-08-30T19:13:53.733Z"
     },
     {
       "key": "theme_gold",
@@ -1066,9 +1279,9 @@
     {
       "id": "rec-mte80qtf-a3bvh",
       "createdAt": "2026-08-29T10:11:36.003Z",
-      "updatedAt": "2026-08-30T09:09:28.433Z",
+      "updatedAt": "2026-08-30T19:15:38.612Z",
       "key": "logo_url",
-      "value": "/uploads/logos/photo_from_vikhyaat_sikand-removebg-preview-1788076858002.png",
+      "value": "/uploads/logos/photo_from_vikhyaat_sikand-removebg-preview-1788117321707.png",
       "group": "branding"
     },
     {
@@ -1194,7 +1407,7 @@
     {
       "id": "rec-mtffcjfo-rwdph",
       "createdAt": "2026-08-30T06:24:29.796Z",
-      "updatedAt": "2026-08-30T08:33:47.879Z",
+      "updatedAt": "2026-08-30T19:15:38.619Z",
       "key": "logo_height_desktop",
       "value": "45",
       "group": "branding"
@@ -1202,7 +1415,7 @@
     {
       "id": "rec-mtffcjg9-surch",
       "createdAt": "2026-08-30T06:24:29.817Z",
-      "updatedAt": "2026-08-30T08:02:46.927Z",
+      "updatedAt": "2026-08-30T19:15:38.630Z",
       "key": "logo_height_mobile",
       "value": "30",
       "group": "branding"
@@ -1210,9 +1423,9 @@
     {
       "id": "rec-mtffcjgn-je7ra",
       "createdAt": "2026-08-30T06:24:29.831Z",
-      "updatedAt": "2026-08-30T08:02:46.939Z",
+      "updatedAt": "2026-08-30T19:15:38.638Z",
       "key": "logo_max_width",
-      "value": "220",
+      "value": "200",
       "group": "branding"
     }
   ],
@@ -1406,6 +1619,131 @@
       "id": "rec-mtfjytoj-sb2k8",
       "createdAt": "2026-08-30T08:33:47.971Z",
       "updatedAt": "2026-08-30T08:33:47.971Z",
+      "title": "Scientific Synthesis Video Banner",
+      "subtitle": "Experience cleanroom formulation precision.",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/about",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mtg4nfmb-arslp",
+      "createdAt": "2026-08-30T18:12:48.467Z",
+      "updatedAt": "2026-08-30T18:12:48.467Z",
+      "title": "Autumn Clinical Revival Banner",
+      "subtitle": "Cellular rejuvenation and antioxidant shield.",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/shop",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mtg4nfn4-7x9ln",
+      "createdAt": "2026-08-30T18:12:48.496Z",
+      "updatedAt": "2026-08-30T18:12:48.496Z",
+      "title": "Scientific Synthesis Video Banner",
+      "subtitle": "Experience cleanroom formulation precision.",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/about",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mtg5m62i-lze0b",
+      "createdAt": "2026-08-30T18:39:49.050Z",
+      "updatedAt": "2026-08-30T18:39:49.050Z",
+      "title": "Autumn Clinical Revival Banner",
+      "subtitle": "Cellular rejuvenation and antioxidant shield.",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/shop",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mtg5m63b-rbnr4",
+      "createdAt": "2026-08-30T18:39:49.079Z",
+      "updatedAt": "2026-08-30T18:39:49.079Z",
+      "title": "Scientific Synthesis Video Banner",
+      "subtitle": "Experience cleanroom formulation precision.",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/about",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mtg66ptw-duz54",
+      "createdAt": "2026-08-30T18:55:47.780Z",
+      "updatedAt": "2026-08-30T18:55:47.780Z",
+      "title": "Autumn Clinical Revival Banner",
+      "subtitle": "Cellular rejuvenation and antioxidant shield.",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/shop",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mtg66pui-it64b",
+      "createdAt": "2026-08-30T18:55:47.802Z",
+      "updatedAt": "2026-08-30T18:55:47.802Z",
+      "title": "Scientific Synthesis Video Banner",
+      "subtitle": "Experience cleanroom formulation precision.",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/about",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mtg6ibql-8k2sw",
+      "createdAt": "2026-08-30T19:04:49.389Z",
+      "updatedAt": "2026-08-30T19:04:49.389Z",
+      "title": "Autumn Clinical Revival Banner",
+      "subtitle": "Cellular rejuvenation and antioxidant shield.",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/shop",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mtg6ibr0-65iw2",
+      "createdAt": "2026-08-30T19:04:49.404Z",
+      "updatedAt": "2026-08-30T19:04:49.404Z",
+      "title": "Scientific Synthesis Video Banner",
+      "subtitle": "Experience cleanroom formulation precision.",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/about",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mtg6tzrq-eb7gr",
+      "createdAt": "2026-08-30T19:13:53.750Z",
+      "updatedAt": "2026-08-30T19:13:53.750Z",
+      "title": "Autumn Clinical Revival Banner",
+      "subtitle": "Cellular rejuvenation and antioxidant shield.",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/shop",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mtg6tzsj-mygkr",
+      "createdAt": "2026-08-30T19:13:53.779Z",
+      "updatedAt": "2026-08-30T19:13:53.779Z",
       "title": "Scientific Synthesis Video Banner",
       "subtitle": "Experience cleanroom formulation precision.",
       "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -1679,6 +2017,121 @@
       "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80",
       "visible": true
+    },
+    {
+      "id": "rec-mtg4nfo1-b2679",
+      "createdAt": "2026-08-30T18:12:48.529Z",
+      "updatedAt": "2026-08-30T18:12:48.529Z",
+      "name": "Dr. Aarti Subramanian",
+      "title": "Senior Dermatologist, Apollo Clinics",
+      "body": "Lumine-C sets a benchmark for antioxidant stability in medical aesthetic practice.",
+      "rating": 5,
+      "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mtg4nfou-8t9k7",
+      "createdAt": "2026-08-30T18:12:48.558Z",
+      "updatedAt": "2026-08-30T18:12:48.558Z",
+      "name": "Dr. Kabir Malhotra",
+      "title": "Lead Cosmetic Surgeon, Mumbai",
+      "body": "Exceptional clinical outcomes with post-procedural recovery.",
+      "rating": 5,
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mtg5m649-2pghx",
+      "createdAt": "2026-08-30T18:39:49.113Z",
+      "updatedAt": "2026-08-30T18:39:49.113Z",
+      "name": "Dr. Aarti Subramanian",
+      "title": "Senior Dermatologist, Apollo Clinics",
+      "body": "Lumine-C sets a benchmark for antioxidant stability in medical aesthetic practice.",
+      "rating": 5,
+      "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mtg5m650-ogfog",
+      "createdAt": "2026-08-30T18:39:49.140Z",
+      "updatedAt": "2026-08-30T18:39:49.140Z",
+      "name": "Dr. Kabir Malhotra",
+      "title": "Lead Cosmetic Surgeon, Mumbai",
+      "body": "Exceptional clinical outcomes with post-procedural recovery.",
+      "rating": 5,
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mtg66pvp-5lxrq",
+      "createdAt": "2026-08-30T18:55:47.845Z",
+      "updatedAt": "2026-08-30T18:55:47.845Z",
+      "name": "Dr. Aarti Subramanian",
+      "title": "Senior Dermatologist, Apollo Clinics",
+      "body": "Lumine-C sets a benchmark for antioxidant stability in medical aesthetic practice.",
+      "rating": 5,
+      "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mtg66pwe-cdjju",
+      "createdAt": "2026-08-30T18:55:47.870Z",
+      "updatedAt": "2026-08-30T18:55:47.870Z",
+      "name": "Dr. Kabir Malhotra",
+      "title": "Lead Cosmetic Surgeon, Mumbai",
+      "body": "Exceptional clinical outcomes with post-procedural recovery.",
+      "rating": 5,
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mtg6ibrk-wlbpv",
+      "createdAt": "2026-08-30T19:04:49.424Z",
+      "updatedAt": "2026-08-30T19:04:49.424Z",
+      "name": "Dr. Aarti Subramanian",
+      "title": "Senior Dermatologist, Apollo Clinics",
+      "body": "Lumine-C sets a benchmark for antioxidant stability in medical aesthetic practice.",
+      "rating": 5,
+      "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mtg6ibs9-v5bjv",
+      "createdAt": "2026-08-30T19:04:49.449Z",
+      "updatedAt": "2026-08-30T19:04:49.449Z",
+      "name": "Dr. Kabir Malhotra",
+      "title": "Lead Cosmetic Surgeon, Mumbai",
+      "body": "Exceptional clinical outcomes with post-procedural recovery.",
+      "rating": 5,
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mtg6tztg-d9xap",
+      "createdAt": "2026-08-30T19:13:53.812Z",
+      "updatedAt": "2026-08-30T19:13:53.812Z",
+      "name": "Dr. Aarti Subramanian",
+      "title": "Senior Dermatologist, Apollo Clinics",
+      "body": "Lumine-C sets a benchmark for antioxidant stability in medical aesthetic practice.",
+      "rating": 5,
+      "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mtg6tzu9-kg8xv",
+      "createdAt": "2026-08-30T19:13:53.841Z",
+      "updatedAt": "2026-08-30T19:13:53.841Z",
+      "name": "Dr. Kabir Malhotra",
+      "title": "Lead Cosmetic Surgeon, Mumbai",
+      "body": "Exceptional clinical outcomes with post-procedural recovery.",
+      "rating": 5,
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80",
+      "visible": true
     }
   ],
   "offers": [
@@ -1917,6 +2370,104 @@
       "title": "52c9bbb63e4071f46fd871c4ef3ca67ac45e9a730dd6e0e7e2a0cb5a2f5f92ba.png",
       "usedBy": "employees",
       "visible": true
+    },
+    {
+      "id": "rec-mtg4ywfh-2za1n",
+      "createdAt": "2026-08-30T18:21:43.468Z",
+      "updatedAt": "2026-08-30T18:21:43.469Z",
+      "filename": "photo_from_vikhyaat_sikand-removebg-preview-1788114103446.png",
+      "type": "image",
+      "url": "/uploads/logos/photo_from_vikhyaat_sikand-removebg-preview-1788114103446.png",
+      "mimeType": "image/png",
+      "size": 143109,
+      "alt": "Photo_from_vikhyaat_sikand-removebg-preview",
+      "title": "Photo_from_vikhyaat_sikand-removebg-preview.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtg6efue-jsvug",
+      "createdAt": "2026-08-30T19:01:48.086Z",
+      "updatedAt": "2026-08-30T19:01:48.086Z",
+      "filename": "photo_from_vikhyaat_sikand-removebg-preview-1788116508082.png",
+      "type": "image",
+      "url": "/uploads/logos/photo_from_vikhyaat_sikand-removebg-preview-1788116508082.png",
+      "mimeType": "image/png",
+      "size": 143109,
+      "alt": "Photo_from_vikhyaat_sikand-removebg-preview",
+      "title": "Photo_from_vikhyaat_sikand-removebg-preview.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtg6svdb-x5c2s",
+      "createdAt": "2026-08-30T19:13:01.391Z",
+      "updatedAt": "2026-08-30T19:13:01.391Z",
+      "filename": "queens-care-official-logo-1788117181387.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-official-logo-1788117181387.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-official-logo",
+      "title": "queens-care-official-logo.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtg6svjt-mm15e",
+      "createdAt": "2026-08-30T19:13:01.625Z",
+      "updatedAt": "2026-08-30T19:13:01.625Z",
+      "filename": "queens-care-logo-v2-1788117181623.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-logo-v2-1788117181623.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-logo-v2",
+      "title": "queens-care-logo-v2.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtg6ttmu-xqxip",
+      "createdAt": "2026-08-30T19:13:45.798Z",
+      "updatedAt": "2026-08-30T19:13:45.798Z",
+      "filename": "queens-care-official-logo-1788117225796.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-official-logo-1788117225796.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-official-logo",
+      "title": "queens-care-official-logo.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtg6ttq3-wq9k1",
+      "createdAt": "2026-08-30T19:13:45.915Z",
+      "updatedAt": "2026-08-30T19:13:45.915Z",
+      "filename": "queens-care-logo-v2-1788117225913.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-logo-v2-1788117225913.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-logo-v2",
+      "title": "queens-care-logo-v2.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtg6vvn1-no0jt",
+      "createdAt": "2026-08-30T19:15:21.709Z",
+      "updatedAt": "2026-08-30T19:15:21.709Z",
+      "filename": "photo_from_vikhyaat_sikand-removebg-preview-1788117321707.png",
+      "type": "image",
+      "url": "/uploads/logos/photo_from_vikhyaat_sikand-removebg-preview-1788117321707.png",
+      "mimeType": "image/png",
+      "size": 143109,
+      "alt": "Photo_from_vikhyaat_sikand-removebg-preview",
+      "title": "Photo_from_vikhyaat_sikand-removebg-preview.png",
+      "usedBy": "logos",
+      "visible": true
     }
   ],
   "doctors": [
@@ -2094,6 +2645,121 @@
       "customerName": "Dr. Sneha Roy",
       "rating": 5,
       "title": "Clinical Tolerability Report 8072",
+      "body": "Highly stable ascorbic formulation with rapid epidermal penetration.",
+      "image": ""
+    },
+    {
+      "id": "rev-mtg4nfq5",
+      "createdAt": "2026-08-30T18:12:48.605Z",
+      "updatedAt": "2026-08-30T18:12:48.605Z",
+      "visible": true,
+      "helpful": 0,
+      "verified": true,
+      "productSlug": "lumine-c-serum",
+      "product": {
+        "id": "p-lumine",
+        "name": "Lumine-C Clinical Radiance 7915",
+        "slug": "lumine-c-serum"
+      },
+      "user": {
+        "name": "Dr. Sneha Roy"
+      },
+      "productId": "lumine-c-serum",
+      "customerName": "Dr. Sneha Roy",
+      "rating": 5,
+      "title": "Clinical Tolerability Report 8598",
+      "body": "Highly stable ascorbic formulation with rapid epidermal penetration.",
+      "image": ""
+    },
+    {
+      "id": "rev-mtg5m66z",
+      "createdAt": "2026-08-30T18:39:49.211Z",
+      "updatedAt": "2026-08-30T18:39:49.211Z",
+      "visible": true,
+      "helpful": 0,
+      "verified": true,
+      "productSlug": "lumine-c-serum",
+      "product": {
+        "id": "p-lumine",
+        "name": "Lumine-C Clinical Radiance 8707",
+        "slug": "lumine-c-serum"
+      },
+      "user": {
+        "name": "Dr. Sneha Roy"
+      },
+      "productId": "lumine-c-serum",
+      "customerName": "Dr. Sneha Roy",
+      "rating": 5,
+      "title": "Clinical Tolerability Report 9205",
+      "body": "Highly stable ascorbic formulation with rapid epidermal penetration.",
+      "image": ""
+    },
+    {
+      "id": "rev-mtg66py7",
+      "createdAt": "2026-08-30T18:55:47.935Z",
+      "updatedAt": "2026-08-30T18:55:47.935Z",
+      "visible": true,
+      "helpful": 0,
+      "verified": true,
+      "productSlug": "lumine-c-serum",
+      "product": {
+        "id": "p-lumine",
+        "name": "Lumine-C Clinical Radiance 7437",
+        "slug": "lumine-c-serum"
+      },
+      "user": {
+        "name": "Dr. Sneha Roy"
+      },
+      "productId": "lumine-c-serum",
+      "customerName": "Dr. Sneha Roy",
+      "rating": 5,
+      "title": "Clinical Tolerability Report 7920",
+      "body": "Highly stable ascorbic formulation with rapid epidermal penetration.",
+      "image": ""
+    },
+    {
+      "id": "rev-mtg6ibu2",
+      "createdAt": "2026-08-30T19:04:49.514Z",
+      "updatedAt": "2026-08-30T19:04:49.514Z",
+      "visible": true,
+      "helpful": 0,
+      "verified": true,
+      "productSlug": "liko-q-suspension",
+      "product": {
+        "id": "p-liko-q",
+        "name": "Lumine-C Clinical Radiance 9012",
+        "slug": "liko-q-suspension"
+      },
+      "user": {
+        "name": "Dr. Sneha Roy"
+      },
+      "productId": "liko-q-suspension",
+      "customerName": "Dr. Sneha Roy",
+      "rating": 5,
+      "title": "Clinical Tolerability Report 9500",
+      "body": "Highly stable ascorbic formulation with rapid epidermal penetration.",
+      "image": ""
+    },
+    {
+      "id": "rev-mtg6tzwi",
+      "createdAt": "2026-08-30T19:13:53.922Z",
+      "updatedAt": "2026-08-30T19:13:53.922Z",
+      "visible": true,
+      "helpful": 0,
+      "verified": true,
+      "productSlug": "liko-q-suspension",
+      "product": {
+        "id": "p-liko-q",
+        "name": "Lumine-C Clinical Radiance 3353",
+        "slug": "liko-q-suspension"
+      },
+      "user": {
+        "name": "Dr. Sneha Roy"
+      },
+      "productId": "liko-q-suspension",
+      "customerName": "Dr. Sneha Roy",
+      "rating": 5,
+      "title": "Clinical Tolerability Report 3907",
       "body": "Highly stable ascorbic formulation with rapid epidermal penetration.",
       "image": ""
     }
@@ -2362,6 +3028,116 @@
       "discountValue": 250,
       "description": "Flat ₹250 instant reduction.",
       "active": true
+    },
+    {
+      "id": "rec-mtg4nfuu-gbe9f",
+      "createdAt": "2026-08-30T18:12:48.774Z",
+      "updatedAt": "2026-08-30T18:12:48.774Z",
+      "title": "Flash Vitamin C Weekend Event",
+      "type": "flash",
+      "discountType": "percentage",
+      "discountValue": 30,
+      "description": "30% off all antioxidant formulations.",
+      "active": true
+    },
+    {
+      "id": "rec-mtg4nfvn-9ii92",
+      "createdAt": "2026-08-30T18:12:48.803Z",
+      "updatedAt": "2026-08-30T18:12:48.803Z",
+      "title": "Lightning 3-Hour Botanical Drop",
+      "type": "lightning",
+      "discountType": "flat",
+      "discountValue": 250,
+      "description": "Flat ₹250 instant reduction.",
+      "active": true
+    },
+    {
+      "id": "rec-mtg5m6cv-xqznu",
+      "createdAt": "2026-08-30T18:39:49.423Z",
+      "updatedAt": "2026-08-30T18:39:49.423Z",
+      "title": "Flash Vitamin C Weekend Event",
+      "type": "flash",
+      "discountType": "percentage",
+      "discountValue": 30,
+      "description": "30% off all antioxidant formulations.",
+      "active": true
+    },
+    {
+      "id": "rec-mtg5m6dp-7k9k9",
+      "createdAt": "2026-08-30T18:39:49.453Z",
+      "updatedAt": "2026-08-30T18:39:49.453Z",
+      "title": "Lightning 3-Hour Botanical Drop",
+      "type": "lightning",
+      "discountType": "flat",
+      "discountValue": 250,
+      "description": "Flat ₹250 instant reduction.",
+      "active": true
+    },
+    {
+      "id": "rec-mtg66q3n-3t91w",
+      "createdAt": "2026-08-30T18:55:48.131Z",
+      "updatedAt": "2026-08-30T18:55:48.131Z",
+      "title": "Flash Vitamin C Weekend Event",
+      "type": "flash",
+      "discountType": "percentage",
+      "discountValue": 30,
+      "description": "30% off all antioxidant formulations.",
+      "active": true
+    },
+    {
+      "id": "rec-mtg66q4g-l7ry0",
+      "createdAt": "2026-08-30T18:55:48.160Z",
+      "updatedAt": "2026-08-30T18:55:48.161Z",
+      "title": "Lightning 3-Hour Botanical Drop",
+      "type": "lightning",
+      "discountType": "flat",
+      "discountValue": 250,
+      "description": "Flat ₹250 instant reduction.",
+      "active": true
+    },
+    {
+      "id": "rec-mtg6ibz5-wpylf",
+      "createdAt": "2026-08-30T19:04:49.697Z",
+      "updatedAt": "2026-08-30T19:04:49.697Z",
+      "title": "Flash Vitamin C Weekend Event",
+      "type": "flash",
+      "discountType": "percentage",
+      "discountValue": 30,
+      "description": "30% off all antioxidant formulations.",
+      "active": true
+    },
+    {
+      "id": "rec-mtg6ibzv-0ta6n",
+      "createdAt": "2026-08-30T19:04:49.723Z",
+      "updatedAt": "2026-08-30T19:04:49.723Z",
+      "title": "Lightning 3-Hour Botanical Drop",
+      "type": "lightning",
+      "discountType": "flat",
+      "discountValue": 250,
+      "description": "Flat ₹250 instant reduction.",
+      "active": true
+    },
+    {
+      "id": "rec-mtg6u022-onej7",
+      "createdAt": "2026-08-30T19:13:54.122Z",
+      "updatedAt": "2026-08-30T19:13:54.122Z",
+      "title": "Flash Vitamin C Weekend Event",
+      "type": "flash",
+      "discountType": "percentage",
+      "discountValue": 30,
+      "description": "30% off all antioxidant formulations.",
+      "active": true
+    },
+    {
+      "id": "rec-mtg6u02u-nxecg",
+      "createdAt": "2026-08-30T19:13:54.150Z",
+      "updatedAt": "2026-08-30T19:13:54.150Z",
+      "title": "Lightning 3-Hour Botanical Drop",
+      "type": "lightning",
+      "discountType": "flat",
+      "discountValue": 250,
+      "description": "Flat ₹250 instant reduction.",
+      "active": true
     }
   ],
   "notifications": [
@@ -2437,6 +3213,56 @@
       "message": "Applicable pan-India across 19,000+ pin codes.",
       "link": "/shop",
       "active": true
+    },
+    {
+      "id": "rec-mtg4nfwh-vbv07",
+      "createdAt": "2026-08-30T18:12:48.833Z",
+      "updatedAt": "2026-08-30T18:12:48.833Z",
+      "_kind": "notifications",
+      "title": "Free Express Shipping On All Orders Above ₹999",
+      "message": "Applicable pan-India across 19,000+ pin codes.",
+      "link": "/shop",
+      "active": true
+    },
+    {
+      "id": "rec-mtg5m6ef-j8be1",
+      "createdAt": "2026-08-30T18:39:49.479Z",
+      "updatedAt": "2026-08-30T18:39:49.479Z",
+      "_kind": "notifications",
+      "title": "Free Express Shipping On All Orders Above ₹999",
+      "message": "Applicable pan-India across 19,000+ pin codes.",
+      "link": "/shop",
+      "active": true
+    },
+    {
+      "id": "rec-mtg66q5c-cw66n",
+      "createdAt": "2026-08-30T18:55:48.192Z",
+      "updatedAt": "2026-08-30T18:55:48.192Z",
+      "_kind": "notifications",
+      "title": "Free Express Shipping On All Orders Above ₹999",
+      "message": "Applicable pan-India across 19,000+ pin codes.",
+      "link": "/shop",
+      "active": true
+    },
+    {
+      "id": "rec-mtg6ic0r-z9gwu",
+      "createdAt": "2026-08-30T19:04:49.755Z",
+      "updatedAt": "2026-08-30T19:04:49.755Z",
+      "_kind": "notifications",
+      "title": "Free Express Shipping On All Orders Above ₹999",
+      "message": "Applicable pan-India across 19,000+ pin codes.",
+      "link": "/shop",
+      "active": true
+    },
+    {
+      "id": "rec-mtg6u03p-qw8rg",
+      "createdAt": "2026-08-30T19:13:54.181Z",
+      "updatedAt": "2026-08-30T19:13:54.181Z",
+      "_kind": "notifications",
+      "title": "Free Express Shipping On All Orders Above ₹999",
+      "message": "Applicable pan-India across 19,000+ pin codes.",
+      "link": "/shop",
+      "active": true
     }
   ],
   "promoBanners": [
@@ -2476,7 +3302,7 @@
       ],
       "supportsRefunds": true,
       "createdAt": "2026-08-30T05:17:02.705Z",
-      "updatedAt": "2026-08-30T08:33:48.220Z"
+      "updatedAt": "2026-08-30T19:13:54.060Z"
     },
     {
       "id": "stripe",
@@ -2585,7 +3411,7 @@
       "maxOrderValue": 15000,
       "instructions": "Please keep exact cash or UPI QR app ready when the delivery partner arrives.",
       "createdAt": "2026-08-30T05:17:02.705Z",
-      "updatedAt": "2026-08-30T08:33:48.249Z"
+      "updatedAt": "2026-08-30T19:13:54.096Z"
     }
   ],
   "shippingProviders": [
@@ -2714,7 +3540,7 @@
       ],
       "active": true,
       "createdAt": "2026-08-30T05:17:02.705Z",
-      "updatedAt": "2026-08-30T08:33:48.190Z"
+      "updatedAt": "2026-08-30T19:13:54.031Z"
     }
   ],
   "aplusTemplates": [
@@ -3086,6 +3912,136 @@
         }
       ],
       "published": true
+    },
+    {
+      "id": "aplus-mtg4nfhn",
+      "createdAt": "2026-08-30T18:12:48.299Z",
+      "updatedAt": "2026-08-30T18:12:48.324Z",
+      "title": "Molecular Bio-Shield Protocol",
+      "description": "Advanced stabilization standards",
+      "category": "Dermal Science",
+      "sections": [
+        {
+          "type": "hero",
+          "heading": "Cellular-Level Antioxidant Shield",
+          "text": "Micro-encapsulated formula tested under ISO cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          "published": true
+        },
+        {
+          "type": "video_text",
+          "heading": "Application & Absorption Protocol",
+          "text": "Demonstration of topical bioavailability.",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+          "published": true
+        }
+      ],
+      "published": true
+    },
+    {
+      "id": "aplus-mtg5m5xx",
+      "createdAt": "2026-08-30T18:39:48.885Z",
+      "updatedAt": "2026-08-30T18:39:48.905Z",
+      "title": "Molecular Bio-Shield Protocol",
+      "description": "Advanced stabilization standards",
+      "category": "Dermal Science",
+      "sections": [
+        {
+          "type": "hero",
+          "heading": "Cellular-Level Antioxidant Shield",
+          "text": "Micro-encapsulated formula tested under ISO cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          "published": true
+        },
+        {
+          "type": "video_text",
+          "heading": "Application & Absorption Protocol",
+          "text": "Demonstration of topical bioavailability.",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+          "published": true
+        }
+      ],
+      "published": true
+    },
+    {
+      "id": "aplus-mtg66ppk",
+      "createdAt": "2026-08-30T18:55:47.624Z",
+      "updatedAt": "2026-08-30T18:55:47.646Z",
+      "title": "Molecular Bio-Shield Protocol",
+      "description": "Advanced stabilization standards",
+      "category": "Dermal Science",
+      "sections": [
+        {
+          "type": "hero",
+          "heading": "Cellular-Level Antioxidant Shield",
+          "text": "Micro-encapsulated formula tested under ISO cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          "published": true
+        },
+        {
+          "type": "video_text",
+          "heading": "Application & Absorption Protocol",
+          "text": "Demonstration of topical bioavailability.",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+          "published": true
+        }
+      ],
+      "published": true
+    },
+    {
+      "id": "aplus-mtg6iblx",
+      "createdAt": "2026-08-30T19:04:49.221Z",
+      "updatedAt": "2026-08-30T19:04:49.249Z",
+      "title": "Molecular Bio-Shield Protocol",
+      "description": "Advanced stabilization standards",
+      "category": "Dermal Science",
+      "sections": [
+        {
+          "type": "hero",
+          "heading": "Cellular-Level Antioxidant Shield",
+          "text": "Micro-encapsulated formula tested under ISO cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          "published": true
+        },
+        {
+          "type": "video_text",
+          "heading": "Application & Absorption Protocol",
+          "text": "Demonstration of topical bioavailability.",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+          "published": true
+        }
+      ],
+      "published": true
+    },
+    {
+      "id": "aplus-mtg6tzng",
+      "createdAt": "2026-08-30T19:13:53.596Z",
+      "updatedAt": "2026-08-30T19:13:53.617Z",
+      "title": "Molecular Bio-Shield Protocol",
+      "description": "Advanced stabilization standards",
+      "category": "Dermal Science",
+      "sections": [
+        {
+          "type": "hero",
+          "heading": "Cellular-Level Antioxidant Shield",
+          "text": "Micro-encapsulated formula tested under ISO cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          "published": true
+        },
+        {
+          "type": "video_text",
+          "heading": "Application & Absorption Protocol",
+          "text": "Demonstration of topical bioavailability.",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+          "published": true
+        }
+      ],
+      "published": true
     }
   ],
   "pushSubscriptions": [
@@ -3118,6 +4074,255 @@
       "sentBy": "usr-d28df0a7",
       "totalSubscribers": 1,
       "sentAt": "2026-08-30T11:13:21.396Z"
+    }
+  ],
+  "socialMediaLinks": [
+    {
+      "id": "sml-instagram",
+      "platform": "instagram",
+      "label": "Instagram",
+      "url": "https://instagram.com/queenscare",
+      "icon": "instagram",
+      "visible": true,
+      "iconSize": 20,
+      "sortOrder": 5,
+      "createdAt": "2026-08-30T18:12:14.900Z",
+      "updatedAt": "2026-08-30T19:13:48.899Z"
+    },
+    {
+      "id": "sml-facebook",
+      "platform": "facebook",
+      "label": "Facebook",
+      "url": "https://facebook.com/queenscare",
+      "icon": "facebook",
+      "visible": true,
+      "iconSize": 20,
+      "sortOrder": 6,
+      "createdAt": "2026-08-30T18:12:14.900Z",
+      "updatedAt": "2026-08-30T19:13:48.901Z"
+    },
+    {
+      "id": "sml-youtube",
+      "platform": "youtube",
+      "label": "YouTube",
+      "url": "https://youtube.com/@queenscare",
+      "icon": "youtube",
+      "visible": true,
+      "iconSize": 20,
+      "sortOrder": 7,
+      "createdAt": "2026-08-30T18:12:14.900Z",
+      "updatedAt": "2026-08-30T19:13:48.912Z"
+    },
+    {
+      "id": "sml-linkedin",
+      "platform": "linkedin",
+      "label": "LinkedIn",
+      "url": "https://linkedin.com/company/queenscare",
+      "icon": "linkedin",
+      "visible": true,
+      "iconSize": 20,
+      "sortOrder": 8,
+      "createdAt": "2026-08-30T18:12:14.900Z",
+      "updatedAt": "2026-08-30T19:13:48.922Z"
+    },
+    {
+      "id": "sml-twitter",
+      "platform": "twitter",
+      "label": "X / Twitter",
+      "url": "https://x.com/queenscare",
+      "icon": "twitter",
+      "visible": true,
+      "iconSize": 20,
+      "sortOrder": 9,
+      "createdAt": "2026-08-30T18:12:14.900Z",
+      "updatedAt": "2026-08-30T19:13:48.931Z"
+    },
+    {
+      "id": "sml-mtg4mxkd-haaq",
+      "createdAt": "2026-08-30T18:12:25.069Z",
+      "updatedAt": "2026-08-30T19:13:48.940Z",
+      "platform": "amazon",
+      "category": "marketplace",
+      "label": "Amazon India Flagship Store",
+      "url": "https://www.amazon.in/Liko-Lycopene-Multivitamin-Syrup-Essential/dp/B0DDHHDW2Q",
+      "icon": "amazon",
+      "customIconUrl": "",
+      "visible": true,
+      "iconSize": 32,
+      "desktopIconSize": 32,
+      "mobileIconSize": 22,
+      "openNewTab": true,
+      "sortOrder": 4
+    },
+    {
+      "id": "sml-mtg4mxkl-20qx",
+      "createdAt": "2026-08-30T18:12:25.077Z",
+      "updatedAt": "2026-08-30T19:13:48.948Z",
+      "platform": "flipkart",
+      "category": "marketplace",
+      "label": "Flipkart Official Store",
+      "url": "https://www.flipkart.com/queenscare",
+      "icon": "flipkart",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 24,
+      "desktopIconSize": 24,
+      "mobileIconSize": 18,
+      "openNewTab": true,
+      "sortOrder": 10
+    },
+    {
+      "id": "sml-mtg5mcpv-93bv",
+      "createdAt": "2026-08-30T18:39:57.667Z",
+      "updatedAt": "2026-08-30T19:13:48.957Z",
+      "platform": "amazon",
+      "category": "marketplace",
+      "label": "Amazon India Flagship Store",
+      "url": "https://www.amazon.in/queenscare",
+      "icon": "amazon",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 26,
+      "desktopIconSize": 32,
+      "mobileIconSize": 22,
+      "openNewTab": true,
+      "sortOrder": 3
+    },
+    {
+      "id": "sml-mtg5mcq9-sr21",
+      "createdAt": "2026-08-30T18:39:57.681Z",
+      "updatedAt": "2026-08-30T19:13:48.965Z",
+      "platform": "flipkart",
+      "category": "marketplace",
+      "label": "Flipkart Official Store",
+      "url": "https://www.flipkart.com/queenscare",
+      "icon": "flipkart",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 24,
+      "desktopIconSize": 24,
+      "mobileIconSize": 18,
+      "openNewTab": true,
+      "sortOrder": 11
+    },
+    {
+      "id": "sml-mtg5zn1p-xzv8",
+      "createdAt": "2026-08-30T18:50:17.581Z",
+      "updatedAt": "2026-08-30T19:13:48.975Z",
+      "platform": "tata1mg",
+      "category": "marketplace",
+      "label": "Tata 1mg Pharmacy",
+      "url": "https://www.1mg.com/otc/liko-q-suspension-delicious-orange-otc1148810?wpsrc=Google+Organic+Search",
+      "icon": "tata1mg",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 22,
+      "desktopIconSize": 22,
+      "mobileIconSize": 18,
+      "openNewTab": true,
+      "sortOrder": 12
+    },
+    {
+      "id": "sml-mtg66lfw-1bal",
+      "createdAt": "2026-08-30T18:55:42.092Z",
+      "updatedAt": "2026-08-30T19:13:48.984Z",
+      "platform": "amazon",
+      "category": "marketplace",
+      "label": "Amazon India Flagship Store",
+      "url": "https://www.amazon.in/queenscare",
+      "icon": "amazon",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 26,
+      "desktopIconSize": 32,
+      "mobileIconSize": 22,
+      "openNewTab": true,
+      "sortOrder": 2
+    },
+    {
+      "id": "sml-mtg66lgb-eeiw",
+      "createdAt": "2026-08-30T18:55:42.107Z",
+      "updatedAt": "2026-08-30T19:13:48.993Z",
+      "platform": "flipkart",
+      "category": "marketplace",
+      "label": "Flipkart Official Store",
+      "url": "https://www.flipkart.com/queenscare",
+      "icon": "flipkart",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 24,
+      "desktopIconSize": 24,
+      "mobileIconSize": 18,
+      "openNewTab": true,
+      "sortOrder": 13
+    },
+    {
+      "id": "sml-mtg6i4yj-enhi",
+      "createdAt": "2026-08-30T19:04:40.604Z",
+      "updatedAt": "2026-08-30T19:13:49.002Z",
+      "platform": "amazon",
+      "category": "marketplace",
+      "label": "Amazon India Flagship Store",
+      "url": "https://www.amazon.in/queenscare",
+      "icon": "amazon",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 26,
+      "desktopIconSize": 32,
+      "mobileIconSize": 22,
+      "openNewTab": true,
+      "sortOrder": 1
+    },
+    {
+      "id": "sml-mtg6i4yy-mdgp",
+      "createdAt": "2026-08-30T19:04:40.618Z",
+      "updatedAt": "2026-08-30T19:13:49.011Z",
+      "platform": "flipkart",
+      "category": "marketplace",
+      "label": "Flipkart Official Store",
+      "url": "https://www.flipkart.com/queenscare",
+      "icon": "flipkart",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 24,
+      "desktopIconSize": 24,
+      "mobileIconSize": 18,
+      "openNewTab": true,
+      "sortOrder": 14
+    },
+    {
+      "id": "sml-mtg6tvo3-x9yj",
+      "createdAt": "2026-08-30T19:13:48.435Z",
+      "updatedAt": "2026-08-30T19:13:49.021Z",
+      "platform": "amazon",
+      "category": "marketplace",
+      "label": "Amazon India Flagship Store",
+      "url": "https://www.amazon.in/queenscare",
+      "icon": "amazon",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 26,
+      "desktopIconSize": 32,
+      "mobileIconSize": 22,
+      "openNewTab": true,
+      "sortOrder": 0
+    },
+    {
+      "id": "sml-mtg6tvoi-axqy",
+      "createdAt": "2026-08-30T19:13:48.450Z",
+      "updatedAt": "2026-08-30T19:13:49.030Z",
+      "platform": "flipkart",
+      "category": "marketplace",
+      "label": "Flipkart Official Store",
+      "url": "https://www.flipkart.com/queenscare",
+      "icon": "flipkart",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 24,
+      "desktopIconSize": 24,
+      "mobileIconSize": 18,
+      "openNewTab": true,
+      "sortOrder": 15
     }
   ],
   "pageSettings": [

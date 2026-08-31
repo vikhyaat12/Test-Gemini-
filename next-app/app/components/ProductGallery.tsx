@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { parseMediaInfo } from "./GlobalMediaUploader";
+import Product3DViewer from "./Product3DViewer";
 
 export type GalleryImage = { id: string; url: string; alt?: string };
 export type GalleryVideo = { id?: string; url: string; title?: string; posterUrl?: string };
@@ -9,7 +10,7 @@ export type GalleryVideo = { id?: string; url: string; title?: string; posterUrl
 type GalleryMediaItem = {
   id: string;
   url: string;
-  type: "image" | "video" | "youtube" | "vimeo" | "gif";
+  type: "image" | "video" | "youtube" | "vimeo" | "gif" | "3d";
   title?: string;
   alt?: string;
   posterUrl?: string;
@@ -21,13 +22,17 @@ export default function ProductGallery({
   productName,
   images = [],
   videos = [],
+  enable3D = true,
+  model3dPoster,
 }: {
   mainImage: string;
   productName: string;
   images?: GalleryImage[];
   videos?: GalleryVideo[];
+  enable3D?: boolean;
+  model3dPoster?: string;
 }) {
-  // Combine main image + gallery images + product videos into a unified media list
+  // Combine main image + up to 10 images + videos + optional 3D tab
   const mediaItems: GalleryMediaItem[] = [
     {
       id: "main-img",
@@ -35,13 +40,13 @@ export default function ProductGallery({
       type: parseMediaInfo(mainImage).type,
       alt: productName,
     },
-    ...images.map((img, i) => {
+    ...images.slice(0, 10).map((img, i) => {
       const parsed = parseMediaInfo(img.url);
       return {
         id: img.id || `img-${i}`,
         url: img.url,
         type: parsed.type,
-        alt: img.alt || `${productName} photo ${i + 1}`,
+        alt: img.alt || `${productName} presentation photo ${i + 1}`,
       };
     }),
     ...videos.map((vid, i) => {
@@ -50,16 +55,29 @@ export default function ProductGallery({
         id: vid.id || `vid-${i}`,
         url: vid.url,
         type: parsed.type,
-        title: vid.title || `${productName} video ${i + 1}`,
+        title: vid.title || `${productName} clinical video ${i + 1}`,
         posterUrl: vid.posterUrl || parsed.posterUrl,
         embedUrl: parsed.embedUrl,
       };
     }),
+    ...(enable3D
+      ? [
+          {
+            id: "3d-view",
+            url: "#3d",
+            type: "3d" as const,
+            title: "Interactive 3D View",
+            alt: `${productName} 3D View`,
+            posterUrl: model3dPoster || mainImage,
+          },
+        ]
+      : []),
   ].filter((item) => Boolean(item.url));
 
   const [active, setActive] = useState(0);
   const [zoom, setZoom] = useState(false);
   const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 });
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const current = mediaItems[active] || mediaItems[0] || {
     id: "empty",
@@ -69,21 +87,149 @@ export default function ProductGallery({
   };
 
   const isCurrentVideo = current.type === "video" || current.type === "youtube" || current.type === "vimeo";
+  const isCurrent3D = current.type === "3d";
   const parsedCurrent = parseMediaInfo(current.url);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (isCurrentVideo) return;
+    if (isCurrentVideo || isCurrent3D) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
     setZoomPos({ x, y });
   };
 
+  const nextMedia = useCallback(() => {
+    setActive((prev) => (prev + 1) % mediaItems.length);
+  }, [mediaItems.length]);
+
+  const prevMedia = useCallback(() => {
+    setActive((prev) => (prev - 1 + mediaItems.length) % mediaItems.length);
+  }, [mediaItems.length]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (lightboxOpen) {
+        if (e.key === "Escape") setLightboxOpen(false);
+        if (e.key === "ArrowRight") nextMedia();
+        if (e.key === "ArrowLeft") prevMedia();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [lightboxOpen, nextMedia, prevMedia]);
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      {/* Amazon-Style Desktop Layout: Left Thumbnails + Main Viewport */}
-      <div style={{ display: "grid", gridTemplateColumns: mediaItems.length > 1 ? "72px 1fr" : "1fr", gap: 12, alignItems: "start" }}>
-        {/* Thumbnails Strip (Left Column on Desktop) */}
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+      {/* Media Mode Pill Selector */}
+      <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+        <button
+          type="button"
+          onClick={() => {
+            setActive(0);
+            setZoom(false);
+          }}
+          style={{
+            padding: "4px 12px",
+            borderRadius: 20,
+            fontSize: 11,
+            fontWeight: 600,
+            cursor: "pointer",
+            background: !isCurrent3D && !isCurrentVideo ? "var(--purple)" : "#f3efe8",
+            color: !isCurrent3D && !isCurrentVideo ? "#fff" : "var(--ink)",
+            border: "1px solid var(--line)",
+            transition: "all 0.15s ease",
+          }}
+        >
+          📷 Gallery ({images.length + 1})
+        </button>
+
+        {videos.length > 0 && (
+          <button
+            type="button"
+            onClick={() => {
+              const firstVidIndex = mediaItems.findIndex(
+                (m) => m.type === "video" || m.type === "youtube" || m.type === "vimeo"
+              );
+              if (firstVidIndex >= 0) {
+                setActive(firstVidIndex);
+                setZoom(false);
+              }
+            }}
+            style={{
+              padding: "4px 12px",
+              borderRadius: 20,
+              fontSize: 11,
+              fontWeight: 600,
+              cursor: "pointer",
+              background: isCurrentVideo ? "var(--purple)" : "#f3efe8",
+              color: isCurrentVideo ? "#fff" : "var(--ink)",
+              border: "1px solid var(--line)",
+              transition: "all 0.15s ease",
+            }}
+          >
+            🎬 Clinical Videos ({videos.length})
+          </button>
+        )}
+
+        {enable3D && (
+          <button
+            type="button"
+            onClick={() => {
+              const index3D = mediaItems.findIndex((m) => m.type === "3d");
+              if (index3D >= 0) {
+                setActive(index3D);
+                setZoom(false);
+              }
+            }}
+            style={{
+              padding: "4px 12px",
+              borderRadius: 20,
+              fontSize: 11,
+              fontWeight: 600,
+              cursor: "pointer",
+              background: isCurrent3D ? "linear-gradient(135deg, #2A0F3A, #4a154b)" : "#f3efe8",
+              color: isCurrent3D ? "#D4AF37" : "var(--ink)",
+              border: isCurrent3D ? "1px solid #D4AF37" : "1px solid var(--line)",
+              transition: "all 0.15s ease",
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+            }}
+          >
+            <span>✨ 3D Interactive Model</span>
+          </button>
+        )}
+
+        <button
+          type="button"
+          onClick={() => setLightboxOpen(true)}
+          style={{
+            marginLeft: "auto",
+            padding: "4px 10px",
+            borderRadius: 4,
+            fontSize: 11,
+            fontWeight: 600,
+            background: "transparent",
+            color: "var(--muted)",
+            border: "1px solid var(--line)",
+            cursor: "pointer",
+          }}
+          title="Open Fullscreen Lightbox"
+        >
+          ⛶ Fullscreen
+        </button>
+      </div>
+
+      {/* Main Viewport & Thumbnails Grid */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: mediaItems.length > 1 ? "80px 1fr" : "1fr",
+          gap: 14,
+          alignItems: "start",
+        }}
+      >
+        {/* Thumbnails Column (Left Side) */}
         {mediaItems.length > 1 && (
           <div
             style={{
@@ -97,6 +243,7 @@ export default function ProductGallery({
           >
             {mediaItems.map((item, i) => {
               const isItemVid = item.type === "video" || item.type === "youtube" || item.type === "vimeo";
+              const isItem3D = item.type === "3d";
               const itemParsed = parseMediaInfo(item.url);
               const thumbSrc = item.posterUrl || (isItemVid ? itemParsed.posterUrl : item.url) || item.url;
 
@@ -110,28 +257,57 @@ export default function ProductGallery({
                   }}
                   style={{
                     position: "relative",
-                    width: 68,
-                    height: 68,
+                    width: 74,
+                    height: 74,
                     padding: 0,
-                    border: active === i ? "2px solid var(--purple)" : "1px solid var(--line)",
-                    background: "#f7f5f2",
+                    border: active === i ? "2px solid #2A0F3A" : "1px solid var(--line)",
+                    background: "#fbf9f6",
+                    borderRadius: 4,
                     cursor: "pointer",
-                    opacity: active === i ? 1 : 0.7,
-                    outline: active === i ? "1px solid var(--gold)" : "none",
+                    opacity: active === i ? 1 : 0.72,
+                    outline: active === i ? "1.5px solid #D4AF37" : "none",
                     overflow: "hidden",
                     flexShrink: 0,
                     transition: "all 0.15s ease",
                   }}
                   title={item.title || item.alt || `Media ${i + 1}`}
                 >
-                  {thumbSrc ? (
+                  {isItem3D ? (
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        background: "linear-gradient(135deg, #2A0F3A, #190924)",
+                        color: "#D4AF37",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: 10,
+                        fontWeight: 700,
+                        gap: 2,
+                      }}
+                    >
+                      <span style={{ fontSize: 18 }}>🔄</span>
+                      <span>3D</span>
+                    </div>
+                  ) : thumbSrc ? (
                     <img
                       src={thumbSrc}
                       alt={item.alt || ""}
                       style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     />
                   ) : (
-                    <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: 20,
+                      }}
+                    >
                       🎬
                     </div>
                   )}
@@ -143,7 +319,7 @@ export default function ProductGallery({
                         position: "absolute",
                         bottom: 2,
                         right: 2,
-                        background: "rgba(35, 12, 57, 0.85)",
+                        background: "rgba(42, 15, 58, 0.9)",
                         color: "#fff",
                         fontSize: 9,
                         fontWeight: 700,
@@ -172,21 +348,26 @@ export default function ProductGallery({
               aspectRatio: "1 / 1",
               maxHeight: 520,
               overflow: "hidden",
+              borderRadius: 8,
               border: "1px solid var(--line)",
               background: "#faf8f5",
-              cursor: isCurrentVideo ? "default" : zoom ? "zoom-out" : "zoom-in",
+              cursor: isCurrentVideo || isCurrent3D ? "default" : zoom ? "zoom-out" : "zoom-in",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.03)",
             }}
             onClick={() => {
-              if (!isCurrentVideo) setZoom(!zoom);
+              if (!isCurrentVideo && !isCurrent3D) setZoom(!zoom);
             }}
             onMouseMove={handleMouseMove}
             onMouseLeave={() => setZoom(false)}
           >
-            {/* If Video: Render Player */}
-            {isCurrentVideo ? (
+            {/* If 3D Viewer */}
+            {isCurrent3D ? (
+              <Product3DViewer productName={productName} posterUrl={current.posterUrl} height={520} />
+            ) : isCurrentVideo ? (
+              /* If Video */
               current.type === "youtube" || current.type === "vimeo" ? (
                 <iframe
                   src={parsedCurrent.embedUrl}
@@ -223,13 +404,15 @@ export default function ProductGallery({
                   <span
                     style={{
                       position: "absolute",
-                      top: 10,
-                      right: 10,
+                      top: 12,
+                      right: 12,
                       fontSize: 11,
-                      padding: "4px 10px",
-                      background: "rgba(35, 12, 57, 0.8)",
+                      padding: "4px 12px",
+                      background: "rgba(42, 15, 58, 0.85)",
                       color: "#fff",
+                      borderRadius: 4,
                       letterSpacing: ".04em",
+                      pointerEvents: "none",
                     }}
                   >
                     Click to reset zoom
@@ -239,14 +422,16 @@ export default function ProductGallery({
                   <span
                     style={{
                       position: "absolute",
-                      bottom: 10,
-                      right: 10,
-                      fontSize: 10,
-                      padding: "3px 8px",
-                      background: "rgba(255,255,255,0.85)",
+                      bottom: 12,
+                      right: 12,
+                      fontSize: 11,
+                      padding: "4px 10px",
+                      background: "rgba(255,255,255,0.9)",
                       color: "var(--purple)",
+                      borderRadius: 4,
                       border: "1px solid var(--line)",
                       pointerEvents: "none",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
                     }}
                   >
                     🔍 Roll over / click to zoom
@@ -256,18 +441,195 @@ export default function ProductGallery({
             )}
           </div>
 
-          {/* Media Counter */}
+          {/* Media Info Footer */}
           {mediaItems.length > 1 && (
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 8, fontSize: 11, color: "var(--muted)" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginTop: 8,
+                fontSize: 11,
+                color: "var(--muted)",
+              }}
+            >
               <span>
-                {current.type === "youtube" || current.type === "vimeo" || current.type === "video" ? "🎬 Video" : "🖼️ Photo"} {active + 1} of {mediaItems.length}
+                {isCurrent3D
+                  ? "✨ 3D Model"
+                  : isCurrentVideo
+                  ? "🎬 Clinical Video"
+                  : "🖼️ High-Res Image"}{" "}
+                {active + 1} of {mediaItems.length}
               </span>
               <span>{current.title || current.alt || productName}</span>
             </div>
           )}
         </div>
       </div>
+
+      {/* Fullscreen Lightbox Modal */}
+      {lightboxOpen && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(18, 6, 25, 0.95)",
+            backdropFilter: "blur(12px)",
+            zIndex: 99999,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 24,
+          }}
+          onClick={() => setLightboxOpen(false)}
+        >
+          {/* Header Controls */}
+          <div
+            style={{
+              position: "absolute",
+              top: 20,
+              left: 24,
+              right: 24,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              color: "#fff",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div>
+              <h4 style={{ margin: 0, fontSize: 16, color: "#D4AF37", fontFamily: "var(--font-display)" }}>
+                {productName}
+              </h4>
+              <p style={{ margin: 0, fontSize: 12, opacity: 0.7 }}>
+                Item {active + 1} of {mediaItems.length}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setLightboxOpen(false)}
+              style={{
+                background: "rgba(255,255,255,0.15)",
+                color: "#fff",
+                border: "none",
+                borderRadius: "50%",
+                width: 40,
+                height: 40,
+                fontSize: 20,
+                cursor: "pointer",
+              }}
+            >
+              ✕
+            </button>
+          </div>
+
+          {/* Center Lightbox Content */}
+          <div
+            style={{
+              position: "relative",
+              maxWidth: "88vw",
+              maxHeight: "80vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {isCurrent3D ? (
+              <div style={{ width: "75vw", maxWidth: 700 }}>
+                <Product3DViewer productName={productName} height={500} />
+              </div>
+            ) : isCurrentVideo ? (
+              current.type === "youtube" || current.type === "vimeo" ? (
+                <iframe
+                  src={parsedCurrent.embedUrl}
+                  style={{ width: "75vw", maxWidth: 900, height: 500, border: 0 }}
+                  title={current.title || productName}
+                  allowFullScreen
+                />
+              ) : (
+                <video
+                  src={current.url}
+                  poster={current.posterUrl || parsedCurrent.posterUrl}
+                  controls
+                  autoPlay
+                  style={{ maxWidth: "85vw", maxHeight: "75vh", borderRadius: 8 }}
+                />
+              )
+            ) : (
+              <img
+                src={current.url}
+                alt={current.alt || productName}
+                style={{
+                  maxWidth: "85vw",
+                  maxHeight: "75vh",
+                  objectFit: "contain",
+                  borderRadius: 6,
+                  boxShadow: "0 10px 40px rgba(0,0,0,0.5)",
+                }}
+              />
+            )}
+          </div>
+
+          {/* Navigation Arrows */}
+          {mediaItems.length > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevMedia();
+                }}
+                style={{
+                  position: "absolute",
+                  left: 24,
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "rgba(255,255,255,0.15)",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "50%",
+                  width: 50,
+                  height: 50,
+                  fontSize: 24,
+                  cursor: "pointer",
+                }}
+                aria-label="Previous image"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextMedia();
+                }}
+                style={{
+                  position: "absolute",
+                  right: 24,
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "rgba(255,255,255,0.15)",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "50%",
+                  width: 50,
+                  height: 50,
+                  fontSize: 24,
+                  cursor: "pointer",
+                }}
+                aria-label="Next image"
+              >
+                ›
+              </button>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }
-
