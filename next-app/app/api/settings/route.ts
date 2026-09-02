@@ -11,7 +11,8 @@ export async function GET() {
     "shipping_charge", "shipping_message", "handling_charge", "handling_charge_enabled", "delivery_enabled",
     "delivery_standard_days", "delivery_express_days", "delivery_cod_enabled", "delivery_same_day",
     "delivery_same_day_cutoff", "delivery_serviceable_pincodes", "delivery_serviceable_ranges", "delivery_metro_pincodes",
-    "footer_tagline", "footer_newsletter_title", "footer_copyright", "footer_bg", "footer_text_color"
+    "footer_tagline", "footer_newsletter_title", "footer_copyright", "footer_bg", "footer_text_color",
+    "header_nav", "footer_links"
   ];
   const safe = all.filter((s: Record<string, unknown>) => publicKeys.includes(String(s.key)));
   return json({ settings: safe });

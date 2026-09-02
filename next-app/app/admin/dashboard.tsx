@@ -24,8 +24,10 @@ import DataCenterExportPanel from "./DataCenterExportPanel";
 import B2BManagement from "./B2BManagement";
 import StoreLocatorManagement from "./StoreLocatorManagement";
 import FooterSettingsModal from "./FooterSettingsModal";
+import AnalyticsDashboard from "./AnalyticsDashboard";
 
-type Tab = "dashboard" | "orders" | "products" | "product-edit" | "aplus" | "categories" | "customers" | "b2b" | "stores" | "careers" | "career-applications" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers" | "homepage" | "marketing" | "payments" | "shipping" | "push" | "pages" | "social-links" | "otp-security" | "notifications-matrix" | "data-export";
+type Tab = "dashboard" | "orders" | "products" | "product-edit" | "aplus" | "categories" | "customers" | "b2b" | "stores" | "careers" | "career-applications" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers" | "homepage" | "marketing" | "payments" | "shipping" | "push" | "pages" | "social-links" | "otp-security" | "notifications-matrix" | "data-export"
+  | "analytics";
 
 const req = async (path: string, init?: RequestInit) => {
   const r = await fetch(path, { ...init, headers: { "Content-Type": "application/json", ...(init?.headers || {}) } });
@@ -95,6 +97,7 @@ const ENDPOINTS: Record<Tab, string | null> = {
   "notifications-matrix": "/api/admin/notifications/settings",
   "data-export": "/api/admin/googlesheets",
   "product-edit": null,
+  analytics: "/api/analytics",
 };
 
 export default function AdminDashboard() {
@@ -215,6 +218,7 @@ export default function AdminDashboard() {
     { id: "pages", label: "Pages", icon: "📑" },
     { id: "social-links", label: "Social Links", icon: "🔗" },
     { id: "homepage", label: "Homepage", icon: "🏠" },
+    { id: "analytics", label: "Analytics", icon: "📈" },
   ];
 
   const inputStyle = { width: "100%", padding: "10px 14px", border: "1px solid var(--line)", fontSize: 14 };
@@ -1093,6 +1097,9 @@ export default function AdminDashboard() {
             )}
             {tab === "social-links" && (
               <SocialMediaLinksManager />
+            )}
+            {tab === "analytics" && (
+              <AnalyticsDashboard />
             )}
           </>
         )}

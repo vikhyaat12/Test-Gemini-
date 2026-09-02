@@ -102,6 +102,8 @@ export default function Page() {
   useEffect(() => {
     fetchProducts();
     fetchGatewaysAndRules();
+    // Analytics: checkout start
+    try { ((window as unknown) as Record<string, (...args: unknown[]) => void>).__qc_track_checkout_start?.(); } catch {}
     return subscribeCart((nextLines) => setLines(nextLines));
   }, []);
 
@@ -225,6 +227,9 @@ export default function Page() {
       const createdOrder = j.order;
       setOrderId(createdOrder.id);
       setPaidTotal(createdOrder.total);
+
+      // Analytics: order placed
+      try { ((window as unknown) as Record<string, (...args: unknown[]) => void>).__qc_track_order_placed?.(createdOrder.id, createdOrder.total); } catch {}
 
       // Connect to selected payment provider
       if (selectedGateway === "cod") {

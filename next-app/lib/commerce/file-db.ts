@@ -49,6 +49,8 @@ export interface LocalDbSchema {
   contactEnquiries: Array<Record<string, unknown>>;
   notificationSettings: Array<Record<string, unknown>>;
   storeLocations: Array<Record<string, unknown>>;
+  analyticsEvents: Array<Record<string, unknown>>;
+  analyticsSessions: Array<Record<string, unknown>>;
 }
 
 const now = () => new Date().toISOString();
@@ -567,6 +569,40 @@ const initialSeedData: LocalDbSchema = {
     { key: "contact_phone", value: "+91 (0) 11 4050 8800", group: "contact", updatedAt: now() },
     { key: "theme_primary", value: "#2d1b4e", group: "theme", updatedAt: now() },
     { key: "theme_gold", value: "#d4ad65", group: "theme", updatedAt: now() },
+    { key: "header_nav", value: JSON.stringify([
+      { label: "Shop", href: "/#collection", visible: true, sort: 0 },
+      { label: "About", href: "/about", visible: true, sort: 1 },
+      { label: "Our science", href: "/#science", visible: true, sort: 2 },
+      { label: "Blog", href: "/blog", visible: true, sort: 3 },
+      { label: "Our team", href: "/employee", visible: false, sort: 4 },
+      { label: "Contact", href: "/contact", visible: true, sort: 5 }
+    ]), group: "navigation", updatedAt: now() },
+    { key: "footer_links", value: JSON.stringify([
+      { section: "Shop", links: [
+        { label: "All care", href: "/#collection", visible: true, sort: 0 },
+        { label: "Best sellers", href: "/shop", visible: true, sort: 1 },
+        { label: "Store locator", href: "/store-locator", visible: true, sort: 2 },
+        { label: "B2B portal", href: "/b2b", visible: true, sort: 3 }
+      ]},
+      { section: "About", links: [
+        { label: "Our story", href: "/about", visible: true, sort: 0 },
+        { label: "Journal", href: "/blog", visible: true, sort: 1 },
+        { label: "Our team", href: "/employee", visible: false, sort: 2 },
+        { label: "Careers", href: "/careers", visible: true, sort: 3 },
+        { label: "Contact", href: "/contact", visible: true, sort: 4 }
+      ]},
+      { section: "Support", links: [
+        { label: "FAQ", href: "/faq", visible: true, sort: 0 },
+        { label: "Track order", href: "/track-order", visible: true, sort: 1 },
+        { label: "Privacy", href: "/privacy", visible: true, sort: 2 },
+        { label: "Terms", href: "/terms", visible: true, sort: 3 }
+      ]},
+      { section: "Partnerships", links: [
+        { label: "Doctor portal", href: "/doctors", visible: true, sort: 0 },
+        { label: "Distributor portal", href: "/b2b", visible: true, sort: 1 },
+        { label: "Become an Affiliate", href: "/affiliate", visible: true, sort: 2 }
+      ]}
+    ]), group: "navigation", updatedAt: now() },
   ],
   banners: [
     {
@@ -1041,6 +1077,8 @@ const initialSeedData: LocalDbSchema = {
   contactEnquiries: [],
   notificationSettings: [],
   storeLocations: [],
+  analyticsEvents: [],
+  analyticsSessions: [],
 };
 
 /**

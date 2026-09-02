@@ -43,6 +43,8 @@ export default function Page() {
   useEffect(() => {
     fetchProducts();
     fetchRules();
+    // Analytics: cart view
+    try { ((window as unknown) as Record<string, (...args: unknown[]) => void>).__qc_track_cart_view?.(); } catch {}
     return subscribeCart((nextLines) => setLines(nextLines));
   }, []);
 

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { store } from "@/lib/commerce/store";
 
+export const dynamic = "force-dynamic";
+
 export default async function Page() {
   const items: { q: string; a: string }[] = ((await store.content.get("faq"))?.value as { q: string; a: string }[]) ?? [];
   return (

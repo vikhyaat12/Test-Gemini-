@@ -12,6 +12,7 @@ import ProductTabs from "./ProductTabs";
 import DeliveryCalculator from "@/app/components/DeliveryCalculator";
 import RecommendationsSection from "@/app/components/RecommendationsSection";
 import ProductRangeCarousel from "@/app/components/ProductRangeCarousel";
+import DownloadPdfButton from "@/app/components/DownloadPdfButton";
 
 export const dynamic = "force-dynamic";
 
@@ -120,6 +121,12 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
   return (
     <main className="product-detail" style={{ maxWidth: 1240, margin: "0 auto", padding: "0 20px" }}>
+      {/* Analytics: product view */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `if(window.__qc_track_product_view){window.__qc_track_product_view(${JSON.stringify(product.slug)},${JSON.stringify(product.name)})}`,
+        }}
+      />
       {/* ─── EDITORIAL MARQUEE RIBBON ─── */}
       <div
         style={{
@@ -392,9 +399,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                     <span>● In Stock ({product.stock} units available)</span>
                     <span style={{ color: "var(--muted)" }}>·</span>
                     <span style={{ color: "var(--muted)" }}>SKU: {product.slug}</span>
-                  </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                    <AddToCartButton productId={product.slug} />
+                  </div>                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                    <AddToCartButton productId={product.slug} productName={product.name} />
                     <Link
                       href="/checkout"
                       style={{
@@ -418,6 +424,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                       Instant Buy Now <span>→</span>
                     </Link>
                   </div>
+                  <DownloadPdfButton slug={product.slug} name={product.name} />
                 </>
               );
             })()}

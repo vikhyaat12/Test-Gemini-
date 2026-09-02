@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GlobalMediaUploader from "../components/GlobalMediaUploader";
 import Hero3DProductVisual from "../components/Hero3DProductVisual";
 
@@ -560,7 +560,46 @@ export default function HomepageSectionEdit({ item, onSave }: Props) {
       {/* ═══════════════════════════════════════════════════════════════════════ */}
       {form.type === "hero" && (
         <div style={{ marginBottom: 24, padding: 20, background: "#faf8f5", border: "1px solid var(--line)", borderRadius: 6 }}>
-          <h4 style={{ font: "14px var(--font-display)", marginBottom: 14, color: "var(--purple)" }}>Hero Copy & Calls to Action</h4>
+          <h4 style={{ font: "14px var(--font-display)", marginBottom: 14, color: "var(--purple)" }}>Hero Background Image</h4>
+          <GlobalMediaUploader
+            label="Hero Image (optional — if set, replaces the 3D product visual)"
+            preset="banner_desktop"
+            value={String(content.heroImage || "")}
+            onChange={(url) => updateContent("heroImage", url)}
+            folder="homepage"
+          />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 12 }}>
+            <div>
+              <label style={labelStyle}>Or Paste Image URL</label>
+              <input
+                style={inputStyle}
+                value={String(content.heroImage || "")}
+                onChange={(e) => updateContent("heroImage", e.target.value)}
+                placeholder="https://..."
+              />
+            </div>
+            <div>
+              <label style={labelStyle}>Hero Background Color</label>
+              <div style={{ display: "flex", gap: 8 }}>
+                <input
+                  type="color"
+                  value={String(content.heroBackground || "#FAF8F5").startsWith("#") ? String(content.heroBackground) : "#FAF8F5"}
+                  onChange={(e) => updateContent("heroBackground", e.target.value)}
+                  style={{ width: 38, height: 38, padding: 0, border: "1px solid var(--line)", borderRadius: 4, cursor: "pointer" }}
+                />
+                <input
+                  style={inputStyle}
+                  value={String(content.heroBackground || "")}
+                  onChange={(e) => updateContent("heroBackground", e.target.value)}
+                  placeholder="#FAF8F5"
+                />
+              </div>
+            </div>
+          </div>
+          <div style={{ marginTop: 8, padding: 10, background: content.heroImage ? "#e9f7e9" : "#fff7e6", border: "1px solid " + (content.heroImage ? "#c3e6cb" : "#f5d6a0"), borderRadius: 4, fontSize: 12, color: content.heroImage ? "#2e7d32" : "#92400e" }}>
+            {content.heroImage ? "Image set — will display instead of 3D product visual. Clear the field to restore 3D visual." : "No hero image set — the 3D product visual (LUMINE-C) is shown by default."}
+          </div>
+          <h4 style={{ font: "14px var(--font-display)", marginTop: 20, marginBottom: 14, color: "var(--purple)" }}>Hero Copy & Calls to Action</h4>
           <div style={{ display: "grid", gap: 12 }}>
             <div>
               <label style={labelStyle}>Eyebrow Subheading</label>
@@ -714,6 +753,7 @@ export default function HomepageSectionEdit({ item, onSave }: Props) {
               />
             </div>
           </div>
+          <CollectionProductPicker content={content} updateContent={updateContent} />
         </div>
       )}
 
@@ -1367,6 +1407,127 @@ export default function HomepageSectionEdit({ item, onSave }: Props) {
           {saving ? "Saving…" : "💾 Save & Publish Section"}
         </button>
       </div>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────────────────── */
+/* Collection Product Picker                                                 */
+/* ────────────────────────────────────────────────────────────────────────── */
+function CollectionProductPicker({ content, updateContent }: { content: Record<string, unknown>; updateContent: (k: string, v: unknown) => void }) {
+  const [products, setProducts] = useState<Array<{ id: string; name: string; price: number; image: string; category: string; slug: string }>>([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [showPicker, setShowPicker] = useState(false);
+
+  const selectedIds: string[] = (content.selectedProductIds as string[]) || [];
+  const categoryFilter: string[] = (content.selectedCategoryFilter as string[]) || [];
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then(r => r.json())
+      .then(d => setProducts(d.products || []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const allCategories = [...new Set(products.map(p => p.category).filter(Boolean))];
+
+  const filteredProducts = products.filter(p => {
+    const matchesSearch = !search || `${p.name} ${p.category}`.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = categoryFilter.length === 0 || categoryFilter.includes(p.category);
+    return matchesSearch && matchesCategory;
+  });
+
+  const toggle = (id: string) => {
+    const next = selectedIds.includes(id) ? selectedIds.filter(x => x !== id) : [...selectedIds, id];
+    updateContent("selectedProductIds", next);
+  };
+
+  const selectAll = () => {
+    updateContent("selectedProductIds", filteredProducts.map(p => p.id));
+  };
+
+  const deselectAll = () => {
+    updateContent("selectedProductIds", []);
+  };
+
+  const toggleCategory = (cat: string) => {
+    const next = categoryFilter.includes(cat) ? categoryFilter.filter(x => x !== cat) : [...categoryFilter, cat];
+    updateContent("selectedCategoryFilter", next);
+  };
+
+  const btnSmall = { padding: "4px 10px", fontSize: 11, border: "1px solid var(--line)", borderRadius: 4, background: "#fff", cursor: "pointer" as const };
+
+  return (
+    <div style={{ marginTop: 16, padding: 16, background: "#fff", border: "1px solid var(--line)", borderRadius: 6 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+        <h5 style={{ font: "bold 12px var(--font-display)", color: "var(--purple)", margin: 0 }}>Product Selection</h5>
+        <button onClick={() => setShowPicker(!showPicker)} style={{ ...btnSmall, background: showPicker ? "var(--purple)" : "#fff", color: showPicker ? "#fff" : "var(--purple)", fontWeight: 700 }}>
+          {showPicker ? "Hide Picker" : "Choose Products"}
+        </button>
+      </div>
+
+      {selectedIds.length > 0 && !showPicker && (
+        <p style={{ fontSize: 12, color: "var(--muted)", margin: 0 }}>{selectedIds.length} product(s) selected</p>
+      )}
+
+      {categoryFilter.length > 0 && (
+        <div style={{ marginBottom: 10 }}>
+          <label style={{ ...labelStyle, marginBottom: 6 }}>Category Filter</label>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+            {categoryFilter.map(cat => (
+              <span key={cat} style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "3px 8px", background: "var(--purple)", color: "#fff", borderRadius: 12, fontSize: 11 }}>
+                {cat}
+                <button onClick={() => toggleCategory(cat)} style={{ background: "none", border: "none", color: "#fff", cursor: "pointer", padding: 0, fontSize: 13, lineHeight: 1 }}>×</button>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {showPicker && (
+        <div style={{ border: "1px solid var(--line)", borderRadius: 4, overflow: "hidden" }}>
+          <div style={{ padding: 10, background: "#faf8f5", borderBottom: "1px solid var(--line)" }}>
+            <div style={{ display: "flex", gap: 8, marginBottom: 8, flexWrap: "wrap" }}>
+              <input
+                placeholder="Search products…"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                style={{ ...inputStyle, flex: 1, minWidth: 140 }}
+              />
+              <button onClick={selectAll} style={{ ...btnSmall, background: "var(--purple)", color: "#fff" }}>Select All</button>
+              <button onClick={deselectAll} style={btnSmall}>Deselect All</button>
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+              <span style={{ fontSize: 11, fontWeight: 700, color: "#2A0F3A", alignSelf: "center" }}>Filter:</span>
+              {allCategories.map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => toggleCategory(cat)}
+                  style={{ ...btnSmall, background: categoryFilter.includes(cat) ? "var(--purple)" : "#fff", color: categoryFilter.includes(cat) ? "#fff" : "#2A0F3A" }}
+                >{cat}</button>
+              ))}
+            </div>
+          </div>
+          <div style={{ maxHeight: 300, overflowY: "auto", padding: 8 }}>
+            {loading && <p style={{ fontSize: 12, color: "var(--muted)", textAlign: "center" }}>Loading…</p>}
+            {!loading && filteredProducts.length === 0 && <p style={{ fontSize: 12, color: "var(--muted)", textAlign: "center" }}>No products found.</p>}
+            {filteredProducts.map(p => (
+              <label key={p.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 8px", borderRadius: 4, cursor: "pointer", background: selectedIds.includes(p.id) ? "#f3e8ff" : "transparent", transition: "background .15s" }}>
+                <input type="checkbox" checked={selectedIds.includes(p.id)} onChange={() => toggle(p.id)} style={{ accentColor: "var(--purple)" }} />
+                <div style={{ width: 36, height: 36, borderRadius: 4, background: "#f0f0f0", overflow: "hidden", flexShrink: 0 }}>
+                  {p.image && <img src={p.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 12, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.name}</div>
+                  <div style={{ fontSize: 11, color: "var(--muted)" }}>{p.category} · ₹{p.price.toLocaleString("en-IN")}</div>
+                </div>
+              </label>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -85,6 +85,8 @@ export default function QueensCareExperience() {
     bg?: string;
     textColor?: string;
   }>({});
+  const [headerNav, setHeaderNav] = useState<Array<{label:string;href:string;visible:boolean;sort:number}>>([]);
+  const [footerLinks, setFooterLinks] = useState<Array<{section:string;links:Array<{label:string;href:string;visible:boolean;sort:number}>}>>([]);
 
   useEffect(() => {
     fetch("/api/auth/me").then(r=>r.json()).then(d=>{ if(d.user) setUser(d.user); }).catch(()=>{});
@@ -105,6 +107,8 @@ export default function QueensCareExperience() {
         if(s.key==='footer_copyright' && s.value) setFooterSettings(prev => ({ ...prev, copyright: s.value }));
         if(s.key==='footer_bg' && s.value) setFooterSettings(prev => ({ ...prev, bg: s.value }));
         if(s.key==='footer_text_color' && s.value) setFooterSettings(prev => ({ ...prev, textColor: s.value }));
+        if(s.key==='header_nav' && s.value) { try { setHeaderNav(JSON.parse(s.value)); } catch {} }
+        if(s.key==='footer_links' && s.value) { try { setFooterLinks(JSON.parse(s.value)); } catch {} }
       });
     }).catch(()=>{});
     fetch("/api/homepage").then(r=>r.json()).then(d=>{ if(d.sections?.length) setHpSections(d.sections); }).catch(()=>{});
@@ -292,6 +296,19 @@ export default function QueensCareExperience() {
       }
 
       case "collection": {
+        const selectedIds: string[] = Array.isArray(c.selectedProductIds) ? c.selectedProductIds as string[] : [];
+        const catFilter: string[] = Array.isArray(c.selectedCategoryFilter) ? c.selectedCategoryFilter as string[] : [];
+        const collectionProducts = (() => {
+          if (selectedIds.length > 0) {
+            const idSet = new Set(selectedIds);
+            return products.filter(p => idSet.has(p.id));
+          }
+          if (catFilter.length > 0) {
+            const catSet = new Set(catFilter);
+            return products.filter(p => catSet.has(p.category));
+          }
+          return shown;
+        })();
         return (
           <section className="collection section" id="collection" key={sec.id ? String(sec.id) : `collection-${idx}`} style={secStyle}>
             <div className="section-head">
@@ -313,7 +330,7 @@ export default function QueensCareExperience() {
             ) : (
               <>
                 <div className="product-grid">
-                  {shown.map((product) => (
+                  {collectionProducts.map((product) => (
                     <Link href={`/products/${product.slug}`} key={product.id} style={{ textDecoration: "none", color: "inherit" }}>
                       <article className="product">
                         <div className="product-image">
@@ -337,7 +354,7 @@ export default function QueensCareExperience() {
                     </Link>
                   ))}
                 </div>
-                {shown.length === 0 && products.length > 0 && (
+                {collectionProducts.length === 0 && products.length > 0 && (
                   <p className="empty">No results yet. Try &ldquo;wellness&rdquo; or choose a care category above.</p>
                 )}
               </>
@@ -647,12 +664,19 @@ export default function QueensCareExperience() {
           <span>QUEENS<br/><b>CARE</b></span>
         </Link>
         <nav className={menu ? "open" : ""}>
-          <a href="#collection">Shop</a>
-          <Link href="/about">About</Link>
-          <a href="#science">Our science</a>
-          <Link href="/blog">Blog</Link>
-          {isEmployeeVisibleInHeader && <Link href="/employee">Our team</Link>}
-          <Link href="/contact">Contact</Link>
+          {(headerNav.length > 0 ? headerNav.filter(n => n.visible !== false).sort((a,b) => (a.sort ?? 0) - (b.sort ?? 0)) : [
+            { label: "Shop", href: "/#collection" },
+            { label: "About", href: "/about" },
+            { label: "Our science", href: "/#science" },
+            { label: "Blog", href: "/blog" },
+            ...(isEmployeeVisibleInHeader ? [{ label: "Our team", href: "/employee" }] : []),
+            { label: "Contact", href: "/contact" }
+          ]).map((item) => {
+            const isExternal = item.href.startsWith("http");
+            if (isExternal) return <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer">{item.label}</a>;
+            if (item.href.startsWith("#")) return <a key={item.label} href={item.href}>{item.label}</a>;
+            return <Link key={item.label} href={item.href}>{item.label}</Link>;
+          })}
         </nav>
         <div className="nav-actions">
           <Link href="/account" style={{ fontSize: 12, textDecoration: "none", color: "var(--ink)", marginRight: 8, display: "flex", alignItems: "center", gap: 4 }} aria-label="Account">
@@ -713,34 +737,44 @@ export default function QueensCareExperience() {
           </form>
         </div>
       <div className="footer-links">
-        <div>
-          <b>Shop</b>
-          <Link href="/#collection">All care</Link>
-          <Link href="/shop">Best sellers</Link>
-          <Link href="/store-locator">Store locator</Link>
-          <Link href="/b2b">B2B portal</Link>
-        </div>
-        <div>
-          <b>About</b>
-          <Link href="/about">Our story</Link>
-          <Link href="/blog">Journal</Link>
-          {isEmployeeVisibleInFooter && <Link href="/employee">Our team</Link>}
-          <Link href="/careers">Careers</Link>
-          <Link href="/contact">Contact</Link>
-        </div>
-        <div>
-          <b>Support</b>
-          <Link href="/faq">FAQ</Link>
-          <Link href="/track-order">Track order</Link>
-          <Link href="/privacy">Privacy</Link>
-          <Link href="/terms">Terms</Link>
-        </div>
-        <div>
-          <b>Partnerships</b>
-          <Link href="/doctors">Doctor portal</Link>
-          <Link href="/b2b">Distributor portal</Link>
-          <Link href="/affiliate">Become an Affiliate</Link>
-        </div>
+        {(footerLinks.length > 0 ? footerLinks : [
+          { section: "Shop", links: [
+            { label: "All care", href: "/#collection", visible: true, sort: 0 },
+            { label: "Best sellers", href: "/shop", visible: true, sort: 1 },
+            { label: "Store locator", href: "/store-locator", visible: true, sort: 2 },
+            { label: "B2B portal", href: "/b2b", visible: true, sort: 3 }
+          ]},
+          { section: "About", links: [
+            { label: "Our story", href: "/about", visible: true, sort: 4 },
+            { label: "Journal", href: "/blog", visible: true, sort: 5 },
+            ...(isEmployeeVisibleInFooter ? [{ label: "Our team", href: "/employee", visible: true, sort: 6 }] : []),
+            { label: "Careers", href: "/careers", visible: true, sort: 7 },
+            { label: "Contact", href: "/contact", visible: true, sort: 8 }
+          ]},
+          { section: "Support", links: [
+            { label: "FAQ", href: "/faq", visible: true, sort: 9 },
+            { label: "Track order", href: "/track-order", visible: true, sort: 10 },
+            { label: "Privacy", href: "/privacy", visible: true, sort: 11 },
+            { label: "Terms", href: "/terms", visible: true, sort: 12 }
+          ]},
+          { section: "Partnerships", links: [
+            { label: "Doctor portal", href: "/doctors", visible: true, sort: 13 },
+            { label: "Distributor portal", href: "/b2b", visible: true, sort: 14 },
+            { label: "Become an Affiliate", href: "/affiliate", visible: true, sort: 15 }
+          ]}
+        ]).map((section) => {
+          const visibleLinks = section.links.filter(l => l.visible !== false).sort((a,b) => (a.sort ?? 0) - (b.sort ?? 0));
+          if (visibleLinks.length === 0) return null;
+          return (
+            <div key={section.section}>
+              <b>{section.section}</b>
+              {visibleLinks.map((link) => {
+                if (link.href.startsWith("#")) return <a key={link.label} href={link.href}>{link.label}</a>;
+                return <Link key={link.label} href={link.href}>{link.label}</Link>;
+              })}
+            </div>
+          );
+        })}
       </div>
       <div className="footer-bottom">
         <span>© 2026 Queens Care Laboratories. All rights reserved.</span>
