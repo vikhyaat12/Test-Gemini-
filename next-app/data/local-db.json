@@ -67,7 +67,7 @@
     {
       "id": "p-liko-q",
       "slug": "liko-q-suspension",
-      "name": "Liko-Q Suspension (200ml)",
+      "name": "Lumine-C Clinical Radiance 9266",
       "brand": "Queens Care",
       "description": "Lycopene, Multivitamins & Multiminerals Oral Suspension in delicious orange flavour. Pharmaceutical-grade cellular antioxidant vitality formula designed to promote overall well-being, immune resilience, and cardiovascular health.",
       "shortDescription": "Lycopene with Vitamin A, E, C, Zinc Gluconate & Selenium in delicious orange flavour.",
@@ -125,7 +125,7 @@
         }
       ],
       "createdAt": "2026-08-30T19:00:00.000Z",
-      "updatedAt": "2026-08-30T19:13:53.968Z",
+      "updatedAt": "2026-08-31T18:17:19.962Z",
       "thumbnail": "/uploads/liko-q-suspension.png",
       "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "videos": [
@@ -145,7 +145,7 @@
       "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
       "gifUrl": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnEzbXB3dzVqMDhkczhyYnk1NG9oZ3dtMDk0ZDRhNXlncXZ6bDVybyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjRrfIPjeiVyM/giphy.gif",
       "gifBadge": true,
-      "aplusTemplateId": "aplus-mtg6tzng",
+      "aplusTemplateId": "aplus-mthk93ga",
       "aplusPublished": true,
       "aplusContent": [
         {
@@ -764,6 +764,91 @@
       "featured": false,
       "published": true,
       "visible": true
+    },
+    {
+      "id": "bp-mthg1hoq",
+      "createdAt": "2026-08-31T16:19:26.282Z",
+      "updatedAt": "2026-08-31T16:19:26.282Z",
+      "slug": "science-report-1788193166267",
+      "title": "Formulation Efficacy Report 6267",
+      "excerpt": "Deep dive into topical antioxidant bioavailability.",
+      "body": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "content": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "category": "Science",
+      "author": "Dr. Vikram Singhania",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1200&q=85",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "featured": false,
+      "published": true,
+      "visible": true
+    },
+    {
+      "id": "bp-mthi3398",
+      "createdAt": "2026-08-31T17:16:40.124Z",
+      "updatedAt": "2026-08-31T17:16:40.124Z",
+      "slug": "science-report-1788196600112",
+      "title": "Formulation Efficacy Report 0112",
+      "excerpt": "Deep dive into topical antioxidant bioavailability.",
+      "body": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "content": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "category": "Science",
+      "author": "Dr. Vikram Singhania",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1200&q=85",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "featured": false,
+      "published": true,
+      "visible": true
+    },
+    {
+      "id": "bp-mthixfpw",
+      "createdAt": "2026-08-31T17:40:15.957Z",
+      "updatedAt": "2026-08-31T17:40:15.957Z",
+      "slug": "science-report-1788198015950",
+      "title": "Formulation Efficacy Report 5950",
+      "excerpt": "Deep dive into topical antioxidant bioavailability.",
+      "body": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "content": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "category": "Science",
+      "author": "Dr. Vikram Singhania",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1200&q=85",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "featured": false,
+      "published": true,
+      "visible": true
+    },
+    {
+      "id": "bp-mthk01x1",
+      "createdAt": "2026-08-31T18:10:17.653Z",
+      "updatedAt": "2026-08-31T18:10:17.653Z",
+      "slug": "science-report-1788199817638",
+      "title": "Formulation Efficacy Report 7638",
+      "excerpt": "Deep dive into topical antioxidant bioavailability.",
+      "body": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "content": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "category": "Science",
+      "author": "Dr. Vikram Singhania",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1200&q=85",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "featured": false,
+      "published": true,
+      "visible": true
+    },
+    {
+      "id": "bp-mthk9434",
+      "createdAt": "2026-08-31T18:17:20.368Z",
+      "updatedAt": "2026-08-31T18:17:20.368Z",
+      "slug": "science-report-1788200240354",
+      "title": "Formulation Efficacy Report 0354",
+      "excerpt": "Deep dive into topical antioxidant bioavailability.",
+      "body": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "content": "<p>Clinical evaluation demonstrates high antioxidant retention under ambient light conditions.</p>",
+      "category": "Science",
+      "author": "Dr. Vikram Singhania",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1200&q=85",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "featured": false,
+      "published": true,
+      "visible": true
     }
   ],
   "employees": [
@@ -776,11 +861,12 @@
       "photo": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=85",
       "phone": "+91 98111 44556",
       "email": "dr.singhania@queenscare.in",
-      "bio": "Lead Research Formulator. Verification timestamp: 1788117233876",
+      "bio": "Lead Research Formulator. Verification timestamp: 1788200239882",
       "slug": "vikram-singhania",
       "active": true,
       "createdAt": "2026-08-29T07:59:01.686Z",
-      "updatedAt": "2026-08-30T19:13:53.887Z"
+      "updatedAt": "2026-09-01T18:33:18.130Z",
+      "featured": true
     },
     {
       "id": "emp-1",
@@ -854,6 +940,222 @@
       "email": "vikram.singhania@queenscare.in",
       "bio": "Dr. Vikram Singhania leads the advanced clinical dermatology and antioxidant stabilization programs at Queens Care Laboratories. He holds dual doctorates in Molecular Dermatology and Clinical Pharmacology from King's College London, with over 18 peer-reviewed publications on ascorbic acid transdermal bioavailability.",
       "active": true,
+      "gallery": [
+        {
+          "url": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+          "caption": "ISO Class 5 Cleanroom Formulation Suite"
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=85",
+          "caption": "Spectrometry & Bioavailability Assay"
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=85",
+          "caption": "Clinical Trial Phase III Results Evaluation"
+        }
+      ],
+      "videos": [
+        {
+          "id": "emp-vid-1",
+          "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "title": "Keynote Address: Dermal Penetration of Micro-Encapsulated Ascorbic Acid",
+          "posterUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85"
+        },
+        {
+          "id": "emp-vid-2",
+          "url": "https://www.w3schools.com/html/mov_bbb.mp4",
+          "title": "Laboratory Cleanroom Tour & Quality Control Walkthrough",
+          "posterUrl": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=85"
+        }
+      ],
+      "photoSettings": {
+        "desktopSize": 240,
+        "mobileSize": 150,
+        "borderRadius": 50,
+        "borderWidth": 6,
+        "borderColor": "#D4AF37",
+        "objectFit": "cover",
+        "shadow": true
+      }
+    },
+    {
+      "id": "rec-mtit9nt7-v4ewc",
+      "createdAt": "2026-09-01T15:17:28.651Z",
+      "updatedAt": "2026-09-01T15:17:28.751Z",
+      "name": "Dr. Vikram Singhania, M.D., Ph.D.",
+      "slug": "dr-vikram-singhania-lead-8639",
+      "employeeId": "QCL-DIR-8801",
+      "designation": "Chief Medical Director & Senior Formulation Lead",
+      "department": "Clinical Dermatology & Pharmaceutical R&D",
+      "photo": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=85",
+      "profileImage": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=85",
+      "phone": "+91 98201 54321",
+      "email": "vikram.singhania@queenscare.in",
+      "bio": "Dr. Vikram Singhania leads the advanced clinical dermatology and antioxidant stabilization programs at Queens Care Laboratories. He holds dual doctorates in Molecular Dermatology and Clinical Pharmacology from King's College London, with over 18 peer-reviewed publications on ascorbic acid transdermal bioavailability.",
+      "active": true,
+      "verified": true,
+      "gallery": [
+        {
+          "url": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+          "caption": "ISO Class 5 Cleanroom Formulation Suite"
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=85",
+          "caption": "Spectrometry & Bioavailability Assay"
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=85",
+          "caption": "Clinical Trial Phase III Results Evaluation"
+        }
+      ],
+      "videos": [
+        {
+          "id": "emp-vid-1",
+          "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "title": "Keynote Address: Dermal Penetration of Micro-Encapsulated Ascorbic Acid",
+          "posterUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85"
+        },
+        {
+          "id": "emp-vid-2",
+          "url": "https://www.w3schools.com/html/mov_bbb.mp4",
+          "title": "Laboratory Cleanroom Tour & Quality Control Walkthrough",
+          "posterUrl": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=85"
+        }
+      ],
+      "photoSettings": {
+        "desktopSize": 240,
+        "mobileSize": 150,
+        "borderRadius": 50,
+        "borderWidth": 6,
+        "borderColor": "#D4AF37",
+        "objectFit": "cover",
+        "shadow": true
+      }
+    },
+    {
+      "id": "rec-mtitcik9-7xhdr",
+      "createdAt": "2026-09-01T15:19:41.817Z",
+      "updatedAt": "2026-09-01T15:19:42.391Z",
+      "name": "Dr. Vikram Singhania, M.D., Ph.D.",
+      "slug": "dr-vikram-singhania-lead-1811",
+      "employeeId": "QCL-DIR-8801",
+      "designation": "Chief Medical Director & Senior Formulation Lead",
+      "department": "Clinical Dermatology & Pharmaceutical R&D",
+      "photo": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=85",
+      "profileImage": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=85",
+      "phone": "+91 98201 54321",
+      "email": "vikram.singhania@queenscare.in",
+      "bio": "Dr. Vikram Singhania leads the advanced clinical dermatology and antioxidant stabilization programs at Queens Care Laboratories. He holds dual doctorates in Molecular Dermatology and Clinical Pharmacology from King's College London, with over 18 peer-reviewed publications on ascorbic acid transdermal bioavailability.",
+      "active": true,
+      "verified": true,
+      "gallery": [
+        {
+          "url": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+          "caption": "ISO Class 5 Cleanroom Formulation Suite"
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=85",
+          "caption": "Spectrometry & Bioavailability Assay"
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=85",
+          "caption": "Clinical Trial Phase III Results Evaluation"
+        }
+      ],
+      "videos": [
+        {
+          "id": "emp-vid-1",
+          "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "title": "Keynote Address: Dermal Penetration of Micro-Encapsulated Ascorbic Acid",
+          "posterUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85"
+        },
+        {
+          "id": "emp-vid-2",
+          "url": "https://www.w3schools.com/html/mov_bbb.mp4",
+          "title": "Laboratory Cleanroom Tour & Quality Control Walkthrough",
+          "posterUrl": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=85"
+        }
+      ],
+      "photoSettings": {
+        "desktopSize": 240,
+        "mobileSize": 150,
+        "borderRadius": 50,
+        "borderWidth": 6,
+        "borderColor": "#D4AF37",
+        "objectFit": "cover",
+        "shadow": true
+      }
+    },
+    {
+      "id": "rec-mtitg435-c75dr",
+      "createdAt": "2026-09-01T15:22:29.681Z",
+      "updatedAt": "2026-09-01T15:22:29.851Z",
+      "name": "Dr. Vikram Singhania, M.D., Ph.D.",
+      "slug": "dr-vikram-singhania-lead-9672",
+      "employeeId": "QCL-DIR-8801",
+      "designation": "Chief Medical Director & Senior Formulation Lead",
+      "department": "Clinical Dermatology & Pharmaceutical R&D",
+      "photo": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=85",
+      "profileImage": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=85",
+      "phone": "+91 98201 54321",
+      "email": "vikram.singhania@queenscare.in",
+      "bio": "Dr. Vikram Singhania leads the advanced clinical dermatology and antioxidant stabilization programs at Queens Care Laboratories. He holds dual doctorates in Molecular Dermatology and Clinical Pharmacology from King's College London, with over 18 peer-reviewed publications on ascorbic acid transdermal bioavailability.",
+      "active": true,
+      "verified": true,
+      "gallery": [
+        {
+          "url": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+          "caption": "ISO Class 5 Cleanroom Formulation Suite"
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=85",
+          "caption": "Spectrometry & Bioavailability Assay"
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=85",
+          "caption": "Clinical Trial Phase III Results Evaluation"
+        }
+      ],
+      "videos": [
+        {
+          "id": "emp-vid-1",
+          "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "title": "Keynote Address: Dermal Penetration of Micro-Encapsulated Ascorbic Acid",
+          "posterUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85"
+        },
+        {
+          "id": "emp-vid-2",
+          "url": "https://www.w3schools.com/html/mov_bbb.mp4",
+          "title": "Laboratory Cleanroom Tour & Quality Control Walkthrough",
+          "posterUrl": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=85"
+        }
+      ],
+      "photoSettings": {
+        "desktopSize": 240,
+        "mobileSize": 150,
+        "borderRadius": 50,
+        "borderWidth": 6,
+        "borderColor": "#D4AF37",
+        "objectFit": "cover",
+        "shadow": true
+      }
+    },
+    {
+      "id": "rec-mtj090e6-r0dok",
+      "createdAt": "2026-09-01T18:32:55.614Z",
+      "updatedAt": "2026-09-01T18:32:55.725Z",
+      "name": "Dr. Vikram Singhania, M.D., Ph.D.",
+      "slug": "dr-vikram-singhania-lead-5603",
+      "employeeId": "QCL-DIR-8801",
+      "designation": "Chief Medical Director & Senior Formulation Lead",
+      "department": "Clinical Dermatology & Pharmaceutical R&D",
+      "photo": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=85",
+      "profileImage": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=85",
+      "phone": "+91 98201 54321",
+      "email": "vikram.singhania@queenscare.in",
+      "bio": "Dr. Vikram Singhania leads the advanced clinical dermatology and antioxidant stabilization programs at Queens Care Laboratories. He holds dual doctorates in Molecular Dermatology and Clinical Pharmacology from King's College London, with over 18 peer-reviewed publications on ascorbic acid transdermal bioavailability.",
+      "active": true,
+      "verified": true,
       "gallery": [
         {
           "url": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
@@ -979,6 +1281,165 @@
       "status": "pending",
       "createdAt": "2026-08-29T07:59:01.686Z",
       "updatedAt": "2026-08-29T07:59:01.686Z"
+    },
+    {
+      "id": "rec-mthfzsfd-465s9",
+      "createdAt": "2026-08-31T16:18:06.889Z",
+      "updatedAt": "2026-08-31T16:18:06.889Z",
+      "company": "Apex Medisurg Distributors LLP",
+      "name": "Vikram Malhotra",
+      "email": "vikram@apexmedisurg.in",
+      "phone": "+91 98111 22334",
+      "type": "distributor",
+      "message": "Looking for exclusive regional distribution rights for Queens Care Laboratories.",
+      "status": "pending"
+    },
+    {
+      "id": "rec-mthg05os-w9uij",
+      "createdAt": "2026-08-31T16:18:24.076Z",
+      "updatedAt": "2026-08-31T16:18:24.076Z",
+      "company": "Apex Medisurg Distributors LLP",
+      "name": "Vikram Malhotra",
+      "email": "vikram@apexmedisurg.in",
+      "phone": "+91 98111 22334",
+      "type": "distributor",
+      "message": "Looking for exclusive regional distribution rights for Queens Care Laboratories.",
+      "status": "pending"
+    },
+    {
+      "id": "rec-mthhuqe0-h58h8",
+      "createdAt": "2026-08-31T17:10:10.200Z",
+      "updatedAt": "2026-08-31T17:10:10.200Z",
+      "company": "Apex Medisurg Distributors LLP",
+      "name": "Vikram Malhotra",
+      "email": "vikram@apexmedisurg.in",
+      "phone": "+91 98111 22334",
+      "type": "distributor",
+      "message": "Looking for exclusive regional distribution rights for Queens Care Laboratories.",
+      "status": "pending"
+    },
+    {
+      "id": "rec-mthhwjkp-w1qxj",
+      "createdAt": "2026-08-31T17:11:34.681Z",
+      "updatedAt": "2026-08-31T17:11:34.681Z",
+      "company": "Apex Medisurg Distributors LLP",
+      "name": "Vikram Malhotra",
+      "email": "vikram@apexmedisurg.in",
+      "phone": "+91 98111 22334",
+      "type": "distributor",
+      "message": "Looking for exclusive regional distribution rights for Queens Care Laboratories.",
+      "status": "pending"
+    },
+    {
+      "id": "rec-mthhwwg4-ov7wx",
+      "createdAt": "2026-08-31T17:11:51.364Z",
+      "updatedAt": "2026-08-31T17:11:51.364Z",
+      "company": "Apex Medisurg Distributors LLP",
+      "name": "Vikram Malhotra",
+      "email": "vikram@apexmedisurg.in",
+      "phone": "+91 98111 22334",
+      "type": "distributor",
+      "message": "Looking for exclusive regional distribution rights for Queens Care Laboratories.",
+      "status": "pending"
+    },
+    {
+      "id": "rec-mthhx2ma-kj0qs",
+      "createdAt": "2026-08-31T17:11:59.362Z",
+      "updatedAt": "2026-08-31T17:11:59.362Z",
+      "company": "Apex Medisurg Distributors LLP",
+      "name": "Vikram Malhotra",
+      "email": "vikram@apexmedisurg.in",
+      "phone": "+91 98111 22334",
+      "type": "distributor",
+      "message": "Looking for exclusive regional distribution rights for Queens Care Laboratories.",
+      "status": "pending"
+    },
+    {
+      "id": "rec-mthi23tc-rnayn",
+      "createdAt": "2026-08-31T17:15:54.192Z",
+      "updatedAt": "2026-08-31T17:15:54.192Z",
+      "company": "Apex Medisurg Distributors LLP",
+      "name": "Vikram Malhotra",
+      "email": "vikram@apexmedisurg.in",
+      "phone": "+91 98111 22334",
+      "type": "distributor",
+      "message": "Looking for exclusive regional distribution rights for Queens Care Laboratories.",
+      "status": "pending"
+    },
+    {
+      "id": "QC-B2B-MTHIW2DR-HCB4",
+      "createdAt": "2026-08-31T17:39:12.015Z",
+      "updatedAt": "2026-08-31T17:39:12.015Z",
+      "company": "Apex Medisurg Distributors LLP",
+      "businessType": "distributor",
+      "name": "Vikram Malhotra",
+      "email": "vikram@apexmedisurg.in",
+      "phone": "+91 98111 22334",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "country": "India",
+      "pincode": "400001",
+      "gstNumber": "27AAACA1234A1Z5",
+      "drugLicence": "MH-WZ-2024-9988",
+      "partnershipType": "distributor",
+      "type": "distributor",
+      "productInterest": "Liko-Q 200ml Suspension, Lumine-C Topical Serum",
+      "requirementVolume": "2,500 units/month",
+      "territory": "Western Maharashtra & Goa",
+      "existingBrands": "Leading distributor of clinical dermatological and nutritional therapeutics across 240+ pharmacies.",
+      "message": "Looking for exclusive regional distribution rights for Queens Care Laboratories.",
+      "consent": true,
+      "status": "new"
+    },
+    {
+      "id": "QC-B2B-MTHJZFXZ-J3YC",
+      "createdAt": "2026-08-31T18:09:49.175Z",
+      "updatedAt": "2026-08-31T18:09:49.175Z",
+      "company": "Apex Medisurg Distributors LLP",
+      "businessType": "distributor",
+      "name": "Vikram Malhotra",
+      "email": "vikram@apexmedisurg.in",
+      "phone": "+91 98111 22334",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "country": "India",
+      "pincode": "400001",
+      "gstNumber": "27AAACA1234A1Z5",
+      "drugLicence": "MH-WZ-2024-9988",
+      "partnershipType": "distributor",
+      "type": "distributor",
+      "productInterest": "Liko-Q 200ml Suspension, Lumine-C Topical Serum",
+      "requirementVolume": "2,500 units/month",
+      "territory": "Western Maharashtra & Goa",
+      "existingBrands": "Leading distributor of clinical dermatological and nutritional therapeutics across 240+ pharmacies.",
+      "message": "Looking for exclusive regional distribution rights for Queens Care Laboratories.",
+      "consent": true,
+      "status": "new"
+    },
+    {
+      "id": "QC-B2B-MTHK8I9W-YXC7",
+      "createdAt": "2026-08-31T18:16:52.100Z",
+      "updatedAt": "2026-08-31T18:16:52.100Z",
+      "company": "Apex Medisurg Distributors LLP",
+      "businessType": "distributor",
+      "name": "Vikram Malhotra",
+      "email": "vikram@apexmedisurg.in",
+      "phone": "+91 98111 22334",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "country": "India",
+      "pincode": "400001",
+      "gstNumber": "27AAACA1234A1Z5",
+      "drugLicence": "MH-WZ-2024-9988",
+      "partnershipType": "distributor",
+      "type": "distributor",
+      "productInterest": "Liko-Q 200ml Suspension, Lumine-C Topical Serum",
+      "requirementVolume": "2,500 units/month",
+      "territory": "Western Maharashtra & Goa",
+      "existingBrands": "Leading distributor of clinical dermatological and nutritional therapeutics across 240+ pharmacies.",
+      "message": "Looking for exclusive regional distribution rights for Queens Care Laboratories.",
+      "consent": true,
+      "status": "new"
     }
   ],
   "distributors": [
@@ -994,6 +1455,102 @@
       "creditLimit": 250000,
       "createdAt": "2026-08-29T07:59:01.686Z",
       "updatedAt": "2026-08-29T07:59:01.686Z"
+    },
+    {
+      "id": "rec-mthivvya-ruwpe",
+      "createdAt": "2026-08-31T17:39:03.682Z",
+      "updatedAt": "2026-08-31T17:39:03.682Z",
+      "applicationId": "QC-B2B-MTHIVVWF-62EX",
+      "company": "Apex Biocare Distribution LLP 1788197943416",
+      "contactName": "Vikramaditya Singhania",
+      "email": "commercial.director.1788197943416@testb2bpharma.in",
+      "phone": "+91 98200 11223",
+      "status": "approved",
+      "pricingTier": "Tier 1 - Wholesale"
+    },
+    {
+      "id": "rec-mthjzakn-i2iq8",
+      "createdAt": "2026-08-31T18:09:42.215Z",
+      "updatedAt": "2026-08-31T18:09:42.215Z",
+      "applicationId": "QC-B2B-MTHJZAGS-PIQA",
+      "company": "Apex Biocare Distribution LLP 1788199781883",
+      "contactName": "Vikramaditya Singhania",
+      "email": "commercial.director.1788199781883@testb2bpharma.in",
+      "phone": "+91 98200 11223",
+      "status": "approved",
+      "pricingTier": "Tier 1 - Wholesale"
+    },
+    {
+      "id": "rec-mthk8e17-zho9a",
+      "createdAt": "2026-08-31T18:16:46.603Z",
+      "updatedAt": "2026-08-31T18:16:46.603Z",
+      "applicationId": "QC-B2B-MTHK8DZ5-BOBC",
+      "company": "Apex Biocare Distribution LLP 1788200206371",
+      "contactName": "Vikramaditya Singhania",
+      "email": "commercial.director.1788200206371@testb2bpharma.in",
+      "phone": "+91 98200 11223",
+      "status": "approved",
+      "pricingTier": "Tier 1 - Wholesale"
+    },
+    {
+      "id": "rec-mtit8t82-lla3g",
+      "createdAt": "2026-09-01T15:16:49.010Z",
+      "updatedAt": "2026-09-01T15:16:49.010Z",
+      "applicationId": "QC-B2B-MTIT8T53-L4T1",
+      "company": "Apex Biocare Distribution LLP 1788275808760",
+      "contactName": "Vikramaditya Singhania",
+      "email": "commercial.director.1788275808760@testb2bpharma.in",
+      "phone": "+91 98200 11223",
+      "status": "approved",
+      "pricingTier": "Tier 1 - Wholesale"
+    },
+    {
+      "id": "rec-mtit9n4a-ezpvx",
+      "createdAt": "2026-09-01T15:17:27.754Z",
+      "updatedAt": "2026-09-01T15:17:27.754Z",
+      "applicationId": "QC-B2B-MTIT9MXK-74C9",
+      "company": "Apex Biocare Distribution LLP 1788275847353",
+      "contactName": "Vikramaditya Singhania",
+      "email": "commercial.director.1788275847353@testb2bpharma.in",
+      "phone": "+91 98200 11223",
+      "status": "approved",
+      "pricingTier": "Tier 1 - Wholesale"
+    },
+    {
+      "id": "rec-mtitbj9a-pzdbk",
+      "createdAt": "2026-09-01T15:18:56.062Z",
+      "updatedAt": "2026-09-01T15:18:56.062Z",
+      "applicationId": "QC-B2B-MTITBJ72-LM04",
+      "company": "Apex Biocare Distribution LLP 1788275935855",
+      "contactName": "Vikramaditya Singhania",
+      "email": "commercial.director.1788275935855@testb2bpharma.in",
+      "phone": "+91 98200 11223",
+      "status": "approved",
+      "pricingTier": "Tier 1 - Wholesale"
+    },
+    {
+      "id": "rec-mtitei7p-120pf",
+      "createdAt": "2026-09-01T15:21:14.677Z",
+      "updatedAt": "2026-09-01T15:21:14.677Z",
+      "applicationId": "QC-B2B-MTITEI5I-HPYD",
+      "company": "Apex Biocare Distribution LLP 1788276074468",
+      "contactName": "Vikramaditya Singhania",
+      "email": "commercial.director.1788276074468@testb2bpharma.in",
+      "phone": "+91 98200 11223",
+      "status": "approved",
+      "pricingTier": "Tier 1 - Wholesale"
+    },
+    {
+      "id": "rec-mtj08zep-84v8e",
+      "createdAt": "2026-09-01T18:32:54.337Z",
+      "updatedAt": "2026-09-01T18:32:54.337Z",
+      "applicationId": "QC-B2B-MTJ08ZCP-CB9P",
+      "company": "Apex Biocare Distribution LLP 1788287574127",
+      "contactName": "Vikramaditya Singhania",
+      "email": "commercial.director.1788287574127@testb2bpharma.in",
+      "phone": "+91 98200 11223",
+      "status": "approved",
+      "pricingTier": "Tier 1 - Wholesale"
     }
   ],
   "affiliates": [
@@ -1143,7 +1700,7 @@
         "ratingCount": "12,500+ care rituals"
       },
       "createdAt": "2026-08-29T07:59:01.686Z",
-      "updatedAt": "2026-08-30T19:13:34.761Z"
+      "updatedAt": "2026-09-01T18:33:17.955Z"
     },
     {
       "id": "hs-trust",
@@ -1197,7 +1754,7 @@
         "ctaLink": "/about"
       },
       "createdAt": "2026-08-29T07:59:01.686Z",
-      "updatedAt": "2026-08-29T10:08:38.511Z"
+      "updatedAt": "2026-09-01T18:33:17.989Z"
     },
     {
       "id": "hs-announcement",
@@ -1222,7 +1779,7 @@
       "active": true,
       "visible": true,
       "createdAt": "2026-08-30T18:54:25.422Z",
-      "updatedAt": "2026-08-30T19:13:34.717Z",
+      "updatedAt": "2026-08-31T18:17:10.745Z",
       "content": {
         "productName": "LIKO-Q™",
         "subtitle": "Lycopene, Multivitamins & Minerals Suspension",
@@ -1237,6 +1794,142 @@
         "accentColor": "#D4AF37",
         "bgEffect": "studio"
       }
+    },
+    {
+      "id": "hs-ritual",
+      "title": "Build Your Ritual Cards",
+      "type": "ritual",
+      "sort": 6,
+      "active": true,
+      "visible": true,
+      "content": {
+        "eyebrow": "Build your ritual",
+        "heading": "Care that meets you<br/><em>where you are.</em>",
+        "sideText": "Not sure where to begin? Let our guided care finder create a considered starting point in under two minutes.",
+        "cards": [
+          {
+            "id": "card-1",
+            "number": "01",
+            "heading": "I want to feel<br/>more <em>energised.</em>",
+            "cta": "Discover energy care →",
+            "link": "#collection",
+            "color": "amber",
+            "bgColor": "",
+            "textColor": ""
+          },
+          {
+            "id": "card-2",
+            "number": "02",
+            "heading": "I want a calmer<br/><em>evening.</em>",
+            "cta": "Discover sleep care →",
+            "link": "#collection",
+            "color": "lavender",
+            "bgColor": "",
+            "textColor": ""
+          },
+          {
+            "id": "card-3",
+            "number": "03",
+            "heading": "I want to glow<br/>from <em>within.</em>",
+            "cta": "Discover dermal care →",
+            "link": "#collection",
+            "color": "rose",
+            "bgColor": "",
+            "textColor": ""
+          }
+        ]
+      },
+      "createdAt": "2026-09-01T18:13:52.418Z",
+      "updatedAt": "2026-09-01T18:13:52.419Z"
+    },
+    {
+      "id": "hs-testimonial",
+      "title": "Testimonial Quote Carousel",
+      "type": "testimonial",
+      "sort": 7,
+      "active": true,
+      "visible": true,
+      "content": {
+        "eyebrow": "Clinical & Member Proof",
+        "heading": "Care that earns trust, every day.",
+        "quote": "For the first time, my wellness routine feels less like a chore — and more like a quiet promise to myself.",
+        "author": "Meera Shah",
+        "attribution": "Queens Care member since 2023",
+        "useDatabaseQuotes": true
+      },
+      "createdAt": "2026-09-01T18:13:52.419Z",
+      "updatedAt": "2026-09-01T18:13:52.419Z"
+    },
+    {
+      "id": "hs-newsletter",
+      "title": "The Care Journal & Newsletter",
+      "type": "newsletter",
+      "sort": 8,
+      "active": true,
+      "visible": true,
+      "content": {
+        "eyebrow": "The care journal",
+        "heading": "Ideas, insights and<br/><em>everyday care.</em>",
+        "ctaText": "View all journal",
+        "ctaLink": "/blog",
+        "postCount": 2,
+        "newsletterHeading": "A smarter kind of inbox.",
+        "newsletterSubtitle": "Thoughtful dispatches on science, care, and living well."
+      },
+      "createdAt": "2026-09-01T18:13:52.419Z",
+      "updatedAt": "2026-09-01T18:13:52.419Z"
+    },
+    {
+      "id": "hs-affiliate",
+      "title": "Partnership & Affiliate Programme",
+      "type": "affiliate",
+      "sort": 9,
+      "active": true,
+      "visible": true,
+      "content": {
+        "eyebrow": "PARTNERSHIP PROGRAMME",
+        "heading": "Partner with Queens Care Laboratories",
+        "description": "Share science-backed formulations you believe in and earn through your personalized referral link.",
+        "stats": [
+          {
+            "value": "10%",
+            "label": "Commission"
+          },
+          {
+            "value": "30 Days",
+            "label": "Cookie Window"
+          },
+          {
+            "value": "Direct",
+            "label": "Monthly Payouts"
+          }
+        ],
+        "ctaText": "BECOME AN AFFILIATE",
+        "ctaLink": "/affiliate",
+        "imageUrl": "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=1000&q=85"
+      },
+      "createdAt": "2026-09-01T18:13:52.419Z",
+      "updatedAt": "2026-09-01T18:13:52.419Z"
+    },
+    {
+      "id": "hs-consult",
+      "title": "Doctor & Care Consultation",
+      "type": "consult",
+      "sort": 10,
+      "active": true,
+      "visible": true,
+      "content": {
+        "eyebrow": "Care, with a human on the other end",
+        "heading": "Questions deserve<br/>thoughtful answers.",
+        "description": "Our care team is here to help you make confident choices — no pressure, no jargon.",
+        "ctaText": "Talk to our care team",
+        "ctaLink": "/contact",
+        "secondaryCtaText": "For healthcare professionals",
+        "secondaryCtaLink": "/doctors",
+        "imageUrl": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1000&q=85"
+      },
+      "createdAt": "2026-09-01T18:13:52.419Z",
+      "updatedAt": "2026-09-01T18:33:18.039Z"
     }
   ],
   "settings": [
@@ -1268,7 +1961,7 @@
       "key": "theme_primary",
       "value": "#280D38",
       "group": "branding",
-      "updatedAt": "2026-08-30T19:13:53.733Z"
+      "updatedAt": "2026-08-31T18:17:19.707Z"
     },
     {
       "key": "theme_gold",
@@ -1279,9 +1972,9 @@
     {
       "id": "rec-mte80qtf-a3bvh",
       "createdAt": "2026-08-29T10:11:36.003Z",
-      "updatedAt": "2026-08-30T19:15:38.612Z",
+      "updatedAt": "2026-09-01T18:32:57.925Z",
       "key": "logo_url",
-      "value": "/uploads/logos/photo_from_vikhyaat_sikand-removebg-preview-1788117321707.png",
+      "value": "",
       "group": "branding"
     },
     {
@@ -1407,15 +2100,15 @@
     {
       "id": "rec-mtffcjfo-rwdph",
       "createdAt": "2026-08-30T06:24:29.796Z",
-      "updatedAt": "2026-08-30T19:15:38.619Z",
+      "updatedAt": "2026-09-01T18:32:57.786Z",
       "key": "logo_height_desktop",
-      "value": "45",
+      "value": "42",
       "group": "branding"
     },
     {
       "id": "rec-mtffcjg9-surch",
       "createdAt": "2026-08-30T06:24:29.817Z",
-      "updatedAt": "2026-08-30T19:15:38.630Z",
+      "updatedAt": "2026-09-01T18:32:57.800Z",
       "key": "logo_height_mobile",
       "value": "30",
       "group": "branding"
@@ -1423,10 +2116,88 @@
     {
       "id": "rec-mtffcjgn-je7ra",
       "createdAt": "2026-08-30T06:24:29.831Z",
-      "updatedAt": "2026-08-30T19:15:38.638Z",
+      "updatedAt": "2026-09-01T18:32:57.808Z",
       "key": "logo_max_width",
       "value": "200",
       "group": "branding"
+    },
+    {
+      "id": "rec-mthfzsib-gdv77",
+      "createdAt": "2026-08-31T16:18:06.995Z",
+      "updatedAt": "2026-08-31T18:16:52.209Z",
+      "key": "otp_security_config",
+      "value": "{\"emailOtpEnabled\":true,\"smsOtpEnabled\":true,\"whatsappOtpEnabled\":false,\"expiryMinutes\":10,\"maxAttempts\":4,\"resendCooldownSeconds\":45,\"emailProvider\":\"smtp\",\"smsProvider\":\"unconfigured\",\"whatsappProvider\":\"unconfigured\"}",
+      "group": "security"
+    },
+    {
+      "id": "rec-mthfzsj5-qdgh7",
+      "createdAt": "2026-08-31T16:18:07.025Z",
+      "updatedAt": "2026-08-31T18:16:52.239Z",
+      "key": "notification_rules_matrix",
+      "value": "{\"order_placed\":{\"event\":\"order_placed\",\"title\":\"Order Placed\",\"email\":true,\"sms\":false,\"whatsapp\":false,\"template\":\"Hi {{customer_name}}, order {{order_id}} placed.\"},\"order_dispatched\":{\"event\":\"order_dispatched\",\"title\":\"Order Dispatched\",\"email\":true,\"sms\":true,\"whatsapp\":true,\"template\":\"Clinical update: Hello {{customer_name}}, your Queens Care order {{order_id}} has been dispatched! Tracking: {{tracking_number}}.\"}}",
+      "group": "notifications"
+    },
+    {
+      "id": "rec-mthfzsk1-96gqr",
+      "createdAt": "2026-08-31T16:18:07.057Z",
+      "updatedAt": "2026-08-31T18:16:52.260Z",
+      "key": "googlesheets_integration_config",
+      "value": "{\"enabled\":false,\"spreadsheetId\":\"\",\"sheetName\":\"Submissions\",\"webhookUrl\":\"\",\"autoSync\":false,\"lastSyncAt\":null,\"syncStatus\":\"not_configured\"}",
+      "group": "integrations"
+    },
+    {
+      "id": "rec-mthhufjb-znc9v",
+      "createdAt": "2026-08-31T17:09:56.135Z",
+      "updatedAt": "2026-09-01T18:32:55.249Z",
+      "key": "career_page_cms_config",
+      "value": "{\"published\":true,\"visible\":true,\"showInHeader\":false,\"showInFooter\":true,\"hero\":{\"eyebrow\":\"Careers at Queens Care Laboratories\",\"heading\":\"Curiosity, Precision, and the Science of Wellbeing. (Verified QA)\",\"subtitle\":\"Build the Future of Clinical Wellness with Queens Care Laboratories.\",\"description\":\"We formulate everyday health rituals with uncompromising pharmaceutical rigor. Join our team of biochemists, quality engineers, designers, and operators building India’s standard of clinical wellness.\",\"ctaText\":\"Explore Open Opportunities\",\"ctaLink\":\"#openings\",\"ctaVisible\":true},\"cultureCards\":[{\"id\":\"cc-rd\",\"icon\":\"🔬\",\"title\":\"Evidence-Driven R&D\",\"description\":\"We formulate with active concentrations backed by published randomized control trials, rejecting filler additives and fleeting trends.\",\"visible\":true,\"sortOrder\":1},{\"id\":\"cc-standards\",\"icon\":\"👑\",\"title\":\"High Standards of Care\",\"description\":\"Every batch is manufactured in ISO cleanrooms with multi-stage microbiological and stability testing before reaching customers.\",\"visible\":true,\"sortOrder\":2},{\"id\":\"cc-growth\",\"icon\":\"🌱\",\"title\":\"Continuous Growth\",\"description\":\"We encourage learning, technical publishing, conference participation, and rapid ownership across all business functions.\",\"visible\":true,\"sortOrder\":3}],\"customSections\":[],\"recruitmentInfo\":{\"email\":\"careers@queenscare.in\",\"phone\":\"+91 (0) 11 4988 7700\",\"address\":\"Queens Care Research & Formulations Campus, Okhla Phase III, New Delhi 110020\",\"hours\":\"Monday – Friday: 9:00 AM – 6:00 PM IST\"},\"seo\":{\"metaTitle\":\"Careers & Clinical Opportunities | Queens Care Laboratories\",\"metaDescription\":\"Join Queens Care Laboratories. Explore clinical R&D, pharmaceutical quality assurance, regulatory, and e-commerce opportunities in India.\",\"keywords\":\"Queens Care Careers, Pharmaceutical Jobs, Formulations Scientist, Healthcare Careers India, Clinical R&D Jobs, Quality Assurance\",\"ogTitle\":\"Build the Future of Clinical Wellness | Queens Care Laboratories Careers\",\"ogDescription\":\"Explore clinical formulations, pharmaceutical quality assurance, and commercial healthcare roles at Queens Care Laboratories.\",\"ogImage\":\"/uploads/logos/queens-care-official-logo.png\",\"canonicalUrl\":\"https://queenscare.in/careers\"},\"notifications\":{\"adminNotificationEnabled\":true,\"adminNotificationEmail\":\"careers@queenscare.in\",\"applicantReceiptEnabled\":true}}",
+      "group": "cms"
+    },
+    {
+      "id": "rec-mthivw15-v6r9e",
+      "createdAt": "2026-08-31T17:39:03.786Z",
+      "updatedAt": "2026-09-01T18:32:54.911Z",
+      "key": "b2b_page_cms_config",
+      "value": "{\"published\":true,\"hero\":{\"eyebrow\":\"Partner with Queens Care Laboratories\",\"heading\":\"B2B & Distribution Partnerships — Western India Tier 1788287574127\",\"subtitle\":\"High-potency clinical formulations with uncompromised pharmaceutical supply chain integrity.\",\"description\":\"Queens Care Laboratories partners with distributors, clinic networks, hospital pharmacies, and clinical stockists across India. Our wholesale program offers tiered commercial margins, dedicated regulatory documentation, and priority dispatch.\",\"ctaText\":\"Apply for Partnership\",\"ctaLink\":\"#enquiry-form\",\"ctaVisible\":true,\"trustBadges\":[{\"top\":\"ISO 9001 & cGMP\",\"bottom\":\"Cleanroom Validated\",\"icon\":\"🔬\"},{\"top\":\"48-72h Metro SLA\",\"bottom\":\"Pan-India Dispatch\",\"icon\":\"🚚\"},{\"top\":\"Full Batch COA\",\"bottom\":\"Regulatory Dossiers\",\"icon\":\"📑\"},{\"top\":\"Tiered Margins\",\"bottom\":\"Protected Territories\",\"icon\":\"🛡️\"}],\"stats\":[{\"value\":\"450+\",\"label\":\"Partner Pharmacies\"},{\"value\":\"28+\",\"label\":\"Distribution Hubs\"},{\"value\":\"99.4%\",\"label\":\"On-Time Dispatch SLA\"},{\"value\":\"100%\",\"label\":\"Batch Quality Verified\"}],\"primaryCta\":{\"text\":\"Apply for Partnership\",\"link\":\"#enquiry-form\",\"visible\":true},\"secondaryCta\":{\"text\":\"Speak to Commercial Team\",\"link\":\"mailto:b2b@queenscare.in\",\"visible\":true},\"visible\":true},\"benefits\":{\"heading\":\"Wholesale & Distribution Advantages\",\"description\":\"Why medical professionals, hospital chains, and pharmaceutical stockists partner with Queens Care.\",\"visible\":true,\"cards\":[{\"id\":\"b2b-ben-1\",\"icon\":\"💎\",\"title\":\"Tiered Wholesale Margins\",\"description\":\"Attractive commercial margins designed to support sustainable retail and regional distribution growth.\",\"visible\":true,\"sortOrder\":1},{\"id\":\"b2b-ben-2\",\"icon\":\"🔬\",\"title\":\"cGMP Cleanroom Formulations\",\"description\":\"All products manufactured in ISO 9001 cleanrooms with rigorous batch release testing.\",\"visible\":true,\"sortOrder\":2},{\"id\":\"b2b-ben-3\",\"icon\":\"🚚\",\"title\":\"Priority Pan-India Dispatch\",\"description\":\"Dedicated regional fulfillment hubs with guaranteed 48-72h dispatch SLAs across metro regions.\",\"visible\":true,\"sortOrder\":3},{\"id\":\"b2b-ben-4\",\"icon\":\"📑\",\"title\":\"Complete Regulatory Dossiers\",\"description\":\"Full Certificate of Analysis (COA), stability data, and compliance documentation provided for every batch.\",\"visible\":true,\"sortOrder\":4},{\"id\":\"b2b-ben-5\",\"icon\":\"🛡️\",\"title\":\"Protected Distribution Territories\",\"description\":\"Exclusive geographical territory allocation for committed regional distributors and key stockists.\",\"visible\":true,\"sortOrder\":5},{\"id\":\"b2b-ben-6\",\"icon\":\"🤝\",\"title\":\"Dedicated Account Support\",\"description\":\"Direct access to our commercial sales managers, medical literature, and co-branded marketing assets.\",\"visible\":true,\"sortOrder\":6}]},\"partnershipTypes\":{\"heading\":\"Partnership Ecosystems\",\"description\":\"Tailored commercial structures designed for diverse healthcare and distribution partners.\",\"visible\":true,\"types\":[{\"id\":\"pt-distributor\",\"title\":\"Regional Distributors\",\"badge\":\"High Volume\",\"description\":\"Exclusive territory distribution for established pharmaceutical stockists with state-wide supply networks.\",\"perks\":[\"Territory exclusivity\",\"Maximum commercial margin tier\",\"Dedicated freight support\"],\"visible\":true,\"sortOrder\":1},{\"id\":\"pt-pharmacy\",\"title\":\"Pharmacies & Retail Chains\",\"badge\":\"Direct Retail\",\"description\":\"Direct wholesale supply for licensed chemist networks, standalone retail pharmacies, and wellness stores.\",\"perks\":[\"Low MOQ requirements\",\"Point-of-sale display material\",\"Rapid inventory replenishment\"],\"visible\":true,\"sortOrder\":2},{\"id\":\"pt-clinic\",\"title\":\"Clinics & Hospital Supply\",\"badge\":\"Institutional\",\"description\":\"Institutional supply for dermatology clinics, aesthetic practices, and healthcare hospital networks.\",\"perks\":[\"Clinical batch COAs\",\"Institutional pricing\",\"Doctor sample allocations\"],\"visible\":true,\"sortOrder\":3},{\"id\":\"pt-corporate\",\"title\":\"Corporate & Wellness Institutions\",\"badge\":\"Institutional Bulk\",\"description\":\"Custom bulk wellness packages and institutional employee health partnerships.\",\"perks\":[\"Custom batch packaging\",\"Corporate health billing\",\"Direct door delivery\"],\"visible\":true,\"sortOrder\":4}]},\"process\":{\"heading\":\"Structured 4-Step Onboarding Process\",\"description\":\"A fast, transparent evaluation pathway designed for seamless partner activation.\",\"visible\":true,\"steps\":[{\"stepNumber\":1,\"title\":\"Enquiry Submission\",\"description\":\"Submit your business credentials, GST details, and preferred territory through our partnership portal.\",\"icon\":\"📝\",\"visible\":true},{\"stepNumber\":2,\"title\":\"Territory Evaluation\",\"description\":\"Our commercial team reviews your distribution reach, existing network, and territory availability within 48 hours.\",\"icon\":\"🔍\",\"visible\":true},{\"stepNumber\":3,\"title\":\"Commercial Agreement\",\"description\":\"Finalize wholesale price tiering, initial stocking order, credit terms, and official distribution appointment.\",\"icon\":\"📑\",\"visible\":true},{\"stepNumber\":4,\"title\":\"Priority Supply & Launch\",\"description\":\"First batch dispatch accompanied by complete COAs, marketing literature, and dedicated partner manager onboarding.\",\"icon\":\"🚀\",\"visible\":true}]},\"customSections\":[{\"id\":\"custom-sec-1788287574127\",\"heading\":\"cGMP Certified Warehouse Infrastructure\",\"subheading\":\"Pan-India Cold Chain\",\"content\":\"Temperature-controlled 15-25°C automated logistics facilities guaranteeing 100% molecular potency.\",\"layout\":\"text_only\",\"visible\":true,\"sortOrder\":1}],\"formConfig\":{\"enabled\":true,\"heading\":\"Partnership & Distribution Enquiry\",\"description\":\"Submit your organization's profile below.\",\"submitButtonText\":\"Submit Partnership Enquiry →\",\"contactEmail\":\"b2b@queenscare.in\",\"contactPhone\":\"+91 (0) 11 4988 7700\",\"visible\":true},\"storeLocatorCta\":{\"heading\":\"Looking for Retail Stockists or Partner Clinics?\",\"description\":\"Locate verified Queens Care retail pharmacies, authorized clinics, and regional stockists near you.\",\"buttonText\":\"Find a Store / Distributor Near You →\",\"buttonLink\":\"/store-locator\",\"visible\":true},\"cta\":{\"heading\":\"Looking for Custom Institutional or Bulk Orders?\",\"description\":\"Connect directly with our institutional medical supply team for hospital contracts, specialized packaging, or tenders.\",\"buttonText\":\"Contact Institutional Division →\",\"buttonLink\":\"mailto:b2b@queenscare.in\",\"visible\":true},\"notifications\":{\"adminNotificationEnabled\":true,\"adminNotificationEmail\":\"b2b@queenscare.in\",\"customerReceiptEnabled\":true},\"seo\":{\"metaTitle\":\"B2B & Distribution Partnerships | Queens Care Laboratories\",\"metaDescription\":\"Partner with Queens Care Laboratories. Wholesale pharmaceutical distribution, clinic partnerships, stockist opportunities, and institutional supply across India.\",\"keywords\":\"Queens Care B2B, Pharmaceutical Distribution India, Wholesale Medicine Supplier, Clinic Partnerships, Pharmacy Stockist\",\"ogTitle\":\"B2B & Distribution Partnerships | Queens Care Laboratories\",\"ogDescription\":\"High-potency clinical formulations with uncompromised pharmaceutical supply chain integrity.\",\"ogImage\":\"/uploads/logos/queens-care-logo.png\",\"canonicalUrl\":\"https://queenscare.in/b2b\"}}",
+      "group": "cms"
+    },
+    {
+      "id": "rec-mthk86ty-3au7d",
+      "createdAt": "2026-08-31T18:16:37.270Z",
+      "updatedAt": "2026-09-01T18:32:53.978Z",
+      "key": "store_locator_page_cms_config",
+      "value": "{\"published\":true,\"hero\":{\"eyebrow\":\"Authorized Queens Care Network\",\"heading\":\"Store & Distributor Locator — Official Network 1788287573604\",\"subtitle\":\"Find verified pharmacies and distribution hubs nationwide.\",\"description\":\"Locate authentic Queens Care formulations.\",\"searchPlaceholder\":\"Search city or PIN code…\",\"searchButtonText\":\"Search Locations\",\"locationButtonText\":\"Use My Location\",\"visible\":true},\"types\":[{\"id\":\"all\",\"label\":\"All Locations\",\"icon\":\"📍\",\"visible\":true},{\"id\":\"pharmacy\",\"label\":\"Pharmacy\",\"icon\":\"💊\",\"badgeColor\":\"#2e7d32\",\"visible\":true},{\"id\":\"retailer\",\"label\":\"Retailer\",\"icon\":\"🏬\",\"badgeColor\":\"#1565c0\",\"visible\":true},{\"id\":\"distributor\",\"label\":\"Distributor\",\"icon\":\"🚚\",\"badgeColor\":\"#6a1b9a\",\"visible\":true},{\"id\":\"stockist\",\"label\":\"Stockist\",\"icon\":\"📦\",\"badgeColor\":\"#d84315\",\"visible\":true},{\"id\":\"authorized_partner\",\"label\":\"Authorized Partner\",\"icon\":\"⭐\",\"badgeColor\":\"#D4AF37\",\"visible\":true}],\"b2bCta\":{\"heading\":\"Looking to Become an Authorized Queens Care Stockist?\",\"description\":\"Expand your pharmacy or clinical practice with high-potency formulations, protected regional territories, and wholesale commercial margins.\",\"buttonText\":\"Submit B2B Partnership Enquiry →\",\"buttonLink\":\"/b2b#enquiry-form\",\"visible\":true},\"seo\":{\"metaTitle\":\"Store & Distributor Locator | Queens Care Laboratories\",\"metaDescription\":\"Find verified Queens Care pharmacies, authorized retail stockists, and wholesale distribution centers across India. Search by PIN code, city, or state.\",\"keywords\":\"Queens Care Store Locator, Pharmacy Near Me, Medicine Stockist, Authorized Distributor, Skincare Clinic India\",\"ogTitle\":\"Store & Distributor Locator | Queens Care Laboratories\",\"ogDescription\":\"Locate verified pharmacies and authorized stockists of Queens Care clinical formulations near you.\",\"ogImage\":\"/uploads/logos/queens-care-logo.png\",\"canonicalUrl\":\"https://queenscare.in/store-locator\"}}",
+      "group": "cms"
+    },
+    {
+      "key": "footer_tagline",
+      "value": "Care is a practice.\nMake it yours.",
+      "group": "footer",
+      "updatedAt": "2026-09-01T18:13:52.424Z"
+    },
+    {
+      "key": "footer_newsletter_title",
+      "value": "A considered note, once in a while.",
+      "group": "footer",
+      "updatedAt": "2026-09-01T18:13:52.424Z"
+    },
+    {
+      "key": "footer_copyright",
+      "value": "© 2026 Queens Care Laboratories. All rights reserved.",
+      "group": "footer",
+      "updatedAt": "2026-09-01T18:33:18.140Z"
+    },
+    {
+      "key": "footer_bg",
+      "value": "",
+      "group": "footer",
+      "updatedAt": "2026-09-01T18:13:52.424Z"
+    },
+    {
+      "key": "footer_text_color",
+      "value": "",
+      "group": "footer",
+      "updatedAt": "2026-09-01T18:13:52.424Z"
     }
   ],
   "banners": [
@@ -1744,6 +2515,131 @@
       "id": "rec-mtg6tzsj-mygkr",
       "createdAt": "2026-08-30T19:13:53.779Z",
       "updatedAt": "2026-08-30T19:13:53.779Z",
+      "title": "Scientific Synthesis Video Banner",
+      "subtitle": "Experience cleanroom formulation precision.",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/about",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mthg1hbu-dy6b9",
+      "createdAt": "2026-08-31T16:19:25.818Z",
+      "updatedAt": "2026-08-31T16:19:25.818Z",
+      "title": "Autumn Clinical Revival Banner",
+      "subtitle": "Cellular rejuvenation and antioxidant shield.",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/shop",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mthg1hcm-4ecr6",
+      "createdAt": "2026-08-31T16:19:25.846Z",
+      "updatedAt": "2026-08-31T16:19:25.846Z",
+      "title": "Scientific Synthesis Video Banner",
+      "subtitle": "Experience cleanroom formulation precision.",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/about",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mthi32un-hiac9",
+      "createdAt": "2026-08-31T17:16:39.599Z",
+      "updatedAt": "2026-08-31T17:16:39.599Z",
+      "title": "Autumn Clinical Revival Banner",
+      "subtitle": "Cellular rejuvenation and antioxidant shield.",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/shop",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mthi32vf-4jqlc",
+      "createdAt": "2026-08-31T17:16:39.627Z",
+      "updatedAt": "2026-08-31T17:16:39.627Z",
+      "title": "Scientific Synthesis Video Banner",
+      "subtitle": "Experience cleanroom formulation precision.",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/about",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mthixfcf-6d41m",
+      "createdAt": "2026-08-31T17:40:15.471Z",
+      "updatedAt": "2026-08-31T17:40:15.471Z",
+      "title": "Autumn Clinical Revival Banner",
+      "subtitle": "Cellular rejuvenation and antioxidant shield.",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/shop",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mthixfd4-61jyg",
+      "createdAt": "2026-08-31T17:40:15.496Z",
+      "updatedAt": "2026-08-31T17:40:15.496Z",
+      "title": "Scientific Synthesis Video Banner",
+      "subtitle": "Experience cleanroom formulation precision.",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/about",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mthk01i1-0g197",
+      "createdAt": "2026-08-31T18:10:17.113Z",
+      "updatedAt": "2026-08-31T18:10:17.113Z",
+      "title": "Autumn Clinical Revival Banner",
+      "subtitle": "Cellular rejuvenation and antioxidant shield.",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/shop",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mthk01it-n6rdd",
+      "createdAt": "2026-08-31T18:10:17.141Z",
+      "updatedAt": "2026-08-31T18:10:17.141Z",
+      "title": "Scientific Synthesis Video Banner",
+      "subtitle": "Experience cleanroom formulation precision.",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/about",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mthk93lk-egipn",
+      "createdAt": "2026-08-31T18:17:19.736Z",
+      "updatedAt": "2026-08-31T18:17:19.737Z",
+      "title": "Autumn Clinical Revival Banner",
+      "subtitle": "Cellular rejuvenation and antioxidant shield.",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+      "link": "/shop",
+      "position": "hero",
+      "active": true,
+      "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85"
+    },
+    {
+      "id": "rec-mthk93mo-v8u6z",
+      "createdAt": "2026-08-31T18:17:19.776Z",
+      "updatedAt": "2026-08-31T18:17:19.776Z",
       "title": "Scientific Synthesis Video Banner",
       "subtitle": "Experience cleanroom formulation precision.",
       "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -2132,6 +3028,121 @@
       "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80",
       "visible": true
+    },
+    {
+      "id": "rec-mthg1hdj-3r96z",
+      "createdAt": "2026-08-31T16:19:25.879Z",
+      "updatedAt": "2026-08-31T16:19:25.879Z",
+      "name": "Dr. Aarti Subramanian",
+      "title": "Senior Dermatologist, Apollo Clinics",
+      "body": "Lumine-C sets a benchmark for antioxidant stability in medical aesthetic practice.",
+      "rating": 5,
+      "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mthg1hec-grj91",
+      "createdAt": "2026-08-31T16:19:25.908Z",
+      "updatedAt": "2026-08-31T16:19:25.908Z",
+      "name": "Dr. Kabir Malhotra",
+      "title": "Lead Cosmetic Surgeon, Mumbai",
+      "body": "Exceptional clinical outcomes with post-procedural recovery.",
+      "rating": 5,
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mthi32we-3qqcz",
+      "createdAt": "2026-08-31T17:16:39.662Z",
+      "updatedAt": "2026-08-31T17:16:39.662Z",
+      "name": "Dr. Aarti Subramanian",
+      "title": "Senior Dermatologist, Apollo Clinics",
+      "body": "Lumine-C sets a benchmark for antioxidant stability in medical aesthetic practice.",
+      "rating": 5,
+      "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mthi32x5-e32qa",
+      "createdAt": "2026-08-31T17:16:39.689Z",
+      "updatedAt": "2026-08-31T17:16:39.689Z",
+      "name": "Dr. Kabir Malhotra",
+      "title": "Lead Cosmetic Surgeon, Mumbai",
+      "body": "Exceptional clinical outcomes with post-procedural recovery.",
+      "rating": 5,
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mthixfds-nlwrg",
+      "createdAt": "2026-08-31T17:40:15.520Z",
+      "updatedAt": "2026-08-31T17:40:15.520Z",
+      "name": "Dr. Aarti Subramanian",
+      "title": "Senior Dermatologist, Apollo Clinics",
+      "body": "Lumine-C sets a benchmark for antioxidant stability in medical aesthetic practice.",
+      "rating": 5,
+      "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mthixfej-1sher",
+      "createdAt": "2026-08-31T17:40:15.547Z",
+      "updatedAt": "2026-08-31T17:40:15.547Z",
+      "name": "Dr. Kabir Malhotra",
+      "title": "Lead Cosmetic Surgeon, Mumbai",
+      "body": "Exceptional clinical outcomes with post-procedural recovery.",
+      "rating": 5,
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mthk01jq-pf5yj",
+      "createdAt": "2026-08-31T18:10:17.174Z",
+      "updatedAt": "2026-08-31T18:10:17.174Z",
+      "name": "Dr. Aarti Subramanian",
+      "title": "Senior Dermatologist, Apollo Clinics",
+      "body": "Lumine-C sets a benchmark for antioxidant stability in medical aesthetic practice.",
+      "rating": 5,
+      "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mthk01kj-9hp4q",
+      "createdAt": "2026-08-31T18:10:17.203Z",
+      "updatedAt": "2026-08-31T18:10:17.203Z",
+      "name": "Dr. Kabir Malhotra",
+      "title": "Lead Cosmetic Surgeon, Mumbai",
+      "body": "Exceptional clinical outcomes with post-procedural recovery.",
+      "rating": 5,
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mthk93ng-w9nhw",
+      "createdAt": "2026-08-31T18:17:19.804Z",
+      "updatedAt": "2026-08-31T18:17:19.804Z",
+      "name": "Dr. Aarti Subramanian",
+      "title": "Senior Dermatologist, Apollo Clinics",
+      "body": "Lumine-C sets a benchmark for antioxidant stability in medical aesthetic practice.",
+      "rating": 5,
+      "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80",
+      "visible": true
+    },
+    {
+      "id": "rec-mthk93p0-c85vv",
+      "createdAt": "2026-08-31T18:17:19.860Z",
+      "updatedAt": "2026-08-31T18:17:19.860Z",
+      "name": "Dr. Kabir Malhotra",
+      "title": "Lead Cosmetic Surgeon, Mumbai",
+      "body": "Exceptional clinical outcomes with post-procedural recovery.",
+      "rating": 5,
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80",
+      "visible": true
     }
   ],
   "offers": [
@@ -2468,6 +3479,342 @@
       "title": "Photo_from_vikhyaat_sikand-removebg-preview.png",
       "usedBy": "logos",
       "visible": true
+    },
+    {
+      "id": "rec-mthg0eyr-gdj6r",
+      "createdAt": "2026-08-31T16:18:36.098Z",
+      "updatedAt": "2026-08-31T16:18:36.099Z",
+      "filename": "queens-care-official-logo-1788193116096.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-official-logo-1788193116096.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-official-logo",
+      "title": "queens-care-official-logo.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mthg0f22-k0hd6",
+      "createdAt": "2026-08-31T16:18:36.218Z",
+      "updatedAt": "2026-08-31T16:18:36.218Z",
+      "filename": "queens-care-logo-v2-1788193116216.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-logo-v2-1788193116216.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-logo-v2",
+      "title": "queens-care-logo-v2.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mthgpaem-sbwsq",
+      "createdAt": "2026-08-31T16:37:56.590Z",
+      "updatedAt": "2026-08-31T16:37:56.590Z",
+      "filename": "photo_from_vikhyaat_sikand-removebg-preview-1788194276587.png",
+      "type": "image",
+      "url": "/uploads/logos/photo_from_vikhyaat_sikand-removebg-preview-1788194276587.png",
+      "mimeType": "image/png",
+      "size": 143109,
+      "alt": "Photo_from_vikhyaat_sikand-removebg-preview",
+      "title": "Photo_from_vikhyaat_sikand-removebg-preview.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mthi2d95-vms5l",
+      "createdAt": "2026-08-31T17:16:06.424Z",
+      "updatedAt": "2026-08-31T17:16:06.425Z",
+      "filename": "queens-care-official-logo-1788196566421.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-official-logo-1788196566421.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-official-logo",
+      "title": "queens-care-official-logo.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mthi2dd8-5uinx",
+      "createdAt": "2026-08-31T17:16:06.572Z",
+      "updatedAt": "2026-08-31T17:16:06.572Z",
+      "filename": "queens-care-logo-v2-1788196566571.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-logo-v2-1788196566571.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-logo-v2",
+      "title": "queens-care-logo-v2.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mthici6e-b88us",
+      "createdAt": "2026-08-31T17:23:59.366Z",
+      "updatedAt": "2026-08-31T17:23:59.366Z",
+      "filename": "photo_from_vikhyaat_sikand-removebg-preview-1788197039364.png",
+      "type": "image",
+      "url": "/uploads/logos/photo_from_vikhyaat_sikand-removebg-preview-1788197039364.png",
+      "mimeType": "image/png",
+      "size": 143109,
+      "alt": "Photo_from_vikhyaat_sikand-removebg-preview",
+      "title": "Photo_from_vikhyaat_sikand-removebg-preview.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mthiwi4p-3rju4",
+      "createdAt": "2026-08-31T17:39:32.425Z",
+      "updatedAt": "2026-08-31T17:39:32.425Z",
+      "filename": "queens-care-official-logo-1788197972422.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-official-logo-1788197972422.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-official-logo",
+      "title": "queens-care-official-logo.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mthiwi8d-9nos9",
+      "createdAt": "2026-08-31T17:39:32.557Z",
+      "updatedAt": "2026-08-31T17:39:32.557Z",
+      "filename": "queens-care-logo-v2-1788197972555.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-logo-v2-1788197972555.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-logo-v2",
+      "title": "queens-care-logo-v2.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mthjzk5b-pzxed",
+      "createdAt": "2026-08-31T18:09:54.622Z",
+      "updatedAt": "2026-08-31T18:09:54.623Z",
+      "filename": "queens-care-official-logo-1788199794620.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-official-logo-1788199794620.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-official-logo",
+      "title": "queens-care-official-logo.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mthjzk97-ug0mg",
+      "createdAt": "2026-08-31T18:09:54.763Z",
+      "updatedAt": "2026-08-31T18:09:54.763Z",
+      "filename": "queens-care-logo-v2-1788199794761.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-logo-v2-1788199794761.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-logo-v2",
+      "title": "queens-care-logo-v2.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mthk8mb7-imu5e",
+      "createdAt": "2026-08-31T18:16:57.331Z",
+      "updatedAt": "2026-08-31T18:16:57.331Z",
+      "filename": "queens-care-official-logo-1788200217329.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-official-logo-1788200217329.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-official-logo",
+      "title": "queens-care-official-logo.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mthk8mei-6o377",
+      "createdAt": "2026-08-31T18:16:57.450Z",
+      "updatedAt": "2026-08-31T18:16:57.450Z",
+      "filename": "queens-care-logo-v2-1788200217449.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-logo-v2-1788200217449.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-logo-v2",
+      "title": "queens-care-logo-v2.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mthn5lcm-vgpd7",
+      "createdAt": "2026-08-31T19:38:34.965Z",
+      "updatedAt": "2026-08-31T19:38:34.966Z",
+      "filename": "photo_from_vikhyaat_sikand-removebg-preview-1788205114962.png",
+      "type": "image",
+      "url": "/uploads/logos/photo_from_vikhyaat_sikand-removebg-preview-1788205114962.png",
+      "mimeType": "image/png",
+      "size": 143109,
+      "alt": "Photo_from_vikhyaat_sikand-removebg-preview",
+      "title": "Photo_from_vikhyaat_sikand-removebg-preview.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtit8wz5-cneh6",
+      "createdAt": "2026-09-01T15:16:53.872Z",
+      "updatedAt": "2026-09-01T15:16:53.873Z",
+      "filename": "queens-care-official-logo-1788275813801.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-official-logo-1788275813801.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-official-logo",
+      "title": "queens-care-official-logo.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtit8x25-wlavu",
+      "createdAt": "2026-09-01T15:16:53.981Z",
+      "updatedAt": "2026-09-01T15:16:53.981Z",
+      "filename": "queens-care-logo-v2-1788275813980.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-logo-v2-1788275813980.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-logo-v2",
+      "title": "queens-care-logo-v2.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtit9ozt-d2ysq",
+      "createdAt": "2026-09-01T15:17:30.185Z",
+      "updatedAt": "2026-09-01T15:17:30.185Z",
+      "filename": "queens-care-official-logo-1788275850183.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-official-logo-1788275850183.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-official-logo",
+      "title": "queens-care-official-logo.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtit9p31-pbgmq",
+      "createdAt": "2026-09-01T15:17:30.300Z",
+      "updatedAt": "2026-09-01T15:17:30.301Z",
+      "filename": "queens-care-logo-v2-1788275850299.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-logo-v2-1788275850299.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-logo-v2",
+      "title": "queens-care-logo-v2.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtitcl8m-wzjpv",
+      "createdAt": "2026-09-01T15:19:45.285Z",
+      "updatedAt": "2026-09-01T15:19:45.286Z",
+      "filename": "queens-care-official-logo-1788275985282.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-official-logo-1788275985282.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-official-logo",
+      "title": "queens-care-official-logo.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtitclgc-mpq5h",
+      "createdAt": "2026-09-01T15:19:45.564Z",
+      "updatedAt": "2026-09-01T15:19:45.564Z",
+      "filename": "queens-care-logo-v2-1788275985563.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-logo-v2-1788275985563.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-logo-v2",
+      "title": "queens-care-logo-v2.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtitgf1h-k3zlg",
+      "createdAt": "2026-09-01T15:22:43.877Z",
+      "updatedAt": "2026-09-01T15:22:43.877Z",
+      "filename": "queens-care-official-logo-1788276163875.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-official-logo-1788276163875.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-official-logo",
+      "title": "queens-care-official-logo.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtitgfac-iafv6",
+      "createdAt": "2026-09-01T15:22:44.196Z",
+      "updatedAt": "2026-09-01T15:22:44.196Z",
+      "filename": "queens-care-logo-v2-1788276164195.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-logo-v2-1788276164195.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-logo-v2",
+      "title": "queens-care-logo-v2.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtiu9wrd-foxp2",
+      "createdAt": "2026-09-01T15:45:39.864Z",
+      "updatedAt": "2026-09-01T15:45:39.865Z",
+      "filename": "photo_from_vikhyaat_sikand-removebg-preview-1788277539863.png",
+      "type": "image",
+      "url": "/uploads/logos/photo_from_vikhyaat_sikand-removebg-preview-1788277539863.png",
+      "mimeType": "image/png",
+      "size": 143109,
+      "alt": "Photo_from_vikhyaat_sikand-removebg-preview",
+      "title": "Photo_from_vikhyaat_sikand-removebg-preview.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtj0920x-qazsh",
+      "createdAt": "2026-09-01T18:32:57.729Z",
+      "updatedAt": "2026-09-01T18:32:57.729Z",
+      "filename": "queens-care-official-logo-1788287577727.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-official-logo-1788287577727.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-official-logo",
+      "title": "queens-care-official-logo.png",
+      "usedBy": "logos",
+      "visible": true
+    },
+    {
+      "id": "rec-mtj0924p-mny94",
+      "createdAt": "2026-09-01T18:32:57.865Z",
+      "updatedAt": "2026-09-01T18:32:57.865Z",
+      "filename": "queens-care-logo-v2-1788287577864.png",
+      "type": "image",
+      "url": "/uploads/logos/queens-care-logo-v2-1788287577864.png",
+      "mimeType": "image/png",
+      "size": 70,
+      "alt": "queens-care-logo-v2",
+      "title": "queens-care-logo-v2.png",
+      "usedBy": "logos",
+      "visible": true
     }
   ],
   "doctors": [
@@ -2762,9 +4109,186 @@
       "title": "Clinical Tolerability Report 3907",
       "body": "Highly stable ascorbic formulation with rapid epidermal penetration.",
       "image": ""
+    },
+    {
+      "id": "rev-mthg1hfx",
+      "createdAt": "2026-08-31T16:19:25.965Z",
+      "updatedAt": "2026-08-31T16:19:25.965Z",
+      "visible": true,
+      "helpful": 0,
+      "verified": true,
+      "productSlug": "liko-q-suspension",
+      "product": {
+        "id": "p-liko-q",
+        "name": "Lumine-C Clinical Radiance 5433",
+        "slug": "liko-q-suspension"
+      },
+      "user": {
+        "name": "Dr. Sneha Roy"
+      },
+      "productId": "liko-q-suspension",
+      "customerName": "Dr. Sneha Roy",
+      "rating": 5,
+      "title": "Clinical Tolerability Report 5958",
+      "body": "Highly stable ascorbic formulation with rapid epidermal penetration.",
+      "image": ""
+    },
+    {
+      "id": "rev-mthi32zd",
+      "createdAt": "2026-08-31T17:16:39.769Z",
+      "updatedAt": "2026-08-31T17:16:39.769Z",
+      "visible": true,
+      "helpful": 0,
+      "verified": true,
+      "productSlug": "liko-q-suspension",
+      "product": {
+        "id": "p-liko-q",
+        "name": "Lumine-C Clinical Radiance 9235",
+        "slug": "liko-q-suspension"
+      },
+      "user": {
+        "name": "Dr. Sneha Roy"
+      },
+      "productId": "liko-q-suspension",
+      "customerName": "Dr. Sneha Roy",
+      "rating": 5,
+      "title": "Clinical Tolerability Report 9760",
+      "body": "Highly stable ascorbic formulation with rapid epidermal penetration.",
+      "image": ""
+    },
+    {
+      "id": "rev-mthixfgb",
+      "createdAt": "2026-08-31T17:40:15.611Z",
+      "updatedAt": "2026-08-31T17:40:15.611Z",
+      "visible": true,
+      "helpful": 0,
+      "verified": true,
+      "productSlug": "liko-q-suspension",
+      "product": {
+        "id": "p-liko-q",
+        "name": "Lumine-C Clinical Radiance 5104",
+        "slug": "liko-q-suspension"
+      },
+      "user": {
+        "name": "Dr. Sneha Roy"
+      },
+      "productId": "liko-q-suspension",
+      "customerName": "Dr. Sneha Roy",
+      "rating": 5,
+      "title": "Clinical Tolerability Report 5597",
+      "body": "Highly stable ascorbic formulation with rapid epidermal penetration.",
+      "image": ""
+    },
+    {
+      "id": "rev-mthk01mq",
+      "createdAt": "2026-08-31T18:10:17.282Z",
+      "updatedAt": "2026-08-31T18:10:17.282Z",
+      "visible": true,
+      "helpful": 0,
+      "verified": true,
+      "productSlug": "liko-q-suspension",
+      "product": {
+        "id": "p-liko-q",
+        "name": "Lumine-C Clinical Radiance 6799",
+        "slug": "liko-q-suspension"
+      },
+      "user": {
+        "name": "Dr. Sneha Roy"
+      },
+      "productId": "liko-q-suspension",
+      "customerName": "Dr. Sneha Roy",
+      "rating": 5,
+      "title": "Clinical Tolerability Report 7266",
+      "body": "Highly stable ascorbic formulation with rapid epidermal penetration.",
+      "image": ""
+    },
+    {
+      "id": "rev-mthk93qs",
+      "createdAt": "2026-08-31T18:17:19.924Z",
+      "updatedAt": "2026-08-31T18:17:19.924Z",
+      "visible": true,
+      "helpful": 0,
+      "verified": true,
+      "productSlug": "liko-q-suspension",
+      "product": {
+        "id": "p-liko-q",
+        "name": "Lumine-C Clinical Radiance 9266",
+        "slug": "liko-q-suspension"
+      },
+      "user": {
+        "name": "Dr. Sneha Roy"
+      },
+      "productId": "liko-q-suspension",
+      "customerName": "Dr. Sneha Roy",
+      "rating": 5,
+      "title": "Clinical Tolerability Report 9911",
+      "body": "Highly stable ascorbic formulation with rapid epidermal penetration.",
+      "image": ""
     }
   ],
-  "content": [],
+  "content": [
+    {
+      "id": "cnt-about",
+      "key": "about",
+      "value": {
+        "title": "Our Story — Science Made Personal",
+        "subtitle": "The founding conviction of Queens Care Laboratories.",
+        "heroEyebrow": "QUEENS CARE LABORATORIES",
+        "heroHeading": "Born from clinical rigor. <em>Formulated for life.</em>",
+        "heroLead": "We founded Queens Care Laboratories on a singular conviction: that the products living on your vanity, medicine cabinet, and bedside table should be held to the same unyielding pharmaceutical benchmarks as hospital-grade medicine.",
+        "heroImage": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1400&q=85",
+        "originHeading": "The Queens Care Origin",
+        "originText": "In 2023, our founding team of pharmaceutical formulation chemists and clinical investigators observed an alarming divergence: wellness products were flooded with marketing claims but under-dosed actives, while traditional pharmaceuticals felt clinical, impersonal, and distant.\n\nWe set out to unite both worlds — therapeutic purity, precision concentration, and considered daily ritual.",
+        "stat1Number": "100%",
+        "stat1Label": "Batch Verified Purity",
+        "stat2Number": "GMP / ISO",
+        "stat2Label": "Certified Laboratory",
+        "stat3Number": "0.0%",
+        "stat3Label": "Synthetic Diluents",
+        "sections": [
+          {
+            "heading": "Pharmaceutical Rigor",
+            "text": "Every formula begins with double-blind peer-reviewed literature, validated dosing protocols, and stringent heavy-metal assays."
+          },
+          {
+            "heading": "Uncompromising Transparency",
+            "text": "Full batch disclosure, certificates of analysis on demand, and active ingredient percentages printed clearly on every bottle."
+          },
+          {
+            "heading": "Considered Sensory Ritual",
+            "text": "Health is sustained by habits. We craft textures, aromas, and packaging that elevate self-care into a moment of intentional pause."
+          }
+        ],
+        "milestones": [
+          {
+            "year": "2023",
+            "title": "Laboratory Inception",
+            "description": "Established advanced formulation R&D cleanroom in New Delhi."
+          },
+          {
+            "year": "2024",
+            "title": "Clinical Partner Network",
+            "description": "Onboarded 250+ dermatologists and physicians across India."
+          },
+          {
+            "year": "2025",
+            "title": "Therapeutic Portfolio Expansion",
+            "description": "Formulated LUMINE-C™, LIKO-Q™, and cellular antioxidant suspensions."
+          },
+          {
+            "year": "2026",
+            "title": "National Distribution",
+            "description": "Serving 12,000+ member rituals across Tier 1 & 2 cities."
+          }
+        ],
+        "ctaHeading": "Experience pharmaceutical-grade personal care.",
+        "ctaText": "Explore Our Formulations",
+        "ctaLink": "/shop"
+      },
+      "createdAt": "2026-09-01T18:13:52.423Z",
+      "updatedAt": "2026-09-01T18:13:52.423Z"
+    }
+  ],
   "wishlistItems": [],
   "marketing": [
     {
@@ -3138,6 +4662,116 @@
       "discountValue": 250,
       "description": "Flat ₹250 instant reduction.",
       "active": true
+    },
+    {
+      "id": "rec-mthg1hkq-u764z",
+      "createdAt": "2026-08-31T16:19:26.138Z",
+      "updatedAt": "2026-08-31T16:19:26.138Z",
+      "title": "Flash Vitamin C Weekend Event",
+      "type": "flash",
+      "discountType": "percentage",
+      "discountValue": 30,
+      "description": "30% off all antioxidant formulations.",
+      "active": true
+    },
+    {
+      "id": "rec-mthg1hl7-mpsol",
+      "createdAt": "2026-08-31T16:19:26.155Z",
+      "updatedAt": "2026-08-31T16:19:26.155Z",
+      "title": "Lightning 3-Hour Botanical Drop",
+      "type": "lightning",
+      "discountType": "flat",
+      "discountValue": 250,
+      "description": "Flat ₹250 instant reduction.",
+      "active": true
+    },
+    {
+      "id": "rec-mthi3347-su0dt",
+      "createdAt": "2026-08-31T17:16:39.943Z",
+      "updatedAt": "2026-08-31T17:16:39.943Z",
+      "title": "Flash Vitamin C Weekend Event",
+      "type": "flash",
+      "discountType": "percentage",
+      "discountValue": 30,
+      "description": "30% off all antioxidant formulations.",
+      "active": true
+    },
+    {
+      "id": "rec-mthi335e-y4ymo",
+      "createdAt": "2026-08-31T17:16:39.986Z",
+      "updatedAt": "2026-08-31T17:16:39.986Z",
+      "title": "Lightning 3-Hour Botanical Drop",
+      "type": "lightning",
+      "discountType": "flat",
+      "discountValue": 250,
+      "description": "Flat ₹250 instant reduction.",
+      "active": true
+    },
+    {
+      "id": "rec-mthixfle-1csd5",
+      "createdAt": "2026-08-31T17:40:15.794Z",
+      "updatedAt": "2026-08-31T17:40:15.794Z",
+      "title": "Flash Vitamin C Weekend Event",
+      "type": "flash",
+      "discountType": "percentage",
+      "discountValue": 30,
+      "description": "30% off all antioxidant formulations.",
+      "active": true
+    },
+    {
+      "id": "rec-mthixfm9-xjzzo",
+      "createdAt": "2026-08-31T17:40:15.825Z",
+      "updatedAt": "2026-08-31T17:40:15.825Z",
+      "title": "Lightning 3-Hour Botanical Drop",
+      "type": "lightning",
+      "discountType": "flat",
+      "discountValue": 250,
+      "description": "Flat ₹250 instant reduction.",
+      "active": true
+    },
+    {
+      "id": "rec-mthk01s9-wuigx",
+      "createdAt": "2026-08-31T18:10:17.481Z",
+      "updatedAt": "2026-08-31T18:10:17.481Z",
+      "title": "Flash Vitamin C Weekend Event",
+      "type": "flash",
+      "discountType": "percentage",
+      "discountValue": 30,
+      "description": "30% off all antioxidant formulations.",
+      "active": true
+    },
+    {
+      "id": "rec-mthk01t3-2vlf7",
+      "createdAt": "2026-08-31T18:10:17.511Z",
+      "updatedAt": "2026-08-31T18:10:17.511Z",
+      "title": "Lightning 3-Hour Botanical Drop",
+      "type": "lightning",
+      "discountType": "flat",
+      "discountValue": 250,
+      "description": "Flat ₹250 instant reduction.",
+      "active": true
+    },
+    {
+      "id": "rec-mthk93y6-nffmh",
+      "createdAt": "2026-08-31T18:17:20.190Z",
+      "updatedAt": "2026-08-31T18:17:20.190Z",
+      "title": "Flash Vitamin C Weekend Event",
+      "type": "flash",
+      "discountType": "percentage",
+      "discountValue": 30,
+      "description": "30% off all antioxidant formulations.",
+      "active": true
+    },
+    {
+      "id": "rec-mthk93z7-ylmfr",
+      "createdAt": "2026-08-31T18:17:20.227Z",
+      "updatedAt": "2026-08-31T18:17:20.227Z",
+      "title": "Lightning 3-Hour Botanical Drop",
+      "type": "lightning",
+      "discountType": "flat",
+      "discountValue": 250,
+      "description": "Flat ₹250 instant reduction.",
+      "active": true
     }
   ],
   "notifications": [
@@ -3263,6 +4897,56 @@
       "message": "Applicable pan-India across 19,000+ pin codes.",
       "link": "/shop",
       "active": true
+    },
+    {
+      "id": "rec-mthg1hlq-689b9",
+      "createdAt": "2026-08-31T16:19:26.174Z",
+      "updatedAt": "2026-08-31T16:19:26.174Z",
+      "_kind": "notifications",
+      "title": "Free Express Shipping On All Orders Above ₹999",
+      "message": "Applicable pan-India across 19,000+ pin codes.",
+      "link": "/shop",
+      "active": true
+    },
+    {
+      "id": "rec-mthi3366-qpglp",
+      "createdAt": "2026-08-31T17:16:40.014Z",
+      "updatedAt": "2026-08-31T17:16:40.014Z",
+      "_kind": "notifications",
+      "title": "Free Express Shipping On All Orders Above ₹999",
+      "message": "Applicable pan-India across 19,000+ pin codes.",
+      "link": "/shop",
+      "active": true
+    },
+    {
+      "id": "rec-mthixfn0-w8hqb",
+      "createdAt": "2026-08-31T17:40:15.852Z",
+      "updatedAt": "2026-08-31T17:40:15.853Z",
+      "_kind": "notifications",
+      "title": "Free Express Shipping On All Orders Above ₹999",
+      "message": "Applicable pan-India across 19,000+ pin codes.",
+      "link": "/shop",
+      "active": true
+    },
+    {
+      "id": "rec-mthk01tx-kpq8p",
+      "createdAt": "2026-08-31T18:10:17.541Z",
+      "updatedAt": "2026-08-31T18:10:17.541Z",
+      "_kind": "notifications",
+      "title": "Free Express Shipping On All Orders Above ₹999",
+      "message": "Applicable pan-India across 19,000+ pin codes.",
+      "link": "/shop",
+      "active": true
+    },
+    {
+      "id": "rec-mthk9402-5rz53",
+      "createdAt": "2026-08-31T18:17:20.258Z",
+      "updatedAt": "2026-08-31T18:17:20.258Z",
+      "_kind": "notifications",
+      "title": "Free Express Shipping On All Orders Above ₹999",
+      "message": "Applicable pan-India across 19,000+ pin codes.",
+      "link": "/shop",
+      "active": true
     }
   ],
   "promoBanners": [
@@ -3302,7 +4986,7 @@
       ],
       "supportsRefunds": true,
       "createdAt": "2026-08-30T05:17:02.705Z",
-      "updatedAt": "2026-08-30T19:13:54.060Z"
+      "updatedAt": "2026-08-31T18:17:20.115Z"
     },
     {
       "id": "stripe",
@@ -3411,7 +5095,7 @@
       "maxOrderValue": 15000,
       "instructions": "Please keep exact cash or UPI QR app ready when the delivery partner arrives.",
       "createdAt": "2026-08-30T05:17:02.705Z",
-      "updatedAt": "2026-08-30T19:13:54.096Z"
+      "updatedAt": "2026-08-31T18:17:20.150Z"
     }
   ],
   "shippingProviders": [
@@ -3540,7 +5224,7 @@
       ],
       "active": true,
       "createdAt": "2026-08-30T05:17:02.705Z",
-      "updatedAt": "2026-08-30T19:13:54.031Z"
+      "updatedAt": "2026-08-31T18:17:20.070Z"
     }
   ],
   "aplusTemplates": [
@@ -4042,6 +5726,136 @@
         }
       ],
       "published": true
+    },
+    {
+      "id": "aplus-mthg1h7k",
+      "createdAt": "2026-08-31T16:19:25.664Z",
+      "updatedAt": "2026-08-31T16:19:25.685Z",
+      "title": "Molecular Bio-Shield Protocol",
+      "description": "Advanced stabilization standards",
+      "category": "Dermal Science",
+      "sections": [
+        {
+          "type": "hero",
+          "heading": "Cellular-Level Antioxidant Shield",
+          "text": "Micro-encapsulated formula tested under ISO cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          "published": true
+        },
+        {
+          "type": "video_text",
+          "heading": "Application & Absorption Protocol",
+          "text": "Demonstration of topical bioavailability.",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+          "published": true
+        }
+      ],
+      "published": true
+    },
+    {
+      "id": "aplus-mthi32py",
+      "createdAt": "2026-08-31T17:16:39.430Z",
+      "updatedAt": "2026-08-31T17:16:39.457Z",
+      "title": "Molecular Bio-Shield Protocol",
+      "description": "Advanced stabilization standards",
+      "category": "Dermal Science",
+      "sections": [
+        {
+          "type": "hero",
+          "heading": "Cellular-Level Antioxidant Shield",
+          "text": "Micro-encapsulated formula tested under ISO cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          "published": true
+        },
+        {
+          "type": "video_text",
+          "heading": "Application & Absorption Protocol",
+          "text": "Demonstration of topical bioavailability.",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+          "published": true
+        }
+      ],
+      "published": true
+    },
+    {
+      "id": "aplus-mthixf7q",
+      "createdAt": "2026-08-31T17:40:15.302Z",
+      "updatedAt": "2026-08-31T17:40:15.331Z",
+      "title": "Molecular Bio-Shield Protocol",
+      "description": "Advanced stabilization standards",
+      "category": "Dermal Science",
+      "sections": [
+        {
+          "type": "hero",
+          "heading": "Cellular-Level Antioxidant Shield",
+          "text": "Micro-encapsulated formula tested under ISO cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          "published": true
+        },
+        {
+          "type": "video_text",
+          "heading": "Application & Absorption Protocol",
+          "text": "Demonstration of topical bioavailability.",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+          "published": true
+        }
+      ],
+      "published": true
+    },
+    {
+      "id": "aplus-mthk01e6",
+      "createdAt": "2026-08-31T18:10:16.974Z",
+      "updatedAt": "2026-08-31T18:10:16.996Z",
+      "title": "Molecular Bio-Shield Protocol",
+      "description": "Advanced stabilization standards",
+      "category": "Dermal Science",
+      "sections": [
+        {
+          "type": "hero",
+          "heading": "Cellular-Level Antioxidant Shield",
+          "text": "Micro-encapsulated formula tested under ISO cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          "published": true
+        },
+        {
+          "type": "video_text",
+          "heading": "Application & Absorption Protocol",
+          "text": "Demonstration of topical bioavailability.",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+          "published": true
+        }
+      ],
+      "published": true
+    },
+    {
+      "id": "aplus-mthk93ga",
+      "createdAt": "2026-08-31T18:17:19.546Z",
+      "updatedAt": "2026-08-31T18:17:19.585Z",
+      "title": "Molecular Bio-Shield Protocol",
+      "description": "Advanced stabilization standards",
+      "category": "Dermal Science",
+      "sections": [
+        {
+          "type": "hero",
+          "heading": "Cellular-Level Antioxidant Shield",
+          "text": "Micro-encapsulated formula tested under ISO cleanroom conditions.",
+          "imageUrl": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=85",
+          "published": true
+        },
+        {
+          "type": "video_text",
+          "heading": "Application & Absorption Protocol",
+          "text": "Demonstration of topical bioavailability.",
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "videoPoster": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=85",
+          "published": true
+        }
+      ],
+      "published": true
     }
   ],
   "pushSubscriptions": [
@@ -4085,9 +5899,9 @@
       "icon": "instagram",
       "visible": true,
       "iconSize": 20,
-      "sortOrder": 5,
+      "sortOrder": 8,
       "createdAt": "2026-08-30T18:12:14.900Z",
-      "updatedAt": "2026-08-30T19:13:48.899Z"
+      "updatedAt": "2026-09-01T18:32:56.791Z"
     },
     {
       "id": "sml-facebook",
@@ -4097,9 +5911,9 @@
       "icon": "facebook",
       "visible": true,
       "iconSize": 20,
-      "sortOrder": 6,
+      "sortOrder": 9,
       "createdAt": "2026-08-30T18:12:14.900Z",
-      "updatedAt": "2026-08-30T19:13:48.901Z"
+      "updatedAt": "2026-09-01T18:32:56.794Z"
     },
     {
       "id": "sml-youtube",
@@ -4109,9 +5923,9 @@
       "icon": "youtube",
       "visible": true,
       "iconSize": 20,
-      "sortOrder": 7,
+      "sortOrder": 10,
       "createdAt": "2026-08-30T18:12:14.900Z",
-      "updatedAt": "2026-08-30T19:13:48.912Z"
+      "updatedAt": "2026-09-01T18:32:56.803Z"
     },
     {
       "id": "sml-linkedin",
@@ -4121,9 +5935,9 @@
       "icon": "linkedin",
       "visible": true,
       "iconSize": 20,
-      "sortOrder": 8,
+      "sortOrder": 11,
       "createdAt": "2026-08-30T18:12:14.900Z",
-      "updatedAt": "2026-08-30T19:13:48.922Z"
+      "updatedAt": "2026-09-01T18:32:57.090Z"
     },
     {
       "id": "sml-twitter",
@@ -4133,14 +5947,14 @@
       "icon": "twitter",
       "visible": true,
       "iconSize": 20,
-      "sortOrder": 9,
+      "sortOrder": 12,
       "createdAt": "2026-08-30T18:12:14.900Z",
-      "updatedAt": "2026-08-30T19:13:48.931Z"
+      "updatedAt": "2026-09-01T18:32:57.100Z"
     },
     {
       "id": "sml-mtg4mxkd-haaq",
       "createdAt": "2026-08-30T18:12:25.069Z",
-      "updatedAt": "2026-08-30T19:13:48.940Z",
+      "updatedAt": "2026-09-01T18:32:57.111Z",
       "platform": "amazon",
       "category": "marketplace",
       "label": "Amazon India Flagship Store",
@@ -4152,63 +5966,12 @@
       "desktopIconSize": 32,
       "mobileIconSize": 22,
       "openNewTab": true,
-      "sortOrder": 4
-    },
-    {
-      "id": "sml-mtg4mxkl-20qx",
-      "createdAt": "2026-08-30T18:12:25.077Z",
-      "updatedAt": "2026-08-30T19:13:48.948Z",
-      "platform": "flipkart",
-      "category": "marketplace",
-      "label": "Flipkart Official Store",
-      "url": "https://www.flipkart.com/queenscare",
-      "icon": "flipkart",
-      "customIconUrl": null,
-      "visible": true,
-      "iconSize": 24,
-      "desktopIconSize": 24,
-      "mobileIconSize": 18,
-      "openNewTab": true,
-      "sortOrder": 10
-    },
-    {
-      "id": "sml-mtg5mcpv-93bv",
-      "createdAt": "2026-08-30T18:39:57.667Z",
-      "updatedAt": "2026-08-30T19:13:48.957Z",
-      "platform": "amazon",
-      "category": "marketplace",
-      "label": "Amazon India Flagship Store",
-      "url": "https://www.amazon.in/queenscare",
-      "icon": "amazon",
-      "customIconUrl": null,
-      "visible": true,
-      "iconSize": 26,
-      "desktopIconSize": 32,
-      "mobileIconSize": 22,
-      "openNewTab": true,
-      "sortOrder": 3
-    },
-    {
-      "id": "sml-mtg5mcq9-sr21",
-      "createdAt": "2026-08-30T18:39:57.681Z",
-      "updatedAt": "2026-08-30T19:13:48.965Z",
-      "platform": "flipkart",
-      "category": "marketplace",
-      "label": "Flipkart Official Store",
-      "url": "https://www.flipkart.com/queenscare",
-      "icon": "flipkart",
-      "customIconUrl": null,
-      "visible": true,
-      "iconSize": 24,
-      "desktopIconSize": 24,
-      "mobileIconSize": 18,
-      "openNewTab": true,
-      "sortOrder": 11
+      "sortOrder": 7
     },
     {
       "id": "sml-mtg5zn1p-xzv8",
       "createdAt": "2026-08-30T18:50:17.581Z",
-      "updatedAt": "2026-08-30T19:13:48.975Z",
+      "updatedAt": "2026-09-01T18:32:57.121Z",
       "platform": "tata1mg",
       "category": "marketplace",
       "label": "Tata 1mg Pharmacy",
@@ -4220,12 +5983,63 @@
       "desktopIconSize": 22,
       "mobileIconSize": 18,
       "openNewTab": true,
-      "sortOrder": 12
+      "sortOrder": 14
     },
     {
-      "id": "sml-mtg66lfw-1bal",
-      "createdAt": "2026-08-30T18:55:42.092Z",
-      "updatedAt": "2026-08-30T19:13:48.984Z",
+      "id": "sml-mtg6tvoi-axqy",
+      "createdAt": "2026-08-30T19:13:48.450Z",
+      "updatedAt": "2026-09-01T18:32:57.131Z",
+      "platform": "flipkart",
+      "category": "marketplace",
+      "label": "Flipkart Official Store",
+      "url": "https://www.flipkart.com/queenscare",
+      "icon": "flipkart",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 24,
+      "desktopIconSize": 24,
+      "mobileIconSize": 18,
+      "openNewTab": true,
+      "sortOrder": 15
+    },
+    {
+      "id": "sml-mthg13xm-ldq3",
+      "createdAt": "2026-08-31T16:19:08.458Z",
+      "updatedAt": "2026-09-01T18:32:57.141Z",
+      "platform": "flipkart",
+      "category": "marketplace",
+      "label": "Flipkart Official Store",
+      "url": "https://www.flipkart.com/queenscare",
+      "icon": "flipkart",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 24,
+      "desktopIconSize": 24,
+      "mobileIconSize": 18,
+      "openNewTab": true,
+      "sortOrder": 16
+    },
+    {
+      "id": "sml-mthi2kjg-ynz9",
+      "createdAt": "2026-08-31T17:16:15.869Z",
+      "updatedAt": "2026-09-01T18:32:57.152Z",
+      "platform": "flipkart",
+      "category": "marketplace",
+      "label": "Flipkart Official Store",
+      "url": "https://www.flipkart.com/queenscare",
+      "icon": "flipkart",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 24,
+      "desktopIconSize": 24,
+      "mobileIconSize": 18,
+      "openNewTab": true,
+      "sortOrder": 17
+    },
+    {
+      "id": "sml-mthix15n-01g5",
+      "createdAt": "2026-08-31T17:39:57.083Z",
+      "updatedAt": "2026-09-01T18:32:57.160Z",
       "platform": "amazon",
       "category": "marketplace",
       "label": "Amazon India Flagship Store",
@@ -4237,12 +6051,12 @@
       "desktopIconSize": 32,
       "mobileIconSize": 22,
       "openNewTab": true,
-      "sortOrder": 2
+      "sortOrder": 6
     },
     {
-      "id": "sml-mtg66lgb-eeiw",
-      "createdAt": "2026-08-30T18:55:42.107Z",
-      "updatedAt": "2026-08-30T19:13:48.993Z",
+      "id": "sml-mthix15x-96tf",
+      "createdAt": "2026-08-31T17:39:57.093Z",
+      "updatedAt": "2026-09-01T18:32:57.171Z",
       "platform": "flipkart",
       "category": "marketplace",
       "label": "Flipkart Official Store",
@@ -4257,9 +6071,145 @@
       "sortOrder": 13
     },
     {
-      "id": "sml-mtg6i4yj-enhi",
-      "createdAt": "2026-08-30T19:04:40.604Z",
-      "updatedAt": "2026-08-30T19:13:49.002Z",
+      "id": "sml-mthjzp5v-bbky",
+      "createdAt": "2026-08-31T18:10:01.124Z",
+      "updatedAt": "2026-09-01T18:32:57.180Z",
+      "platform": "amazon",
+      "category": "marketplace",
+      "label": "Amazon India Flagship Store",
+      "url": "https://www.amazon.in/queenscare",
+      "icon": "amazon",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 26,
+      "desktopIconSize": 32,
+      "mobileIconSize": 22,
+      "openNewTab": true,
+      "sortOrder": 5
+    },
+    {
+      "id": "sml-mthjzp66-zroi",
+      "createdAt": "2026-08-31T18:10:01.134Z",
+      "updatedAt": "2026-09-01T18:32:57.190Z",
+      "platform": "flipkart",
+      "category": "marketplace",
+      "label": "Flipkart Official Store",
+      "url": "https://www.flipkart.com/queenscare",
+      "icon": "flipkart",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 24,
+      "desktopIconSize": 24,
+      "mobileIconSize": 18,
+      "openNewTab": true,
+      "sortOrder": 18
+    },
+    {
+      "id": "sml-mthk8ylc-0iu9",
+      "createdAt": "2026-08-31T18:17:13.248Z",
+      "updatedAt": "2026-09-01T18:32:57.199Z",
+      "platform": "amazon",
+      "category": "marketplace",
+      "label": "Amazon India Flagship Store",
+      "url": "https://www.amazon.in/queenscare",
+      "icon": "amazon",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 26,
+      "desktopIconSize": 32,
+      "mobileIconSize": 22,
+      "openNewTab": true,
+      "sortOrder": 4
+    },
+    {
+      "id": "sml-mthk8yls-y2pt",
+      "createdAt": "2026-08-31T18:17:13.264Z",
+      "updatedAt": "2026-09-01T18:32:57.208Z",
+      "platform": "flipkart",
+      "category": "marketplace",
+      "label": "Flipkart Official Store",
+      "url": "https://www.flipkart.com/queenscare",
+      "icon": "flipkart",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 24,
+      "desktopIconSize": 24,
+      "mobileIconSize": 18,
+      "openNewTab": true,
+      "sortOrder": 19
+    },
+    {
+      "id": "sml-mtit9o4i-igpx",
+      "createdAt": "2026-09-01T15:17:29.059Z",
+      "updatedAt": "2026-09-01T18:32:57.218Z",
+      "platform": "amazon",
+      "category": "marketplace",
+      "label": "Amazon India Flagship Store",
+      "url": "https://www.amazon.in/queenscare",
+      "icon": "amazon",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 26,
+      "desktopIconSize": 32,
+      "mobileIconSize": 22,
+      "openNewTab": true,
+      "sortOrder": 3
+    },
+    {
+      "id": "sml-mtit9o50-74ra",
+      "createdAt": "2026-09-01T15:17:29.076Z",
+      "updatedAt": "2026-09-01T18:32:57.227Z",
+      "platform": "flipkart",
+      "category": "marketplace",
+      "label": "Flipkart Official Store",
+      "url": "https://www.flipkart.com/queenscare",
+      "icon": "flipkart",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 24,
+      "desktopIconSize": 24,
+      "mobileIconSize": 18,
+      "openNewTab": true,
+      "sortOrder": 20
+    },
+    {
+      "id": "sml-mtitcjze-5icz",
+      "createdAt": "2026-09-01T15:19:43.658Z",
+      "updatedAt": "2026-09-01T18:32:57.240Z",
+      "platform": "amazon",
+      "category": "marketplace",
+      "label": "Amazon India Flagship Store",
+      "url": "https://www.amazon.in/queenscare",
+      "icon": "amazon",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 26,
+      "desktopIconSize": 32,
+      "mobileIconSize": 22,
+      "openNewTab": true,
+      "sortOrder": 2
+    },
+    {
+      "id": "sml-mtitcjzo-cp1f",
+      "createdAt": "2026-09-01T15:19:43.668Z",
+      "updatedAt": "2026-09-01T18:32:57.250Z",
+      "platform": "flipkart",
+      "category": "marketplace",
+      "label": "Flipkart Official Store",
+      "url": "https://www.flipkart.com/queenscare",
+      "icon": "flipkart",
+      "customIconUrl": null,
+      "visible": true,
+      "iconSize": 24,
+      "desktopIconSize": 24,
+      "mobileIconSize": 18,
+      "openNewTab": true,
+      "sortOrder": 21
+    },
+    {
+      "id": "sml-mtitg6q8-jj7a",
+      "createdAt": "2026-09-01T15:22:33.104Z",
+      "updatedAt": "2026-09-01T18:32:57.260Z",
       "platform": "amazon",
       "category": "marketplace",
       "label": "Amazon India Flagship Store",
@@ -4274,9 +6224,9 @@
       "sortOrder": 1
     },
     {
-      "id": "sml-mtg6i4yy-mdgp",
-      "createdAt": "2026-08-30T19:04:40.618Z",
-      "updatedAt": "2026-08-30T19:13:49.011Z",
+      "id": "sml-mtitg6qn-rth0",
+      "createdAt": "2026-09-01T15:22:33.120Z",
+      "updatedAt": "2026-09-01T18:32:57.269Z",
       "platform": "flipkart",
       "category": "marketplace",
       "label": "Flipkart Official Store",
@@ -4288,12 +6238,12 @@
       "desktopIconSize": 24,
       "mobileIconSize": 18,
       "openNewTab": true,
-      "sortOrder": 14
+      "sortOrder": 22
     },
     {
-      "id": "sml-mtg6tvo3-x9yj",
-      "createdAt": "2026-08-30T19:13:48.435Z",
-      "updatedAt": "2026-08-30T19:13:49.021Z",
+      "id": "sml-mtj090rl-m8en",
+      "createdAt": "2026-09-01T18:32:56.097Z",
+      "updatedAt": "2026-09-01T18:32:57.279Z",
       "platform": "amazon",
       "category": "marketplace",
       "label": "Amazon India Flagship Store",
@@ -4308,9 +6258,9 @@
       "sortOrder": 0
     },
     {
-      "id": "sml-mtg6tvoi-axqy",
-      "createdAt": "2026-08-30T19:13:48.450Z",
-      "updatedAt": "2026-08-30T19:13:49.030Z",
+      "id": "sml-mtj090s0-ilan",
+      "createdAt": "2026-09-01T18:32:56.112Z",
+      "updatedAt": "2026-09-01T18:32:57.290Z",
       "platform": "flipkart",
       "category": "marketplace",
       "label": "Flipkart Official Store",
@@ -4322,7 +6272,7 @@
       "desktopIconSize": 24,
       "mobileIconSize": 18,
       "openNewTab": true,
-      "sortOrder": 15
+      "sortOrder": 23
     }
   ],
   "pageSettings": [
@@ -4433,7 +6383,7 @@
       "sortOrder": 8,
       "active": true,
       "createdAt": "2026-07-30T00:00:00.000Z",
-      "updatedAt": "2026-07-30T00:00:00.000Z"
+      "updatedAt": "2026-09-02T04:18:09.662Z"
     },
     {
       "id": "pg-shop",
@@ -4471,6 +6421,1298 @@
       "active": true,
       "createdAt": "2026-07-30T00:00:00.000Z",
       "updatedAt": "2026-07-30T00:00:00.000Z"
+    }
+  ],
+  "careerApplications": [
+    {
+      "id": "QC-CAR-MTHFZS79-JCBF",
+      "createdAt": "2026-08-31T16:18:06.597Z",
+      "updatedAt": "2026-08-31T16:18:06.860Z",
+      "status": "shortlisted",
+      "name": "Dr. Ananya Iyer",
+      "email": "ananya.iyer@testqueenscare.in",
+      "phone": "+91 98765 11223",
+      "position": "Senior Formulation Scientist (R&D)",
+      "location": "New Delhi",
+      "experience": "6 Years Pharmaceutical Formulations & QC",
+      "message": "Passionate about clinical active integrity and micro-encapsulation research.",
+      "resumeUrl": "/uploads/resumes/Dr_Ananya_Iyer_Resume-1788193086595.pdf",
+      "resumeFileName": "Dr_Ananya_Iyer_Resume.pdf",
+      "resumeFileSize": 65,
+      "notes": "Excellent R&D background, invited for round 1."
+    },
+    {
+      "id": "QC-CAR-MTHG05MZ-IV8D",
+      "createdAt": "2026-08-31T16:18:24.011Z",
+      "updatedAt": "2026-08-31T16:18:24.067Z",
+      "status": "shortlisted",
+      "name": "Dr. Ananya Iyer",
+      "email": "ananya.iyer@testqueenscare.in",
+      "phone": "+91 98765 11223",
+      "position": "Senior Formulation Scientist (R&D)",
+      "location": "New Delhi",
+      "experience": "6 Years Pharmaceutical Formulations & QC",
+      "message": "Passionate about clinical active integrity and micro-encapsulation research.",
+      "resumeUrl": "/uploads/resumes/Dr_Ananya_Iyer_Resume-1788193104010.pdf",
+      "resumeFileName": "Dr_Ananya_Iyer_Resume.pdf",
+      "resumeFileSize": 65,
+      "notes": "Excellent R&D background, invited for round 1."
+    },
+    {
+      "id": "QC-CAR-MTHHUFHY-0OND",
+      "createdAt": "2026-08-31T17:09:56.086Z",
+      "updatedAt": "2026-08-31T17:09:56.257Z",
+      "status": "shortlisted",
+      "name": "Dr. Ananya Sharma",
+      "email": "ananya.sharma.1788196196078@example.com",
+      "phone": "+91 98765 43210",
+      "whatsapp": "+91 98765 43210",
+      "city": "New Delhi",
+      "position": "Senior Formulation Scientist (R&D)",
+      "jobId": "QC-JOB-RD-01",
+      "department": "Research & Development",
+      "experience": "5.5 Years",
+      "currentCompany": "National Institute of Pharmaceutical Education and Research",
+      "currentDesignation": "Postdoctoral Research Associate",
+      "highestQualification": "Ph.D. in Pharmaceutics",
+      "linkedinUrl": "https://linkedin.com/in/ananya-sharma-pharma",
+      "portfolioUrl": "https://scholar.google.com/citations?user=ananyasharma",
+      "message": "I have 5+ years of specialized experience formulating micro-encapsulated topical actives with verified clinical bio-availability.",
+      "consent": true,
+      "notes": "Excellent R&D pedigree, scheduled for technical interview round."
+    },
+    {
+      "id": "QC-CAR-MTHHUQCS-L5B2",
+      "createdAt": "2026-08-31T17:10:10.156Z",
+      "updatedAt": "2026-08-31T17:10:10.175Z",
+      "status": "shortlisted",
+      "name": "Dr. Ananya Iyer",
+      "email": "ananya.iyer@testqueenscare.in",
+      "phone": "+91 98765 11223",
+      "city": "New Delhi",
+      "position": "Senior Formulation Scientist (R&D)",
+      "experience": "6 Years Pharmaceutical Formulations & QC",
+      "message": "Passionate about clinical active integrity and micro-encapsulation research.",
+      "resumeUrl": "/uploads/resumes/Dr_Ananya_Iyer_Resume-1788196210153.pdf",
+      "resumeFileName": "Dr_Ananya_Iyer_Resume.pdf",
+      "resumeFileSize": 65,
+      "consent": true,
+      "notes": "Excellent R&D background, invited for round 1."
+    },
+    {
+      "id": "undefined",
+      "createdAt": "2026-08-31T17:11:34.661Z",
+      "updatedAt": "2026-08-31T17:11:59.351Z",
+      "status": "shortlisted",
+      "notes": "Excellent R&D background, invited for round 1."
+    },
+    {
+      "id": "QC-CAR-MTHI219J-WXJ1",
+      "createdAt": "2026-08-31T17:15:50.887Z",
+      "updatedAt": "2026-08-31T17:15:51.007Z",
+      "status": "shortlisted",
+      "name": "Dr. Ananya Sharma",
+      "email": "ananya.sharma.1788196550866@example.com",
+      "phone": "+91 98765 43210",
+      "whatsapp": "+91 98765 43210",
+      "city": "New Delhi",
+      "position": "Senior Formulation Scientist (R&D)",
+      "jobId": "QC-JOB-RD-01",
+      "department": "Research & Development",
+      "experience": "5.5 Years",
+      "currentCompany": "National Institute of Pharmaceutical Education and Research",
+      "currentDesignation": "Postdoctoral Research Associate",
+      "highestQualification": "Ph.D. in Pharmaceutics",
+      "linkedinUrl": "https://linkedin.com/in/ananya-sharma-pharma",
+      "portfolioUrl": "https://scholar.google.com/citations?user=ananyasharma",
+      "message": "I have 5+ years of specialized experience formulating micro-encapsulated topical actives with verified clinical bio-availability.",
+      "consent": true,
+      "notes": "Excellent R&D pedigree, scheduled for technical interview round."
+    },
+    {
+      "id": "QC-CAR-MTHI23NE-UQ4K",
+      "createdAt": "2026-08-31T17:15:53.978Z",
+      "updatedAt": "2026-08-31T17:15:54.169Z",
+      "status": "shortlisted",
+      "name": "Dr. Ananya Iyer",
+      "email": "ananya.iyer.1788196553970@testqueenscare.in",
+      "phone": "+91 98765 11223",
+      "city": "New Delhi",
+      "position": "Senior Formulation Scientist (R&D)",
+      "experience": "6 Years Pharmaceutical Formulations & QC",
+      "message": "Passionate about clinical active integrity and micro-encapsulation research.",
+      "resumeUrl": "/uploads/resumes/Dr_Ananya_Iyer_Resume-1788196553977.pdf",
+      "resumeFileName": "Dr_Ananya_Iyer_Resume.pdf",
+      "resumeFileSize": 65,
+      "consent": true,
+      "notes": "Excellent R&D background, invited for round 1."
+    },
+    {
+      "id": "QC-CAR-MTHIVZCU-F0PO",
+      "createdAt": "2026-08-31T17:39:08.094Z",
+      "updatedAt": "2026-08-31T17:39:08.206Z",
+      "status": "shortlisted",
+      "name": "Dr. Ananya Sharma",
+      "email": "ananya.sharma.1788197948081@example.com",
+      "phone": "+91 98765 43210",
+      "whatsapp": "+91 98765 43210",
+      "city": "New Delhi",
+      "position": "Senior Formulation Scientist (R&D)",
+      "jobId": "QC-JOB-RD-01",
+      "department": "Research & Development",
+      "experience": "5.5 Years",
+      "currentCompany": "National Institute of Pharmaceutical Education and Research",
+      "currentDesignation": "Postdoctoral Research Associate",
+      "highestQualification": "Ph.D. in Pharmaceutics",
+      "linkedinUrl": "https://linkedin.com/in/ananya-sharma-pharma",
+      "portfolioUrl": "https://scholar.google.com/citations?user=ananyasharma",
+      "message": "I have 5+ years of specialized experience formulating micro-encapsulated topical actives with verified clinical bio-availability.",
+      "consent": true,
+      "notes": "Excellent R&D pedigree, scheduled for technical interview round."
+    },
+    {
+      "id": "QC-CAR-MTHIW2C4-IZOI",
+      "createdAt": "2026-08-31T17:39:11.956Z",
+      "updatedAt": "2026-08-31T17:39:11.999Z",
+      "status": "shortlisted",
+      "name": "Dr. Ananya Iyer",
+      "email": "ananya.iyer.1788197951938@testqueenscare.in",
+      "phone": "+91 98765 11223",
+      "city": "New Delhi",
+      "position": "Senior Formulation Scientist (R&D)",
+      "experience": "6 Years Pharmaceutical Formulations & QC",
+      "message": "Passionate about clinical active integrity and micro-encapsulation research.",
+      "resumeUrl": "/uploads/resumes/Dr_Ananya_Iyer_Resume-1788197951955.pdf",
+      "resumeFileName": "Dr_Ananya_Iyer_Resume.pdf",
+      "resumeFileSize": 65,
+      "consent": true,
+      "notes": "Excellent R&D background, invited for round 1."
+    },
+    {
+      "id": "QC-CAR-MTHJZCQI-5C2Z",
+      "createdAt": "2026-08-31T18:09:45.018Z",
+      "updatedAt": "2026-08-31T18:09:45.168Z",
+      "status": "shortlisted",
+      "name": "Dr. Ananya Sharma",
+      "email": "ananya.sharma.1788199785005@example.com",
+      "phone": "+91 98765 43210",
+      "whatsapp": "+91 98765 43210",
+      "city": "New Delhi",
+      "position": "Senior Formulation Scientist (R&D)",
+      "jobId": "QC-JOB-RD-01",
+      "department": "Research & Development",
+      "experience": "5.5 Years",
+      "currentCompany": "National Institute of Pharmaceutical Education and Research",
+      "currentDesignation": "Postdoctoral Research Associate",
+      "highestQualification": "Ph.D. in Pharmaceutics",
+      "linkedinUrl": "https://linkedin.com/in/ananya-sharma-pharma",
+      "portfolioUrl": "https://scholar.google.com/citations?user=ananyasharma",
+      "message": "I have 5+ years of specialized experience formulating micro-encapsulated topical actives with verified clinical bio-availability.",
+      "consent": true,
+      "notes": "Excellent R&D pedigree, scheduled for technical interview round."
+    },
+    {
+      "id": "QC-CAR-MTHJZFSM-AIUT",
+      "createdAt": "2026-08-31T18:09:48.982Z",
+      "updatedAt": "2026-08-31T18:09:49.155Z",
+      "status": "shortlisted",
+      "name": "Dr. Ananya Iyer",
+      "email": "ananya.iyer.1788199788973@testqueenscare.in",
+      "phone": "+91 98765 11223",
+      "city": "New Delhi",
+      "position": "Senior Formulation Scientist (R&D)",
+      "experience": "6 Years Pharmaceutical Formulations & QC",
+      "message": "Passionate about clinical active integrity and micro-encapsulation research.",
+      "resumeUrl": "/uploads/resumes/Dr_Ananya_Iyer_Resume-1788199788981.pdf",
+      "resumeFileName": "Dr_Ananya_Iyer_Resume.pdf",
+      "resumeFileSize": 65,
+      "consent": true,
+      "notes": "Excellent R&D background, invited for round 1."
+    },
+    {
+      "id": "QC-CAR-MTHK8FTS-DY97",
+      "createdAt": "2026-08-31T18:16:48.928Z",
+      "updatedAt": "2026-08-31T18:16:49.031Z",
+      "status": "shortlisted",
+      "name": "Dr. Ananya Sharma",
+      "email": "ananya.sharma.1788200208910@example.com",
+      "phone": "+91 98765 43210",
+      "whatsapp": "+91 98765 43210",
+      "city": "New Delhi",
+      "position": "Senior Formulation Scientist (R&D)",
+      "jobId": "QC-JOB-RD-01",
+      "department": "Research & Development",
+      "experience": "5.5 Years",
+      "currentCompany": "National Institute of Pharmaceutical Education and Research",
+      "currentDesignation": "Postdoctoral Research Associate",
+      "highestQualification": "Ph.D. in Pharmaceutics",
+      "linkedinUrl": "https://linkedin.com/in/ananya-sharma-pharma",
+      "portfolioUrl": "https://scholar.google.com/citations?user=ananyasharma",
+      "message": "I have 5+ years of specialized experience formulating micro-encapsulated topical actives with verified clinical bio-availability.",
+      "consent": true,
+      "notes": "Excellent R&D pedigree, scheduled for technical interview round."
+    },
+    {
+      "id": "QC-CAR-MTHK8I5C-DCGS",
+      "createdAt": "2026-08-31T18:16:51.937Z",
+      "updatedAt": "2026-08-31T18:16:52.085Z",
+      "status": "shortlisted",
+      "name": "Dr. Ananya Iyer",
+      "email": "ananya.iyer.1788200211930@testqueenscare.in",
+      "phone": "+91 98765 11223",
+      "city": "New Delhi",
+      "position": "Senior Formulation Scientist (R&D)",
+      "experience": "6 Years Pharmaceutical Formulations & QC",
+      "message": "Passionate about clinical active integrity and micro-encapsulation research.",
+      "resumeUrl": "/uploads/resumes/Dr_Ananya_Iyer_Resume-1788200211935.pdf",
+      "resumeFileName": "Dr_Ananya_Iyer_Resume.pdf",
+      "resumeFileSize": 65,
+      "consent": true,
+      "notes": "Excellent R&D background, invited for round 1."
+    },
+    {
+      "id": "QC-CAR-MTIT8WC8-9COO",
+      "createdAt": "2026-09-01T15:16:53.048Z",
+      "updatedAt": "2026-09-01T15:16:53.187Z",
+      "status": "shortlisted",
+      "name": "Dr. Ananya Sharma",
+      "email": "ananya.sharma.1788275813040@example.com",
+      "phone": "+91 98765 43210",
+      "whatsapp": "+91 98765 43210",
+      "city": "New Delhi",
+      "position": "Senior Formulation Scientist (R&D)",
+      "jobId": "QC-JOB-RD-01",
+      "department": "Research & Development",
+      "experience": "5.5 Years",
+      "currentCompany": "National Institute of Pharmaceutical Education and Research",
+      "currentDesignation": "Postdoctoral Research Associate",
+      "highestQualification": "Ph.D. in Pharmaceutics",
+      "linkedinUrl": "https://linkedin.com/in/ananya-sharma-pharma",
+      "portfolioUrl": "https://scholar.google.com/citations?user=ananyasharma",
+      "message": "I have 5+ years of specialized experience formulating micro-encapsulated topical actives with verified clinical bio-availability.",
+      "consent": true,
+      "notes": "Excellent R&D pedigree, scheduled for technical interview round."
+    },
+    {
+      "id": "QC-CAR-MTIT9NDZ-B3L3",
+      "createdAt": "2026-09-01T15:17:28.103Z",
+      "updatedAt": "2026-09-01T15:17:28.221Z",
+      "status": "shortlisted",
+      "name": "Dr. Ananya Sharma",
+      "email": "ananya.sharma.1788275848100@example.com",
+      "phone": "+91 98765 43210",
+      "whatsapp": "+91 98765 43210",
+      "city": "New Delhi",
+      "position": "Senior Formulation Scientist (R&D)",
+      "jobId": "QC-JOB-RD-01",
+      "department": "Research & Development",
+      "experience": "5.5 Years",
+      "currentCompany": "National Institute of Pharmaceutical Education and Research",
+      "currentDesignation": "Postdoctoral Research Associate",
+      "highestQualification": "Ph.D. in Pharmaceutics",
+      "linkedinUrl": "https://linkedin.com/in/ananya-sharma-pharma",
+      "portfolioUrl": "https://scholar.google.com/citations?user=ananyasharma",
+      "message": "I have 5+ years of specialized experience formulating micro-encapsulated topical actives with verified clinical bio-availability.",
+      "consent": true,
+      "notes": "Excellent R&D pedigree, scheduled for technical interview round."
+    },
+    {
+      "id": "QC-CAR-MTITCFS7-TOC1",
+      "createdAt": "2026-09-01T15:19:38.215Z",
+      "updatedAt": "2026-09-01T15:19:38.331Z",
+      "status": "shortlisted",
+      "name": "Dr. Ananya Sharma",
+      "email": "ananya.sharma.1788275978211@example.com",
+      "phone": "+91 98765 43210",
+      "whatsapp": "+91 98765 43210",
+      "city": "New Delhi",
+      "position": "Senior Formulation Scientist (R&D)",
+      "jobId": "QC-JOB-RD-01",
+      "department": "Research & Development",
+      "experience": "5.5 Years",
+      "currentCompany": "National Institute of Pharmaceutical Education and Research",
+      "currentDesignation": "Postdoctoral Research Associate",
+      "highestQualification": "Ph.D. in Pharmaceutics",
+      "linkedinUrl": "https://linkedin.com/in/ananya-sharma-pharma",
+      "portfolioUrl": "https://scholar.google.com/citations?user=ananyasharma",
+      "message": "I have 5+ years of specialized experience formulating micro-encapsulated topical actives with verified clinical bio-availability.",
+      "consent": true,
+      "notes": "Excellent R&D pedigree, scheduled for technical interview round."
+    },
+    {
+      "id": "QC-CAR-MTITEKRW-HX6Y",
+      "createdAt": "2026-09-01T15:21:17.996Z",
+      "updatedAt": "2026-09-01T15:21:18.117Z",
+      "status": "shortlisted",
+      "name": "Dr. Ananya Sharma",
+      "email": "ananya.sharma.1788276077992@example.com",
+      "phone": "+91 98765 43210",
+      "whatsapp": "+91 98765 43210",
+      "city": "New Delhi",
+      "position": "Senior Formulation Scientist (R&D)",
+      "jobId": "QC-JOB-RD-01",
+      "department": "Research & Development",
+      "experience": "5.5 Years",
+      "currentCompany": "National Institute of Pharmaceutical Education and Research",
+      "currentDesignation": "Postdoctoral Research Associate",
+      "highestQualification": "Ph.D. in Pharmaceutics",
+      "linkedinUrl": "https://linkedin.com/in/ananya-sharma-pharma",
+      "portfolioUrl": "https://scholar.google.com/citations?user=ananyasharma",
+      "message": "I have 5+ years of specialized experience formulating micro-encapsulated topical actives with verified clinical bio-availability.",
+      "consent": true,
+      "notes": "Excellent R&D pedigree, scheduled for technical interview round."
+    },
+    {
+      "id": "QC-CAR-MTJ09033-WFCW",
+      "createdAt": "2026-09-01T18:32:55.215Z",
+      "updatedAt": "2026-09-01T18:32:55.334Z",
+      "status": "shortlisted",
+      "name": "Dr. Ananya Sharma",
+      "email": "ananya.sharma.1788287575202@example.com",
+      "phone": "+91 98765 43210",
+      "whatsapp": "+91 98765 43210",
+      "city": "New Delhi",
+      "position": "Senior Formulation Scientist (R&D)",
+      "jobId": "QC-JOB-RD-01",
+      "department": "Research & Development",
+      "experience": "5.5 Years",
+      "currentCompany": "National Institute of Pharmaceutical Education and Research",
+      "currentDesignation": "Postdoctoral Research Associate",
+      "highestQualification": "Ph.D. in Pharmaceutics",
+      "linkedinUrl": "https://linkedin.com/in/ananya-sharma-pharma",
+      "portfolioUrl": "https://scholar.google.com/citations?user=ananyasharma",
+      "message": "I have 5+ years of specialized experience formulating micro-encapsulated topical actives with verified clinical bio-availability.",
+      "consent": true,
+      "notes": "Excellent R&D pedigree, scheduled for technical interview round."
+    }
+  ],
+  "careerJobs": [
+    {
+      "id": "QC-JOB-RD-01",
+      "createdAt": "2026-08-01T00:00:00.000Z",
+      "updatedAt": "2026-08-01T00:00:00.000Z",
+      "title": "Senior Formulation Scientist (R&D)",
+      "slug": "senior-formulation-scientist-rd",
+      "jobId": "QC-JOB-RD-01",
+      "department": "Research & Development",
+      "location": "New Delhi (Laboratory Campus)",
+      "workMode": "On-site",
+      "employmentType": "Full-Time",
+      "experience": "4-7 Years",
+      "qualification": "M.Pharm / Ph.D. in Pharmaceutical Chemistry or Pharmaceutics",
+      "salaryRange": "₹14 - ₹20 LPA",
+      "description": "Lead development of novel topical actives, micro-encapsulated suspensions, and bio-available oral wellness compounds.",
+      "responsibilities": [
+        "Design and execute novel topical and oral pharmaceutical formulations with high bio-availability.",
+        "Lead pre-formulation, excipient compatibility, and accelerated stability testing per ICH guidelines.",
+        "Collaborate with analytical R&D for HPLC, dissolution testing, and assay validation.",
+        "Draft technology transfer documentation, master formula cards, and regulatory dossiers."
+      ],
+      "requirements": [
+        "Master's degree or Ph.D. in Pharmaceutics, Pharmaceutical Chemistry, or related discipline.",
+        "4+ years of hands-on experience in topical emulsions, serums, and clinical active suspensions.",
+        "Deep familiarity with pharmacopeial standards (IP/BP/USP) and ISO cleanroom protocols.",
+        "Demonstrated track record of taking formulations from bench scale to commercial batch production."
+      ],
+      "skills": [
+        "Pharmaceutical Formulations",
+        "Pre-formulation",
+        "ICH Stability Studies",
+        "HPLC",
+        "Technology Transfer",
+        "Topical Delivery Systems"
+      ],
+      "preferredQualifications": [
+        "Experience with liposomal encapsulation and nano-suspensions.",
+        "Published research in peer-reviewed pharmaceutical journals."
+      ],
+      "benefits": [
+        "Comprehensive family medical insurance & annual health checks",
+        "State-of-the-art laboratory instrumentation & continuous research budget",
+        "Annual performance incentives & patent filing bonuses",
+        "Sponsored participation in international clinical dermatology symposiums"
+      ],
+      "deadline": "2026-10-31",
+      "applicationEmail": "careers@queenscare.in",
+      "featured": true,
+      "active": true,
+      "published": true,
+      "sortOrder": 1
+    },
+    {
+      "id": "QC-JOB-QA-02",
+      "createdAt": "2026-08-01T00:00:00.000Z",
+      "updatedAt": "2026-08-01T00:00:00.000Z",
+      "title": "Quality Assurance & Regulatory Lead",
+      "slug": "quality-assurance-regulatory-lead",
+      "jobId": "QC-JOB-QA-02",
+      "department": "Quality Assurance",
+      "location": "New Delhi",
+      "workMode": "On-site",
+      "employmentType": "Full-Time",
+      "experience": "3-6 Years",
+      "qualification": "B.Pharm / M.Pharm / M.Sc Chemistry",
+      "salaryRange": "₹10 - ₹15 LPA",
+      "description": "Oversee ISO 9001 compliance, batch testing integrity, stability studies, and pharmacopeial adherence.",
+      "responsibilities": [
+        "Establish and enforce standard operating procedures (SOPs) across manufacturing and packaging units.",
+        "Conduct batch release audits, out-of-specification (OOS) investigations, and root-cause analyses.",
+        "Manage state and central drug licensing filings, renewals, and regulatory inspections.",
+        "Supervise analytical laboratory data integrity, calibration schedules, and vendor quality audits."
+      ],
+      "requirements": [
+        "Degree in Pharmacy or Chemistry with 3+ years in QA/QC leadership.",
+        "Thorough knowledge of cGMP regulations, Schedule M compliance, and ISO 9001 standards.",
+        "Expertise in CAPA implementation, deviation handling, and audit readiness."
+      ],
+      "skills": [
+        "cGMP",
+        "Schedule M",
+        "Audit Readiness",
+        "SOP Development",
+        "Regulatory Filings",
+        "CAPA Management"
+      ],
+      "preferredQualifications": [
+        "Experience handling CDSCO audits and pharmacovigilance documentation."
+      ],
+      "benefits": [
+        "Health insurance coverage",
+        "Continuous regulatory training certifications",
+        "Annual bonus & appraisal program",
+        "Paid wellness leaves"
+      ],
+      "deadline": "2026-10-31",
+      "applicationEmail": "careers@queenscare.in",
+      "featured": true,
+      "active": true,
+      "published": true,
+      "sortOrder": 2
+    },
+    {
+      "id": "QC-JOB-B2B-03",
+      "createdAt": "2026-08-01T00:00:00.000Z",
+      "updatedAt": "2026-08-01T00:00:00.000Z",
+      "title": "B2B & Distribution Executive",
+      "slug": "b2b-distribution-executive",
+      "jobId": "QC-JOB-B2B-03",
+      "department": "Commercial & Partnerships",
+      "location": "Mumbai / Delhi (Hybrid)",
+      "workMode": "Hybrid",
+      "employmentType": "Full-Time",
+      "experience": "2-5 Years",
+      "qualification": "B.Com / BBA / B.Pharm / MBA Marketing",
+      "salaryRange": "₹8 - ₹12 LPA + Performance Incentives",
+      "description": "Expand our medical distribution network, clinic partnerships, and wholesale retail presence across metro regions.",
+      "responsibilities": [
+        "Identify, onboard, and manage regional pharmaceutical stockists, clinic networks, and hospital pharmacies.",
+        "Negotiate commercial trade terms, credit agreements, and minimum order commitments.",
+        "Coordinate with supply chain operations for timely dispatch and inventory fulfillment across distribution hubs.",
+        "Represent Queens Care Laboratories at regional medical conferences and distributor summits."
+      ],
+      "requirements": [
+        "2+ years in healthcare, pharmaceutical distribution, or clinical OTC channel management.",
+        "Strong relationship network with medical distributors and retail pharmacy chains in North/West India.",
+        "Exceptional negotiation, territory planning, and commercial sales acumen."
+      ],
+      "skills": [
+        "B2B Channel Sales",
+        "Key Account Management",
+        "Distributor Onboarding",
+        "Commercial Negotiation",
+        "Supply Chain Coordination"
+      ],
+      "preferredQualifications": [
+        "Prior experience with dermatological or clinical nutrition product distribution."
+      ],
+      "benefits": [
+        "Competitive base salary + high-growth sales incentive structure",
+        "Travel allowance & corporate fuel reimbursement",
+        "Flexible hybrid schedule",
+        "Executive health coverage"
+      ],
+      "deadline": "2026-11-15",
+      "applicationEmail": "careers@queenscare.in",
+      "featured": false,
+      "active": true,
+      "published": true,
+      "sortOrder": 3
+    },
+    {
+      "id": "QC-JOB-ECOM-04",
+      "createdAt": "2026-08-01T00:00:00.000Z",
+      "updatedAt": "2026-08-01T00:00:00.000Z",
+      "title": "Digital Commerce & Operations Specialist",
+      "slug": "digital-commerce-operations-specialist",
+      "jobId": "QC-JOB-ECOM-04",
+      "department": "Growth & Operations",
+      "location": "New Delhi / Remote",
+      "workMode": "Hybrid",
+      "employmentType": "Full-Time",
+      "experience": "2-4 Years",
+      "qualification": "Bachelor's / Master's degree in any discipline",
+      "salaryRange": "₹7 - ₹11 LPA",
+      "description": "Manage digital store operations, direct-to-consumer logistics, marketplace integrations, and omnichannel customer retention.",
+      "responsibilities": [
+        "Supervise D2C e-commerce operations, checkout conversion flows, and order fulfillment SLAs.",
+        "Manage marketplace listings across Amazon, Flipkart, Tata 1mg, and PharmEasy.",
+        "Track customer retention metrics, delivery tracking updates, and post-purchase communication sequences.",
+        "Collaborate with technical engineering and creative teams for site merchandising and digital campaigns."
+      ],
+      "requirements": [
+        "2+ years managing high-growth D2C brand operations or healthcare e-commerce platforms.",
+        "Proficiency in e-commerce CMS systems, courier aggregators, and inventory synchronization.",
+        "Data-driven mindset with analytical capability in Google Analytics 4 and commercial metrics."
+      ],
+      "skills": [
+        "D2C Operations",
+        "Amazon Seller Central",
+        "Inventory Logistics",
+        "E-Commerce Merchandising",
+        "Customer Retention"
+      ],
+      "preferredQualifications": [
+        "Experience with health & wellness or luxury personal care brands."
+      ],
+      "benefits": [
+        "Hybrid / Remote flexibility",
+        "Health coverage",
+        "Wellness product allocation & employee discounts",
+        "Professional development budget"
+      ],
+      "deadline": "2026-11-15",
+      "applicationEmail": "careers@queenscare.in",
+      "featured": false,
+      "active": true,
+      "published": true,
+      "sortOrder": 4
+    },
+    {
+      "id": "QC-JOB-MTHHUFKA",
+      "createdAt": "2026-08-31T17:09:56.170Z",
+      "updatedAt": "2026-08-31T17:09:56.204Z",
+      "jobId": "QC-JOB-MTHHUFKA",
+      "title": "Clinical Trials & Medical Affairs Director",
+      "slug": "clinical-trials-medical-affairs-director",
+      "department": "Medical Affairs",
+      "location": "New Delhi / Remote",
+      "workMode": "Hybrid",
+      "employmentType": "Full-Time",
+      "experience": "8-12 Years",
+      "qualification": "MD Pharmacology / MBBS + Ph.D.",
+      "salaryRange": "₹30 - ₹40 LPA",
+      "description": "Direct multicenter Phase III/IV dermatological clinical trials and investigator-initiated studies.",
+      "responsibilities": [
+        "Design clinical study protocols",
+        "Oversee GCP compliance"
+      ],
+      "requirements": [
+        "MD/MBBS with 8+ years clinical experience"
+      ],
+      "skills": [
+        "Clinical Trials",
+        "GCP Compliance",
+        "Medical Writing"
+      ],
+      "preferredQualifications": [],
+      "benefits": [
+        "Executive health plan",
+        "Global travel allowance"
+      ],
+      "deadline": "",
+      "applicationEmail": "careers@queenscare.in",
+      "featured": true,
+      "active": true,
+      "published": true,
+      "sortOrder": 99
+    },
+    {
+      "id": "QC-JOB-MTHI21B4",
+      "createdAt": "2026-08-31T17:15:50.944Z",
+      "updatedAt": "2026-08-31T17:15:50.966Z",
+      "jobId": "QC-JOB-MTHI21B4",
+      "title": "Clinical Trials & Medical Affairs Director",
+      "slug": "clinical-trials-medical-affairs-director",
+      "department": "Medical Affairs",
+      "location": "New Delhi / Remote",
+      "workMode": "Hybrid",
+      "employmentType": "Full-Time",
+      "experience": "8-12 Years",
+      "qualification": "MD Pharmacology / MBBS + Ph.D.",
+      "salaryRange": "₹30 - ₹40 LPA",
+      "description": "Direct multicenter Phase III/IV dermatological clinical trials and investigator-initiated studies.",
+      "responsibilities": [
+        "Design clinical study protocols",
+        "Oversee GCP compliance"
+      ],
+      "requirements": [
+        "MD/MBBS with 8+ years clinical experience"
+      ],
+      "skills": [
+        "Clinical Trials",
+        "GCP Compliance",
+        "Medical Writing"
+      ],
+      "preferredQualifications": [],
+      "benefits": [
+        "Executive health plan",
+        "Global travel allowance"
+      ],
+      "deadline": "",
+      "applicationEmail": "careers@queenscare.in",
+      "featured": true,
+      "active": true,
+      "published": true,
+      "sortOrder": 99
+    },
+    {
+      "id": "QC-JOB-MTHIVZEI",
+      "createdAt": "2026-08-31T17:39:08.154Z",
+      "updatedAt": "2026-08-31T17:39:08.170Z",
+      "jobId": "QC-JOB-MTHIVZEI",
+      "title": "Clinical Trials & Medical Affairs Director",
+      "slug": "clinical-trials-medical-affairs-director",
+      "department": "Medical Affairs",
+      "location": "New Delhi / Remote",
+      "workMode": "Hybrid",
+      "employmentType": "Full-Time",
+      "experience": "8-12 Years",
+      "qualification": "MD Pharmacology / MBBS + Ph.D.",
+      "salaryRange": "₹30 - ₹40 LPA",
+      "description": "Direct multicenter Phase III/IV dermatological clinical trials and investigator-initiated studies.",
+      "responsibilities": [
+        "Design clinical study protocols",
+        "Oversee GCP compliance"
+      ],
+      "requirements": [
+        "MD/MBBS with 8+ years clinical experience"
+      ],
+      "skills": [
+        "Clinical Trials",
+        "GCP Compliance",
+        "Medical Writing"
+      ],
+      "preferredQualifications": [],
+      "benefits": [
+        "Executive health plan",
+        "Global travel allowance"
+      ],
+      "deadline": "",
+      "applicationEmail": "careers@queenscare.in",
+      "featured": true,
+      "active": true,
+      "published": true,
+      "sortOrder": 99
+    },
+    {
+      "id": "QC-JOB-MTHJZCS7",
+      "createdAt": "2026-08-31T18:09:45.079Z",
+      "updatedAt": "2026-08-31T18:09:45.112Z",
+      "jobId": "QC-JOB-MTHJZCS7",
+      "title": "Clinical Trials & Medical Affairs Director",
+      "slug": "clinical-trials-medical-affairs-director",
+      "department": "Medical Affairs",
+      "location": "New Delhi / Remote",
+      "workMode": "Hybrid",
+      "employmentType": "Full-Time",
+      "experience": "8-12 Years",
+      "qualification": "MD Pharmacology / MBBS + Ph.D.",
+      "salaryRange": "₹30 - ₹40 LPA",
+      "description": "Direct multicenter Phase III/IV dermatological clinical trials and investigator-initiated studies.",
+      "responsibilities": [
+        "Design clinical study protocols",
+        "Oversee GCP compliance"
+      ],
+      "requirements": [
+        "MD/MBBS with 8+ years clinical experience"
+      ],
+      "skills": [
+        "Clinical Trials",
+        "GCP Compliance",
+        "Medical Writing"
+      ],
+      "preferredQualifications": [],
+      "benefits": [
+        "Executive health plan",
+        "Global travel allowance"
+      ],
+      "deadline": "",
+      "applicationEmail": "careers@queenscare.in",
+      "featured": true,
+      "active": true,
+      "published": true,
+      "sortOrder": 99
+    },
+    {
+      "id": "QC-JOB-MTHK8FV3",
+      "createdAt": "2026-08-31T18:16:48.975Z",
+      "updatedAt": "2026-08-31T18:16:48.991Z",
+      "jobId": "QC-JOB-MTHK8FV3",
+      "title": "Clinical Trials & Medical Affairs Director",
+      "slug": "clinical-trials-medical-affairs-director",
+      "department": "Medical Affairs",
+      "location": "New Delhi / Remote",
+      "workMode": "Hybrid",
+      "employmentType": "Full-Time",
+      "experience": "8-12 Years",
+      "qualification": "MD Pharmacology / MBBS + Ph.D.",
+      "salaryRange": "₹30 - ₹40 LPA",
+      "description": "Direct multicenter Phase III/IV dermatological clinical trials and investigator-initiated studies.",
+      "responsibilities": [
+        "Design clinical study protocols",
+        "Oversee GCP compliance"
+      ],
+      "requirements": [
+        "MD/MBBS with 8+ years clinical experience"
+      ],
+      "skills": [
+        "Clinical Trials",
+        "GCP Compliance",
+        "Medical Writing"
+      ],
+      "preferredQualifications": [],
+      "benefits": [
+        "Executive health plan",
+        "Global travel allowance"
+      ],
+      "deadline": "",
+      "applicationEmail": "careers@queenscare.in",
+      "featured": true,
+      "active": true,
+      "published": true,
+      "sortOrder": 99
+    },
+    {
+      "id": "QC-JOB-MTIT8WDX",
+      "createdAt": "2026-09-01T15:16:53.109Z",
+      "updatedAt": "2026-09-01T15:16:53.129Z",
+      "jobId": "QC-JOB-MTIT8WDX",
+      "title": "Clinical Trials & Medical Affairs Director",
+      "slug": "clinical-trials-medical-affairs-director",
+      "department": "Medical Affairs",
+      "location": "New Delhi / Remote",
+      "workMode": "Hybrid",
+      "employmentType": "Full-Time",
+      "experience": "8-12 Years",
+      "qualification": "MD Pharmacology / MBBS + Ph.D.",
+      "salaryRange": "₹30 - ₹40 LPA",
+      "description": "Direct multicenter Phase III/IV dermatological clinical trials and investigator-initiated studies.",
+      "responsibilities": [
+        "Design clinical study protocols",
+        "Oversee GCP compliance"
+      ],
+      "requirements": [
+        "MD/MBBS with 8+ years clinical experience"
+      ],
+      "skills": [
+        "Clinical Trials",
+        "GCP Compliance",
+        "Medical Writing"
+      ],
+      "preferredQualifications": [],
+      "benefits": [
+        "Executive health plan",
+        "Global travel allowance"
+      ],
+      "deadline": "",
+      "applicationEmail": "careers@queenscare.in",
+      "featured": true,
+      "active": true,
+      "published": true,
+      "sortOrder": 99
+    },
+    {
+      "id": "QC-JOB-MTIT9NFL",
+      "createdAt": "2026-09-01T15:17:28.161Z",
+      "updatedAt": "2026-09-01T15:17:28.176Z",
+      "jobId": "QC-JOB-MTIT9NFL",
+      "title": "Clinical Trials & Medical Affairs Director",
+      "slug": "clinical-trials-medical-affairs-director",
+      "department": "Medical Affairs",
+      "location": "New Delhi / Remote",
+      "workMode": "Hybrid",
+      "employmentType": "Full-Time",
+      "experience": "8-12 Years",
+      "qualification": "MD Pharmacology / MBBS + Ph.D.",
+      "salaryRange": "₹30 - ₹40 LPA",
+      "description": "Direct multicenter Phase III/IV dermatological clinical trials and investigator-initiated studies.",
+      "responsibilities": [
+        "Design clinical study protocols",
+        "Oversee GCP compliance"
+      ],
+      "requirements": [
+        "MD/MBBS with 8+ years clinical experience"
+      ],
+      "skills": [
+        "Clinical Trials",
+        "GCP Compliance",
+        "Medical Writing"
+      ],
+      "preferredQualifications": [],
+      "benefits": [
+        "Executive health plan",
+        "Global travel allowance"
+      ],
+      "deadline": "",
+      "applicationEmail": "careers@queenscare.in",
+      "featured": true,
+      "active": true,
+      "published": true,
+      "sortOrder": 99
+    },
+    {
+      "id": "QC-JOB-MTITCFTO",
+      "createdAt": "2026-09-01T15:19:38.268Z",
+      "updatedAt": "2026-09-01T15:19:38.284Z",
+      "jobId": "QC-JOB-MTITCFTO",
+      "title": "Clinical Trials & Medical Affairs Director",
+      "slug": "clinical-trials-medical-affairs-director",
+      "department": "Medical Affairs",
+      "location": "New Delhi / Remote",
+      "workMode": "Hybrid",
+      "employmentType": "Full-Time",
+      "experience": "8-12 Years",
+      "qualification": "MD Pharmacology / MBBS + Ph.D.",
+      "salaryRange": "₹30 - ₹40 LPA",
+      "description": "Direct multicenter Phase III/IV dermatological clinical trials and investigator-initiated studies.",
+      "responsibilities": [
+        "Design clinical study protocols",
+        "Oversee GCP compliance"
+      ],
+      "requirements": [
+        "MD/MBBS with 8+ years clinical experience"
+      ],
+      "skills": [
+        "Clinical Trials",
+        "GCP Compliance",
+        "Medical Writing"
+      ],
+      "preferredQualifications": [],
+      "benefits": [
+        "Executive health plan",
+        "Global travel allowance"
+      ],
+      "deadline": "",
+      "applicationEmail": "careers@queenscare.in",
+      "featured": true,
+      "active": true,
+      "published": true,
+      "sortOrder": 99
+    },
+    {
+      "id": "QC-JOB-MTITEKTC",
+      "createdAt": "2026-09-01T15:21:18.048Z",
+      "updatedAt": "2026-09-01T15:21:18.062Z",
+      "jobId": "QC-JOB-MTITEKTC",
+      "title": "Clinical Trials & Medical Affairs Director",
+      "slug": "clinical-trials-medical-affairs-director",
+      "department": "Medical Affairs",
+      "location": "New Delhi / Remote",
+      "workMode": "Hybrid",
+      "employmentType": "Full-Time",
+      "experience": "8-12 Years",
+      "qualification": "MD Pharmacology / MBBS + Ph.D.",
+      "salaryRange": "₹30 - ₹40 LPA",
+      "description": "Direct multicenter Phase III/IV dermatological clinical trials and investigator-initiated studies.",
+      "responsibilities": [
+        "Design clinical study protocols",
+        "Oversee GCP compliance"
+      ],
+      "requirements": [
+        "MD/MBBS with 8+ years clinical experience"
+      ],
+      "skills": [
+        "Clinical Trials",
+        "GCP Compliance",
+        "Medical Writing"
+      ],
+      "preferredQualifications": [],
+      "benefits": [
+        "Executive health plan",
+        "Global travel allowance"
+      ],
+      "deadline": "",
+      "applicationEmail": "careers@queenscare.in",
+      "featured": true,
+      "active": true,
+      "published": true,
+      "sortOrder": 99
+    },
+    {
+      "id": "QC-JOB-MTJ0904O",
+      "createdAt": "2026-09-01T18:32:55.272Z",
+      "updatedAt": "2026-09-01T18:32:55.289Z",
+      "jobId": "QC-JOB-MTJ0904O",
+      "title": "Clinical Trials & Medical Affairs Director",
+      "slug": "clinical-trials-medical-affairs-director",
+      "department": "Medical Affairs",
+      "location": "New Delhi / Remote",
+      "workMode": "Hybrid",
+      "employmentType": "Full-Time",
+      "experience": "8-12 Years",
+      "qualification": "MD Pharmacology / MBBS + Ph.D.",
+      "salaryRange": "₹30 - ₹40 LPA",
+      "description": "Direct multicenter Phase III/IV dermatological clinical trials and investigator-initiated studies.",
+      "responsibilities": [
+        "Design clinical study protocols",
+        "Oversee GCP compliance"
+      ],
+      "requirements": [
+        "MD/MBBS with 8+ years clinical experience"
+      ],
+      "skills": [
+        "Clinical Trials",
+        "GCP Compliance",
+        "Medical Writing"
+      ],
+      "preferredQualifications": [],
+      "benefits": [
+        "Executive health plan",
+        "Global travel allowance"
+      ],
+      "deadline": "",
+      "applicationEmail": "careers@queenscare.in",
+      "featured": true,
+      "active": true,
+      "published": true,
+      "sortOrder": 99
+    }
+  ],
+  "careerPageSettings": {},
+  "careerSections": [],
+  "newsletterSubscribers": [],
+  "contactEnquiries": [],
+  "notificationSettings": [],
+  "storeLocations": [
+    {
+      "id": "QC-LOC-MTHK86HP-JDUS",
+      "createdAt": "2026-08-31T18:16:36.829Z",
+      "updatedAt": "2026-08-31T18:23:17.290Z",
+      "name": "Queens Care Flagship Pharmacy & Derma Centre",
+      "type": "authorized_partner",
+      "contactPerson": "Dr. Alok Verma",
+      "phone": "+91 22 2640 8899",
+      "whatsapp": "+91 98200 44556",
+      "email": "bandra@queenscare.in",
+      "address": "Shop 4, Ground Floor, Platinum Heights, Turner Road, Bandra West",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "pincode": "400050",
+      "country": "India",
+      "latitude": 19.0596,
+      "longitude": 72.8295,
+      "region": "Western Mumbai",
+      "productsHandled": "Full Queens Care Portfolio, Lumine-C, Liko-Q, Clinical Peels",
+      "openingHours": "Mon-Sat: 09:30 AM - 09:00 PM | Sun: 10:00 AM - 02:00 PM",
+      "website": "https://queenscare.in",
+      "directionsUrl": "https://www.google.com/maps/search/?api=1&query=19.0596,72.8295",
+      "description": "Official company flagship derma dispensary offering certified batch formulations, clinical skin analysis, and immediate stock replenishment.",
+      "isAuthorized": true,
+      "isFeatured": true,
+      "isActive": true,
+      "isVisible": true,
+      "sortOrder": 1
+    },
+    {
+      "id": "QC-LOC-MTHK86HS-HX7Z",
+      "createdAt": "2026-08-31T18:16:36.832Z",
+      "updatedAt": "2026-08-31T18:16:36.832Z",
+      "name": "Apex Biocare Western India Distribution Hub",
+      "type": "distributor",
+      "contactPerson": "Rajesh Singhania",
+      "phone": "+91 22 2778 4400",
+      "whatsapp": "+91 98199 77881",
+      "email": "commercial@apexbiocare.in",
+      "address": "Plot 42, MIDC Industrial Area, TTC Zone, Turbhe",
+      "city": "Navi Mumbai",
+      "state": "Maharashtra",
+      "pincode": "400705",
+      "country": "India",
+      "latitude": 19.0833,
+      "longitude": 73.0167,
+      "region": "MMR & Western Maharashtra",
+      "productsHandled": "Wholesale & Bulk Supply, Institutional Formulations",
+      "openingHours": "Mon-Fri: 09:00 AM - 07:00 PM | Sat: 09:00 AM - 03:00 PM",
+      "website": "https://apexbiocare.example.com",
+      "directionsUrl": "https://www.google.com/maps/search/?api=1&query=19.0833,73.0167",
+      "description": "Authorized regional distribution warehouse servicing hospital pharmacy chains, clinical stockists, and retail pharmacies across western India.",
+      "isAuthorized": true,
+      "isFeatured": true,
+      "isActive": true,
+      "isVisible": true,
+      "sortOrder": 2
+    },
+    {
+      "id": "QC-LOC-MTHK86I5-MDRO",
+      "createdAt": "2026-08-31T18:16:36.846Z",
+      "updatedAt": "2026-08-31T18:16:36.846Z",
+      "name": "Connaught Place Medical & Clinical Dispensary",
+      "type": "pharmacy",
+      "contactPerson": "Praveen Narang",
+      "phone": "+91 11 2332 5566",
+      "whatsapp": "+91 98110 33445",
+      "email": "cp.dispensary@delhipharma.in",
+      "address": "B-Block, Inner Circle, Connaught Place",
+      "city": "New Delhi",
+      "state": "Delhi",
+      "pincode": "110001",
+      "country": "India",
+      "latitude": 28.6315,
+      "longitude": 77.2167,
+      "region": "Central Delhi",
+      "productsHandled": "Lumine-C, Liko-Q Suspension, Derma Care Series",
+      "openingHours": "Open Daily: 08:30 AM - 10:30 PM",
+      "directionsUrl": "https://www.google.com/maps/search/?api=1&query=28.6315,77.2167",
+      "description": "Licensed chemist stocking guaranteed genuine Queens Care clinical formulations with temperature-monitored cold storage.",
+      "isAuthorized": true,
+      "isFeatured": true,
+      "isActive": true,
+      "isVisible": true,
+      "sortOrder": 3
+    },
+    {
+      "id": "QC-LOC-MTHK86II-XPYW",
+      "createdAt": "2026-08-31T18:16:36.858Z",
+      "updatedAt": "2026-08-31T18:16:36.858Z",
+      "name": "South Delhi Hospital & Aesthetic Stockist",
+      "type": "stockist",
+      "contactPerson": "Dr. Meera Kapoor",
+      "phone": "+91 11 4165 7788",
+      "whatsapp": "+91 98711 66223",
+      "email": "orders@southdelhistockists.in",
+      "address": "Part 1, Main Market, South Extension",
+      "city": "New Delhi",
+      "state": "Delhi",
+      "pincode": "110049",
+      "country": "India",
+      "latitude": 28.5684,
+      "longitude": 77.2217,
+      "region": "South Delhi",
+      "productsHandled": "Hospital Bulk & Clinical Sample Allocations",
+      "openingHours": "Mon-Sat: 10:00 AM - 08:30 PM",
+      "directionsUrl": "https://www.google.com/maps/search/?api=1&query=28.5684,77.2217",
+      "description": "Dedicated supplier to premier dermatology practices and aesthetic clinics in Delhi NCR with same-day emergency dispatch.",
+      "isAuthorized": true,
+      "isFeatured": false,
+      "isActive": true,
+      "isVisible": true,
+      "sortOrder": 4
+    },
+    {
+      "id": "QC-LOC-MTHK86IU-IXFT",
+      "createdAt": "2026-08-31T18:16:36.870Z",
+      "updatedAt": "2026-08-31T18:16:36.870Z",
+      "name": "Indiranagar Derma Care & Chemist Network",
+      "type": "pharmacy",
+      "contactPerson": "K. Venkatesh",
+      "phone": "+91 80 2521 3344",
+      "whatsapp": "+91 98450 11998",
+      "email": "blr.indiranagar@medicare.in",
+      "address": "100 Feet Road, 12th Main Junction, HAL 2nd Stage, Indiranagar",
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "pincode": "560038",
+      "country": "India",
+      "latitude": 12.9784,
+      "longitude": 77.6408,
+      "region": "East Bengaluru",
+      "productsHandled": "Clinical Serums, Sun Protection, Anti-Aging Formulations",
+      "openingHours": "Open Daily: 09:00 AM - 10:00 PM",
+      "directionsUrl": "https://www.google.com/maps/search/?api=1&query=12.9784,77.6408",
+      "description": "Premium wellness chemist partnering with leading South Indian dermatologists.",
+      "isAuthorized": true,
+      "isFeatured": true,
+      "isActive": true,
+      "isVisible": true,
+      "sortOrder": 5
+    },
+    {
+      "id": "QC-LOC-MTHK86J5-ZK8I",
+      "createdAt": "2026-08-31T18:16:36.882Z",
+      "updatedAt": "2026-08-31T18:16:36.882Z",
+      "name": "Hyderabad Healthcare & Distribution Terminal",
+      "type": "distributor",
+      "contactPerson": "S. Rama Rao",
+      "phone": "+91 40 2335 6677",
+      "whatsapp": "+91 98490 22331",
+      "email": "telangana@pharmahub.in",
+      "address": "Road No. 12, MLA Colony, Banjara Hills",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "pincode": "500034",
+      "country": "India",
+      "latitude": 17.4156,
+      "longitude": 78.4357,
+      "region": "Telangana & Andhra Pradesh",
+      "productsHandled": "All Commercial Product Lines, Institutional Contracts",
+      "openingHours": "Mon-Sat: 09:00 AM - 07:30 PM",
+      "directionsUrl": "https://www.google.com/maps/search/?api=1&query=17.4156,78.4357",
+      "description": "State distribution hub with dedicated air-conditioned pharma storage and logistics.",
+      "isAuthorized": true,
+      "isFeatured": false,
+      "isActive": true,
+      "isVisible": true,
+      "sortOrder": 6
+    },
+    {
+      "id": "QC-LOC-MTHK86JH-E13T",
+      "createdAt": "2026-08-31T18:16:36.893Z",
+      "updatedAt": "2026-08-31T18:16:36.893Z",
+      "name": "Deccan Clinical Wholesale & Stockist",
+      "type": "stockist",
+      "contactPerson": "Nitin Joshi",
+      "phone": "+91 20 2553 4411",
+      "whatsapp": "+91 98220 55443",
+      "email": "deccan.stockist@punemed.in",
+      "address": "FC Road, Near Goodluck Cafe, Shivajinagar",
+      "city": "Pune",
+      "state": "Maharashtra",
+      "pincode": "411005",
+      "country": "India",
+      "latitude": 18.5204,
+      "longitude": 73.8415,
+      "region": "Pune Metropolitan",
+      "productsHandled": "Lumine-C, Liko-Q, Medical Grade Moisturizers",
+      "openingHours": "Mon-Sat: 09:30 AM - 09:00 PM",
+      "directionsUrl": "https://www.google.com/maps/search/?api=1&query=18.5204,73.8415",
+      "description": "Authorized stockist supporting 120+ Pune chemists and dermatological clinics.",
+      "isAuthorized": true,
+      "isFeatured": false,
+      "isActive": true,
+      "isVisible": true,
+      "sortOrder": 7
+    },
+    {
+      "id": "QC-LOC-MTHK86UY-ULUA",
+      "createdAt": "2026-08-31T18:16:37.306Z",
+      "updatedAt": "2026-08-31T18:16:37.306Z",
+      "name": "Ahmedabad Pharma Dispensary 1788200196665",
+      "type": "pharmacy",
+      "contactPerson": "Kunal Patel",
+      "phone": "+91 79 2656 4433",
+      "address": "CG Road",
+      "city": "Navrangpura",
+      "state": "Ahmedabad",
+      "pincode": "Gujarat",
+      "country": "India",
+      "latitude": 380009,
+      "longitude": 23.0373,
+      "directionsUrl": "https://www.google.com/maps/search/?api=1&query=380009,23.0373",
+      "isAuthorized": true,
+      "isFeatured": false,
+      "isActive": true,
+      "isVisible": true,
+      "sortOrder": 100
+    },
+    {
+      "id": "QC-LOC-MTIT8S6K-DQKY",
+      "createdAt": "2026-09-01T15:16:47.660Z",
+      "updatedAt": "2026-09-01T15:16:47.660Z",
+      "name": "Ahmedabad Pharma Dispensary 1788275806679",
+      "type": "pharmacy",
+      "contactPerson": "Kunal Patel",
+      "phone": "+91 79 2656 4433",
+      "address": "CG Road",
+      "city": "Navrangpura",
+      "state": "Ahmedabad",
+      "pincode": "Gujarat",
+      "country": "India",
+      "latitude": 380009,
+      "longitude": 23.0373,
+      "directionsUrl": "https://www.google.com/maps/search/?api=1&query=380009,23.0373",
+      "isAuthorized": true,
+      "isFeatured": false,
+      "isActive": true,
+      "isVisible": true,
+      "sortOrder": 100
+    },
+    {
+      "id": "QC-LOC-MTIT9MPJ-9F5O",
+      "createdAt": "2026-09-01T15:17:27.223Z",
+      "updatedAt": "2026-09-01T15:17:27.223Z",
+      "name": "Ahmedabad Pharma Dispensary 1788275846873",
+      "type": "pharmacy",
+      "contactPerson": "Kunal Patel",
+      "phone": "+91 79 2656 4433",
+      "address": "CG Road",
+      "city": "Navrangpura",
+      "state": "Ahmedabad",
+      "pincode": "Gujarat",
+      "country": "India",
+      "latitude": 380009,
+      "longitude": 23.0373,
+      "directionsUrl": "https://www.google.com/maps/search/?api=1&query=380009,23.0373",
+      "isAuthorized": true,
+      "isFeatured": false,
+      "isActive": true,
+      "isVisible": true,
+      "sortOrder": 100
+    },
+    {
+      "id": "QC-LOC-MTITB6OS-I69M",
+      "createdAt": "2026-09-01T15:18:39.772Z",
+      "updatedAt": "2026-09-01T15:18:39.772Z",
+      "name": "Ahmedabad Pharma Dispensary 1788275919440",
+      "type": "pharmacy",
+      "contactPerson": "Kunal Patel",
+      "phone": "+91 79 2656 4433",
+      "address": "CG Road",
+      "city": "Navrangpura",
+      "state": "Ahmedabad",
+      "pincode": "Gujarat",
+      "country": "India",
+      "latitude": 380009,
+      "longitude": 23.0373,
+      "directionsUrl": "https://www.google.com/maps/search/?api=1&query=380009,23.0373",
+      "isAuthorized": true,
+      "isFeatured": false,
+      "isActive": true,
+      "isVisible": true,
+      "sortOrder": 100
+    },
+    {
+      "id": "QC-LOC-MTITE1JG-9SU7",
+      "createdAt": "2026-09-01T15:20:53.068Z",
+      "updatedAt": "2026-09-01T15:20:53.068Z",
+      "name": "Ahmedabad Pharma Dispensary 1788276052719",
+      "type": "pharmacy",
+      "contactPerson": "Kunal Patel",
+      "phone": "+91 79 2656 4433",
+      "address": "CG Road",
+      "city": "Navrangpura",
+      "state": "Ahmedabad",
+      "pincode": "Gujarat",
+      "country": "India",
+      "latitude": 380009,
+      "longitude": 23.0373,
+      "directionsUrl": "https://www.google.com/maps/search/?api=1&query=380009,23.0373",
+      "isAuthorized": true,
+      "isFeatured": false,
+      "isActive": true,
+      "isVisible": true,
+      "sortOrder": 100
+    },
+    {
+      "id": "QC-LOC-MTJ08Z5C-W5OT",
+      "createdAt": "2026-09-01T18:32:54.001Z",
+      "updatedAt": "2026-09-01T18:32:54.001Z",
+      "name": "Ahmedabad Pharma Dispensary 1788287573604",
+      "type": "pharmacy",
+      "contactPerson": "Kunal Patel",
+      "phone": "+91 79 2656 4433",
+      "address": "CG Road",
+      "city": "Navrangpura",
+      "state": "Ahmedabad",
+      "pincode": "Gujarat",
+      "country": "India",
+      "latitude": 380009,
+      "longitude": 23.0373,
+      "directionsUrl": "https://www.google.com/maps/search/?api=1&query=380009,23.0373",
+      "isAuthorized": true,
+      "isFeatured": false,
+      "isActive": true,
+      "isVisible": true,
+      "sortOrder": 100
     }
   ]
 }

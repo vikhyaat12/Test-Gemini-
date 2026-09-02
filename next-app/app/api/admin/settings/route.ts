@@ -18,3 +18,7 @@ export async function POST(request: Request) {
   const setting = await settingStore.set(body.key, body.value, body.group);
   return json({ setting });
 }
+
+export async function PATCH(request: Request) {
+  return POST(request);
+}

@@ -63,13 +63,16 @@ export async function PATCH(request: Request) {
     "profileImage",
     "phone",
     "email",
-    "bio",      "active",
-      "verified",
-      "gallery",
-      "videos",
-      "photoSettings",
-      "themeColors",
-      "socialLinks",
+    "bio",
+    "active",
+    "verified",
+    "featured",
+    "sortOrder",
+    "gallery",
+    "videos",
+    "photoSettings",
+    "themeColors",
+    "socialLinks",
   ]) {
     if (k in body) data[k] = body[k];
   }

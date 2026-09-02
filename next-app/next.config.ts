@@ -23,6 +23,18 @@ const nextConfig: NextConfig = {
       { key: "Accept-Ranges", value: "bytes" },
     ] }];
   },
+  async redirects() {
+    return [
+      { source: "/employees", destination: "/employee", permanent: true },
+      { source: "/our-team", destination: "/employee", permanent: true },
+      { source: "/team", destination: "/employee", permanent: true },
+      { source: "/partners", destination: "/b2b", permanent: true },
+      { source: "/partner", destination: "/b2b", permanent: true },
+      { source: "/distributor", destination: "/store-locator", permanent: true },
+      { source: "/distributors", destination: "/store-locator", permanent: true },
+      { source: "/locator", destination: "/store-locator", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

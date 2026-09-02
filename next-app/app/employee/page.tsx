@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { employeeStore } from "@/lib/commerce/store-extensions";
+import { employeeStore, pageSettingsStore } from "@/lib/commerce/store-extensions";
+import { currentSession } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -11,11 +12,80 @@ export const metadata: Metadata = {
 };
 
 export default async function EmployeeDirectoryPage() {
+  const [pageConfig, session] = await Promise.all([
+    pageSettingsStore.bySlug("employee"),
+    currentSession(),
+  ]);
+
+  const isAdmin = session?.role === "admin";
+  const isPageActive = pageConfig ? pageConfig.active !== false : true;
+
+  if (!isPageActive && !isAdmin) {
+    return (
+      <main style={{ background: "var(--paper, #fdfbf7)", minHeight: "100vh", padding: "60px 24px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ maxWidth: 560, background: "#ffffff", border: "1px solid var(--line, rgba(0,0,0,0.08))", borderRadius: 8, padding: "48px 36px", textAlign: "center", boxShadow: "0 10px 30px rgba(0,0,0,0.04)" }}>
+          <span style={{ font: "32px var(--font-display, serif)", color: "#D4AF37", display: "block", marginBottom: 12 }}>Q</span>
+          <h2 style={{ font: "26px var(--font-display, serif)", color: "var(--purple, #2A0F3A)", margin: "0 0 14px" }}>
+            Our Team Directory Under Scheduled Review
+          </h2>
+          <p style={{ fontSize: 14, color: "var(--muted, #666)", lineHeight: 1.7, marginBottom: 28 }}>
+            The Queens Care clinical and scientific leadership directory is currently undergoing scheduled updates. Please return to our storefront or consult our customer care team.
+          </p>
+          <Link
+            href="/"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "12px 24px",
+              background: "var(--purple, #2A0F3A)",
+              color: "#ffffff",
+              borderRadius: 6,
+              fontSize: 13,
+              fontWeight: 600,
+              textDecoration: "none",
+            }}
+          >
+            <span>←</span> Return to Storefront
+          </Link>
+        </div>
+      </main>
+    );
+  }
+
   const list = ((await employeeStore.list()) as Record<string, unknown>[]) || [];
   const activeEmployees = list.filter((e) => e.active !== false);
 
   return (
     <main style={{ background: "#faf8f5", minHeight: "100vh", paddingBottom: 80 }}>
+      {/* Top Navigation Bar */}
+      <div style={{ background: "#ffffff", borderBottom: "1px solid #eae5db", padding: "14px 24px" }}>
+        <div style={{ maxWidth: 1140, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <Link
+            href="/"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              fontSize: 13,
+              fontWeight: 600,
+              color: "#2A0F3A",
+              textDecoration: "none",
+            }}
+          >
+            <span>←</span> Return to Queens Care Laboratories
+          </Link>
+          {!isPageActive && isAdmin && (
+            <span style={{ fontSize: 11, background: "#fef3c7", color: "#92400e", border: "1px solid #f59e0b", padding: "3px 8px", borderRadius: 4, fontWeight: 700 }}>
+              👁️ ADMIN PREVIEW (Page Inactive in CMS)
+            </span>
+          )}
+          <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: "#C19A6B", fontWeight: 700 }}>
+            Official Staff Directory
+          </span>
+        </div>
+      </div>
+
       {/* Header Banner */}
       <section
         style={{

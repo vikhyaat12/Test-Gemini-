@@ -75,6 +75,17 @@ export default function QueensCareExperience() {
     }>
   >([]);
 
+  const [pageSettings, setPageSettings] = useState<Array<{ id: string; slug: string; headerVisible?: boolean; footerVisible?: boolean; active?: boolean }>>([]);
+  const [testimonials, setTestimonials] = useState<Array<{ id: string; name: string; title: string; body: string; rating?: number }>>([]);
+  const [testimonialIndex, setTestimonialIndex] = useState(0);
+  const [footerSettings, setFooterSettings] = useState<{
+    tagline?: string;
+    newsletterTitle?: string;
+    copyright?: string;
+    bg?: string;
+    textColor?: string;
+  }>({});
+
   useEffect(() => {
     fetch("/api/auth/me").then(r=>r.json()).then(d=>{ if(d.user) setUser(d.user); }).catch(()=>{});
     // Fetch public theme settings and apply as CSS variables
@@ -89,12 +100,31 @@ export default function QueensCareExperience() {
         if(s.key==='logo_height_desktop' && s.value) { setLogoHeight(`${s.value}px`); document.documentElement.style.setProperty('--logo-height-desktop', `${s.value}px`); }
         if(s.key==='logo_height_mobile' && s.value) { document.documentElement.style.setProperty('--logo-height-mobile', `${s.value}px`); }
         if(s.key==='logo_max_width' && s.value) { setLogoMaxWidth(`${s.value}px`); document.documentElement.style.setProperty('--logo-max-width', `${s.value}px`); }
+        if(s.key==='footer_tagline' && s.value) setFooterSettings(prev => ({ ...prev, tagline: s.value }));
+        if(s.key==='footer_newsletter_title' && s.value) setFooterSettings(prev => ({ ...prev, newsletterTitle: s.value }));
+        if(s.key==='footer_copyright' && s.value) setFooterSettings(prev => ({ ...prev, copyright: s.value }));
+        if(s.key==='footer_bg' && s.value) setFooterSettings(prev => ({ ...prev, bg: s.value }));
+        if(s.key==='footer_text_color' && s.value) setFooterSettings(prev => ({ ...prev, textColor: s.value }));
       });
     }).catch(()=>{});
     fetch("/api/homepage").then(r=>r.json()).then(d=>{ if(d.sections?.length) setHpSections(d.sections); }).catch(()=>{});
     fetch("/api/social-links").then(r=>r.json()).then(d=>{ setSocialLinks(d.links || []); }).catch(()=>{});
     fetch("/api/blog").then(r=>r.json()).then(d=>{ if(d.posts?.length) setBlogPosts(d.posts); }).catch(()=>{});
+    fetch("/api/pages").then(r=>r.json()).then(d=>{ if(d.pages) setPageSettings(d.pages); }).catch(()=>{});
+    fetch("/api/testimonials").then(r=>r.json()).then(d=>{ if(d.testimonials?.length) setTestimonials(d.testimonials); }).catch(()=>{});
   }, []);
+
+  const isEmployeeVisibleInFooter = useMemo(() => {
+    if (!pageSettings.length) return true;
+    const empPage = pageSettings.find(p => p.slug === "employee" || p.id === "pg-employee");
+    return empPage ? (empPage.active !== false && empPage.footerVisible !== false) : true;
+  }, [pageSettings]);
+
+  const isEmployeeVisibleInHeader = useMemo(() => {
+    if (!pageSettings.length) return false;
+    const empPage = pageSettings.find(p => p.slug === "employee" || p.id === "pg-employee");
+    return Boolean(empPage && empPage.active !== false && empPage.headerVisible === true);
+  }, [pageSettings]);
 
   const getHp = (type: string) => hpSections.find((s) => s.type === type && s.active && s.visible);
   const getHpContent = (type: string) => { const s = getHp(type); try { return (typeof s?.content === 'string' ? JSON.parse(s.content as string) : s?.content) || {}; } catch { return {}; } };
@@ -144,168 +174,557 @@ export default function QueensCareExperience() {
   const toggleWish = (name: string) => setWish((items) => items.includes(name) ? items.filter((item) => item !== name) : [...items, name]);
   const subscribe = (event: FormEvent<HTMLFormElement>) => { event.preventDefault(); setNotice("You're on the Queens Care list. Thank you."); };
   
-  // CMS content helpers
-  const heroVis = getHpContent("heroVisual");
-  const scienceContent = getHpContent("science");
-  const ritualContent = getHpContent("ritual");
-  const affiliateContent = getHpContent("affiliate");
-  const journalContent = getHpContent("newsletter");
-  
-  return <div className="site-shell">
-    <div className="announcement"><span>{getHpContent("banner").text || "Complimentary delivery on orders above ₹1,500"}</span><DeliveryTimer/><Link href={getHpContent("banner").secondaryLink || "/doctors"}>{getHpContent("banner").secondaryText || "For healthcare professionals"} →</Link></div>
-    <header className="nav-wrap"><Link href="/" className="brand" aria-label="Queens Care home">{logoUrl && !logoFailed ? <img src={logoUrl} alt="Queens Care" style={{height:logoHeight,maxWidth:logoMaxWidth,objectFit:'contain'}} onError={()=>setLogoFailed(true)} /> : <i>Q</i>}<span>QUEENS<br/><b>CARE</b></span></Link><nav className={menu ? "open" : ""}><a href="#collection">Shop</a><Link href="/about">About</Link><a href="#science">Our science</a><Link href="/blog">Blog</Link><Link href="/contact">Contact</Link></nav><div className="nav-actions"><Link href="/account" style={{fontSize:12, textDecoration:'none', color:'var(--ink)', marginRight:8, display:'flex', alignItems:'center', gap:4}} aria-label="Account">{user ? <span title={user.email}>Account</span> : <span>Sign In</span>}</Link><label className="search"><Icon>⌕</Icon><input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search care" aria-label="Search products" /></label><button className="icon-button" onClick={() => setNotice(wish.length ? `${wish.length} saved product${wish.length > 1 ? "s" : ""}.` : "Your saved list is waiting for its first ritual.")} aria-label="View wishlist">♡<em>{wish.length || ""}</em></button><CartBadge /><button className="bag-dummy" onClick={() => setNotice(cartCount ? `${cartCount} item${cartCount > 1 ? "s" : ""} in your care bag — checkout is ready.` : "Your care bag is empty.")}>Bag <b>{cartCount}</b></button><button className="menu" onClick={() => setMenu(!menu)} aria-label="Toggle navigation">☰</button></div></header>
-    {notice && <div className="toast" role="status">{notice}<button onClick={() => setNotice("")}>×</button></div>}
-    <main><CareScene />
-      <section className="hero"><div className="hero-copy"><p className="eyebrow">{getHpContent("hero").eyebrow || "A higher standard of everyday care"}</p><h1 dangerouslySetInnerHTML={{ __html: getHpContent("hero").heading || "Science, made <em>personal.</em>" }} /><p className="lead">{getHpContent("hero").subtitle || "Intelligent formulations that turn your daily health rituals into small, powerful acts of self-respect."}</p><div className="hero-ctas"><a href={getHpContent("hero").ctaLink || "#collection"} className="button">{getHpContent("hero").ctaText || "Explore the collection"} <span>→</span></a><a href={getHpContent("hero").secondaryLink || "#science"} className="text-link">{getHpContent("hero").secondaryText || "How we formulate"} <span>↗</span></a></div><div className="ratings"><div className="avatars"><span>R</span><span>S</span><span>A</span></div><p><b>{getHpContent("hero").rating || "4.9 / 5"}</b> from {getHpContent("hero").ratingCount || "12,000+ care rituals"}</p></div></div>
-        {heroVis.enabled !== false && (
-          <div className="hero-visual-3d-container" style={{ position: "relative", width: "100%", maxWidth: 460, margin: "0 auto" }}>
-            <Hero3DProductVisual
-              productName={String(heroVis.productName || "LUMINE-C™")}
-              subtitle={String(heroVis.subtitle || "Radiance serum")}
-              verticalLabel={String(heroVis.verticalLabel || "FORMULATED WITH INTENTION")}
-              scale={Number(heroVis.scale || 1.0)}
-              autoRotate={heroVis.autoRotate !== false}
-              rotationSpeed={Number(heroVis.rotationSpeed || 1.0)}
-              mouseInteraction={heroVis.mouseInteraction !== false}
-              lightingIntensity={Number(heroVis.lightingIntensity || 1.5)}
-              accentColor={String(heroVis.accentColor || "#D4AF37")}
-              bgEffect={(heroVis.bgEffect as "studio" | "purple" | "transparent") || "studio"}
-              customImageUrl={String(heroVis.customImageUrl || "")}
-              height={480}
-            />
-          </div>
-        )}
-      </section>
-      <section className="trust-strip">{(getHpContent("trust").badges || ["Made in India", "Third-party tested", "Traceable ingredients", "Designed with doctors"]).map((b: string) => <span key={b}>✦ {b}</span>)}</section>
-      <section className="collection section" id="collection"><div className="section-head"><div><p className="eyebrow">{getHpContent("collection").eyebrow || "The care edit"}</p><h2 dangerouslySetInnerHTML={{ __html: (getHpContent("collection").heading || "Considered essentials<br/>for your <em>whole self.</em>") }} /></div><a href="#collection" className="text-link">{getHpContent("collection").ctaText || "Shop all care"} <span>→</span></a></div><div className="category-row">{categories.map((cat, index) => <button key={cat} onClick={() => setSearch(cat)}><span>0{index + 1}</span>{cat}<b>→</b></button>)}</div>{loading ? (
-        <p style={{ marginTop: 40, color: "var(--muted)", textAlign: "center" }}>Loading collection…</p>
-      ) : (
-        <>
-          <div className="product-grid">{shown.map((product) => <Link href={`/products/${product.slug}`} key={product.id} style={{ textDecoration: "none", color: "inherit" }}><article className="product"><div className="product-image"><Image src={product.image} alt={product.name} fill sizes="(max-width: 650px) 50vw, 25vw"/><span className="pill">{product.tag}</span><button className="heart" onClick={(e: React.MouseEvent) => { e.preventDefault(); e.stopPropagation(); toggleWish(product.name); }} aria-label={`Save ${product.name}`}>{wish.includes(product.name) ? "♥" : "♡"}</button><button className="quick-add" onClick={(e: React.MouseEvent) => { e.preventDefault(); e.stopPropagation(); add(product); }}>Add to bag</button></div><p>{product.category}</p><h3>{product.name}</h3><small>{product.note}</small><div className="price"><b>₹{product.price.toLocaleString("en-IN")}</b><span>★★★★★</span></div></article></Link>)}</div>{shown.length === 0 && products.length > 0 && <p className="empty">No results yet. Try &ldquo;wellness&rdquo; or choose a care category above.</p>}
-        </>
-      )}</section>
-      <section className="science" id="science"><div className="science-image"><Image src={scienceContent.imageUrl || "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1200&q=85"} alt="Laboratory researcher at work" fill sizes="(max-width: 650px) 100vw, 50vw"/><div className="stat-card"><b>{scienceContent.stat || "97"}<sup>%</sup></b><span>{scienceContent.statText || "of customers feel a difference within 30 days*"}</span></div></div><div className="science-copy"><p className="eyebrow">{scienceContent.eyebrow || "The Queens Care standard"}</p><h2 dangerouslySetInnerHTML={{ __html: scienceContent.heading || "Precision you can feel. <em>Proof you can see.</em>" }} /><p>{scienceContent.description || "We bring pharmaceutical rigor to the products that live on your shelf. Each formula begins with a real need, is built around meaningful dosage, and is independently tested for purity."}</p><div className="principles">{((scienceContent.principles as Array<Record<string,string>>) || [{number:"01",title:"Purposeful dosage",text:"Not marketing-magic ingredients."},{number:"02",title:"Radical clarity",text:"Every ingredient has a reason to be here."},{number:"03",title:"Better by design",text:"Elegant rituals, lower-impact choices."}]).map((p,i) => <div key={i}><b>{p.number}</b><span><strong>{p.title}</strong>{p.text}</span></div>)}</div><Link className="button light" href={scienceContent.ctaLink || "/about"}>{scienceContent.ctaText || "Meet our standard"} <span>→</span></Link></div></section>
-      <section className="ritual section"><div className="section-head"><div><p className="eyebrow">{ritualContent.eyebrow || "Build your ritual"}</p><h2 dangerouslySetInnerHTML={{ __html: ritualContent.heading || "Care that meets you<br/><em>where you are.</em>" }} /></div><p className="side-copy">{ritualContent.sideText || "Not sure where to begin? Let our guided care finder create a considered starting point in under two minutes."}</p></div><div className="ritual-cards">{((ritualContent.cards as Array<Record<string,string>>) || [{number:"01",heading:"I want to feel<br/>more <em>energised.</em>",cta:"Discover energy care →",link:"#collection",color:"amber"},{number:"02",heading:"I want a calmer<br/><em>evening.</em>",cta:"Discover sleep care →",link:"#collection",color:"lavender"},{number:"03",heading:"I want to glow<br/>from <em>within.</em>",cta:"Discover dermal care →",link:"#collection",color:"rose"}]).filter((c:Record<string,string>)=>c.heading).map((card:Record<string,string>,i:number) => <a key={i} href={card.link || "#collection"} className={`ritual-card ${card.color || "amber"}`}><span>{card.number}</span><h3 dangerouslySetInnerHTML={{ __html: card.heading }} /><b>{card.cta}</b></a>)}</div></section>
-      <section className="quote"><div className="quote-mark">&ldquo;</div><blockquote>{getHpContent("testimonial").quote || "For the first time, my wellness routine feels less like a chore — and more like a quiet promise to myself."}</blockquote><div><b>{getHpContent("testimonial").author || "Meera Shah"}</b><span>{getHpContent("testimonial").attribution || "Queens Care member since 2023"}</span></div><div className="quote-controls"><button aria-label="Previous testimonial">←</button><span>01 / 03</span><button aria-label="Next testimonial">→</button></div></section>
+  // Dynamic Section Engine
+  const sortedSections = useMemo(() => {
+    const defaultSections = [
+      { id: "hs-hero", type: "hero" },
+      { id: "hs-trust", type: "trust" },
+      { id: "hs-collection", type: "collection" },
+      { id: "hs-science", type: "science" },
+      { id: "hs-ritual", type: "ritual" },
+      { id: "hs-testimonial", type: "testimonial" },
+      { id: "hs-newsletter", type: "newsletter" },
+      ...(getHp("affiliate") ? [{ id: "hs-affiliate", type: "affiliate" }] : []),
+      { id: "hs-consult", type: "consult" },
+    ];
+    if (!hpSections.length) return defaultSections;
 
-      {/* ─── JOURNAL / BLOG SECTION ─── */}
-      <section className="journal section" id="journal">
-        <div className="section-head">
-          <div>
-            <p className="eyebrow">{journalContent.eyebrow || "The care journal"}</p>
-            <h2 dangerouslySetInnerHTML={{ __html: journalContent.heading || "Ideas, insights and<br/><em>everyday care.</em>" }} />
-          </div>
-          <Link href="/blog" className="text-link">{journalContent.ctaText || "View all journal"} <span>→</span></Link>
-        </div>
-        <div className="journal-grid">
-          {blogPosts.slice(0, 2).map((post) => (
-            <Link key={post.slug} href={`/blog/${post.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
-              <article style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-                <div style={{ position: "relative", aspectRatio: "3/2", overflow: "hidden", marginBottom: 12, borderRadius: 4 }}>
-                  <img src={post.image || "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=900&q=80"} alt={post.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                </div>
-                <p style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".1em", color: "var(--muted)" }}>
-                  {(post.category || "Wellness Notes").toUpperCase()} {post.readTime ? `· ${post.readTime.toUpperCase()}` : ""}
-                </p>
-                <h3 style={{ font: "20px var(--font-display)", margin: "6px 0 10px", flex: 1 }}>{post.title}</h3>
-                <span style={{ fontSize: 13, color: "var(--purple)", fontWeight: 600 }}>Read story →</span>
-              </article>
-            </Link>
-          ))}
-          {blogPosts.length === 0 && (
-            <p style={{ gridColumn: "1 / span 2", color: "var(--muted)", padding: "30px 0" }}>
-              Dispatches from our laboratory are being prepared. <Link href="/blog" style={{ color: "var(--purple)" }}>Visit the journal</Link>
-            </p>
-          )}
-          <article className="journal-cta">
-            <span>THE<br/>CARE<br/>LETTER</span>
-            <h3>{journalContent.heading || "A smarter kind of inbox."}</h3>
-            <p>{journalContent.subtitle || "Thoughtful dispatches on science, care, and living well."}</p>
-            <form onSubmit={subscribe}>
-              <input type="email" required aria-label="Your email address" placeholder="Your email address"/>
-              <button aria-label="Subscribe">→</button>
-            </form>
-          </article>
-        </div>
-      </section>
+    const list = [...hpSections]
+      .filter((s) => s.active !== false && s.visible !== false && s.type !== "banner" && s.type !== "heroVisual")
+      .sort((a, b) => Number(a.sort ?? 0) - Number(b.sort ?? 0));
 
-      {/* ═══ AFFILIATE / PARTNERSHIP SECTION (CMS-driven) ═══ */}
-      {getHp("affiliate") && (
-        <section className="section" style={{ background: "var(--paper)", borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)", padding: "72px 0" }}>
-          <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 48, alignItems: "center" }}>
-            <div>
-              <p className="eyebrow" style={{ color: "var(--gold)" }}>{affiliateContent.eyebrow || "PARTNERSHIP PROGRAMME"}</p>
-              <h2 style={{ font: "clamp(28px, 4vw, 42px)/1.15 var(--font-display)", letterSpacing: "-.02em", margin: "12px 0 20px" }}>
-                {affiliateContent.heading || "Partner with Queens Care Laboratories"}
-              </h2>
-              <p style={{ fontSize: 16, lineHeight: 1.8, color: "var(--muted)", marginBottom: 28 }}>
-                {affiliateContent.description || "Share science-backed formulations you believe in and earn through your personalized referral link."}
+    return list.length > 0 ? list : defaultSections;
+  }, [hpSections]);
+
+  const renderSection = (sec: Record<string, unknown>, idx: number) => {
+    const type = String(sec.type || "custom");
+    const rawContent = sec.content;
+    const c = (typeof rawContent === "string" ? JSON.parse(rawContent) : (rawContent as Record<string, unknown>)) || getHpContent(type);
+
+    const secStyle: React.CSSProperties = {
+      ...(c.backgroundColor ? { backgroundColor: String(c.backgroundColor) } : {}),
+      ...(c.textColor ? { color: String(c.textColor) } : {}),
+      ...(c.padding ? { padding: String(c.padding) } : {}),
+    };
+
+    switch (type) {
+      case "hero": {
+        const heroBg = c.backgroundColor || c.heroBackground;
+        const heroImage = c.heroImage || c.imageUrl;
+        const heroVis = getHpContent("heroVisual");
+        return (
+          <section className="hero" key={sec.id ? String(sec.id) : `hero-${idx}`} style={{ ...(heroBg ? { background: String(heroBg) } : {}), ...secStyle }}>
+            <div className="hero-copy">
+              <p className="eyebrow" style={{ ...(c.textColor ? { color: String(c.textColor) } : {}) }}>
+                {String(c.eyebrow || "A higher standard of everyday care")}
               </p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14, marginBottom: 32 }}>
-                {((affiliateContent.stats as Array<Record<string,string>>) || [{value:"10%",label:"Commission"},{value:"30 Days",label:"Cookie Window"},{value:"Direct",label:"Monthly Payouts"}]).map((stat:Record<string,string>,i:number) => (
-                  <div key={i} style={{ padding: "16px 14px", background: "#fff", border: "1px solid var(--line)" }}>
-                    <b style={{ fontSize: 20, color: "var(--purple)", display: "block" }}>{stat.value}</b>
-                    <span style={{ fontSize: 11, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".06em" }}>{stat.label}</span>
+              <h1
+                style={{ ...(c.headingColor ? { color: String(c.headingColor) } : {}) }}
+                dangerouslySetInnerHTML={{ __html: String(c.heading || "Science, made <em>personal.</em>") }}
+              />
+              <p className="lead" style={{ ...(c.textColor ? { color: String(c.textColor) } : {}) }}>
+                {String(c.subtitle || "Intelligent formulations that turn your daily health rituals into small, powerful acts of self-respect.")}
+              </p>
+              <div className="hero-ctas">
+                <a
+                  href={String(c.ctaLink || "#collection")}
+                  className="button"
+                  style={{
+                    ...(c.buttonBg ? { background: String(c.buttonBg) } : {}),
+                    ...(c.buttonColor ? { color: String(c.buttonColor) } : {}),
+                  }}
+                >
+                  {String(c.ctaText || "Explore the collection")} <span>→</span>
+                </a>
+                <a
+                  href={String(c.secondaryLink || "#science")}
+                  className="text-link"
+                  style={{ ...(c.textColor ? { color: String(c.textColor) } : {}) }}
+                >
+                  {String(c.secondaryText || "How we formulate")} <span>↗</span>
+                </a>
+              </div>
+              <div className="ratings">
+                <div className="avatars"><span>R</span><span>S</span><span>A</span></div>
+                <p><b>{String(c.rating || "4.9 / 5")}</b> from {String(c.ratingCount || "12,000+ care rituals")}</p>
+              </div>
+            </div>
+            {heroImage ? (
+              <div className="hero-visual-3d-container" style={{ position: "relative", width: "100%", maxWidth: 460, margin: "0 auto", borderRadius: 12, overflow: "hidden" }}>
+                <img
+                  src={String(heroImage)}
+                  alt={String(c.heading || "Hero")}
+                  style={{ width: "100%", height: 480, objectFit: "cover" }}
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).src = "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1200&q=85"; }}
+                />
+              </div>
+            ) : (
+              heroVis.enabled !== false && (
+                <div className="hero-visual-3d-container" style={{ position: "relative", width: "100%", maxWidth: 460, margin: "0 auto" }}>
+                  <Hero3DProductVisual
+                    productName={String(heroVis.productName || "LUMINE-C™")}
+                    subtitle={String(heroVis.subtitle || "Radiance serum")}
+                    verticalLabel={String(heroVis.verticalLabel || "FORMULATED WITH INTENTION")}
+                    scale={Number(heroVis.scale || 1.0)}
+                    autoRotate={heroVis.autoRotate !== false}
+                    rotationSpeed={Number(heroVis.rotationSpeed || 1.0)}
+                    mouseInteraction={heroVis.mouseInteraction !== false}
+                    lightingIntensity={Number(heroVis.lightingIntensity || 1.5)}
+                    accentColor={String(heroVis.accentColor || "#D4AF37")}
+                    bgEffect={(heroVis.bgEffect as "studio" | "purple" | "transparent") || "studio"}
+                    customImageUrl={String(heroVis.customImageUrl || "")}
+                    height={480}
+                  />
+                </div>
+              )
+            )}
+          </section>
+        );
+      }
+
+      case "trust": {
+        const badges = (c.badges as string[]) || ["Made in India", "Third-party tested", "Traceable ingredients", "Designed with doctors"];
+        return (
+          <section className="trust-strip" key={sec.id ? String(sec.id) : `trust-${idx}`} style={secStyle}>
+            {badges.map((b: string) => <span key={b}>✦ {b}</span>)}
+          </section>
+        );
+      }
+
+      case "collection": {
+        return (
+          <section className="collection section" id="collection" key={sec.id ? String(sec.id) : `collection-${idx}`} style={secStyle}>
+            <div className="section-head">
+              <div>
+                <p className="eyebrow">{String(c.eyebrow || "The care edit")}</p>
+                <h2 dangerouslySetInnerHTML={{ __html: String(c.heading || "Considered essentials<br/>for your <em>whole self.</em>") }} />
+              </div>
+              <a href="#collection" className="text-link">{String(c.ctaText || "Shop all care")} <span>→</span></a>
+            </div>
+            <div className="category-row">
+              {categories.map((cat, index) => (
+                <button key={cat} onClick={() => setSearch(cat)}>
+                  <span>0{index + 1}</span>{cat}<b>→</b>
+                </button>
+              ))}
+            </div>
+            {loading ? (
+              <p style={{ marginTop: 40, color: "var(--muted)", textAlign: "center" }}>Loading collection…</p>
+            ) : (
+              <>
+                <div className="product-grid">
+                  {shown.map((product) => (
+                    <Link href={`/products/${product.slug}`} key={product.id} style={{ textDecoration: "none", color: "inherit" }}>
+                      <article className="product">
+                        <div className="product-image">
+                          <Image src={product.image} alt={product.name} fill sizes="(max-width: 650px) 50vw, 25vw"/>
+                          <span className="pill">{product.tag}</span>
+                          <button className="heart" onClick={(e: React.MouseEvent) => { e.preventDefault(); e.stopPropagation(); toggleWish(product.name); }} aria-label={`Save ${product.name}`}>
+                            {wish.includes(product.name) ? "♥" : "♡"}
+                          </button>
+                          <button className="quick-add" onClick={(e: React.MouseEvent) => { e.preventDefault(); e.stopPropagation(); add(product); }}>
+                            Add to bag
+                          </button>
+                        </div>
+                        <p>{product.category}</p>
+                        <h3>{product.name}</h3>
+                        <small>{product.note}</small>
+                        <div className="price">
+                          <b>₹{product.price.toLocaleString("en-IN")}</b>
+                          <span>★★★★★</span>
+                        </div>
+                      </article>
+                    </Link>
+                  ))}
+                </div>
+                {shown.length === 0 && products.length > 0 && (
+                  <p className="empty">No results yet. Try &ldquo;wellness&rdquo; or choose a care category above.</p>
+                )}
+              </>
+            )}
+          </section>
+        );
+      }
+
+      case "science": {
+        const principles = ((c.principles as Array<Record<string, string>>) || [
+          { number: "01", title: "Purposeful dosage", text: "Not marketing-magic ingredients." },
+          { number: "02", title: "Radical clarity", text: "Every ingredient has a reason to be here." },
+          { number: "03", title: "Better by design", text: "Elegant rituals, lower-impact choices." }
+        ]).filter(p => p.title || p.text);
+        return (
+          <section className="science" id="science" key={sec.id ? String(sec.id) : `science-${idx}`} style={secStyle}>
+            <div className="science-image">
+              <Image
+                src={String(c.imageUrl || "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1200&q=85")}
+                alt="Laboratory researcher at work"
+                fill
+                sizes="(max-width: 650px) 100vw, 50vw"
+              />
+              <div className="stat-card">
+                <b>{String(c.stat || "97")}<sup>%</sup></b>
+                <span>{String(c.statText || "of customers feel a difference within 30 days*")}</span>
+              </div>
+            </div>
+            <div className="science-copy">
+              <p className="eyebrow">{String(c.eyebrow || "The Queens Care standard")}</p>
+              <h2 dangerouslySetInnerHTML={{ __html: String(c.heading || "Precision you can feel. <em>Proof you can see.</em>") }} />
+              <p>{String(c.description || "We bring pharmaceutical rigor to the products that live on your shelf. Each formula begins with a real need, is built around meaningful dosage, and is independently tested for purity.")}</p>
+              <div className="principles">
+                {principles.map((p, i) => (
+                  <div key={i}>
+                    <b>{p.number || `0${i + 1}`}</b>
+                    <span><strong>{p.title}</strong>{p.text}</span>
                   </div>
                 ))}
               </div>
-              <Link href={affiliateContent.ctaLink || "/affiliate"} className="button" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                {affiliateContent.ctaText || "BECOME AN AFFILIATE"} <span>→</span>
+              <Link className="button light" href={String(c.ctaLink || "/about")}>
+                {String(c.ctaText || "Meet our standard")} <span>→</span>
               </Link>
             </div>
-            <div style={{ position: "relative", aspectRatio: "4/3", borderRadius: 4, overflow: "hidden", border: "1px solid var(--line)" }}>
-              <img src={affiliateContent.imageUrl || "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=1000&q=85"} alt="Queens Care Laboratory Formulations" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            </div>
-          </div>
-        </section>
-      )}
+          </section>
+        );
+      }
 
-      {/* ─── DOCTORS & HEALTHCARE PROFESSIONALS / CONSULT SECTION ─── */}
-      <section className="consult">
-        <div>
-          <p className="eyebrow">{getHpContent("consult").eyebrow || "Care, with a human on the other end"}</p>
-          <h2 dangerouslySetInnerHTML={{ __html: getHpContent("consult").heading || "Questions deserve<br/>thoughtful answers." }} />
-          <p>{getHpContent("consult").description || "Our care team is here to help you make confident choices — no pressure, no jargon."}</p>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <Link href={getHpContent("consult").ctaLink || "/contact"} className="button">
-              {getHpContent("consult").ctaText || "Talk to our care team"} <span>→</span>
-            </Link>
-            {(getHpContent("consult").secondaryCtaText || getHpContent("consult").secondaryCtaLink) && (
-              <Link href={getHpContent("consult").secondaryCtaLink || "/doctors"} className="button" style={{ background: "transparent", color: "var(--purple)", border: "1px solid var(--purple)" }}>
-                {getHpContent("consult").secondaryCtaText || "For healthcare professionals"} <span>→</span>
+      case "ritual": {
+        const cards = ((c.cards as Array<Record<string, string>>) || [
+          { number: "01", heading: "I want to feel<br/>more <em>energised.</em>", cta: "Discover energy care →", link: "#collection", color: "amber" },
+          { number: "02", heading: "I want a calmer<br/><em>evening.</em>", cta: "Discover sleep care →", link: "#collection", color: "lavender" },
+          { number: "03", heading: "I want to glow<br/>from <em>within.</em>", cta: "Discover dermal care →", link: "#collection", color: "rose" }
+        ]).filter(card => card.heading);
+        return (
+          <section className="ritual section" key={sec.id ? String(sec.id) : `ritual-${idx}`} style={secStyle}>
+            <div className="section-head">
+              <div>
+                <p className="eyebrow">{String(c.eyebrow || "Build your ritual")}</p>
+                <h2 dangerouslySetInnerHTML={{ __html: String(c.heading || "Care that meets you<br/><em>where you are.</em>") }} />
+              </div>
+              <p className="side-copy">{String(c.sideText || "Not sure where to begin? Let our guided care finder create a considered starting point in under two minutes.")}</p>
+            </div>
+            <div className="ritual-cards">
+              {cards.map((card, i) => (
+                <a
+                  key={card.id || i}
+                  href={card.link || "#collection"}
+                  className={`ritual-card ${card.color || "amber"}`}
+                  style={{
+                    ...(card.bgColor ? { backgroundColor: card.bgColor } : {}),
+                    ...(card.textColor ? { color: card.textColor } : {}),
+                  }}
+                >
+                  <span>{card.number || `0${i + 1}`}</span>
+                  <h3 dangerouslySetInnerHTML={{ __html: card.heading }} />
+                  {card.description && <p style={{ fontSize: 13, opacity: 0.85, margin: "6px 0 12px" }}>{card.description}</p>}
+                  <b>{card.cta || "Explore ritual →"}</b>
+                </a>
+              ))}
+            </div>
+          </section>
+        );
+      }
+
+      case "testimonial": {
+        const currentQuote = testimonials.length > 0
+          ? testimonials[testimonialIndex]?.body
+          : (c.quote || "For the first time, my wellness routine feels less like a chore — and more like a quiet promise to myself.");
+        const currentAuthor = testimonials.length > 0
+          ? testimonials[testimonialIndex]?.name
+          : (c.author || "Meera Shah");
+        const currentAttribution = testimonials.length > 0
+          ? testimonials[testimonialIndex]?.title
+          : (c.attribution || "Queens Care member since 2023");
+        const count = testimonials.length || 3;
+        return (
+          <section className="quote" key={sec.id ? String(sec.id) : `quote-${idx}`} style={secStyle}>
+            <div className="quote-mark">&ldquo;</div>
+            <blockquote>{currentQuote}</blockquote>
+            <div>
+              <b>{currentAuthor}</b>
+              <span>{currentAttribution}</span>
+            </div>
+            <div className="quote-controls">
+              <button
+                type="button"
+                aria-label="Previous testimonial"
+                onClick={() => setTestimonialIndex((i) => (i === 0 ? (testimonials.length ? testimonials.length - 1 : 0) : i - 1))}
+              >
+                ←
+              </button>
+              <span>{String(testimonials.length ? testimonialIndex + 1 : 1).padStart(2, "0")} / {String(count).padStart(2, "0")}</span>
+              <button
+                type="button"
+                aria-label="Next testimonial"
+                onClick={() => setTestimonialIndex((i) => (testimonials.length ? (i + 1) % testimonials.length : 0))}
+              >
+                →
+              </button>
+            </div>
+          </section>
+        );
+      }
+
+      case "newsletter": {
+        return (
+          <section className="journal section" id="journal" key={sec.id ? String(sec.id) : `journal-${idx}`} style={secStyle}>
+            <div className="section-head">
+              <div>
+                <p className="eyebrow">{String(c.eyebrow || "The care journal")}</p>
+                <h2 dangerouslySetInnerHTML={{ __html: String(c.heading || "Ideas, insights and<br/><em>everyday care.</em>") }} />
+              </div>
+              <Link href={String(c.ctaLink || "/blog")} className="text-link">
+                {String(c.ctaText || "View all journal")} <span>→</span>
               </Link>
+            </div>
+            <div className="journal-grid">
+              {blogPosts.slice(0, Number(c.postCount || 2)).map((post) => (
+                <Link key={post.slug} href={`/blog/${post.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
+                  <article style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+                    <div style={{ position: "relative", aspectRatio: "3/2", overflow: "hidden", marginBottom: 12, borderRadius: 4 }}>
+                      <img
+                        src={post.image || "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=900&q=80"}
+                        alt={post.title}
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        onError={(e) => { (e.currentTarget as HTMLImageElement).src = "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=900&q=80"; }}
+                      />
+                    </div>
+                    <p style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".1em", color: "var(--muted)" }}>
+                      {(post.category || "Wellness Notes").toUpperCase()} {post.readTime ? `· ${post.readTime.toUpperCase()}` : ""}
+                    </p>
+                    <h3 style={{ font: "20px var(--font-display)", margin: "6px 0 10px", flex: 1 }}>{post.title}</h3>
+                    <span style={{ fontSize: 13, color: "var(--purple)", fontWeight: 600 }}>Read story →</span>
+                  </article>
+                </Link>
+              ))}
+              {blogPosts.length === 0 && (
+                <p style={{ gridColumn: "1 / span 2", color: "var(--muted)", padding: "30px 0" }}>
+                  Dispatches from our laboratory are being prepared. <Link href="/blog" style={{ color: "var(--purple)" }}>Visit the journal</Link>
+                </p>
+              )}
+              <article className="journal-cta">
+                <span>THE<br/>CARE<br/>LETTER</span>
+                <h3>{String(c.newsletterHeading || "A smarter kind of inbox.")}</h3>
+                <p>{String(c.newsletterSubtitle || "Thoughtful dispatches on science, care, and living well.")}</p>
+                <form onSubmit={subscribe}>
+                  <input type="email" required aria-label="Your email address" placeholder="Your email address"/>
+                  <button aria-label="Subscribe">→</button>
+                </form>
+              </article>
+            </div>
+          </section>
+        );
+      }
+
+      case "affiliate": {
+        const stats = ((c.stats as Array<Record<string, string>>) || [
+          { value: "10%", label: "Commission" },
+          { value: "30 Days", label: "Cookie Window" },
+          { value: "Direct", label: "Monthly Payouts" }
+        ]);
+        return (
+          <section className="section" key={sec.id ? String(sec.id) : `affiliate-${idx}`} style={{ background: c.backgroundColor ? String(c.backgroundColor) : "var(--paper)", borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)", padding: "72px 0", ...secStyle }}>
+            <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 48, alignItems: "center" }}>
+              <div>
+                <p className="eyebrow" style={{ color: "var(--gold)" }}>{String(c.eyebrow || "PARTNERSHIP PROGRAMME")}</p>
+                <h2 style={{ font: "clamp(28px, 4vw, 42px)/1.15 var(--font-display)", letterSpacing: "-.02em", margin: "12px 0 20px" }}>
+                  {String(c.heading || "Partner with Queens Care Laboratories")}
+                </h2>
+                <p style={{ fontSize: 16, lineHeight: 1.8, color: "var(--muted)", marginBottom: 28 }}>
+                  {String(c.description || "Share science-backed formulations you believe in and earn through your personalized referral link.")}
+                </p>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14, marginBottom: 32 }}>
+                  {stats.map((stat, i) => (
+                    <div key={i} style={{ padding: "16px 14px", background: "#fff", border: "1px solid var(--line)" }}>
+                      <b style={{ fontSize: 20, color: "var(--purple)", display: "block" }}>{stat.value}</b>
+                      <span style={{ fontSize: 11, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".06em" }}>{stat.label}</span>
+                    </div>
+                  ))}
+                </div>
+                <Link href={String(c.ctaLink || "/affiliate")} className="button" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                  {String(c.ctaText || "BECOME AN AFFILIATE")} <span>→</span>
+                </Link>
+              </div>
+              <div style={{ position: "relative", aspectRatio: "4/3", borderRadius: 4, overflow: "hidden", border: "1px solid var(--line)" }}>
+                <img
+                  src={String(c.imageUrl || "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=1000&q=85")}
+                  alt="Queens Care Laboratory Formulations"
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).src = "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=1000&q=85"; }}
+                />
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      case "consult": {
+        return (
+          <section className="consult" key={sec.id ? String(sec.id) : `consult-${idx}`} style={secStyle}>
+            <div>
+              <p className="eyebrow">{String(c.eyebrow || "Care, with a human on the other end")}</p>
+              <h2 dangerouslySetInnerHTML={{ __html: String(c.heading || "Questions deserve<br/>thoughtful answers.") }} />
+              <p>{String(c.description || "Our care team is here to help you make confident choices — no pressure, no jargon.")}</p>
+              <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                <Link href={String(c.ctaLink || "/contact")} className="button">
+                  {String(c.ctaText || "Talk to our care team")} <span>→</span>
+                </Link>
+                {(c.secondaryCtaText || c.secondaryCtaLink) && (
+                  <Link href={String(c.secondaryCtaLink || "/doctors")} className="button" style={{ background: "transparent", color: "var(--purple)", border: "1px solid var(--purple)" }}>
+                    {String(c.secondaryCtaText || "For healthcare professionals")} <span>→</span>
+                  </Link>
+                )}
+              </div>
+            </div>
+            <div className="consult-image">
+              <img
+                src={String(c.imageUrl || "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1000&q=85")}
+                alt="Doctor speaking with a patient"
+                onError={(e) => { (e.currentTarget as HTMLImageElement).src = "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1000&q=85"; }}
+              />
+            </div>
+          </section>
+        );
+      }
+
+      case "custom":
+      default: {
+        return (
+          <section key={sec.id ? String(sec.id) : `custom-${idx}`} className="section" style={{ padding: "72px 0", ...secStyle }}>
+            <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
+              {c.eyebrow && <p className="eyebrow" style={{ color: "var(--gold)" }}>{String(c.eyebrow)}</p>}
+              {c.heading && <h2 style={{ font: "clamp(28px, 4vw, 42px)/1.15 var(--font-display)", margin: "12px 0 20px" }} dangerouslySetInnerHTML={{ __html: String(c.heading) }} />}
+              {c.body && <div style={{ fontSize: 16, lineHeight: 1.8, marginBottom: 24, whiteSpace: "pre-line" }} dangerouslySetInnerHTML={{ __html: String(c.body) }} />}
+              {c.mediaUrl && (
+                <div style={{ margin: "24px 0", borderRadius: 6, overflow: "hidden", border: "1px solid var(--line)" }}>
+                  {c.mediaType === "video" ? (
+                    <video src={String(c.mediaUrl)} controls autoPlay muted loop style={{ width: "100%", maxHeight: 500, objectFit: "cover" }} />
+                  ) : (
+                    <img src={String(c.mediaUrl)} alt={String(c.heading || "Queens Care")} style={{ width: "100%", maxHeight: 500, objectFit: "cover" }} />
+                  )}
+                </div>
+              )}
+              {c.ctaText && (
+                <Link href={String(c.ctaLink || "#")} className="button" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                  {String(c.ctaText)} <span>→</span>
+                </Link>
+              )}
+            </div>
+          </section>
+        );
+      }
+    }
+  };
+
+  const bannerSection = hpSections.find((s) => s.type === "banner");
+  const isBannerVisible = bannerSection ? (bannerSection.active !== false && bannerSection.visible !== false) : true;
+  const bannerContent = bannerSection
+    ? (typeof bannerSection.content === "string" ? JSON.parse(bannerSection.content) : bannerSection.content || {})
+    : getHpContent("banner");
+
+  return (
+    <div className="site-shell">
+      {isBannerVisible && (
+        <div
+          className="announcement"
+          style={{
+            ...(bannerContent.backgroundColor ? { backgroundColor: String(bannerContent.backgroundColor) } : {}),
+            ...(bannerContent.textColor ? { color: String(bannerContent.textColor) } : {}),
+          }}
+        >
+          <span>{bannerContent.text || "Complimentary delivery on orders above ₹1,500"}</span>
+          <DeliveryTimer />
+          <Link href={bannerContent.secondaryLink || "/doctors"}>
+            {bannerContent.secondaryText || "For healthcare professionals"} →
+          </Link>
+        </div>
+      )}
+      <header className="nav-wrap">
+        <Link href="/" className="brand" aria-label="Queens Care home">
+          {logoUrl && !logoFailed ? (
+            <img src={logoUrl} alt="Queens Care" style={{ height: logoHeight, maxWidth: logoMaxWidth, objectFit: "contain" }} onError={() => setLogoFailed(true)} />
+          ) : (
+            <i>Q</i>
+          )}
+          <span>QUEENS<br/><b>CARE</b></span>
+        </Link>
+        <nav className={menu ? "open" : ""}>
+          <a href="#collection">Shop</a>
+          <Link href="/about">About</Link>
+          <a href="#science">Our science</a>
+          <Link href="/blog">Blog</Link>
+          {isEmployeeVisibleInHeader && <Link href="/employee">Our team</Link>}
+          <Link href="/contact">Contact</Link>
+        </nav>
+        <div className="nav-actions">
+          <Link href="/account" style={{ fontSize: 12, textDecoration: "none", color: "var(--ink)", marginRight: 8, display: "flex", alignItems: "center", gap: 4 }} aria-label="Account">
+            {user ? <span title={user.email}>Account</span> : <span>Sign In</span>}
+          </Link>
+          <label className="search">
+            <Icon>⌕</Icon>
+            <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search care" aria-label="Search products" />
+          </label>
+          <button className="icon-button" onClick={() => setNotice(wish.length ? `${wish.length} saved product${wish.length > 1 ? "s" : ""}.` : "Your saved list is waiting for its first ritual.")} aria-label="View wishlist">
+            ♡<em>{wish.length || ""}</em>
+          </button>
+          <CartBadge />
+          <button className="bag-dummy" onClick={() => setNotice(cartCount ? `${cartCount} item${cartCount > 1 ? "s" : ""} in your care bag — checkout is ready.` : "Your care bag is empty.")}>
+            Bag <b>{cartCount}</b>
+          </button>
+          <button className="menu" onClick={() => setMenu(!menu)} aria-label="Toggle navigation">
+            ☰
+          </button>
+        </div>
+      </header>
+      {notice && (
+        <div className="toast" role="status">
+          {notice}
+          <button onClick={() => setNotice("")}>×</button>
+        </div>
+      )}
+      <main>
+        <CareScene />
+        {sortedSections.map((sec, idx) => renderSection(sec, idx))}
+      </main>
+      <footer
+        style={{
+          ...(footerSettings.bg ? { backgroundColor: footerSettings.bg } : {}),
+          ...(footerSettings.textColor ? { color: footerSettings.textColor } : {}),
+        }}
+      >
+        <div className="footer-top">
+          <Link href="/" className="brand inverse">
+            {logoUrl && !logoFailed ? (
+              <img src={logoUrl} alt="Queens Care" style={{ height: logoHeight, maxWidth: logoMaxWidth, objectFit: "contain" }} onError={() => setLogoFailed(true)} />
+            ) : (
+              <i>Q</i>
             )}
-          </div>
+            <span>QUEENS<br/><b>CARE</b></span>
+          </Link>
+          {footerSettings.tagline ? (
+            <p style={{ whiteSpace: "pre-line" }}>{footerSettings.tagline}</p>
+          ) : (
+            <p>Care is a practice.<br/>Make it <em>yours.</em></p>
+          )}
+          <form onSubmit={subscribe}>
+            <label htmlFor="footer-email">{footerSettings.newsletterTitle || "A considered note, once in a while."}</label>
+            <div>
+              <input id="footer-email" type="email" required placeholder="Email address"/>
+              <button aria-label="Subscribe">→</button>
+            </div>
+          </form>
         </div>
-        <div className="consult-image">
-          <img src={getHpContent("consult").imageUrl || "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1000&q=85"} alt="Doctor speaking with a patient"/>
-        </div>
-      </section>
-    </main>
-    <footer>
-      <div className="footer-top">
-        <Link href="/" className="brand inverse">{logoUrl && !logoFailed ? <img src={logoUrl} alt="Queens Care" style={{height:logoHeight,maxWidth:logoMaxWidth,objectFit:'contain'}} onError={()=>setLogoFailed(true)} /> : <i>Q</i>}<span>QUEENS<br/><b>CARE</b></span></Link>
-        <p>Care is a practice.<br/>Make it <em>yours.</em></p>
-        <form onSubmit={subscribe}>
-          <label htmlFor="footer-email">A considered note, once in a while.</label>
-          <div>
-            <input id="footer-email" type="email" required placeholder="Email address"/>
-            <button aria-label="Subscribe">→</button>
-          </div>
-        </form>
-      </div>
       <div className="footer-links">
         <div>
           <b>Shop</b>
           <Link href="/#collection">All care</Link>
           <Link href="/shop">Best sellers</Link>
+          <Link href="/store-locator">Store locator</Link>
           <Link href="/b2b">B2B portal</Link>
         </div>
         <div>
           <b>About</b>
           <Link href="/about">Our story</Link>
           <Link href="/blog">Journal</Link>
-          <Link href="/employee">Our team</Link>
+          {isEmployeeVisibleInFooter && <Link href="/employee">Our team</Link>}
           <Link href="/careers">Careers</Link>
           <Link href="/contact">Contact</Link>
         </div>
@@ -371,6 +790,7 @@ export default function QueensCareExperience() {
         <span>India · English</span>
         <span>Queens Care Laboratories · India</span>
       </div>
-    </footer>
-  </div>;
+      </footer>
+    </div>
+  );
 }

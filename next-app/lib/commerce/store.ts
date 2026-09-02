@@ -429,9 +429,19 @@ export const store = {
 	contacts: {
 		create: async (input: Partial<ContactMessage>) => {
 			if (usePrisma) {
-				try { return (await prisma.contactMessage.create({ data: input as unknown as Prisma.ContactMessageCreateInput })) as unknown as ContactMessage; } catch {}
+				try {
+					const res = (await prisma.contactMessage.create({ data: input as unknown as Prisma.ContactMessageCreateInput })) as unknown as ContactMessage;
+					fileDb.insert("contactEnquiries", res as unknown as Record<string, unknown>);
+					return res;
+				} catch {}
 			}
-			return input as ContactMessage;
+			const record = fileDb.insert("contactEnquiries", {
+				id: `QC-CNT-${Date.now().toString(36).toUpperCase()}`,
+				status: "new",
+				createdAt: new Date().toISOString(),
+				...input,
+			});
+			return record as unknown as ContactMessage;
 		},
 	},
 	applications: {

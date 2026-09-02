@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import StoryCMSManager from "./StoryCMSManager";
 
 type PageSetting = Record<string, unknown> & {
   id: string;
@@ -18,6 +19,7 @@ export default function PageManagement() {
   const [pages, setPages] = useState<PageSetting[]>([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<PageSetting | null>(null);
+  const [showStoryCms, setShowStoryCms] = useState(false);
   const [isNew, setIsNew] = useState(false);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState("");
@@ -87,6 +89,15 @@ export default function PageManagement() {
     load();
   };
 
+  const toggleFooter = async (page: PageSetting) => {
+    await fetch("/api/admin/pages", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: page.id, footerVisible: !(page.footerVisible !== false) }),
+    });
+    load();
+  };
+
   const toggleActive = async (page: PageSetting) => {
     await fetch("/api/admin/pages", {
       method: "PATCH",
@@ -109,6 +120,11 @@ export default function PageManagement() {
     await fetch("/api/admin/pages", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: page.id, sortOrder: Number(next.sortOrder) + 1 }) });
     load();
   };
+
+  // ─── OUR STORY CMS ───────────────────────────────────────────────────
+  if (showStoryCms) {
+    return <StoryCMSManager onBack={() => setShowStoryCms(false)} />;
+  }
 
   // ─── EDITOR ──────────────────────────────────────────────────────────
   if (editing) {
@@ -173,7 +189,24 @@ export default function PageManagement() {
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
         <h3 style={{ margin: 0, font: "18px var(--font-display)" }}>Page Management ({pages.length} pages)</h3>
-        <button onClick={startNew} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12 }}>+ Create Page</button>
+        <div style={{ display: "flex", gap: 10 }}>
+          <button
+            onClick={() => setShowStoryCms(true)}
+            style={{
+              padding: "8px 16px",
+              background: "#f3e8f7",
+              color: "var(--purple)",
+              border: "1px solid var(--purple)",
+              borderRadius: 4,
+              fontSize: 12,
+              fontWeight: 700,
+              cursor: "pointer",
+            }}
+          >
+            ✨ Manage "Our Story" CMS
+          </button>
+          <button onClick={startNew} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", borderRadius: 4, cursor: "pointer", fontSize: 12 }}>+ Create Page</button>
+        </div>
       </div>
 
       {loading ? (
@@ -209,9 +242,9 @@ export default function PageManagement() {
                   </button>
                 </td>
                 <td style={{ padding: "10px 12px", textAlign: "center" }}>
-                  <span style={{ fontSize: 11, color: page.footerVisible !== false ? "#2e7d32" : "var(--muted)" }}>
+                  <button onClick={() => toggleFooter(page)} style={{ padding: "3px 10px", fontSize: 11, border: "1px solid var(--line)", background: page.footerVisible !== false ? "#e8f5e9" : "#fff", color: page.footerVisible !== false ? "#2e7d32" : "var(--muted)", cursor: "pointer" }}>
                     {page.footerVisible !== false ? "ON" : "OFF"}
-                  </span>
+                  </button>
                 </td>
                 <td style={{ padding: "10px 12px", textAlign: "center" }}>
                   <div style={{ display: "flex", gap: 2, justifyContent: "center" }}>
@@ -220,6 +253,22 @@ export default function PageManagement() {
                   </div>
                 </td>
                 <td style={{ padding: "10px 12px", display: "flex", gap: 6 }}>
+                  {(page.slug === "about" || page.id === "pg-about") && (
+                    <button
+                      onClick={() => setShowStoryCms(true)}
+                      style={{
+                        padding: "4px 10px",
+                        fontSize: 11,
+                        border: "1px solid var(--purple)",
+                        background: "#f3e8f7",
+                        color: "var(--purple)",
+                        fontWeight: 600,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Story CMS ✍️
+                    </button>
+                  )}
                   <button onClick={() => { setEditing(page); setForm({ ...page }); setIsNew(false); setMsg(""); }} style={{ padding: "4px 10px", fontSize: 11, border: "1px solid var(--line)", background: "#fff", cursor: "pointer" }}>Edit</button>
                   {!page.isAnchor && (
                     <button onClick={() => del(page.id, page.title)} style={{ padding: "4px 10px", fontSize: 11, border: "1px solid #e2c3c3", background: "#fff", color: "#b34141", cursor: "pointer" }}>Del</button>

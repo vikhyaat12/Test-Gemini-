@@ -16,8 +16,16 @@ import EmployeeEditFormAdvanced from "./EmployeeEditFormAdvanced";
 import PushNotificationPanel from "./PushNotificationPanel";
 import PageManagement from "./PageManagement";
 import SocialMediaLinksManager from "./SocialMediaLinksManager";
+import CareerApplicationsManager from "./CareerApplicationsManager";
+import CareersCMSManager from "./CareersCMSManager";
+import OTPSettingsPanel from "./OTPSettingsPanel";
+import NotificationSettingsPanel from "./NotificationSettingsPanel";
+import DataCenterExportPanel from "./DataCenterExportPanel";
+import B2BManagement from "./B2BManagement";
+import StoreLocatorManagement from "./StoreLocatorManagement";
+import FooterSettingsModal from "./FooterSettingsModal";
 
-type Tab = "dashboard" | "orders" | "products" | "product-edit" | "aplus" | "categories" | "customers" | "b2b" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers" | "homepage" | "marketing" | "payments" | "shipping" | "push" | "pages" | "social-links";
+type Tab = "dashboard" | "orders" | "products" | "product-edit" | "aplus" | "categories" | "customers" | "b2b" | "stores" | "careers" | "career-applications" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers" | "homepage" | "marketing" | "payments" | "shipping" | "push" | "pages" | "social-links" | "otp-security" | "notifications-matrix" | "data-export";
 
 const req = async (path: string, init?: RequestInit) => {
   const r = await fetch(path, { ...init, headers: { "Content-Type": "application/json", ...(init?.headers || {}) } });
@@ -25,11 +33,11 @@ const req = async (path: string, init?: RequestInit) => {
 };
 
 function Badge({ status }: { status: string }) {
-  const colors: Record<string, string> = { pending: "#d4ad65", approved: "#4caf50", paid: "#4caf50", active: "#4caf50", delivered: "#4caf50", processing: "#2196f3", shipped: "#2196f3", packed: "#2196f3", cancelled: "#b34141", declined: "#b34141", rejected: "#b34141", failed: "#b34141", refunded: "#9c27b0", suspended: "#ff9800" };
-  return <span style={{ padding: "3px 8px", fontSize: 10, textTransform: "uppercase", letterSpacing: ".06em", background: colors[status] || "#eee", color: ["pending", "suspended"].includes(status) ? "#333" : "#fff", borderRadius: 3 }}>{status}</span>;
+  const colors: Record<string, string> = { pending: "#d4ad65", submitted: "#2196f3", under_review: "#d4ad65", shortlisted: "#9c27b0", interview: "#ff9800", hired: "#4caf50", approved: "#4caf50", paid: "#4caf50", active: "#4caf50", delivered: "#4caf50", processing: "#2196f3", shipped: "#2196f3", packed: "#2196f3", cancelled: "#b34141", declined: "#b34141", rejected: "#b34141", failed: "#b34141", refunded: "#9c27b0", suspended: "#ff9800" };
+  return <span style={{ padding: "3px 8px", fontSize: 10, textTransform: "uppercase", letterSpacing: ".06em", background: colors[status] || "#eee", color: ["pending", "suspended", "under_review"].includes(status) ? "#333" : "#fff", borderRadius: 3 }}>{status}</span>;
 }
 
-function Table({ columns, rows, onEdit, onDelete, onStatusChange }: { columns: { key: string; label: string; render?: (v: unknown, row: Record<string, unknown>) => React.ReactNode }[]; rows: Record<string, unknown>[]; onEdit?: (row: Record<string, unknown>) => void; onDelete?: (row: Record<string, unknown>) => void; onStatusChange?: (row: Record<string, unknown>, status: string) => void }) {
+function Table({ columns, rows, onEdit, onDelete, onStatusChange, onPreview }: { columns: { key: string; label: string; render?: (v: unknown, row: Record<string, unknown>) => React.ReactNode }[]; rows: Record<string, unknown>[]; onEdit?: (row: Record<string, unknown>) => void; onDelete?: (row: Record<string, unknown>) => void; onStatusChange?: (row: Record<string, unknown>, status: string) => void; onPreview?: (row: Record<string, unknown>) => void }) {
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState("");
   const perPage = 12;
@@ -44,8 +52,8 @@ function Table({ columns, rows, onEdit, onDelete, onStatusChange }: { columns: {
       </div>
       <div style={{ overflowX: "auto" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
-          <thead><tr>{columns.map(c => <th key={c.key} style={{ textAlign: "left", padding: "10px 12px", borderBottom: "2px solid var(--line)", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: ".08em", color: "var(--muted)" }}>{c.label}</th>)}{(onEdit || onDelete || onStatusChange) && <th style={{ padding: "10px 12px", borderBottom: "2px solid var(--line)" }}>Actions</th>}</tr></thead>
-          <tbody>{visible.map((row, i) => <tr key={i} style={{ borderBottom: "1px solid var(--line)" }}>{columns.map(c => <td key={c.key} style={{ padding: "10px 12px" }}>{c.render ? c.render(row[c.key], row) : String(row[c.key] ?? "—")}</td>)}{(onEdit || onDelete || onStatusChange) && <td style={{ padding: "10px 12px", display: "flex", gap: 6, flexWrap: "wrap" }}>{onEdit && <button onClick={() => onEdit(row)} style={{ border: "1px solid var(--line)", background: "#fff", padding: "4px 10px", fontSize: 11, cursor: "pointer" }}>Edit</button>}{onDelete && <button onClick={() => onDelete(row)} style={{ border: "1px solid #e2c3c3", background: "#fff", padding: "4px 10px", fontSize: 11, cursor: "pointer", color: "#b34141" }}>Del</button>}{onStatusChange && <button onClick={() => onStatusChange(row, "approved")} style={{ border: "1px solid #c3e6cb", background: "#fff", padding: "4px 10px", fontSize: 11, cursor: "pointer", color: "#2e7d32" }}>Approve</button>}</td>}</tr>)}</tbody>
+          <thead><tr>{columns.map(c => <th key={c.key} style={{ textAlign: "left", padding: "10px 12px", borderBottom: "2px solid var(--line)", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: ".08em", color: "var(--muted)" }}>{c.label}</th>)}{(onEdit || onDelete || onStatusChange || onPreview) && <th style={{ padding: "10px 12px", borderBottom: "2px solid var(--line)" }}>Actions</th>}</tr></thead>
+          <tbody>{visible.map((row, i) => <tr key={i} style={{ borderBottom: "1px solid var(--line)" }}>{columns.map(c => <td key={c.key} style={{ padding: "10px 12px" }}>{c.render ? c.render(row[c.key], row) : String(row[c.key] ?? "—")}</td>)}{(onEdit || onDelete || onStatusChange || onPreview) && <td style={{ padding: "10px 12px", display: "flex", gap: 6, flexWrap: "wrap" }}>{onPreview && <button onClick={() => onPreview(row)} style={{ border: "1px solid #c7d2fe", background: "#f5f3ff", padding: "4px 10px", fontSize: 11, cursor: "pointer", color: "var(--purple)", fontWeight: 600 }}>Preview ↗</button>}{onEdit && <button onClick={() => onEdit(row)} style={{ border: "1px solid var(--line)", background: "#fff", padding: "4px 10px", fontSize: 11, cursor: "pointer" }}>Edit</button>}{onDelete && <button onClick={() => onDelete(row)} style={{ border: "1px solid #e2c3c3", background: "#fff", padding: "4px 10px", fontSize: 11, cursor: "pointer", color: "#b34141" }}>Del</button>}{onStatusChange && <button onClick={() => onStatusChange(row, "approved")} style={{ border: "1px solid #c3e6cb", background: "#fff", padding: "4px 10px", fontSize: 11, cursor: "pointer", color: "#2e7d32" }}>Approve</button>}</td>}</tr>)}</tbody>
         </table>
       </div>
       {pages > 1 && <div style={{ display: "flex", gap: 8, marginTop: 16, justifyContent: "center" }}><button disabled={page === 0} onClick={() => setPage(p => p - 1)} style={{ padding: "6px 12px", border: "1px solid var(--line)", background: "#fff", cursor: "pointer", fontSize: 12 }}>← Prev</button><span style={{ padding: "6px 12px", fontSize: 12, color: "var(--muted)" }}>Page {page + 1} of {pages}</span><button disabled={page >= pages - 1} onClick={() => setPage(p => p + 1)} style={{ padding: "6px 12px", border: "1px solid var(--line)", background: "#fff", cursor: "pointer", fontSize: 12 }}>Next →</button></div>}
@@ -60,6 +68,9 @@ const ENDPOINTS: Record<Tab, string | null> = {
   categories: "/api/admin/categories",
   customers: "/api/admin/customers",
   b2b: "/api/admin/b2b",
+  stores: "/api/admin/store-locator",
+  careers: "/api/admin/careers/page",
+  "career-applications": "/api/admin/careers",
   doctors: "/api/admin/doctors",
   employees: "/api/admin/employees",
   affiliates: "/api/admin/affiliates",
@@ -80,6 +91,9 @@ const ENDPOINTS: Record<Tab, string | null> = {
   pages: "/api/admin/pages",
   "social-links": "/api/admin/social-links",
   aplus: "/api/admin/aplus",
+  "otp-security": "/api/admin/otp/settings",
+  "notifications-matrix": "/api/admin/notifications/settings",
+  "data-export": "/api/admin/googlesheets",
   "product-edit": null,
 };
 
@@ -90,6 +104,7 @@ export default function AdminDashboard() {
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
   const [editingItem, setEditingItem] = useState<Record<string, unknown> | null>(null);
+  const [showFooterEditor, setShowFooterEditor] = useState(false);
 
   const doRefresh = useCallback(async () => {
     try {
@@ -175,7 +190,10 @@ export default function AdminDashboard() {
     { id: "aplus", label: "A+ Content", icon: "✨" },
     { id: "categories", label: "Categories", icon: "📁" },
     { id: "customers", label: "Customers", icon: "👥" },
-    { id: "b2b", label: "B2B", icon: "🏢" },
+    { id: "b2b", label: "B2B Leads", icon: "🏢" },
+    { id: "stores", label: "Store Locator", icon: "📍" },
+    { id: "careers", label: "Careers CMS", icon: "💼" },
+    { id: "career-applications", label: "Career Applications", icon: "📁" },
     { id: "doctors", label: "Doctors", icon: "⚕️" },
     { id: "employees", label: "Employees", icon: "👤" },
     { id: "affiliates", label: "Affiliates", icon: "🤝" },
@@ -189,6 +207,9 @@ export default function AdminDashboard() {
     { id: "payments", label: "Payments", icon: "💳" },
     { id: "shipping", label: "Shipping", icon: "🚚" },
     { id: "push", label: "Push Notifications", icon: "📱" },
+    { id: "otp-security", label: "OTP & Security", icon: "🔐" },
+    { id: "notifications-matrix", label: "Order Notifications", icon: "🔔" },
+    { id: "data-export", label: "Data Center & Excel", icon: "📊" },
     { id: "media", label: "Media", icon: "🖼️" },
     { id: "settings", label: "Settings", icon: "⚙️" },
     { id: "pages", label: "Pages", icon: "📑" },
@@ -271,7 +292,30 @@ export default function AdminDashboard() {
             {/* ─── PRODUCTS TABLE ─── */}
             {tab === "products" && !editingItem && (
               <div>
-                <button onClick={() => setEditingItem({ _type: "product", isNew: true })} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, marginBottom: 16 }}>+ Add Product</button>
+                <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 16 }}>
+                  <button onClick={() => setEditingItem({ _type: "product", isNew: true })} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12 }}>+ Add Product</button>
+                  <a
+                    href="/shop"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      padding: "8px 14px",
+                      background: "#fff",
+                      color: "var(--purple)",
+                      border: "1px solid var(--purple)",
+                      borderRadius: 4,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      textDecoration: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                    }}
+                  >
+                    <span>👁️ View Shop</span>
+                    <span>↗</span>
+                  </a>
+                </div>
                 <Table
                   columns={[
                     { key: "name", label: "Product" },
@@ -281,6 +325,7 @@ export default function AdminDashboard() {
                     { key: "active", label: "Active", render: (v) => v ? "✓" : "✗" },
                   ]}
                   rows={(data?.products as Record<string, unknown>[]) || []}
+                  onPreview={(row) => window.open(`/products/${row.slug}`, "_blank")}
                   onEdit={(row) => setEditingItem({ ...row, _type: "product" })}
                   onDelete={(row) => {
                     if (confirm("Delete this product?")) {
@@ -335,56 +380,90 @@ export default function AdminDashboard() {
 
             {/* ─── ORDERS TABLE ─── */}
             {tab === "orders" && (
-              <Table
-                columns={[
-                  { key: "id", label: "Order ID", render: (v) => <span style={{ fontFamily: "monospace", fontSize: 11 }}>{String(v).slice(0, 12)}…</span> },
-                  { key: "status", label: "Status", render: (v) => <Badge status={String(v)} /> },
-                  { key: "total", label: "Total", render: (v) => `₹${Number(v).toLocaleString("en-IN")}` },
-                  { key: "paymentStatus", label: "Payment", render: (v) => <Badge status={String(v || "pending")} /> },
-                  { key: "createdAt", label: "Date", render: (v) => new Date(String(v)).toLocaleDateString("en-IN") },
-                ]}
-                rows={(data?.orders as Record<string, unknown>[]) || []}
-                onStatusChange={(row, s) => { handleStatusUpdate("/api/admin/orders", String(row.id), s); }}
-              />
+              <div>
+                <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 14 }}>
+                  <a
+                    href="/api/admin/export?dataset=orders"
+                    download
+                    style={{
+                      padding: "8px 14px",
+                      background: "var(--purple)",
+                      color: "#fff",
+                      borderRadius: 4,
+                      fontSize: 12,
+                      fontWeight: 700,
+                      textDecoration: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                    }}
+                  >
+                    <span>📥 Export Orders (.CSV / Excel)</span>
+                  </a>
+                </div>
+                <Table
+                  columns={[
+                    { key: "id", label: "Order ID", render: (v) => <span style={{ fontFamily: "monospace", fontSize: 11 }}>{String(v).slice(0, 12)}…</span> },
+                    { key: "status", label: "Status", render: (v) => <Badge status={String(v)} /> },
+                    { key: "total", label: "Total", render: (v) => `₹${Number(v).toLocaleString("en-IN")}` },
+                    { key: "paymentStatus", label: "Payment", render: (v) => <Badge status={String(v || "pending")} /> },
+                    { key: "createdAt", label: "Date", render: (v) => new Date(String(v)).toLocaleDateString("en-IN") },
+                  ]}
+                  rows={(data?.orders as Record<string, unknown>[]) || []}
+                  onStatusChange={(row, s) => { handleStatusUpdate("/api/admin/orders", String(row.id), s); }}
+                />
+              </div>
             )}
 
             {/* ─── CUSTOMERS ─── */}
             {tab === "customers" && (
-              <Table
-                columns={[
-                  { key: "name", label: "Name" },
-                  { key: "email", label: "Email" },
-                  { key: "role", label: "Role", render: (v) => <Badge status={String(v)} /> },
-                  { key: "createdAt", label: "Joined", render: (v) => new Date(String(v)).toLocaleDateString("en-IN") },
-                ]}
-                rows={((data.customers as Record<string, unknown>[]) || [])}
-              />
+              <div>
+                <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 14 }}>
+                  <a
+                    href="/api/admin/export?dataset=customers"
+                    download
+                    style={{
+                      padding: "8px 14px",
+                      background: "var(--purple)",
+                      color: "#fff",
+                      borderRadius: 4,
+                      fontSize: 12,
+                      fontWeight: 700,
+                      textDecoration: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                    }}
+                  >
+                    <span>📥 Export Customers (.CSV / Excel)</span>
+                  </a>
+                </div>
+                <Table
+                  columns={[
+                    { key: "name", label: "Name" },
+                    { key: "email", label: "Email" },
+                    { key: "role", label: "Role", render: (v) => <Badge status={String(v)} /> },
+                    { key: "createdAt", label: "Joined", render: (v) => new Date(String(v)).toLocaleDateString("en-IN") },
+                  ]}
+                  rows={((data.customers as Record<string, unknown>[]) || [])}
+                />
+              </div>
             )}
 
             {/* ─── B2B ─── */}
-            {tab === "b2b" && (
-              <div>
-                <h3 style={{ font: "18px var(--font-display)", margin: "0 0 16px" }}>Applications</h3>
-                <Table
-                  columns={[
-                    { key: "company", label: "Company" },
-                    { key: "name", label: "Contact" },
-                    { key: "email", label: "Email" },
-                    { key: "status", label: "Status", render: (v) => <Badge status={String(v)} /> },
-                  ]}
-                  rows={((data.applications as Record<string, unknown>[]) || [])}
-                  onStatusChange={(row, s) => { handleStatusUpdate("/api/admin/b2b", String(row.id), s); }}
-                />
-                <h3 style={{ font: "18px var(--font-display)", margin: "24px 0 16px" }}>Distributors</h3>
-                <Table
-                  columns={[
-                    { key: "company", label: "Company" },
-                    { key: "contactName", label: "Contact" },
-                    { key: "status", label: "Status", render: (v) => <Badge status={String(v)} /> },
-                  ]}
-                  rows={((data.distributors as Record<string, unknown>[]) || [])}
-                />
-              </div>
+            {tab === "b2b" && <B2BManagement />}
+
+            {/* ─── STORE LOCATOR ─── */}
+            {tab === "stores" && <StoreLocatorManagement />}
+
+            {/* ─── CAREERS CMS ─── */}
+            {tab === "careers" && (
+              <CareersCMSManager />
+            )}
+
+            {/* ─── CAREER APPLICATIONS ─── */}
+            {tab === "career-applications" && (
+              <CareerApplicationsManager />
             )}
 
             {/* ─── DOCTORS ─── */}
@@ -405,16 +484,101 @@ export default function AdminDashboard() {
             {/* ─── EMPLOYEES ─── */}
             {tab === "employees" && !editingItem?.employeeEdit && (
               <div>
-                <button onClick={() => setEditingItem({ _type: "employee", employeeEdit: true, isNew: true })} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, marginBottom: 16 }}>+ Add Employee</button>
+                <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 16 }}>
+                  <button onClick={() => setEditingItem({ _type: "employee", employeeEdit: true, isNew: true })} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12 }}>+ Add Employee</button>
+                  <a
+                    href="/employee"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      padding: "8px 14px",
+                      background: "#fff",
+                      color: "var(--purple)",
+                      border: "1px solid var(--purple)",
+                      borderRadius: 4,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      textDecoration: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                    }}
+                  >
+                    <span>👁️ Preview Team Page</span>
+                    <span>↗</span>
+                  </a>
+                </div>
                 <Table
                   columns={[
                     { key: "name", label: "Name" },
                     { key: "designation", label: "Designation" },
                     { key: "department", label: "Department" },
                     { key: "employeeId", label: "Employee ID" },
-                    { key: "active", label: "Active", render: (v) => v ? "✓" : "✗" },
+                    {
+                      key: "active",
+                      label: "Status",
+                      render: (v, row) => (
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            const nextActive = v === false ? true : false;
+                            await fetch("/api/admin/employees", {
+                              method: "PATCH",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ id: row.id, active: nextActive }),
+                            });
+                            doRefresh();
+                          }}
+                          style={{
+                            padding: "3px 8px",
+                            fontSize: 11,
+                            fontWeight: 700,
+                            borderRadius: 4,
+                            border: "1px solid " + (v !== false ? "#a5d6a7" : "#ffcdd2"),
+                            background: v !== false ? "#e8f5e9" : "#ffebee",
+                            color: v !== false ? "#2e7d32" : "#c62828",
+                            cursor: "pointer",
+                          }}
+                          title="Click to toggle Active / Inactive"
+                        >
+                          {v !== false ? "● ACTIVE" : "○ INACTIVE"}
+                        </button>
+                      ),
+                    },
+                    {
+                      key: "featured",
+                      label: "Featured",
+                      render: (v, row) => (
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            const nextFeatured = !v;
+                            await fetch("/api/admin/employees", {
+                              method: "PATCH",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ id: row.id, featured: nextFeatured }),
+                            });
+                            doRefresh();
+                          }}
+                          style={{
+                            padding: "3px 8px",
+                            fontSize: 11,
+                            fontWeight: 600,
+                            borderRadius: 4,
+                            border: "1px solid " + (v ? "#ffe082" : "#eee"),
+                            background: v ? "#fff8e1" : "#fff",
+                            color: v ? "#b78103" : "var(--muted)",
+                            cursor: "pointer",
+                          }}
+                          title="Click to toggle Featured on Team Page"
+                        >
+                          {v ? "⭐ FEATURED" : "☆ Standard"}
+                        </button>
+                      ),
+                    },
                   ]}
                   rows={((data.employees as Record<string, unknown>[]) || [])}
+                  onPreview={(row) => window.open(`/employee/${row.slug || row.id}`, "_blank")}
                   onEdit={(row) => setEditingItem({ ...row, _type: "employee", employeeEdit: true })}
                   onDelete={(row) => handleDelete("/api/admin/employees", String(row.id))}
                 />
@@ -488,7 +652,30 @@ export default function AdminDashboard() {
             {/* ─── BLOG ─── */}
             {tab === "blog" && !editingItem?.blogEdit && (
               <div>
-                <button onClick={() => setEditingItem({ _type: "blog", blogEdit: true, isNew: true })} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, marginBottom: 16 }}>+ Create Post</button>
+                <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 16 }}>
+                  <button onClick={() => setEditingItem({ _type: "blog", blogEdit: true, isNew: true })} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12 }}>+ Create Post</button>
+                  <a
+                    href="/blog"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      padding: "8px 14px",
+                      background: "#fff",
+                      color: "var(--purple)",
+                      border: "1px solid var(--purple)",
+                      borderRadius: 4,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      textDecoration: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                    }}
+                  >
+                    <span>👁️ View Journal</span>
+                    <span>↗</span>
+                  </a>
+                </div>
                 <Table
                   columns={[
                     { key: "title", label: "Title" },
@@ -499,6 +686,7 @@ export default function AdminDashboard() {
                     { key: "createdAt", label: "Date", render: (v) => new Date(String(v)).toLocaleDateString("en-IN") },
                   ]}
                   rows={((data.posts as Record<string, unknown>[]) || [])}
+                  onPreview={(row) => window.open(`/blog/${row.slug}`, "_blank")}
                   onEdit={(row) => setEditingItem({ ...row, _type: "blog", blogEdit: true })}
                   onDelete={(row) => handleDelete("/api/admin/blog", String(row.id || row.slug))}
                 />
@@ -624,6 +812,21 @@ export default function AdminDashboard() {
               <OfferEditForm item={editingItem} onSave={() => { setEditingItem(null); setMessage("Offer saved."); setIsError(false); doRefresh(); }} />
             )}
 
+            {/* ─── OTP & SECURITY ─── */}
+            {tab === "otp-security" && (
+              <OTPSettingsPanel />
+            )}
+
+            {/* ─── ORDER NOTIFICATIONS & TEMPLATES ─── */}
+            {tab === "notifications-matrix" && (
+              <NotificationSettingsPanel />
+            )}
+
+            {/* ─── DATA CENTER & EXPORTS ─── */}
+            {tab === "data-export" && (
+              <DataCenterExportPanel />
+            )}
+
             {/* ─── MEDIA ─── */}
             {tab === "media" && (
               <MediaLibrary />
@@ -680,6 +883,24 @@ export default function AdminDashboard() {
                       <span>👁️ Preview Live Homepage</span>
                       <span>↗</span>
                     </a>
+                    <button
+                      onClick={() => setShowFooterEditor(true)}
+                      style={{
+                        padding: "8px 14px",
+                        background: "#fff",
+                        color: "var(--purple)",
+                        border: "1px solid var(--purple)",
+                        borderRadius: 4,
+                        cursor: "pointer",
+                        fontSize: 12,
+                        fontWeight: 600,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 6,
+                      }}
+                    >
+                      <span>⚙️ Footer CMS</span>
+                    </button>
                     <button
                       onClick={() =>
                         setEditingItem({
@@ -844,6 +1065,12 @@ export default function AdminDashboard() {
                   ]}
                   rows={((data.sections as Record<string, unknown>[]) || [])}
                 />
+                {showFooterEditor && (
+                  <FooterSettingsModal
+                    onClose={() => setShowFooterEditor(false)}
+                    onSave={doRefresh}
+                  />
+                )}
               </div>
             )}
             {tab === "homepage" && editingItem?.hpEdit && (

@@ -233,6 +233,127 @@ export default function HomepageSectionEdit({ item, onSave }: Props) {
         </div>
       </div>
 
+      {/* UNIVERSAL STYLING & APPEARANCE */}
+      <div style={{ marginBottom: 24, padding: 20, background: "#faf8f5", border: "1px solid var(--line)", borderRadius: 6 }}>
+        <h4 style={{ font: "14px var(--font-display)", marginBottom: 14, color: "var(--purple)" }}>
+          Section Design, Colors & Motion
+        </h4>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+          <div>
+            <label style={labelStyle}>Section Background Color</label>
+            <div style={{ display: "flex", gap: 8 }}>
+              <input
+                type="color"
+                value={String(content.backgroundColor || "#FAF8F5").startsWith("#") ? String(content.backgroundColor) : "#FAF8F5"}
+                onChange={(e) => updateContent("backgroundColor", e.target.value)}
+                style={{ width: 38, height: 38, padding: 0, border: "1px solid var(--line)", borderRadius: 4, cursor: "pointer" }}
+              />
+              <input
+                style={inputStyle}
+                value={String(content.backgroundColor || "")}
+                onChange={(e) => updateContent("backgroundColor", e.target.value)}
+                placeholder="e.g. #FAF8F5, #180524, transparent"
+              />
+            </div>
+          </div>
+          <div>
+            <label style={labelStyle}>Text / Copy Color</label>
+            <div style={{ display: "flex", gap: 8 }}>
+              <input
+                type="color"
+                value={String(content.textColor || "#180524").startsWith("#") ? String(content.textColor) : "#180524"}
+                onChange={(e) => updateContent("textColor", e.target.value)}
+                style={{ width: 38, height: 38, padding: 0, border: "1px solid var(--line)", borderRadius: 4, cursor: "pointer" }}
+              />
+              <input
+                style={inputStyle}
+                value={String(content.textColor || "")}
+                onChange={(e) => updateContent("textColor", e.target.value)}
+                placeholder="e.g. #180524, #FFFFFF"
+              />
+            </div>
+          </div>
+          <div>
+            <label style={labelStyle}>Heading Color</label>
+            <div style={{ display: "flex", gap: 8 }}>
+              <input
+                type="color"
+                value={String(content.headingColor || "#2A0F3A").startsWith("#") ? String(content.headingColor) : "#2A0F3A"}
+                onChange={(e) => updateContent("headingColor", e.target.value)}
+                style={{ width: 38, height: 38, padding: 0, border: "1px solid var(--line)", borderRadius: 4, cursor: "pointer" }}
+              />
+              <input
+                style={inputStyle}
+                value={String(content.headingColor || "")}
+                onChange={(e) => updateContent("headingColor", e.target.value)}
+                placeholder="e.g. #2A0F3A, #D4AF37"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginTop: 12 }}>
+          <div>
+            <label style={labelStyle}>Button Background Color</label>
+            <div style={{ display: "flex", gap: 8 }}>
+              <input
+                type="color"
+                value={String(content.buttonBg || "#2A0F3A").startsWith("#") ? String(content.buttonBg) : "#2A0F3A"}
+                onChange={(e) => updateContent("buttonBg", e.target.value)}
+                style={{ width: 38, height: 38, padding: 0, border: "1px solid var(--line)", borderRadius: 4, cursor: "pointer" }}
+              />
+              <input
+                style={inputStyle}
+                value={String(content.buttonBg || "")}
+                onChange={(e) => updateContent("buttonBg", e.target.value)}
+                placeholder="e.g. #2A0F3A"
+              />
+            </div>
+          </div>
+          <div>
+            <label style={labelStyle}>Button Text Color</label>
+            <div style={{ display: "flex", gap: 8 }}>
+              <input
+                type="color"
+                value={String(content.buttonColor || "#FFFFFF").startsWith("#") ? String(content.buttonColor) : "#FFFFFF"}
+                onChange={(e) => updateContent("buttonColor", e.target.value)}
+                style={{ width: 38, height: 38, padding: 0, border: "1px solid var(--line)", borderRadius: 4, cursor: "pointer" }}
+              />
+              <input
+                style={inputStyle}
+                value={String(content.buttonColor || "")}
+                onChange={(e) => updateContent("buttonColor", e.target.value)}
+                placeholder="e.g. #FFFFFF"
+              />
+            </div>
+          </div>
+          <div>
+            <label style={labelStyle}>Section Padding / Spacing</label>
+            <select
+              style={inputStyle}
+              value={String(content.padding || "default")}
+              onChange={(e) => updateContent("padding", e.target.value)}
+            >
+              <option value="default">Default Spacing</option>
+              <option value="40px 0">Compact (40px)</option>
+              <option value="72px 0">Standard (72px)</option>
+              <option value="100px 0">Generous (100px)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", gap: 24, fontSize: 13, alignItems: "center", marginTop: 12 }}>
+          <label style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", fontWeight: 600 }}>
+            <input
+              type="checkbox"
+              checked={content.animationEnabled !== false}
+              onChange={(e) => updateContent("animationEnabled", e.target.checked)}
+            />
+            <span>Enable Subtle Motion / Scroll Reveal</span>
+          </label>
+        </div>
+      </div>
+
       {/* ═══════════════════════════════════════════════════════════════════════ */}
       {/* LUMINE-C™ 3D PRODUCT CMS + LIVE PREVIEW */}
       {/* ═══════════════════════════════════════════════════════════════════════ */}
@@ -656,6 +777,74 @@ export default function HomepageSectionEdit({ item, onSave }: Props) {
                 onChange={(e) => updateContent("description", e.target.value)}
               />
             </div>
+
+            {/* PRINCIPLES MANAGER */}
+            <div style={{ marginTop: 8, paddingTop: 10, borderTop: "1px solid var(--line)" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                <label style={{ ...labelStyle, margin: 0, fontWeight: 700 }}>
+                  Scientific Principles ({(Array.isArray(content.principles) ? content.principles : []).length})
+                </label>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const curr = Array.isArray(content.principles) ? [...content.principles] : [];
+                    curr.push({
+                      number: String(curr.length + 1).padStart(2, "0"),
+                      title: "New Principle",
+                      text: "Principle description."
+                    });
+                    updateContent("principles", curr);
+                  }}
+                  style={{ padding: "3px 8px", fontSize: 11, background: "var(--purple)", color: "#fff", border: "none", borderRadius: 3, cursor: "pointer" }}
+                >
+                  + Add Principle
+                </button>
+              </div>
+              {(Array.isArray(content.principles) ? content.principles : []).map((p: Record<string, string>, pIdx: number) => (
+                <div key={pIdx} style={{ display: "grid", gridTemplateColumns: "60px 180px 1fr 30px", gap: 8, marginBottom: 8, alignItems: "center" }}>
+                  <input
+                    style={inputStyle}
+                    value={p.number || ""}
+                    onChange={(e) => {
+                      const curr = [...(content.principles as Record<string, string>[])];
+                      curr[pIdx] = { ...curr[pIdx], number: e.target.value };
+                      updateContent("principles", curr);
+                    }}
+                    placeholder="01"
+                  />
+                  <input
+                    style={inputStyle}
+                    value={p.title || ""}
+                    onChange={(e) => {
+                      const curr = [...(content.principles as Record<string, string>[])];
+                      curr[pIdx] = { ...curr[pIdx], title: e.target.value };
+                      updateContent("principles", curr);
+                    }}
+                    placeholder="Title"
+                  />
+                  <input
+                    style={inputStyle}
+                    value={p.text || ""}
+                    onChange={(e) => {
+                      const curr = [...(content.principles as Record<string, string>[])];
+                      curr[pIdx] = { ...curr[pIdx], text: e.target.value };
+                      updateContent("principles", curr);
+                    }}
+                    placeholder="Description"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const curr = (content.principles as Record<string, string>[]).filter((_, i) => i !== pIdx);
+                      updateContent("principles", curr);
+                    }}
+                    style={{ padding: "4px 6px", fontSize: 10, background: "#ffebee", color: "#c62828", border: "1px solid #ffcdd2", cursor: "pointer" }}
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
               <div>
                 <label style={labelStyle}>CTA Button Label</label>
@@ -712,6 +901,155 @@ export default function HomepageSectionEdit({ item, onSave }: Props) {
                 value={String(content.sideText || "")}
                 onChange={(e) => updateContent("sideText", e.target.value)}
               />
+            </div>
+
+            {/* DYNAMIC RITUAL CARDS MANAGER */}
+            <div style={{ marginTop: 14, paddingTop: 14, borderTop: "1px solid var(--line)" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                <label style={{ ...labelStyle, margin: 0, fontWeight: 700 }}>
+                  Ritual Cards ({(Array.isArray(content.cards) ? content.cards : []).length})
+                </label>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const currentCards = Array.isArray(content.cards) ? [...content.cards] : [];
+                    const nextNum = String(currentCards.length + 1).padStart(2, "0");
+                    currentCards.push({
+                      id: `card-${Date.now()}`,
+                      number: nextNum,
+                      heading: "New Ritual Goal",
+                      cta: "Discover care →",
+                      link: "#collection",
+                      color: "amber",
+                      bgColor: "",
+                      textColor: ""
+                    });
+                    updateContent("cards", currentCards);
+                  }}
+                  style={{ padding: "4px 10px", fontSize: 11, background: "var(--purple)", color: "#fff", border: "none", borderRadius: 3, cursor: "pointer" }}
+                >
+                  + Add Ritual Card
+                </button>
+              </div>
+
+              {(Array.isArray(content.cards) ? content.cards : []).map((card: Record<string, string>, cIdx: number) => (
+                <div key={card.id || cIdx} style={{ padding: 12, background: "#fff", border: "1px solid var(--line)", borderRadius: 4, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: "var(--purple)" }}>
+                      Card {card.number || `0${cIdx + 1}`}
+                    </span>
+                    <div style={{ display: "flex", gap: 4 }}>
+                      <button
+                        type="button"
+                        disabled={cIdx === 0}
+                        onClick={() => {
+                          const currentCards = [...(content.cards as Record<string, string>[])];
+                          const temp = currentCards[cIdx];
+                          currentCards[cIdx] = currentCards[cIdx - 1];
+                          currentCards[cIdx - 1] = temp;
+                          updateContent("cards", currentCards);
+                        }}
+                        style={{ padding: "2px 6px", fontSize: 10, cursor: cIdx === 0 ? "default" : "pointer" }}
+                      >
+                        ▲
+                      </button>
+                      <button
+                        type="button"
+                        disabled={cIdx >= (content.cards as Record<string, string>[]).length - 1}
+                        onClick={() => {
+                          const currentCards = [...(content.cards as Record<string, string>[])];
+                          const temp = currentCards[cIdx];
+                          currentCards[cIdx] = currentCards[cIdx + 1];
+                          currentCards[cIdx + 1] = temp;
+                          updateContent("cards", currentCards);
+                        }}
+                        style={{ padding: "2px 6px", fontSize: 10, cursor: cIdx >= (content.cards as Record<string, string>[]).length - 1 ? "default" : "pointer" }}
+                      >
+                        ▼
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const currentCards = (content.cards as Record<string, string>[]).filter((_, i) => i !== cIdx);
+                          updateContent("cards", currentCards);
+                        }}
+                        style={{ padding: "2px 6px", fontSize: 10, background: "#ffebee", color: "#c62828", border: "1px solid #ffcdd2", cursor: "pointer" }}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "80px 1fr", gap: 8, marginBottom: 8 }}>
+                    <div>
+                      <label style={{ fontSize: 10, color: "var(--muted)" }}>Number</label>
+                      <input
+                        style={inputStyle}
+                        value={card.number || ""}
+                        onChange={(e) => {
+                          const currentCards = [...(content.cards as Record<string, string>[])];
+                          currentCards[cIdx] = { ...currentCards[cIdx], number: e.target.value };
+                          updateContent("cards", currentCards);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ fontSize: 10, color: "var(--muted)" }}>Heading (HTML tags allowed)</label>
+                      <input
+                        style={inputStyle}
+                        value={card.heading || ""}
+                        onChange={(e) => {
+                          const currentCards = [...(content.cards as Record<string, string>[])];
+                          currentCards[cIdx] = { ...currentCards[cIdx], heading: e.target.value };
+                          updateContent("cards", currentCards);
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 120px", gap: 8 }}>
+                    <div>
+                      <label style={{ fontSize: 10, color: "var(--muted)" }}>CTA Label</label>
+                      <input
+                        style={inputStyle}
+                        value={card.cta || ""}
+                        onChange={(e) => {
+                          const currentCards = [...(content.cards as Record<string, string>[])];
+                          currentCards[cIdx] = { ...currentCards[cIdx], cta: e.target.value };
+                          updateContent("cards", currentCards);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ fontSize: 10, color: "var(--muted)" }}>Target Link</label>
+                      <input
+                        style={inputStyle}
+                        value={card.link || ""}
+                        onChange={(e) => {
+                          const currentCards = [...(content.cards as Record<string, string>[])];
+                          currentCards[cIdx] = { ...currentCards[cIdx], link: e.target.value };
+                          updateContent("cards", currentCards);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ fontSize: 10, color: "var(--muted)" }}>Color Accent</label>
+                      <select
+                        style={inputStyle}
+                        value={card.color || "amber"}
+                        onChange={(e) => {
+                          const currentCards = [...(content.cards as Record<string, string>[])];
+                          currentCards[cIdx] = { ...currentCards[cIdx], color: e.target.value };
+                          updateContent("cards", currentCards);
+                        }}
+                      >
+                        <option value="amber">Amber Gold</option>
+                        <option value="lavender">Lavender</option>
+                        <option value="rose">Rose Quartz</option>
+                        <option value="teal">Clinical Teal</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

@@ -42,9 +42,13 @@ export interface LocalDbSchema {
   pageSettings: Array<Record<string, unknown>>;
   socialMediaLinks: Array<Record<string, unknown>>;
   careerApplications: Array<Record<string, unknown>>;
+  careerJobs: Array<Record<string, unknown>>;
+  careerPageSettings: Record<string, unknown>;
+  careerSections: Array<Record<string, unknown>>;
   newsletterSubscribers: Array<Record<string, unknown>>;
   contactEnquiries: Array<Record<string, unknown>>;
   notificationSettings: Array<Record<string, unknown>>;
+  storeLocations: Array<Record<string, unknown>>;
 }
 
 const now = () => new Date().toISOString();
@@ -1029,6 +1033,14 @@ const initialSeedData: LocalDbSchema = {
     { id: "pg-privacy", slug: "privacy", title: "Privacy Policy", label: "Privacy", headerVisible: false, footerVisible: true, sortOrder: 10, active: true, createdAt: "2026-07-30T00:00:00.000Z", updatedAt: "2026-07-30T00:00:00.000Z" },
     { id: "pg-terms", slug: "terms", title: "Terms & Conditions", label: "Terms", headerVisible: false, footerVisible: true, sortOrder: 11, active: true, createdAt: "2026-07-30T00:00:00.000Z", updatedAt: "2026-07-30T00:00:00.000Z" },
   ],
+  careerApplications: [],
+  careerJobs: [],
+  careerPageSettings: {},
+  careerSections: [],
+  newsletterSubscribers: [],
+  contactEnquiries: [],
+  notificationSettings: [],
+  storeLocations: [],
 };
 
 /**
