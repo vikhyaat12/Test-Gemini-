@@ -865,7 +865,7 @@
       "slug": "vikram-singhania",
       "active": true,
       "createdAt": "2026-08-29T07:59:01.686Z",
-      "updatedAt": "2026-09-01T18:33:18.130Z",
+      "updatedAt": "2026-09-02T14:56:25.015Z",
       "featured": true
     },
     {
@@ -1700,7 +1700,7 @@
         "ratingCount": "12,500+ care rituals"
       },
       "createdAt": "2026-08-29T07:59:01.686Z",
-      "updatedAt": "2026-09-01T18:33:17.955Z"
+      "updatedAt": "2026-09-02T14:56:20.580Z"
     },
     {
       "id": "hs-trust",
@@ -1754,7 +1754,7 @@
         "ctaLink": "/about"
       },
       "createdAt": "2026-08-29T07:59:01.686Z",
-      "updatedAt": "2026-09-01T18:33:17.989Z"
+      "updatedAt": "2026-09-02T14:56:20.686Z"
     },
     {
       "id": "hs-announcement",
@@ -1929,7 +1929,7 @@
         "imageUrl": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1000&q=85"
       },
       "createdAt": "2026-09-01T18:13:52.419Z",
-      "updatedAt": "2026-09-01T18:33:18.039Z"
+      "updatedAt": "2026-09-02T14:56:20.771Z"
     }
   ],
   "settings": [
@@ -2185,7 +2185,7 @@
       "key": "footer_copyright",
       "value": "© 2026 Queens Care Laboratories. All rights reserved.",
       "group": "footer",
-      "updatedAt": "2026-09-01T18:33:18.140Z"
+      "updatedAt": "2026-09-02T14:56:25.198Z"
     },
     {
       "key": "footer_bg",
