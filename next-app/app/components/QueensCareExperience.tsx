@@ -291,6 +291,7 @@ export default function QueensCareExperience() {
                     accentColor={String(heroVis.accentColor || "#D4AF37")}
                     bgEffect={(heroVis.bgEffect as "studio" | "purple" | "transparent") || "studio"}
                     customImageUrl={String(heroVis.customImageUrl || "")}
+                    customModelUrl={String(heroVis.customModelUrl || "")}
                     height={480}
                   />
                 </div>

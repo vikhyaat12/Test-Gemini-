@@ -649,6 +649,19 @@ export default function HomepageSectionEdit({ item, onSave }: Props) {
             </div>
 
             <div>
+              <label style={labelStyle}>3D Model URL (GLB / GLTF)</label>
+              <input
+                style={inputStyle}
+                value={String(content.customModelUrl || "")}
+                onChange={(e) => updateContent("customModelUrl", e.target.value)}
+                placeholder="/models/product.glb or https://..."
+              />
+              <div style={{ fontSize: 11, color: "var(--muted)", marginTop: 4 }}>
+                Optional: paste a GLB or GLTF model URL. If set, loads this 3D model instead of the procedural bottle. Falls back to the 2D image below if the model fails to load.
+              </div>
+            </div>
+
+            <div>
               <GlobalMediaUploader
                 label="Fallback Product Photo / 2D Asset"
                 preset="product_image"

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 export type Hero3DProductVisualProps = {
   productName?: string;
@@ -153,6 +154,34 @@ function createLikoQLabelTexture(): THREE.CanvasTexture {
   return texture;
 }
 
+function disposeMaterial(mat: THREE.Material) {
+  mat.dispose();
+  for (const key of Object.keys(mat)) {
+    const val = (mat as unknown as Record<string, unknown>)[key];
+    if (val && typeof val === "object" && "isTexture" in val && typeof (val as THREE.Texture).dispose === "function") {
+      (val as THREE.Texture).dispose();
+    }
+  }
+}
+
+function disposeObject(obj: THREE.Object3D) {
+  obj.traverse((child) => {
+    if ((child as THREE.Mesh).isMesh) {
+      const mesh = child as THREE.Mesh;
+      if (mesh.geometry) {
+        mesh.geometry.dispose();
+      }
+      if (mesh.material) {
+        if (Array.isArray(mesh.material)) {
+          mesh.material.forEach(disposeMaterial);
+        } else {
+          disposeMaterial(mesh.material);
+        }
+      }
+    }
+  });
+}
+
 export default function Hero3DProductVisual({
   productName = "LIKO-Q™",
   subtitle = "Lycopene, Vitamins & Minerals Suspension",
@@ -165,6 +194,7 @@ export default function Hero3DProductVisual({
   accentColor = "#D4AF37",
   bgEffect = "studio",
   customImageUrl = "/uploads/liko-q-suspension.png",
+  customModelUrl = "",
   height = 480,
 }: Hero3DProductVisualProps) {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -218,161 +248,215 @@ export default function Hero3DProductVisual({
     const s = Number(scale) || 1.0;
     productGroup.scale.set(s * 0.95, s * 0.95, s * 0.95);
     productGroup.position.y = -0.3;
-
-    // ─── 1. AMBER PHARMACEUTICAL SYRUP BOTTLE GLASS ───
-    const bottleGlassMaterial = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color("#6E1609"), // Deep pharmaceutical ruby/amber
-      transmission: 0.62,
-      opacity: 0.94,
-      transparent: true,
-      roughness: 0.08,
-      metalness: 0.12,
-      ior: 1.52,
-      reflectivity: 0.95,
-      clearcoat: 1.0,
-      clearcoatRoughness: 0.05,
-    });
-
-    // Lower Main Cylinder
-    const lowerBodyGeo = new THREE.CylinderGeometry(1.22, 1.25, 2.3, 40);
-    const lowerBodyMesh = new THREE.Mesh(lowerBodyGeo, bottleGlassMaterial);
-    lowerBodyMesh.position.y = -0.45;
-    lowerBodyMesh.castShadow = true;
-    productGroup.add(lowerBodyMesh);
-
-    // Base Chamfer
-    const baseGeo = new THREE.CylinderGeometry(1.25, 1.18, 0.25, 40);
-    const baseMesh = new THREE.Mesh(baseGeo, bottleGlassMaterial);
-    baseMesh.position.y = -1.65;
-    productGroup.add(baseMesh);
-
-    // Tapered Conical Shoulder
-    const shoulderGeo = new THREE.CylinderGeometry(0.68, 1.22, 1.35, 40);
-    const shoulderMesh = new THREE.Mesh(shoulderGeo, bottleGlassMaterial);
-    shoulderMesh.position.y = 1.32;
-    productGroup.add(shoulderMesh);
-
-    // Neck
-    const neckGeo = new THREE.CylinderGeometry(0.58, 0.68, 0.85, 40);
-    const neckMesh = new THREE.Mesh(neckGeo, bottleGlassMaterial);
-    neckMesh.position.y = 2.38;
-    productGroup.add(neckMesh);
-
-    // ─── 2. INTERNAL ORANGE SUSPENSION LIQUID ───
-    const liquidMaterial = new THREE.MeshStandardMaterial({
-      color: new THREE.Color("#C2410C"),
-      roughness: 0.2,
-      metalness: 0.1,
-      transparent: true,
-      opacity: 0.88,
-    });
-    const liquidGeo = new THREE.CylinderGeometry(1.18, 1.2, 2.1, 32);
-    const liquidMesh = new THREE.Mesh(liquidGeo, liquidMaterial);
-    liquidMesh.position.y = -0.5;
-    productGroup.add(liquidMesh);
-
-    const liquidShoulderGeo = new THREE.CylinderGeometry(0.64, 1.18, 1.2, 32);
-    const liquidShoulderMesh = new THREE.Mesh(liquidShoulderGeo, liquidMaterial);
-    liquidShoulderMesh.position.y = 1.15;
-    productGroup.add(liquidShoulderMesh);
-
-    // ─── 3. WHITE PHARMACEUTICAL WRAP LABEL ───
-    const labelTexture = createLikoQLabelTexture();
-    const labelGeo = new THREE.CylinderGeometry(1.24, 1.24, 1.95, 48, 1, true, -Math.PI / 1.05, Math.PI * 1.9);
-    const labelMaterial = new THREE.MeshStandardMaterial({
-      map: labelTexture,
-      roughness: 0.35,
-      metalness: 0.05,
-      side: THREE.DoubleSide,
-    });
-    const labelMesh = new THREE.Mesh(labelGeo, labelMaterial);
-    labelMesh.position.y = -0.45;
-    productGroup.add(labelMesh);
-
-    // ─── 4. PINK / MAGENTA SCREW CAP ───
-    const capMaterial = new THREE.MeshStandardMaterial({
-      color: new THREE.Color("#D81B60"), // Vivid pharmaceutical pink/magenta cap
-      roughness: 0.3,
-      metalness: 0.2,
-    });
-    const capGeo = new THREE.CylinderGeometry(0.66, 0.66, 0.72, 36);
-    const capMesh = new THREE.Mesh(capGeo, capMaterial);
-    capMesh.position.y = 2.88;
-    productGroup.add(capMesh);
-
-    // Cap Ridges
-    const ridgeGeo = new THREE.TorusGeometry(0.67, 0.03, 16, 36);
-    const ridge1 = new THREE.Mesh(ridgeGeo, capMaterial);
-    ridge1.rotation.x = Math.PI / 2;
-    ridge1.position.y = 2.7;
-    productGroup.add(ridge1);
-
-    const ridge2 = new THREE.Mesh(ridgeGeo, capMaterial);
-    ridge2.rotation.x = Math.PI / 2;
-    ridge2.position.y = 3.05;
-    productGroup.add(ridge2);
-
-    // ─── 5. TRANSLUCENT MEASURING CUP (DOSING CAP) ───
-    const cupMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0xffffff,
-      transmission: 0.82,
-      opacity: 0.85,
-      transparent: true,
-      roughness: 0.25,
-      ior: 1.45,
-      clearcoat: 0.8,
-    });
-    const cupGeo = new THREE.CylinderGeometry(0.72, 0.69, 0.88, 36);
-    const cupMesh = new THREE.Mesh(cupGeo, cupMaterial);
-    cupMesh.position.y = 3.02;
-    productGroup.add(cupMesh);
-
-    const cupRimGeo = new THREE.TorusGeometry(0.72, 0.04, 16, 36);
-    const cupRimMesh = new THREE.Mesh(cupRimGeo, cupMaterial);
-    cupRimMesh.rotation.x = Math.PI / 2;
-    cupRimMesh.position.y = 3.44;
-    productGroup.add(cupRimMesh);
-
-    // ─── 6. SIGNATURE FLOATING GOLD HALO RING ───
-    const haloGeo = new THREE.TorusGeometry(1.85, 0.024, 16, 64);
-    const haloMat = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(accentColor),
-      metalness: 0.95,
-      roughness: 0.1,
-      emissive: new THREE.Color(accentColor),
-      emissiveIntensity: 0.25,
-    });
-    const haloMesh = new THREE.Mesh(haloGeo, haloMat);
-    haloMesh.rotation.x = Math.PI / 2.3;
-    haloMesh.position.y = -0.4;
-    productGroup.add(haloMesh);
-
-    // ─── 7. FLOATING AMBIENT ORBS ───
-    const orb1Geo = new THREE.SphereGeometry(0.35, 16, 16);
-    const orb1Mat = new THREE.MeshStandardMaterial({
-      color: new THREE.Color("#EA580C"), // Orange Lycopene sphere
-      metalness: 0.6,
-      roughness: 0.2,
-      transparent: true,
-      opacity: 0.85,
-    });
-    const orb1Mesh = new THREE.Mesh(orb1Geo, orb1Mat);
-    orb1Mesh.position.set(1.9, 1.8, -0.6);
-    productGroup.add(orb1Mesh);
-
-    const orb2Geo = new THREE.SphereGeometry(0.26, 16, 16);
-    const orb2Mat = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(accentColor),
-      metalness: 0.85,
-      roughness: 0.15,
-      transparent: true,
-      opacity: 0.75,
-    });
-    const orb2Mesh = new THREE.Mesh(orb2Geo, orb2Mat);
-    orb2Mesh.position.set(-1.8, -1.1, 0.5);
-    productGroup.add(orb2Mesh);
-
     scene.add(productGroup);
+
+    const buildProceduralBottle = () => {
+      // ─── 1. AMBER PHARMACEUTICAL SYRUP BOTTLE GLASS ───
+      const bottleGlassMaterial = new THREE.MeshPhysicalMaterial({
+        color: new THREE.Color("#6E1609"), // Deep pharmaceutical ruby/amber
+        transmission: 0.62,
+        opacity: 0.94,
+        transparent: true,
+        roughness: 0.08,
+        metalness: 0.12,
+        ior: 1.52,
+        reflectivity: 0.95,
+        clearcoat: 1.0,
+        clearcoatRoughness: 0.05,
+      });
+
+      // Lower Main Cylinder
+      const lowerBodyGeo = new THREE.CylinderGeometry(1.22, 1.25, 2.3, 40);
+      const lowerBodyMesh = new THREE.Mesh(lowerBodyGeo, bottleGlassMaterial);
+      lowerBodyMesh.position.y = -0.45;
+      lowerBodyMesh.castShadow = true;
+      productGroup.add(lowerBodyMesh);
+
+      // Base Chamfer
+      const baseGeo = new THREE.CylinderGeometry(1.25, 1.18, 0.25, 40);
+      const baseMesh = new THREE.Mesh(baseGeo, bottleGlassMaterial);
+      baseMesh.position.y = -1.65;
+      productGroup.add(baseMesh);
+
+      // Tapered Conical Shoulder
+      const shoulderGeo = new THREE.CylinderGeometry(0.68, 1.22, 1.35, 40);
+      const shoulderMesh = new THREE.Mesh(shoulderGeo, bottleGlassMaterial);
+      shoulderMesh.position.y = 1.32;
+      productGroup.add(shoulderMesh);
+
+      // Neck
+      const neckGeo = new THREE.CylinderGeometry(0.58, 0.68, 0.85, 40);
+      const neckMesh = new THREE.Mesh(neckGeo, bottleGlassMaterial);
+      neckMesh.position.y = 2.38;
+      productGroup.add(neckMesh);
+
+      // ─── 2. INTERNAL ORANGE SUSPENSION LIQUID ───
+      const liquidMaterial = new THREE.MeshStandardMaterial({
+        color: new THREE.Color("#C2410C"),
+        roughness: 0.2,
+        metalness: 0.1,
+        transparent: true,
+        opacity: 0.88,
+      });
+      const liquidGeo = new THREE.CylinderGeometry(1.18, 1.2, 2.1, 32);
+      const liquidMesh = new THREE.Mesh(liquidGeo, liquidMaterial);
+      liquidMesh.position.y = -0.5;
+      productGroup.add(liquidMesh);
+
+      const liquidShoulderGeo = new THREE.CylinderGeometry(0.64, 1.18, 1.2, 32);
+      const liquidShoulderMesh = new THREE.Mesh(liquidShoulderGeo, liquidMaterial);
+      liquidShoulderMesh.position.y = 1.15;
+      productGroup.add(liquidShoulderMesh);
+
+      // ─── 3. WHITE PHARMACEUTICAL WRAP LABEL ───
+      const labelTexture = createLikoQLabelTexture();
+      const labelGeo = new THREE.CylinderGeometry(1.24, 1.24, 1.95, 48, 1, true, -Math.PI / 1.05, Math.PI * 1.9);
+      const labelMaterial = new THREE.MeshStandardMaterial({
+        map: labelTexture,
+        roughness: 0.35,
+        metalness: 0.05,
+        side: THREE.DoubleSide,
+      });
+      const labelMesh = new THREE.Mesh(labelGeo, labelMaterial);
+      labelMesh.position.y = -0.45;
+      productGroup.add(labelMesh);
+
+      // ─── 4. PINK / MAGENTA SCREW CAP ───
+      const capMaterial = new THREE.MeshStandardMaterial({
+        color: new THREE.Color("#D81B60"), // Vivid pharmaceutical pink/magenta cap
+        roughness: 0.3,
+        metalness: 0.2,
+      });
+      const capGeo = new THREE.CylinderGeometry(0.66, 0.66, 0.72, 36);
+      const capMesh = new THREE.Mesh(capGeo, capMaterial);
+      capMesh.position.y = 2.88;
+      productGroup.add(capMesh);
+
+      // Cap Ridges
+      const ridgeGeo = new THREE.TorusGeometry(0.67, 0.03, 16, 36);
+      const ridge1 = new THREE.Mesh(ridgeGeo, capMaterial);
+      ridge1.rotation.x = Math.PI / 2;
+      ridge1.position.y = 2.7;
+      productGroup.add(ridge1);
+
+      const ridge2 = new THREE.Mesh(ridgeGeo, capMaterial);
+      ridge2.rotation.x = Math.PI / 2;
+      ridge2.position.y = 3.05;
+      productGroup.add(ridge2);
+
+      // ─── 5. TRANSLUCENT MEASURING CUP (DOSING CAP) ───
+      const cupMaterial = new THREE.MeshPhysicalMaterial({
+        color: 0xffffff,
+        transmission: 0.82,
+        opacity: 0.85,
+        transparent: true,
+        roughness: 0.25,
+        ior: 1.45,
+        clearcoat: 0.8,
+      });
+      const cupGeo = new THREE.CylinderGeometry(0.72, 0.69, 0.88, 36);
+      const cupMesh = new THREE.Mesh(cupGeo, cupMaterial);
+      cupMesh.position.y = 3.02;
+      productGroup.add(cupMesh);
+
+      const cupRimGeo = new THREE.TorusGeometry(0.72, 0.04, 16, 36);
+      const cupRimMesh = new THREE.Mesh(cupRimGeo, cupMaterial);
+      cupRimMesh.rotation.x = Math.PI / 2;
+      cupRimMesh.position.y = 3.44;
+      productGroup.add(cupRimMesh);
+
+      // ─── 6. SIGNATURE FLOATING GOLD HALO RING ───
+      const haloGeo = new THREE.TorusGeometry(1.85, 0.024, 16, 64);
+      const haloMat = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(accentColor),
+        metalness: 0.95,
+        roughness: 0.1,
+        emissive: new THREE.Color(accentColor),
+        emissiveIntensity: 0.25,
+      });
+      const halo = new THREE.Mesh(haloGeo, haloMat);
+      halo.rotation.x = Math.PI / 2.3;
+      halo.position.y = -0.4;
+      productGroup.add(halo);
+
+      // ─── 7. FLOATING AMBIENT ORBS ───
+      const orb1Geo = new THREE.SphereGeometry(0.35, 16, 16);
+      const orb1Mat = new THREE.MeshStandardMaterial({
+        color: new THREE.Color("#EA580C"), // Orange Lycopene sphere
+        metalness: 0.6,
+        roughness: 0.2,
+        transparent: true,
+        opacity: 0.85,
+      });
+      const orb1 = new THREE.Mesh(orb1Geo, orb1Mat);
+      orb1.position.set(1.9, 1.8, -0.6);
+      productGroup.add(orb1);
+
+      const orb2Geo = new THREE.SphereGeometry(0.26, 16, 16);
+      const orb2Mat = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(accentColor),
+        metalness: 0.85,
+        roughness: 0.15,
+        transparent: true,
+        opacity: 0.75,
+      });
+      const orb2 = new THREE.Mesh(orb2Geo, orb2Mat);
+      orb2.position.set(-1.8, -1.1, 0.5);
+      productGroup.add(orb2);
+
+      return { haloMesh: halo, orb1Mesh: orb1, orb2Mesh: orb2 };
+    };
+
+    let isDisposed = false;
+    let haloMesh: THREE.Mesh | null = null;
+    let orb1Mesh: THREE.Mesh | null = null;
+    let orb2Mesh: THREE.Mesh | null = null;
+
+    if (customModelUrl && customModelUrl.trim()) {
+      const loader = new GLTFLoader();
+      loader.load(
+        customModelUrl.trim(),
+        (gltf) => {
+          if (isDisposed) {
+            disposeObject(gltf.scene);
+            return;
+          }
+          const model = gltf.scene;
+          const box = new THREE.Box3().setFromObject(model);
+          const center = box.getCenter(new THREE.Vector3());
+          const size = box.getSize(new THREE.Vector3());
+          const maxDim = Math.max(size.x, size.y, size.z) || 1.0;
+          const fitScale = 3.2 / maxDim;
+          model.scale.setScalar(fitScale);
+          model.position.sub(center.multiplyScalar(fitScale));
+          model.position.y = -0.3;
+
+          model.traverse((child) => {
+            if ((child as THREE.Mesh).isMesh) {
+              child.castShadow = true;
+              child.receiveShadow = true;
+            }
+          });
+
+          productGroup.add(model);
+        },
+        undefined,
+        (error) => {
+          console.warn("[Hero3DProductVisual] Custom 3D model failed to load, falling back to procedural visual:", error);
+          if (!isDisposed) {
+            const meshes = buildProceduralBottle();
+            haloMesh = meshes.haloMesh;
+            orb1Mesh = meshes.orb1Mesh;
+            orb2Mesh = meshes.orb2Mesh;
+          }
+        }
+      );
+    } else {
+      const meshes = buildProceduralBottle();
+      haloMesh = meshes.haloMesh;
+      orb1Mesh = meshes.orb1Mesh;
+      orb2Mesh = meshes.orb2Mesh;
+    }
 
     // Mouse Interaction
     let isDragging = false;
@@ -458,9 +542,9 @@ export default function Hero3DProductVisual({
 
       if (!prefersReducedMotion) {
         productGroup.position.y = -0.3 + Math.sin(t * 1.5) * 0.07;
-        haloMesh.rotation.z = t * 0.22;
-        orb1Mesh.position.y = 1.8 + Math.sin(t * 1.7) * 0.12;
-        orb2Mesh.position.y = -1.1 + Math.cos(t * 1.4) * 0.09;
+        if (haloMesh) haloMesh.rotation.z = t * 0.22;
+        if (orb1Mesh) orb1Mesh.position.y = 1.8 + Math.sin(t * 1.7) * 0.12;
+        if (orb2Mesh) orb2Mesh.position.y = -1.1 + Math.cos(t * 1.4) * 0.09;
       }
 
       renderer.render(scene, camera);
@@ -469,6 +553,7 @@ export default function Hero3DProductVisual({
     animate();
 
     return () => {
+      isDisposed = true;
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", handleResize);
       domElement.removeEventListener("mousedown", onMouseDown);
@@ -478,12 +563,14 @@ export default function Hero3DProductVisual({
       window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("touchend", onMouseUp);
 
-      if (mount && renderer.domElement) {
+      disposeObject(scene);
+
+      if (mount && renderer.domElement && mount.contains(renderer.domElement)) {
         mount.removeChild(renderer.domElement);
       }
       renderer.dispose();
     };
-  }, [accentColor, autoRotate, bgEffect, height, lightingIntensity, mouseInteraction, rotationSpeed, scale]);
+  }, [accentColor, autoRotate, bgEffect, customModelUrl, height, lightingIntensity, mouseInteraction, rotationSpeed, scale]);
 
   const bgStyle =
     bgEffect === "purple"
