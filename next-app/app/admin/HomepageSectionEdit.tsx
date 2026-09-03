@@ -354,6 +354,112 @@ export default function HomepageSectionEdit({ item, onSave }: Props) {
         </div>
       </div>
 
+      {/* TYPOGRAPHY CONTROLS */}
+      <div style={{ marginBottom: 24, padding: 20, background: "#faf8f5", border: "1px solid var(--line)", borderRadius: 6 }}>
+        <h4 style={{ font: "14px var(--font-display)", marginBottom: 14, color: "var(--purple)" }}>
+          Typography & Layout
+        </h4>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+          <div>
+            <label style={labelStyle}>Heading Font Size</label>
+            <input
+              style={inputStyle}
+              value={String(content.headingFontSize || "")}
+              onChange={(e) => updateContent("headingFontSize", e.target.value)}
+              placeholder="e.g. 42px, clamp(28px, 4vw, 42px)"
+            />
+          </div>
+          <div>
+            <label style={labelStyle}>Heading Font Weight</label>
+            <select
+              style={inputStyle}
+              value={String(content.headingFontWeight || "")}
+              onChange={(e) => updateContent("headingFontWeight", e.target.value)}
+            >
+              <option value="">Default</option>
+              <option value="300">Light (300)</option>
+              <option value="400">Regular (400)</option>
+              <option value="500">Medium (500)</option>
+              <option value="600">Semi-Bold (600)</option>
+              <option value="700">Bold (700)</option>
+              <option value="800">Extra-Bold (800)</option>
+              <option value="900">Black (900)</option>
+            </select>
+          </div>
+          <div>
+            <label style={labelStyle}>Heading Letter Spacing</label>
+            <input
+              style={inputStyle}
+              value={String(content.headingLetterSpacing || "")}
+              onChange={(e) => updateContent("headingLetterSpacing", e.target.value)}
+              placeholder="e.g. -0.02em, 0.04em"
+            />
+          </div>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginTop: 12 }}>
+          <div>
+            <label style={labelStyle}>Body Font Size</label>
+            <input
+              style={inputStyle}
+              value={String(content.bodyFontSize || "")}
+              onChange={(e) => updateContent("bodyFontSize", e.target.value)}
+              placeholder="e.g. 16px, 1rem"
+            />
+          </div>
+          <div>
+            <label style={labelStyle}>Body Line Height</label>
+            <input
+              style={inputStyle}
+              value={String(content.bodyLineHeight || "")}
+              onChange={(e) => updateContent("bodyLineHeight", e.target.value)}
+              placeholder="e.g. 1.6, 1.8, 24px"
+            />
+          </div>
+          <div>
+            <label style={labelStyle}>Text Alignment</label>
+            <select
+              style={inputStyle}
+              value={String(content.textAlign || "")}
+              onChange={(e) => updateContent("textAlign", e.target.value)}
+            >
+              <option value="">Default</option>
+              <option value="left">Left</option>
+              <option value="center">Center</option>
+              <option value="right">Right</option>
+            </select>
+          </div>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginTop: 12 }}>
+          <div>
+            <label style={labelStyle}>Section Max Width</label>
+            <input
+              style={inputStyle}
+              value={String(content.maxWidth || "")}
+              onChange={(e) => updateContent("maxWidth", e.target.value)}
+              placeholder="e.g. 1200px, 80%"
+            />
+          </div>
+          <div>
+            <label style={labelStyle}>Button Border Radius</label>
+            <input
+              style={inputStyle}
+              value={String(content.buttonRadius || "")}
+              onChange={(e) => updateContent("buttonRadius", e.target.value)}
+              placeholder="e.g. 4px, 24px, 50px"
+            />
+          </div>
+          <div>
+            <label style={labelStyle}>Section Border Radius</label>
+            <input
+              style={inputStyle}
+              value={String(content.sectionRadius || "")}
+              onChange={(e) => updateContent("sectionRadius", e.target.value)}
+              placeholder="e.g. 8px, 16px"
+            />
+          </div>
+        </div>
+      </div>
+
       {/* ═══════════════════════════════════════════════════════════════════════ */}
       {/* LUMINE-C™ 3D PRODUCT CMS + LIVE PREVIEW */}
       {/* ═══════════════════════════════════════════════════════════════════════ */}

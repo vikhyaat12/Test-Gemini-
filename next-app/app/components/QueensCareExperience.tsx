@@ -209,6 +209,23 @@ export default function QueensCareExperience() {
       ...(c.backgroundColor ? { backgroundColor: String(c.backgroundColor) } : {}),
       ...(c.textColor ? { color: String(c.textColor) } : {}),
       ...(c.padding ? { padding: String(c.padding) } : {}),
+      ...(c.textAlign ? { textAlign: String(c.textAlign) as React.CSSProperties["textAlign"] } : {}),
+      ...(c.maxWidth ? { maxWidth: String(c.maxWidth), margin: "0 auto" } : {}),
+      ...(c.sectionRadius ? { borderRadius: String(c.sectionRadius), overflow: "hidden" } : {}),
+    };
+    const headingStyle: React.CSSProperties = {
+      ...(c.headingFontSize ? { fontSize: String(c.headingFontSize) } : {}),
+      ...(c.headingFontWeight ? { fontWeight: Number(c.headingFontWeight) } : {}),
+      ...(c.headingLetterSpacing ? { letterSpacing: String(c.headingLetterSpacing) } : {}),
+    };
+    const bodyStyle: React.CSSProperties = {
+      ...(c.bodyFontSize ? { fontSize: String(c.bodyFontSize) } : {}),
+      ...(c.bodyLineHeight ? { lineHeight: String(c.bodyLineHeight) } : {}),
+    };
+    const btnStyle: React.CSSProperties = {
+      ...(c.buttonBg ? { background: String(c.buttonBg) } : {}),
+      ...(c.buttonColor ? { color: String(c.buttonColor) } : {}),
+      ...(c.buttonRadius ? { borderRadius: String(c.buttonRadius) } : {}),
     };
 
     switch (type) {
@@ -226,17 +243,14 @@ export default function QueensCareExperience() {
                 style={{ ...(c.headingColor ? { color: String(c.headingColor) } : {}) }}
                 dangerouslySetInnerHTML={{ __html: String(c.heading || "Science, made <em>personal.</em>") }}
               />
-              <p className="lead" style={{ ...(c.textColor ? { color: String(c.textColor) } : {}) }}>
+              <p className="lead" style={{ ...(c.textColor ? { color: String(c.textColor) } : {}), ...bodyStyle }}>
                 {String(c.subtitle || "Intelligent formulations that turn your daily health rituals into small, powerful acts of self-respect.")}
               </p>
               <div className="hero-ctas">
                 <a
                   href={String(c.ctaLink || "#collection")}
                   className="button"
-                  style={{
-                    ...(c.buttonBg ? { background: String(c.buttonBg) } : {}),
-                    ...(c.buttonColor ? { color: String(c.buttonColor) } : {}),
-                  }}
+                  style={btnStyle}
                 >
                   {String(c.ctaText || "Explore the collection")} <span>→</span>
                 </a>
@@ -314,7 +328,7 @@ export default function QueensCareExperience() {
             <div className="section-head">
               <div>
                 <p className="eyebrow">{String(c.eyebrow || "The care edit")}</p>
-                <h2 dangerouslySetInnerHTML={{ __html: String(c.heading || "Considered essentials<br/>for your <em>whole self.</em>") }} />
+                <h2 style={headingStyle} dangerouslySetInnerHTML={{ __html: String(c.heading || "Considered essentials<br/>for your <em>whole self.</em>") }} />
               </div>
               <a href="#collection" className="text-link">{String(c.ctaText || "Shop all care")} <span>→</span></a>
             </div>
@@ -385,7 +399,7 @@ export default function QueensCareExperience() {
             </div>
             <div className="science-copy">
               <p className="eyebrow">{String(c.eyebrow || "The Queens Care standard")}</p>
-              <h2 dangerouslySetInnerHTML={{ __html: String(c.heading || "Precision you can feel. <em>Proof you can see.</em>") }} />
+              <h2 style={headingStyle} dangerouslySetInnerHTML={{ __html: String(c.heading || "Precision you can feel. <em>Proof you can see.</em>") }} />
               <p>{String(c.description || "We bring pharmaceutical rigor to the products that live on your shelf. Each formula begins with a real need, is built around meaningful dosage, and is independently tested for purity.")}</p>
               <div className="principles">
                 {principles.map((p, i) => (
@@ -414,7 +428,7 @@ export default function QueensCareExperience() {
             <div className="section-head">
               <div>
                 <p className="eyebrow">{String(c.eyebrow || "Build your ritual")}</p>
-                <h2 dangerouslySetInnerHTML={{ __html: String(c.heading || "Care that meets you<br/><em>where you are.</em>") }} />
+                <h2 style={headingStyle} dangerouslySetInnerHTML={{ __html: String(c.heading || "Care that meets you<br/><em>where you are.</em>") }} />
               </div>
               <p className="side-copy">{String(c.sideText || "Not sure where to begin? Let our guided care finder create a considered starting point in under two minutes.")}</p>
             </div>
@@ -486,7 +500,7 @@ export default function QueensCareExperience() {
             <div className="section-head">
               <div>
                 <p className="eyebrow">{String(c.eyebrow || "The care journal")}</p>
-                <h2 dangerouslySetInnerHTML={{ __html: String(c.heading || "Ideas, insights and<br/><em>everyday care.</em>") }} />
+                <h2 style={headingStyle} dangerouslySetInnerHTML={{ __html: String(c.heading || "Ideas, insights and<br/><em>everyday care.</em>") }} />
               </div>
               <Link href={String(c.ctaLink || "/blog")} className="text-link">
                 {String(c.ctaText || "View all journal")} <span>→</span>
@@ -542,7 +556,7 @@ export default function QueensCareExperience() {
             <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 48, alignItems: "center" }}>
               <div>
                 <p className="eyebrow" style={{ color: "var(--gold)" }}>{String(c.eyebrow || "PARTNERSHIP PROGRAMME")}</p>
-                <h2 style={{ font: "clamp(28px, 4vw, 42px)/1.15 var(--font-display)", letterSpacing: "-.02em", margin: "12px 0 20px" }}>
+                <h2 style={{ font: "clamp(28px, 4vw, 42px)/1.15 var(--font-display)", letterSpacing: "-.02em", margin: "12px 0 20px", ...headingStyle }}>
                   {String(c.heading || "Partner with Queens Care Laboratories")}
                 </h2>
                 <p style={{ fontSize: 16, lineHeight: 1.8, color: "var(--muted)", marginBottom: 28 }}>
@@ -578,7 +592,7 @@ export default function QueensCareExperience() {
           <section className="consult" key={sec.id ? String(sec.id) : `consult-${idx}`} style={secStyle}>
             <div>
               <p className="eyebrow">{String(c.eyebrow || "Care, with a human on the other end")}</p>
-              <h2 dangerouslySetInnerHTML={{ __html: String(c.heading || "Questions deserve<br/>thoughtful answers.") }} />
+              <h2 style={headingStyle} dangerouslySetInnerHTML={{ __html: String(c.heading || "Questions deserve<br/>thoughtful answers.") }} />
               <p>{String(c.description || "Our care team is here to help you make confident choices — no pressure, no jargon.")}</p>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
                 <Link href={String(c.ctaLink || "/contact")} className="button">
@@ -608,7 +622,7 @@ export default function QueensCareExperience() {
           <section key={sec.id ? String(sec.id) : `custom-${idx}`} className="section" style={{ padding: "72px 0", ...secStyle }}>
             <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
               {c.eyebrow && <p className="eyebrow" style={{ color: "var(--gold)" }}>{String(c.eyebrow)}</p>}
-              {c.heading && <h2 style={{ font: "clamp(28px, 4vw, 42px)/1.15 var(--font-display)", margin: "12px 0 20px" }} dangerouslySetInnerHTML={{ __html: String(c.heading) }} />}
+              {c.heading && <h2 style={{ font: "clamp(28px, 4vw, 42px)/1.15 var(--font-display)", margin: "12px 0 20px", ...headingStyle }} dangerouslySetInnerHTML={{ __html: String(c.heading) }} />}
               {c.body && <div style={{ fontSize: 16, lineHeight: 1.8, marginBottom: 24, whiteSpace: "pre-line" }} dangerouslySetInnerHTML={{ __html: String(c.body) }} />}
               {c.mediaUrl && (
                 <div style={{ margin: "24px 0", borderRadius: 6, overflow: "hidden", border: "1px solid var(--line)" }}>
