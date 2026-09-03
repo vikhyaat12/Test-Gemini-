@@ -48,7 +48,7 @@ const btnStyle: React.CSSProperties = { padding: "8px 16px", border: "none", bor
 export default function AnalyticsDashboard() {
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState<"overview" | "traffic" | "funnel" | "products" | "journey" | "sources">("overview");
+  const [tab, setTab] = useState<"overview" | "traffic" | "funnel" | "products" | "journey" | "sources" | "revenue">("overview");
   const [dateRange, setDateRange] = useState("7d");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
@@ -130,6 +130,7 @@ export default function AnalyticsDashboard() {
     { id: "products" as const, label: "Products" },
     { id: "journey" as const, label: "Journey" },
     { id: "sources" as const, label: "Sources" },
+    { id: "revenue" as const, label: "💰 Revenue" },
   ];
 
   const eventTypes = [
@@ -463,11 +464,116 @@ export default function AnalyticsDashboard() {
                   })}
                 </tbody>
               </table>
-              {data.topSources.length === 0 && <p style={{ color: "#999", textAlign: "center", padding: 20 }}>No traffic sources recorded yet.</p>}
+              {data.topSources.length === 0 && <p style={{ color: "#999", textAlign: "center", padding: 20 }}>No traffic sources recorded yet.</p>}            </div>
+          )}
+
+          {tab === "revenue" && (
+            <div>
+              {(() => {
+                // Compute monthly revenue breakdown from order events
+                const orderEvents = (data?.events || []).filter((e: Record<string, unknown>) => String(e.event) === "order_placed");
+                const monthlyRevenue: Record<string, number> = {};
+                orderEvents.forEach((e: Record<string, unknown>) => {
+                  const month = String(e.timestamp || "").slice(0, 7); // YYYY-MM
+                  if (month) monthlyRevenue[month] = (monthlyRevenue[month] || 0) + (Number(e.value) || 0);
+                });
+                const sortedMonths = Object.entries(monthlyRevenue).sort((a, b) => a[0].localeCompare(b[0]));
+                const totalRevenue = orderEvents.reduce((sum: number, e: Record<string, unknown>) => sum + (Number(e.value) || 0), 0);
+                const totalOrders = orderEvents.length;
+                const avgOrderValue = totalOrders > 0 ? Math.round(totalRevenue / totalOrders) : 0;
+                const currentMonth = sortedMonths.length > 0 ? sortedMonths[sortedMonths.length - 1] : null;
+                const previousMonth = sortedMonths.length > 1 ? sortedMonths[sortedMonths.length - 2] : null;
+                const monthChange = currentMonth && previousMonth ? ((currentMonth[1] - previousMonth[1]) / (previousMonth[1] || 1)) * 100 : 0;
+
+                // Daily revenue for high/low analysis
+                const dailyRevenue: Record<string, number> = {};
+                orderEvents.forEach((e: Record<string, unknown>) => {
+                  const day = String(e.timestamp || "").slice(0, 10);
+                  if (day) dailyRevenue[day] = (dailyRevenue[day] || 0) + (Number(e.value) || 0);
+                });
+                const sortedDays = Object.entries(dailyRevenue).sort((a, b) => b[1] - a[1]);
+                const highDays = sortedDays.slice(0, 5);
+                const lowDays = sortedDays.slice(-5).reverse();
+
+                return (
+                  <>
+                    {/* Summary cards */}
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 14, marginBottom: 20 }}>
+                      <div style={{ padding: 16, background: "#fff", border: "1px solid #e8e4df", borderRadius: 8, textAlign: "center" }}>
+                        <span style={labelStyle}>Total Revenue</span>
+                        <p style={{ fontSize: 24, fontWeight: 700, color: "#2d8a4e", margin: "8px 0 0" }}>₹{totalRevenue.toLocaleString("en-IN")}</p>
+                      </div>
+                      <div style={{ padding: 16, background: "#fff", border: "1px solid #e8e4df", borderRadius: 8, textAlign: "center" }}>
+                        <span style={labelStyle}>Total Orders</span>
+                        <p style={{ fontSize: 24, fontWeight: 700, color: "#2A0F3A", margin: "8px 0 0" }}>{totalOrders}</p>
+                      </div>
+                      <div style={{ padding: 16, background: "#fff", border: "1px solid #e8e4df", borderRadius: 8, textAlign: "center" }}>
+                        <span style={labelStyle}>Avg Order Value</span>
+                        <p style={{ fontSize: 24, fontWeight: 700, color: "#C19A6B", margin: "8px 0 0" }}>₹{avgOrderValue.toLocaleString("en-IN")}</p>
+                      </div>
+                      <div style={{ padding: 16, background: "#fff", border: "1px solid #e8e4df", borderRadius: 8, textAlign: "center" }}>
+                        <span style={labelStyle}>Month vs Previous</span>
+                        <p style={{ fontSize: 24, fontWeight: 700, color: monthChange >= 0 ? "#2d8a4e" : "#c0392b", margin: "8px 0 0" }}>{monthChange >= 0 ? "+" : ""}{monthChange.toFixed(1)}%</p>
+                        <p style={{ fontSize: 11, color: "#999", margin: 0 }}>{currentMonth ? currentMonth[0] : "—"} vs {previousMonth ? previousMonth[0] : "—"}</p>
+                      </div>
+                    </div>
+
+                    {/* Monthly breakdown */}
+                    <div style={{ background: "#faf8f5", border: "1px solid #e8e4df", borderRadius: 8, padding: 20, marginBottom: 20 }}>
+                      <h4 style={{ font: "bold 14px var(--font-display)", color: "#2A0F3A", marginBottom: 16 }}>Monthly Revenue Breakdown</h4>
+                      {sortedMonths.length === 0 ? (
+                        <p style={{ color: "#999", textAlign: "center", padding: 20 }}>No order revenue data yet.</p>
+                      ) : (
+                        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                          {sortedMonths.map(([month, rev]) => {
+                            const maxRev = sortedMonths[sortedMonths.length - 1][1] || 1;
+                            return (
+                              <div key={month} style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                                <span style={{ width: 80, fontSize: 12, fontWeight: 600, color: "#2A0F3A" }}>{month}</span>
+                                <div style={{ flex: 1, background: "#e8e4df", borderRadius: 4, height: 20, overflow: "hidden" }}>
+                                  <div style={{ background: "linear-gradient(90deg, #2A0F3A, #C19A6B)", width: `${(rev / maxRev) * 100}%`, height: "100%", borderRadius: 4, display: "flex", alignItems: "center", justifyContent: "flex-end", paddingRight: 6 }}>
+                                    <span style={{ fontSize: 10, color: "#fff", fontWeight: 700 }}>₹{rev.toLocaleString("en-IN")}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* High/Low days */}
+                    {sortedDays.length > 0 && (
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                        <div style={{ background: "#faf8f5", border: "1px solid #e8e4df", borderRadius: 8, padding: 20 }}>
+                          <h4 style={{ font: "bold 14px var(--font-display)", color: "#2A0F3A", marginBottom: 12 }}>🏆 Highest Sales Days</h4>
+                          {highDays.map(([day, rev], i) => (
+                            <div key={day} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", borderBottom: "1px solid #e8e4df", fontSize: 12 }}>
+                              <span style={{ color: "#666" }}>{new Date(day).toLocaleDateString("en-IN", { day: "2-digit", month: "short" })}</span>
+                              <span style={{ fontWeight: 700, color: "#2d8a4e" }}>₹{rev.toLocaleString("en-IN")}</span>
+                            </div>
+                          ))}
+                        </div>
+                        <div style={{ background: "#faf8f5", border: "1px solid #e8e4df", borderRadius: 8, padding: 20 }}>
+                          <h4 style={{ font: "bold 14px var(--font-display)", color: "#2A0F3A", marginBottom: 12 }}>📉 Lowest Sales Days</h4>
+                          {lowDays.map(([day, rev], i) => (
+                            <div key={day} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", borderBottom: "1px solid #e8e4df", fontSize: 12 }}>
+                              <span style={{ color: "#666" }}>{new Date(day).toLocaleDateString("en-IN", { day: "2-digit", month: "short" })}</span>
+                              <span style={{ fontWeight: 700, color: "#c0392b" }}>₹{rev.toLocaleString("en-IN")}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
             </div>
           )}
         </>
       )}
+
+
     </div>
   );
 }
