@@ -4,6 +4,30 @@ import React, { useState, useEffect, useCallback } from "react";
 import { PLATFORM_REGISTRY, SocialBrandIcon, PlatformDefinition } from "../components/SocialIcons";
 import GlobalMediaUploader from "../components/GlobalMediaUploader";
 
+// Auto-detect platform from URL
+function detectPlatformFromUrl(url: string): { platform: string; category: "social" | "marketplace" | "custom" } {
+  const lower = url.toLowerCase();
+  if (lower.includes("instagram.com")) return { platform: "instagram", category: "social" };
+  if (lower.includes("facebook.com") || lower.includes("fb.com")) return { platform: "facebook", category: "social" };
+  if (lower.includes("youtube.com") || lower.includes("youtu.be")) return { platform: "youtube", category: "social" };
+  if (lower.includes("linkedin.com")) return { platform: "linkedin", category: "social" };
+  if (lower.includes("x.com") || lower.includes("twitter.com")) return { platform: "twitter", category: "social" };
+  if (lower.includes("wa.me") || lower.includes("whatsapp.com")) return { platform: "whatsapp", category: "social" };
+  if (lower.includes("pinterest.com") || lower.includes("pin.it")) return { platform: "pinterest", category: "social" };
+  if (lower.includes("amazon.")) return { platform: "amazon", category: "marketplace" };
+  if (lower.includes("flipkart.com")) return { platform: "flipkart", category: "marketplace" };
+  if (lower.includes("meesho.com")) return { platform: "meesho", category: "marketplace" };
+  if (lower.includes("myntra.com")) return { platform: "myntra", category: "marketplace" };
+  if (lower.includes("ajio.com")) return { platform: "ajio", category: "marketplace" };
+  if (lower.includes("1mg.com")) return { platform: "tata1mg", category: "marketplace" };
+  if (lower.includes("pharmeasy")) return { platform: "pharmeasy", category: "marketplace" };
+  if (lower.includes("netmeds.com")) return { platform: "netmeds", category: "marketplace" };
+  if (lower.includes("apollo247")) return { platform: "apollo247", category: "marketplace" };
+  if (lower.includes("indiamart.com")) return { platform: "indiamart", category: "marketplace" };
+  if (lower.includes("jiomart.com")) return { platform: "jiomart", category: "marketplace" };
+  return { platform: "custom", category: "custom" };
+}
+
 export type SocialLink = {
   id: string;
   platform: string;
@@ -408,8 +432,27 @@ export default function SocialMediaLinksManager() {
               </label>
               <input
                 value={form.url}
-                onChange={(e) => setForm({ ...form, url: e.target.value })}
-                placeholder="https://amazon.in/queenscare or https://instagram.com/queenscare"
+                onChange={(e) => {
+                  const url = e.target.value;
+                  setForm((prev) => {
+                    // Auto-detect platform when URL is pasted (contains a dot)
+                    if (url.includes(".")) {
+                      const detected = detectPlatformFromUrl(url);
+                      const def = PLATFORM_REGISTRY[detected.platform];
+                      const shouldUpdateLabel = prev.label === "" || Object.values(PLATFORM_REGISTRY).some((p) => p.label === prev.label);
+                      return {
+                        ...prev,
+                        url,
+                        platform: detected.platform,
+                        category: detected.category,
+                        label: shouldUpdateLabel ? (def?.label || detected.platform) : prev.label,
+                        customIconUrl: "", // Clear custom icon so auto-detected SVG shows
+                      };
+                    }
+                    return { ...prev, url };
+                  });
+                }}
+                placeholder="Paste any URL — platform auto-detected (e.g. amazon.in, instagram.com)"
                 style={{ width: "100%", padding: "10px 12px", borderRadius: 6, border: "1px solid #d1d5db", fontSize: 14, color: "#1f2937" }}
               />
             </div>

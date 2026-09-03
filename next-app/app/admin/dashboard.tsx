@@ -25,6 +25,7 @@ import B2BManagement from "./B2BManagement";
 import StoreLocatorManagement from "./StoreLocatorManagement";
 import FooterSettingsModal from "./FooterSettingsModal";
 import AnalyticsDashboard from "./AnalyticsDashboard";
+import BrandLogo from "../components/BrandLogo";
 
 type Tab = "dashboard" | "orders" | "products" | "product-edit" | "aplus" | "categories" | "customers" | "b2b" | "stores" | "careers" | "career-applications" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers" | "homepage" | "marketing" | "payments" | "shipping" | "push" | "pages" | "social-links" | "otp-security" | "notifications-matrix" | "data-export"
   | "analytics" | "staff" | "audit-log";
@@ -724,7 +725,7 @@ export default function AdminDashboard() {
     <main className="portal" style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 0, minHeight: "100vh" }}>
       <nav style={{ background: "var(--purple)", color: "#fff", padding: "24px 0", display: "flex", flexDirection: "column" }}>
         <div style={{ padding: "0 20px 24px", borderBottom: "1px solid #ffffff20" }}>
-          <Link href="/" className="brand inverse" style={{ marginBottom: 12, display: "block" }}><i>Q</i><span>QUEENS<br /><b>CARE</b></span></Link>
+          <div style={{ marginBottom: 12 }}><BrandLogo inverse showText overrideHeight={32} overrideMobileHeight={24} overrideMaxWidth={140} /></div>
           <p style={{ fontSize: 11, color: "#d7cddd", margin: 0 }}>Commerce Command Centre</p>
         </div>
         <div style={{ flex: 1, overflowY: "auto", padding: "12px 0" }}>
