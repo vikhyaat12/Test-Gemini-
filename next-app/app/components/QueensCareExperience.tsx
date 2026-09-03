@@ -10,6 +10,7 @@ import Hero3DProductVisual from "./Hero3DProductVisual";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { getCartCount, subscribeCart } from "@/lib/client-cart";
 import { SocialBrandIcon } from "./SocialIcons";
+import Marquee from "./Marquee";
 
 type Product = { 
   id: string;
@@ -307,6 +308,14 @@ export default function QueensCareExperience() {
           <section className="trust-strip" key={sec.id ? String(sec.id) : `trust-${idx}`} style={secStyle}>
             {badges.map((b: string) => <span key={b}>✦ {b}</span>)}
           </section>
+        );
+      }
+
+      // Add marquee ticker after trust section
+      case "marquee": {
+        const marqueeItems: string[] = Array.isArray(c.items) ? c.items as string[] : ["Clinical intelligence", "Made with soul", "Science-backed formulas", "Traceable ingredients", "Designed with doctors"];
+        return (
+          <Marquee key={sec.id ? String(sec.id) : `marquee-${idx}`} items={marqueeItems} separator={String(c.separator || "✦")} speed={Number(c.speed) || 24} />
         );
       }
 
@@ -722,6 +731,8 @@ export default function QueensCareExperience() {
       <main>
         <CareScene />
         {sortedSections.map((sec, idx) => renderSection(sec, idx))}
+        {/* Premium marquee ticker */}
+        <Marquee items={["Clinical intelligence", "Made with soul", "Science-backed formulas", "Traceable ingredients", "Designed with doctors", "Pharmaceutical rigor", "Everyday wellness"]} separator="✦" speed={24} />
       </main>
       <footer
         style={{

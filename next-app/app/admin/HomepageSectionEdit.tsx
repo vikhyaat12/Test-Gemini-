@@ -19,7 +19,8 @@ type SectionType =
   | "consult"
   | "affiliate"
   | "banner"
-  | "custom";
+  | "custom"
+  | "marquee";
 
 const SECTION_TYPES: { value: SectionType; label: string; icon: string }[] = [
   { value: "hero", label: "Hero Banner", icon: "✨" },
@@ -34,6 +35,7 @@ const SECTION_TYPES: { value: SectionType; label: string; icon: string }[] = [
   { value: "affiliate", label: "Partnership / Affiliate", icon: "🤝" },
   { value: "banner", label: "Announcement Bar", icon: "📢" },
   { value: "custom", label: "Custom Section", icon: "📝" },
+  { value: "marquee", label: "Marquee / Ticker", icon: "📢" },
 ];
 
 interface Props {
@@ -1524,6 +1526,46 @@ export default function HomepageSectionEdit({ item, onSave }: Props) {
                 style={{ ...inputStyle, minHeight: 120 }}
                 value={String(content.body || content.text || "")}
                 onChange={(e) => updateContent("body", e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {form.type === "marquee" && (
+        <div style={{ marginBottom: 24, padding: 20, background: "#faf8f5", border: "1px solid var(--line)", borderRadius: 6 }}>
+          <h4 style={{ font: "14px var(--font-display)", marginBottom: 14, color: "var(--purple)" }}>📢 Marquee / Ticker</h4>
+          <p style={{ fontSize: 12, color: "var(--muted)", marginBottom: 16 }}>
+            Create a seamless scrolling text ticker that appears between sections.
+          </p>
+          <div style={{ display: "grid", gap: 14 }}>
+            <div>
+              <label style={labelStyle}>Separator Symbol</label>
+              <input
+                style={inputStyle}
+                value={String(content.separator || "✦")}
+                onChange={(e) => updateContent("separator", e.target.value)}
+                placeholder="✦"
+              />
+            </div>
+            <div>
+              <label style={labelStyle}>Scroll Speed (seconds)</label>
+              <input
+                style={inputStyle}
+                type="number"
+                min={8}
+                max={60}
+                value={Number(content.speed) || 24}
+                onChange={(e) => updateContent("speed", Number(e.target.value))}
+              />
+            </div>
+            <div>
+              <label style={labelStyle}>Marquee Items (one per line)</label>
+              <textarea
+                style={{ ...inputStyle, minHeight: 120 }}
+                value={Array.isArray(content.items) ? (content.items as string[]).join("\n") : "Clinical intelligence\nMade with soul\nScience-backed formulas\nTraceable ingredients\nDesigned with doctors"}
+                onChange={(e) => updateContent("items", e.target.value.split("\n").filter((s: string) => s.trim()))}
+                placeholder="Enter one item per line..."
               />
             </div>
           </div>

@@ -1,0 +1,104 @@
+/* ═══════════════════════════════════════════════════════════════
+   PREMIUM ANIMATIONS — CSS
+   Scroll-reveal text masks, custom cursor, marquee,
+   magnetic button effects, stagger animations.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Text split/mask reveal ─────────────────────────────────── */
+.premium-line {
+  display: block;
+  overflow: hidden;
+}
+.premium-word {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* ── Custom cursor ──────────────────────────────────────────── */
+.premium-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+.premium-cursor__dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  transform: translate(-50%, -50%);
+}
+.premium-cursor__ring {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  transform: translate(-50%, -50%);
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.premium-cursor.is-hover .premium-cursor__ring {
+  width: 72px;
+  height: 72px;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: transparent;
+}
+
+/* Hide on touch devices and small screens */
+@media (hover: none), (max-width: 900px) {
+  .premium-cursor {
+    display: none;
+  }
+}
+
+/* ── Stagger animation helpers ──────────────────────────────── */
+/* Elements start hidden, GSAP reveals them */
+.premium-stagger-init {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+/* ── Marquee / Ticker ──────────────────────────────────────── */
+.premium-marquee {
+  overflow: hidden;
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--plum, #2A0F3A);
+  color: var(--paper, #f7f1eb);
+}
+.premium-marquee__track {
+  display: flex;
+  align-items: center;
+  gap: 44px;
+  width: max-content;
+  will-change: transform;
+}
+.premium-marquee__track span {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(18px, 2.4vw, 30px);
+  white-space: nowrap;
+}
+.premium-marquee__track i {
+  opacity: 0.4;
+  font-style: normal;
+  font-size: 14px;
+  margin: 0 12px;
+}
+
+/* ── Reduced motion: kill all custom animations ─────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .premium-cursor {
+    display: none !important;
+  }
+  .premium-word,
+  .premium-line {
+    overflow: visible !important;
+  }
+}

@@ -933,7 +933,7 @@ export default function AdminDashboard() {
                       render: (v, row) => (
                         <div>
                           <b style={{ color: "#2A0F3A", fontSize: 13 }}>{String(v || row.type || "Untitled Section")}</b>
-                          <div style={{ fontSize: 11, color: "var(--muted)" }}>Type: <code>{String(row.type)}</code></div>
+                          <div style={{ fontSize: 11, color: "var(--muted)" }}>Type: <code>{({ hero: 'Hero Banner', heroVisual: '3D Visual', trust: 'Trust Strip', collection: 'Product Collection', science: 'Our Science', ritual: 'Ritual Cards', testimonial: 'Testimonial', newsletter: 'Newsletter', consult: 'Consultation', affiliate: 'Affiliate', banner: 'Announcement Bar', custom: 'Custom Section', marquee: 'Marquee / Ticker' } as Record<string,string>)[String(row.type)] || String(row.type)}</code></div>
                         </div>
                       ),
                     },
