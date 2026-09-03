@@ -189,6 +189,39 @@ export const PLATFORM_REGISTRY: Record<string, PlatformDefinition> = {
   },
 };
 
+function CustomIconWithFallback({ url, platform, size }: { url: string; platform: string; size: number }) {
+  const [failed, setFailed] = React.useState(false);
+  const [retryCount, setRetryCount] = React.useState(0);
+
+  if (failed) {
+    // Fallback: render the SVG from registry
+    const def = PLATFORM_REGISTRY[platform.toLowerCase()] || PLATFORM_REGISTRY.custom;
+    if (typeof def.svgPath === "string") {
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill={def.brandColor} xmlns="http://www.w3.org/2000/svg" style={{ display: "block" }}>
+          <path d={def.svgPath} />
+        </svg>
+      );
+    }
+    return <span style={{ width: size, height: size, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: size * 0.5, color: def.brandColor, fontWeight: 700 }}>{platform.charAt(0).toUpperCase()}</span>;
+  }
+
+  return (
+    <img
+      src={url}
+      alt={platform}
+      style={{ width: size, height: size, objectFit: "contain", display: "block", borderRadius: 4 }}
+      onError={() => {
+        if (retryCount < 1) {
+          setTimeout(() => { setRetryCount(c => c + 1); }, 1500);
+        } else {
+          setFailed(true);
+        }
+      }}
+    />
+  );
+}
+
 export function SocialBrandIcon({
   platform,
   size = 22,
@@ -201,19 +234,7 @@ export function SocialBrandIcon({
   customIconUrl?: string;
 }) {
   if (customIconUrl) {
-    return (
-      <img
-        src={customIconUrl}
-        alt={platform}
-        style={{
-          width: size,
-          height: size,
-          objectFit: "contain",
-          display: "block",
-          borderRadius: 4,
-        }}
-      />
-    );
+    return <CustomIconWithFallback url={customIconUrl} platform={platform} size={size} />;
   }
 
   const def = PLATFORM_REGISTRY[platform.toLowerCase()] || PLATFORM_REGISTRY.custom;

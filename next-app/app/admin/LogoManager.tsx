@@ -12,6 +12,7 @@ export default function LogoManager({ onSave }: { onSave?: () => void }) {
   const [feedback, setFeedback] = useState<{ msg: string; type: "success" | "error" | "info" } | null>(null);
   const [previewLoaded, setPreviewLoaded] = useState(false);
   const [previewFailed, setPreviewFailed] = useState(false);
+  const [previewRetryCount, setPreviewRetryCount] = useState(0);
   const [testingUrl, setTestingUrl] = useState(false);
   const [urlVerified, setUrlVerified] = useState<boolean | null>(null);
 
@@ -50,6 +51,7 @@ export default function LogoManager({ onSave }: { onSave?: () => void }) {
 
     setPreviewFailed(false);
     setPreviewLoaded(false);
+    setPreviewRetryCount(0);
     setTestingUrl(true);
 
     fetch(logoUrl, { method: "HEAD" })
@@ -346,7 +348,13 @@ export default function LogoManager({ onSave }: { onSave?: () => void }) {
                     background: "transparent",
                   }}
                   onLoad={() => setPreviewLoaded(true)}
-                  onError={() => setPreviewFailed(true)}
+                  onError={() => {
+                    if (previewRetryCount < 2) {
+                      setTimeout(() => { setPreviewRetryCount(c => c + 1); setPreviewFailed(false); }, 2000);
+                    } else {
+                      setPreviewFailed(true);
+                    }
+                  }}
                 />
               ) : (
                 <div style={{ width: 34, height: 34, borderRadius: "50%", background: "#2A0F3A", color: "#D4AF37", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontStyle: "italic", fontFamily: "var(--font-display)", fontSize: 18 }}>
@@ -376,7 +384,13 @@ export default function LogoManager({ onSave }: { onSave?: () => void }) {
                     objectFit: "contain",
                     background: "transparent",
                   }}
-                  onError={() => setPreviewFailed(true)}
+                  onError={() => {
+                    if (previewRetryCount < 2) {
+                      setTimeout(() => { setPreviewRetryCount(c => c + 1); setPreviewFailed(false); }, 2000);
+                    } else {
+                      setPreviewFailed(true);
+                    }
+                  }}
                 />
               ) : (
                 <div style={{ width: 34, height: 34, borderRadius: "50%", background: "#D4AF37", color: "#2A0F3A", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontStyle: "italic", fontFamily: "var(--font-display)", fontSize: 18 }}>

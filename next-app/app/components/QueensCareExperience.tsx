@@ -61,6 +61,7 @@ export default function QueensCareExperience() {
   const [logoHeight, setLogoHeight] = useState<string>("34px");
   const [logoMaxWidth, setLogoMaxWidth] = useState<string>("180px");
   const [logoFailed, setLogoFailed] = useState(false);
+  const [logoRetryCount, setLogoRetryCount] = useState(0);
   const [hpSections, setHpSections] = useState<Record<string, unknown>[]>([]);
   const [socialLinks, setSocialLinks] = useState<
     Array<{
@@ -681,7 +682,14 @@ export default function QueensCareExperience() {
       <header className="nav-wrap">
         <Link href="/" className="brand" aria-label="Queens Care home">
           {logoUrl && !logoFailed ? (
-            <img src={logoUrl} alt="Queens Care" style={{ height: logoHeight, maxWidth: logoMaxWidth, objectFit: "contain" }} onError={() => setLogoFailed(true)} />
+            <img src={logoUrl} alt="Queens Care" style={{ height: logoHeight, maxWidth: logoMaxWidth, objectFit: "contain" }} onError={() => {
+              if (logoRetryCount < 2) {
+                // Retry after a short delay — the server may have been slow
+                setTimeout(() => { setLogoRetryCount(c => c + 1); setLogoFailed(false); }, 2000);
+              } else {
+                setLogoFailed(true);
+              }
+            }} />
           ) : (
             <i>Q</i>
           )}
@@ -743,7 +751,13 @@ export default function QueensCareExperience() {
         <div className="footer-top">
           <Link href="/" className="brand inverse">
             {logoUrl && !logoFailed ? (
-              <img src={logoUrl} alt="Queens Care" style={{ height: logoHeight, maxWidth: logoMaxWidth, objectFit: "contain" }} onError={() => setLogoFailed(true)} />
+              <img src={logoUrl} alt="Queens Care" style={{ height: logoHeight, maxWidth: logoMaxWidth, objectFit: "contain" }} onError={() => {
+                if (logoRetryCount < 2) {
+                  setTimeout(() => { setLogoRetryCount(c => c + 1); setLogoFailed(false); }, 2000);
+                } else {
+                  setLogoFailed(true);
+                }
+              }} />
             ) : (
               <i>Q</i>
             )}
