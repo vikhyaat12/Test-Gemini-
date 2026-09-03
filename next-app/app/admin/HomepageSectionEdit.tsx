@@ -803,24 +803,41 @@ export default function HomepageSectionEdit({ item, onSave }: Props) {
       {/* ═══════════════════════════════════════════════════════════════════════ */}
       {form.type === "trust" && (
         <div style={{ marginBottom: 24, padding: 20, background: "#faf8f5", border: "1px solid var(--line)", borderRadius: 6 }}>
-          <h4 style={{ font: "14px var(--font-display)", marginBottom: 14, color: "var(--purple)" }}>Trust Badges</h4>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-            {([0, 1, 2, 3, 4, 5] as const).map((i) => (
-              <div key={i}>
-                <label style={labelStyle}>Trust Point {i + 1}</label>
-                <input
-                  style={inputStyle}
-                  value={String((content.badges as string[])?.[i] || "")}
-                  onChange={(e) => {
-                    const b = [...((content.badges as string[]) || ["", "", "", ""])];
-                    b[i] = e.target.value;
-                    updateContent("badges", b.filter(Boolean));
-                  }}
-                  placeholder={i === 0 ? "Made in India" : i === 1 ? "Third-party tested" : ""}
-                />
-              </div>
-            ))}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+            <h4 style={{ font: "14px var(--font-display)", margin: 0, color: "var(--purple)" }}>Trust Badges ({((content.badges as string[]) || []).length} items)</h4>
+            <button type="button" onClick={() => {
+              const b = [...((content.badges as string[]) || []), "New trust point"];
+              updateContent("badges", b);
+            }} style={{ padding: "6px 14px", background: "var(--purple)", color: "#D4AF37", border: "none", borderRadius: 4, cursor: "pointer", fontSize: 11, fontWeight: 700 }}>+ Add Trust Point</button>
           </div>
+          {((content.badges as string[]) || []).map((badge: string, i: number) => (
+            <div key={i} style={{ display: "flex", gap: 8, marginBottom: 8, alignItems: "center" }}>
+              <span style={{ fontSize: 11, fontWeight: 700, color: "var(--muted)", minWidth: 20 }}>{i + 1}.</span>
+              <input
+                style={{ ...inputStyle, flex: 1 }}
+                value={badge}
+                onChange={(e) => {
+                  const b = [...(content.badges as string[] || [])];
+                  b[i] = e.target.value;
+                  updateContent("badges", b);
+                }}
+              />
+              <button type="button" title="Move up" disabled={i === 0} onClick={() => {
+                const b = [...(content.badges as string[])];
+                [b[i - 1], b[i]] = [b[i], b[i - 1]];
+                updateContent("badges", b);
+              }} style={{ padding: "2px 6px", fontSize: 10, cursor: i === 0 ? "default" : "pointer", border: "1px solid var(--line)", background: "#fff", borderRadius: 2 }}>▲</button>
+              <button type="button" title="Move down" disabled={i >= ((content.badges as string[]) || []).length - 1} onClick={() => {
+                const b = [...(content.badges as string[])];
+                [b[i + 1], b[i]] = [b[i], b[i + 1]];
+                updateContent("badges", b);
+              }} style={{ padding: "2px 6px", fontSize: 10, cursor: i >= ((content.badges as string[]) || []).length - 1 ? "default" : "pointer", border: "1px solid var(--line)", background: "#fff", borderRadius: 2 }}>▼</button>
+              <button type="button" title="Delete" onClick={() => {
+                const b = (content.badges as string[]).filter((_, idx) => idx !== i);
+                updateContent("badges", b);
+              }} style={{ padding: "2px 6px", fontSize: 10, cursor: "pointer", border: "1px solid #ffcdd2", background: "#ffebee", color: "#c62828", borderRadius: 2 }}>✕</button>
+            </div>
+          ))}
         </div>
       )}
 
@@ -1437,22 +1454,30 @@ export default function HomepageSectionEdit({ item, onSave }: Props) {
           <h4 style={{ font: "14px var(--font-display)", marginBottom: 14, color: "var(--purple)" }}>Newsletter / Journal CTA</h4>
           <div style={{ display: "grid", gap: 12 }}>
             <div>
+              <label style={labelStyle}>Eyebrow / Label</label>
+              <input style={inputStyle} value={String(content.eyebrow || "")} onChange={(e) => updateContent("eyebrow", e.target.value)} placeholder="THE CARE LETTER" />
+            </div>
+            <div>
               <label style={labelStyle}>Heading</label>
-              <input
-                style={inputStyle}
-                value={String(content.heading || "")}
-                onChange={(e) => updateContent("heading", e.target.value)}
-                placeholder="A smarter kind of inbox."
-              />
+              <input style={inputStyle} value={String(content.heading || "")} onChange={(e) => updateContent("heading", e.target.value)} placeholder="A smarter kind of inbox." />
             </div>
             <div>
               <label style={labelStyle}>Subtitle / Description</label>
-              <input
-                style={inputStyle}
-                value={String(content.subtitle || "")}
-                onChange={(e) => updateContent("subtitle", e.target.value)}
-                placeholder="Thoughtful dispatches on science, care, and living well."
-              />
+              <input style={inputStyle} value={String(content.subtitle || "")} onChange={(e) => updateContent("subtitle", e.target.value)} placeholder="Thoughtful dispatches on science, care, and living well." />
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              <div>
+                <label style={labelStyle}>Input Placeholder</label>
+                <input style={inputStyle} value={String(content.inputPlaceholder || "")} onChange={(e) => updateContent("inputPlaceholder", e.target.value)} placeholder="Your email address" />
+              </div>
+              <div>
+                <label style={labelStyle}>Button Text</label>
+                <input style={inputStyle} value={String(content.buttonText || "")} onChange={(e) => updateContent("buttonText", e.target.value)} placeholder="Subscribe" />
+              </div>
+            </div>
+            <div>
+              <label style={labelStyle}>Success Message</label>
+              <input style={inputStyle} value={String(content.successMessage || "")} onChange={(e) => updateContent("successMessage", e.target.value)} placeholder="Welcome to the care letter." />
             </div>
           </div>
         </div>
