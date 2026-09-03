@@ -480,11 +480,25 @@ const ORDER_STATUSES = ["pending", "confirmed", "processing", "shipped", "delive
 
 function OrderManager({ orders, onUpdate }: { orders: Record<string, unknown>[]; onUpdate: () => void }) {
   const [filter, setFilter] = useState("all");
+  const [paymentFilter, setPaymentFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [rejectingId, setRejectingId] = useState<string | null>(null);
   const [rejectReason, setRejectReason] = useState("");
 
-  const filtered = filter === "all" ? orders : orders.filter((o) => String(o.status) === filter);
+  const filtered = orders.filter((o) => {
+    if (filter !== "all" && String(o.status) !== filter) return false;
+    if (paymentFilter !== "all" && String(o.paymentStatus || "pending") !== paymentFilter) return false;
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      const id = String(o.id || "").toLowerCase();
+      const name = String(o.customerName || "").toLowerCase();
+      const email = String(o.email || "").toLowerCase();
+      const phone = String(o.phone || "").toLowerCase();
+      if (!id.includes(q) && !name.includes(q) && !email.includes(q) && !phone.includes(q)) return false;
+    }
+    return true;
+  });
 
   const updateStatus = async (id: string, status: string, note?: string) => {
     const body: Record<string, unknown> = { status };
@@ -501,6 +515,20 @@ function OrderManager({ orders, onUpdate }: { orders: Record<string, unknown>[];
 
   return (
     <div>
+      {/* Search + Payment filter */}
+      <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap", alignItems: "center" }}>
+        <input placeholder="🔍 Search order ID, customer, email, phone…" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} style={{ flex: 1, minWidth: 200, padding: "7px 12px", borderRadius: 6, border: "1px solid var(--line)", fontSize: 12 }} />
+        <select value={paymentFilter} onChange={(e) => setPaymentFilter(e.target.value)} style={{ padding: "7px 10px", borderRadius: 6, border: "1px solid var(--line)", fontSize: 11 }}>
+          <option value="all">All Payment</option>
+          <option value="pending">Payment Pending</option>
+          <option value="paid">Paid</option>
+          <option value="failed">Failed</option>
+          <option value="refunded">Refunded</option>
+          <option value="cod_pending">COD Pending</option>
+        </select>
+        <span style={{ fontSize: 11, color: "var(--muted)" }}>{filtered.length} order{filtered.length !== 1 ? "s" : ""}</span>
+      </div>
+
       {/* Status filter chips */}
       <div style={{ display: "flex", gap: 6, marginBottom: 16, flexWrap: "wrap" }}>
         {["all", ...ORDER_STATUSES].map((s) => (
