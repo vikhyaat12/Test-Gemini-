@@ -1258,9 +1258,11 @@ export const orderStoreExtended = {
       } catch {}
     }
     fileDb.update("orders", id, { status });
+    // Record status history in fileDb too
+    fileDb.insert("orderStatusHistory", { orderId: id, status, note: note || "", createdAt: new Date().toISOString() });
   },
   history: async (orderId: string) => {
-    return [];
+    return fileDb.findMany("orderStatusHistory", (h: Record<string, unknown>) => h.orderId === orderId);
   },
   byUser: async (userId: string) => {
     return fileDb.findMany("orders", o => o.userId === userId);

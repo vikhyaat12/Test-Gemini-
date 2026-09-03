@@ -51,6 +51,8 @@ export interface LocalDbSchema {
   storeLocations: Array<Record<string, unknown>>;
   analyticsEvents: Array<Record<string, unknown>>;
   analyticsSessions: Array<Record<string, unknown>>;
+  auditLogs: Array<Record<string, unknown>>;
+  orderStatusHistory: Array<Record<string, unknown>>;
 }
 
 const now = () => new Date().toISOString();
@@ -1079,6 +1081,8 @@ const initialSeedData: LocalDbSchema = {
   storeLocations: [],
   analyticsEvents: [],
   analyticsSessions: [],
+  auditLogs: [],
+  orderStatusHistory: [],
 };
 
 /**

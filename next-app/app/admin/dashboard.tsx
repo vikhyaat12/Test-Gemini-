@@ -27,7 +27,7 @@ import FooterSettingsModal from "./FooterSettingsModal";
 import AnalyticsDashboard from "./AnalyticsDashboard";
 
 type Tab = "dashboard" | "orders" | "products" | "product-edit" | "aplus" | "categories" | "customers" | "b2b" | "stores" | "careers" | "career-applications" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers" | "homepage" | "marketing" | "payments" | "shipping" | "push" | "pages" | "social-links" | "otp-security" | "notifications-matrix" | "data-export"
-  | "analytics";
+  | "analytics" | "staff" | "audit-log";
 
 const req = async (path: string, init?: RequestInit) => {
   const r = await fetch(path, { ...init, headers: { "Content-Type": "application/json", ...(init?.headers || {}) } });
@@ -35,7 +35,7 @@ const req = async (path: string, init?: RequestInit) => {
 };
 
 function Badge({ status }: { status: string }) {
-  const colors: Record<string, string> = { pending: "#d4ad65", submitted: "#2196f3", under_review: "#d4ad65", shortlisted: "#9c27b0", interview: "#ff9800", hired: "#4caf50", approved: "#4caf50", paid: "#4caf50", active: "#4caf50", delivered: "#4caf50", processing: "#2196f3", shipped: "#2196f3", packed: "#2196f3", cancelled: "#b34141", declined: "#b34141", rejected: "#b34141", failed: "#b34141", refunded: "#9c27b0", suspended: "#ff9800" };
+  const colors: Record<string, string> = { pending: "#d4ad65", submitted: "#2196f3", under_review: "#d4ad65", shortlisted: "#9c27b0", interview: "#ff9800", hired: "#4caf50", approved: "#4caf50", paid: "#4caf50", active: "#4caf50", delivered: "#4caf50", completed: "#2e7d32", confirmed: "#1565c0", processing: "#2196f3", shipped: "#2196f3", packed: "#2196f3", cancelled: "#b34141", declined: "#b34141", rejected: "#b34141", failed: "#b34141", refunded: "#9c27b0", suspended: "#ff9800" };
   return <span style={{ padding: "3px 8px", fontSize: 10, textTransform: "uppercase", letterSpacing: ".06em", background: colors[status] || "#eee", color: ["pending", "suspended", "under_review"].includes(status) ? "#333" : "#fff", borderRadius: 3 }}>{status}</span>;
 }
 
@@ -98,7 +98,293 @@ const ENDPOINTS: Record<Tab, string | null> = {
   "data-export": "/api/admin/googlesheets",
   "product-edit": null,
   analytics: "/api/analytics",
+  staff: "/api/admin/staff",
+  "audit-log": "/api/admin/audit-log",
 };
+
+function StaffManagementPanel() {
+  const [staff, setStaff] = useState<Record<string, unknown>[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [form, setForm] = useState({ name: "", email: "", password: "", role: "admin", permissions: ["orders", "products", "customers", "homepage", "pages", "blog", "analytics", "settings"] as string[] });
+  const [editingId, setEditingId] = useState<string | null>(null);
+
+  const ALL_PERMISSIONS = ["orders", "products", "customers", "homepage", "pages", "blog", "reviews", "marketing", "notifications", "analytics", "employees", "b2b", "careers", "settings", "payments", "shipping", "media", "social_links", "coupons", "staff"];
+
+  const fetchStaff = async () => {
+    setLoading(true);
+    try { const r = await fetch("/api/admin/staff"); const d = await r.json(); setStaff(d.staff || []); } catch {}
+    setLoading(false);
+  };
+
+  useEffect(() => { fetchStaff(); }, []);
+
+  const handleSave = async () => {
+    const method = editingId ? "PATCH" : "POST";
+    const body: Record<string, unknown> = { ...form };
+    if (editingId) body.id = editingId;
+    if (!form.password && editingId) delete body.password;
+    const r = await fetch("/api/admin/staff", { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    if (r.ok) { setShowForm(false); setEditingId(null); setForm({ name: "", email: "", password: "", role: "admin", permissions: ALL_PERMISSIONS.slice(0, 8) }); fetchStaff(); }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Delete this staff member?")) return;
+    await fetch("/api/admin/staff", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) });
+    fetchStaff();
+  };
+
+  const togglePerm = (perm: string) => {
+    setForm((f) => ({ ...f, permissions: f.permissions.includes(perm) ? f.permissions.filter((p) => p !== perm) : [...f.permissions, perm] }));
+  };
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700 }}>👥 Staff Management</h3>
+        <button onClick={() => { setShowForm(!showForm); setEditingId(null); setForm({ name: "", email: "", password: "", role: "admin", permissions: ALL_PERMISSIONS.slice(0, 8) }); }} style={{ padding: "8px 16px", background: "var(--purple)", color: "#fff", border: "none", borderRadius: 4, fontWeight: 700, cursor: "pointer" }}>{showForm ? "Cancel" : "+ Add Staff"}</button>
+      </div>
+
+      {showForm && (
+        <div style={{ background: "#f9f8f6", border: "1px solid var(--line)", borderRadius: 8, padding: 16, marginBottom: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+            <div><label style={{ fontSize: 11, fontWeight: 600, display: "block", marginBottom: 4 }}>Name</label><input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--line)", borderRadius: 4 }} /></div>
+            <div><label style={{ fontSize: 11, fontWeight: 600, display: "block", marginBottom: 4 }}>Email</label><input value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--line)", borderRadius: 4 }} /></div>
+            <div><label style={{ fontSize: 11, fontWeight: 600, display: "block", marginBottom: 4 }}>{editingId ? "New Password (blank = keep)" : "Password"}</label><input type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--line)", borderRadius: 4 }} /></div>
+          </div>
+          <div style={{ marginTop: 12 }}>
+            <label style={{ fontSize: 11, fontWeight: 600, display: "block", marginBottom: 4 }}>Role</label>
+            <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })} style={{ padding: "8px 12px", border: "1px solid var(--line)", borderRadius: 4 }}><option value="admin">Admin (Full Access)</option><option value="staff">Staff (Custom Permissions)</option></select>
+          </div>
+          {form.role === "staff" && (
+            <div style={{ marginTop: 12 }}>
+              <label style={{ fontSize: 11, fontWeight: 600, display: "block", marginBottom: 6 }}>Permissions</label>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                {ALL_PERMISSIONS.map((p) => (
+                  <button key={p} onClick={() => togglePerm(p)} style={{ padding: "4px 10px", fontSize: 11, borderRadius: 4, border: form.permissions.includes(p) ? "2px solid var(--purple)" : "1px solid var(--line)", background: form.permissions.includes(p) ? "var(--purple)" : "#fff", color: form.permissions.includes(p) ? "#fff" : "var(--ink)", cursor: "pointer", fontWeight: form.permissions.includes(p) ? 700 : 400 }}>{p.replace(/_/g, " ")}</button>
+                ))}
+              </div>
+            </div>
+          )}
+          <button onClick={handleSave} style={{ marginTop: 12, padding: "8px 20px", background: "#2e7d32", color: "#fff", border: "none", borderRadius: 4, fontWeight: 700, cursor: "pointer" }}>{editingId ? "Update" : "Create Staff"}</button>
+        </div>
+      )}
+
+      <div style={{ border: "1px solid var(--line)", borderRadius: 8, overflow: "hidden" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+          <thead><tr style={{ background: "#f9f8f6" }}>
+            <th style={{ textAlign: "left", padding: "10px 14px", fontWeight: 600, fontSize: 10, textTransform: "uppercase", color: "var(--muted)" }}>Name</th>
+            <th style={{ textAlign: "left", padding: "10px 14px", fontWeight: 600, fontSize: 10, textTransform: "uppercase", color: "var(--muted)" }}>Email</th>
+            <th style={{ textAlign: "left", padding: "10px 14px", fontWeight: 600, fontSize: 10, textTransform: "uppercase", color: "var(--muted)" }}>Role</th>
+            <th style={{ textAlign: "left", padding: "10px 14px", fontWeight: 600, fontSize: 10, textTransform: "uppercase", color: "var(--muted)" }}>Permissions</th>
+            <th style={{ textAlign: "left", padding: "10px 14px", fontWeight: 600, fontSize: 10, textTransform: "uppercase", color: "var(--muted)" }}>Actions</th>
+          </tr></thead>
+          <tbody>
+            {staff.map((s) => (
+              <tr key={String(s.id)} style={{ borderBottom: "1px solid var(--line)" }}>
+                <td style={{ padding: "10px 14px", fontWeight: 600 }}>{String(s.name)}</td>
+                <td style={{ padding: "10px 14px" }}>{String(s.email)}</td>
+                <td style={{ padding: "10px 14px" }}><span style={{ padding: "3px 8px", fontSize: 10, borderRadius: 3, background: s.role === "admin" ? "#e8f5e9" : "#e3f2fd", color: s.role === "admin" ? "#2e7d32" : "#1565c0", fontWeight: 600, textTransform: "uppercase" }}>{String(s.role)}</span></td>
+                <td style={{ padding: "10px 14px", maxWidth: 300, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.role === "admin" ? "Full Access" : (Array.isArray(s.permissions) ? (s.permissions as string[]).join(", ") : "—")}</td>
+                <td style={{ padding: "10px 14px", display: "flex", gap: 6 }}>
+                  <button onClick={() => { setEditingId(String(s.id)); setForm({ name: String(s.name), email: String(s.email), password: "", role: String(s.role), permissions: Array.isArray(s.permissions) ? (s.permissions as string[]) : [] }); setShowForm(true); }} style={{ padding: "4px 10px", fontSize: 11, border: "1px solid var(--line)", background: "#fff", borderRadius: 3, cursor: "pointer" }}>Edit</button>
+                  <button onClick={() => handleDelete(String(s.id))} style={{ padding: "4px 10px", fontSize: 11, border: "1px solid #ffcdd2", background: "#fff", color: "#c62828", borderRadius: 3, cursor: "pointer" }}>Del</button>
+                </td>
+              </tr>
+            ))}
+            {staff.length === 0 && <tr><td colSpan={5} style={{ padding: 24, textAlign: "center", color: "var(--muted)" }}>No staff members found.</td></tr>}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function AuditLogPanel() {
+  const [logs, setLogs] = useState<Record<string, unknown>[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("");
+  const [total, setTotal] = useState(0);
+
+  const fetchLogs = async () => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams({ limit: "200" });
+      if (filter) params.set("action", filter);
+      const r = await fetch(`/api/admin/audit-log?${params}`);
+      const d = await r.json();
+      setLogs(d.logs || []); setTotal(d.total || 0);
+    } catch {}
+    setLoading(false);
+  };
+
+  useEffect(() => { fetchLogs(); }, [filter]);
+
+  const actionColors: Record<string, string> = {
+    staff_created: "#2e7d32", staff_updated: "#1565c0", staff_deleted: "#c62828",
+    order_status_changed: "#9c27b0", product_updated: "#ff9800",
+    settings_changed: "#795548", login: "#4caf50", logout: "#ff9800",
+  };
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
+        <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700 }}>📋 Audit Log <span style={{ fontSize: 12, fontWeight: 400, color: "var(--muted)" }}>({total} entries)</span></h3>
+        <div style={{ display: "flex", gap: 6 }}>
+          <select value={filter} onChange={(e) => setFilter(e.target.value)} style={{ padding: "6px 10px", fontSize: 12, border: "1px solid var(--line)", borderRadius: 4 }}>
+            <option value="">All Actions</option>
+            <option value="staff_created">Staff Created</option>
+            <option value="staff_updated">Staff Updated</option>
+            <option value="staff_deleted">Staff Deleted</option>
+            <option value="order_status_changed">Order Status</option>
+            <option value="settings_changed">Settings Changed</option>
+          </select>
+          <button onClick={fetchLogs} style={{ padding: "6px 14px", fontSize: 12, border: "1px solid var(--line)", borderRadius: 4, cursor: "pointer", background: "#fff" }}>↻ Refresh</button>
+        </div>
+      </div>
+      <div style={{ border: "1px solid var(--line)", borderRadius: 8, overflow: "hidden" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+          <thead><tr style={{ background: "#f9f8f6" }}>
+            <th style={{ textAlign: "left", padding: "10px 14px", fontWeight: 600, fontSize: 10, textTransform: "uppercase", color: "var(--muted)" }}>Timestamp</th>
+            <th style={{ textAlign: "left", padding: "10px 14px", fontWeight: 600, fontSize: 10, textTransform: "uppercase", color: "var(--muted)" }}>Action</th>
+            <th style={{ textAlign: "left", padding: "10px 14px", fontWeight: 600, fontSize: 10, textTransform: "uppercase", color: "var(--muted)" }}>Actor</th>
+            <th style={{ textAlign: "left", padding: "10px 14px", fontWeight: 600, fontSize: 10, textTransform: "uppercase", color: "var(--muted)" }}>Details</th>
+          </tr></thead>
+          <tbody>
+            {logs.map((log, i) => (
+              <tr key={i} style={{ borderBottom: "1px solid var(--line)" }}>
+                <td style={{ padding: "8px 14px", whiteSpace: "nowrap" }}>{log.createdAt ? new Date(String(log.createdAt)).toLocaleString("en-IN", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }) : "—"}</td>
+                <td style={{ padding: "8px 14px" }}><span style={{ padding: "2px 8px", fontSize: 10, borderRadius: 3, background: actionColors[String(log.action)] || "#eee", color: ["staff_created"].includes(String(log.action)) ? "#fff" : "#333", fontWeight: 600 }}>{String(log.action).replace(/_/g, " ")}</span></td>
+                <td style={{ padding: "8px 14px" }}>{String(log.actorId || "—")}</td>
+                <td style={{ padding: "8px 14px", maxWidth: 400, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{String(log.details || "—")}</td>
+              </tr>
+            ))}
+            {logs.length === 0 && <tr><td colSpan={4} style={{ padding: 24, textAlign: "center", color: "var(--muted)" }}>{loading ? "Loading..." : "No audit log entries found."}</td></tr>}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+const ORDER_STATUSES = ["pending", "confirmed", "processing", "shipped", "delivered", "completed", "cancelled", "rejected", "refunded"] as const;
+
+function OrderManager({ orders, onUpdate }: { orders: Record<string, unknown>[]; onUpdate: () => void }) {
+  const [filter, setFilter] = useState("all");
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [rejectingId, setRejectingId] = useState<string | null>(null);
+  const [rejectReason, setRejectReason] = useState("");
+
+  const filtered = filter === "all" ? orders : orders.filter((o) => String(o.status) === filter);
+
+  const updateStatus = async (id: string, status: string, note?: string) => {
+    const body: Record<string, unknown> = { status };
+    if (note) body.note = note;
+    const res = await fetch(`/api/admin/orders/${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (res.ok) onUpdate();
+    setRejectingId(null);
+    setRejectReason("");
+  };
+
+  return (
+    <div>
+      {/* Status filter chips */}
+      <div style={{ display: "flex", gap: 6, marginBottom: 16, flexWrap: "wrap" }}>
+        {["all", ...ORDER_STATUSES].map((s) => (
+          <button key={s} onClick={() => setFilter(s)} style={{ padding: "5px 12px", fontSize: 11, borderRadius: 20, border: filter === s ? "2px solid var(--purple)" : "1px solid var(--line)", background: filter === s ? "var(--purple)" : "#fff", color: filter === s ? "#fff" : "var(--ink)", cursor: "pointer", fontWeight: filter === s ? 700 : 500, textTransform: "capitalize", transition: "all 0.15s" }}>{s}{s !== "all" && <span style={{ marginLeft: 4, opacity: 0.7 }}>({orders.filter((o) => String(o.status) === s).length})</span>}</button>
+        ))}
+      </div>
+
+      {/* Order rows */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        {filtered.length === 0 && <p style={{ color: "var(--muted)", fontSize: 13, textAlign: "center", padding: 24 }}>No orders match filter.</p>}
+        {filtered.map((order) => {
+          const id = String(order.id);
+          const isExpanded = expandedId === id;
+          const isRejecting = rejectingId === id;
+          return (
+            <div key={id} style={{ border: "1px solid var(--line)", borderRadius: 6, background: "#fff", overflow: "hidden" }}>
+              {/* Row header */}
+              <div style={{ display: "grid", gridTemplateColumns: "1.5fr 0.8fr 0.8fr 0.8fr 1fr 1.2fr", gap: 8, padding: "10px 14px", alignItems: "center", cursor: "pointer" }} onClick={() => setExpandedId(isExpanded ? null : id)}>
+                <div>
+                  <span style={{ fontFamily: "monospace", fontSize: 11, fontWeight: 600 }}>{String(order.id).slice(0, 16)}</span>
+                  {order.createdAt ? <span style={{ display: "block", fontSize: 10, color: "var(--muted)", marginTop: 2 }}>{new Date(String(order.createdAt)).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}</span> : null}
+                </div>
+                <div style={{ fontSize: 13, fontWeight: 600 }}>₹{Number(order.total || 0).toLocaleString("en-IN")}</div>
+                <Badge status={String(order.status || "pending")} />
+                <Badge status={String(order.paymentStatus || "pending")} />
+                <div style={{ fontSize: 11, color: "var(--muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{String(order.customerName || order.email || "—")}</div>
+                <div style={{ display: "flex", gap: 4, justifyContent: "flex-end" }} onClick={(e) => e.stopPropagation()}>
+                  {/* Quick actions based on current status */}
+                  {(!order.status || order.status === "pending") && (
+                    <>
+                      <button onClick={() => updateStatus(id, "confirmed")} style={{ padding: "4px 10px", fontSize: 10, fontWeight: 700, background: "#e8f5e9", color: "#2e7d32", border: "1px solid #c8e6c9", borderRadius: 3, cursor: "pointer" }}>✓ Confirm</button>
+                      <button onClick={() => setRejectingId(id)} style={{ padding: "4px 10px", fontSize: 10, fontWeight: 700, background: "#ffebee", color: "#c62828", border: "1px solid #ffcdd2", borderRadius: 3, cursor: "pointer" }}>✕ Reject</button>
+                    </>
+                  )}
+                  {order.status === "confirmed" && (
+                    <button onClick={() => updateStatus(id, "processing")} style={{ padding: "4px 10px", fontSize: 10, fontWeight: 700, background: "#e3f2fd", color: "#1565c0", border: "1px solid #bbdefb", borderRadius: 3, cursor: "pointer" }}>⚙ Process</button>
+                  )}
+                  {order.status === "processing" && (
+                    <button onClick={() => updateStatus(id, "shipped")} style={{ padding: "4px 10px", fontSize: 10, fontWeight: 700, background: "#e3f2fd", color: "#1565c0", border: "1px solid #bbdefb", borderRadius: 3, cursor: "pointer" }}>🚚 Ship</button>
+                  )}
+                  {order.status === "shipped" && (
+                    <button onClick={() => updateStatus(id, "delivered")} style={{ padding: "4px 10px", fontSize: 10, fontWeight: 700, background: "#e8f5e9", color: "#2e7d32", border: "1px solid #c8e6c9", borderRadius: 3, cursor: "pointer" }}>📦 Deliver</button>
+                  )}
+                  {order.status === "delivered" && (
+                    <button onClick={() => updateStatus(id, "completed")} style={{ padding: "4px 10px", fontSize: 10, fontWeight: 700, background: "#e8f5e9", color: "#2e7d32", border: "1px solid #c8e6c9", borderRadius: 3, cursor: "pointer" }}>✓ Complete</button>
+                  )}
+                  {/* Status override dropdown */}
+                  <select value={String(order.status || "pending")} onChange={(e) => updateStatus(id, e.target.value)} style={{ padding: "4px 6px", fontSize: 10, borderRadius: 3, border: "1px solid var(--line)" }} onClick={(e) => e.stopPropagation()}>
+                    {ORDER_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                </div>
+              </div>
+
+              {/* Reject reason input */}
+              {isRejecting && (
+                <div style={{ padding: "8px 14px", background: "#fff5f5", borderTop: "1px solid #ffcdd2", display: "flex", gap: 8, alignItems: "center" }} onClick={(e) => e.stopPropagation()}>
+                  <input placeholder="Rejection reason (optional)" value={rejectReason} onChange={(e) => setRejectReason(e.target.value)} style={{ flex: 1, padding: "6px 10px", fontSize: 12, border: "1px solid #ffcdd2", borderRadius: 3 }} />
+                  <button onClick={() => updateStatus(id, "rejected", rejectReason || undefined)} style={{ padding: "6px 14px", fontSize: 11, fontWeight: 700, background: "#c62828", color: "#fff", border: "none", borderRadius: 3, cursor: "pointer" }}>Confirm Reject</button>
+                  <button onClick={() => { setRejectingId(null); setRejectReason(""); }} style={{ padding: "6px 14px", fontSize: 11, background: "#fff", border: "1px solid #ccc", borderRadius: 3, cursor: "pointer" }}>Cancel</button>
+                </div>
+              )}
+
+              {/* Expanded details */}
+              {isExpanded && (
+                <div style={{ padding: "12px 14px", borderTop: "1px solid var(--line)", background: "#fafafa", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, fontSize: 12 }}>
+                  <div>
+                    <strong style={{ fontSize: 10, textTransform: "uppercase", color: "var(--muted)" }}>Customer</strong>
+                    <p style={{ margin: "4px 0" }}>{String(order.customerName || "—")}</p>
+                    <p style={{ margin: 0, color: "var(--muted)", fontSize: 11 }}>{String(order.email || "—")}</p>
+                    <p style={{ margin: 0, color: "var(--muted)", fontSize: 11 }}>{String(order.phone || "—")}</p>
+                  </div>
+                  <div>
+                    <strong style={{ fontSize: 10, textTransform: "uppercase", color: "var(--muted)" }}>Shipping</strong>
+                    <p style={{ margin: "4px 0" }}>{String(order.shippingAddress || order.address || "—")}</p>
+                    {order.trackingNumber ? <p style={{ margin: 0, color: "var(--muted)", fontSize: 11 }}>Track: {String(order.trackingNumber)}</p> : null}
+                    {order.shippingMethod ? <p style={{ margin: 0, color: "var(--muted)", fontSize: 11 }}>Method: {String(order.shippingMethod)}</p> : null}
+                  </div>
+                  <div>
+                    <strong style={{ fontSize: 10, textTransform: "uppercase", color: "var(--muted)" }}>Payment</strong>
+                    <p style={{ margin: "4px 0" }}>Total: ₹{Number(order.total || 0).toLocaleString("en-IN")}</p>
+                    <p style={{ margin: 0 }}><Badge status={String(order.paymentStatus || "pending")} /></p>
+                    {order.paymentMethod ? <p style={{ margin: "4px 0 0", color: "var(--muted)", fontSize: 11 }}>Via: {String(order.paymentMethod)}</p> : null}
+                    {order.couponCode ? <p style={{ margin: "4px 0 0", color: "var(--muted)", fontSize: 11 }}>Coupon: {String(order.couponCode)}</p> : null}
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 export default function AdminDashboard() {
   const [tab, setTab] = useState<Tab>("dashboard");
@@ -214,6 +500,8 @@ export default function AdminDashboard() {
     { id: "notifications-matrix", label: "Order Notifications", icon: "🔔" },
     { id: "data-export", label: "Data Center & Excel", icon: "📊" },
     { id: "media", label: "Media", icon: "🖼️" },
+    { id: "staff", label: "Staff", icon: "👥" },
+    { id: "audit-log", label: "Audit Log", icon: "📋" },
     { id: "settings", label: "Settings", icon: "⚙️" },
     { id: "pages", label: "Pages", icon: "📑" },
     { id: "social-links", label: "Social Links", icon: "🔗" },
@@ -385,37 +673,17 @@ export default function AdminDashboard() {
             {/* ─── ORDERS TABLE ─── */}
             {tab === "orders" && (
               <div>
-                <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 14 }}>
-                  <a
-                    href="/api/admin/export?dataset=orders"
-                    download
-                    style={{
-                      padding: "8px 14px",
-                      background: "var(--purple)",
-                      color: "#fff",
-                      borderRadius: 4,
-                      fontSize: 12,
-                      fontWeight: 700,
-                      textDecoration: "none",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 6,
-                    }}
-                  >
-                    <span>📥 Export Orders (.CSV / Excel)</span>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, flexWrap: "wrap", gap: 10 }}>
+                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                    {["all", "pending", "confirmed", "processing", "shipped", "delivered", "completed", "cancelled", "rejected", "refunded"].map((s) => (
+                      <button key={s} onClick={() => (window as unknown as Record<string, string>).__orderFilter = s} style={{ padding: "4px 10px", fontSize: 11, borderRadius: 3, border: "1px solid var(--line)", background: "#fff", cursor: "pointer", textTransform: "capitalize", fontWeight: 600 }} className="order-filter-btn" data-status={s}>{s}</button>
+                    ))}
+                  </div>
+                  <a href="/api/admin/export?dataset=orders" download style={{ padding: "8px 14px", background: "var(--purple)", color: "#fff", borderRadius: 4, fontSize: 12, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
+                    <span>📥 Export Orders CSV</span>
                   </a>
                 </div>
-                <Table
-                  columns={[
-                    { key: "id", label: "Order ID", render: (v) => <span style={{ fontFamily: "monospace", fontSize: 11 }}>{String(v).slice(0, 12)}…</span> },
-                    { key: "status", label: "Status", render: (v) => <Badge status={String(v)} /> },
-                    { key: "total", label: "Total", render: (v) => `₹${Number(v).toLocaleString("en-IN")}` },
-                    { key: "paymentStatus", label: "Payment", render: (v) => <Badge status={String(v || "pending")} /> },
-                    { key: "createdAt", label: "Date", render: (v) => new Date(String(v)).toLocaleDateString("en-IN") },
-                  ]}
-                  rows={(data?.orders as Record<string, unknown>[]) || []}
-                  onStatusChange={(row, s) => { handleStatusUpdate("/api/admin/orders", String(row.id), s); }}
-                />
+                <OrderManager orders={(data?.orders as Record<string, unknown>[]) || []} onUpdate={doRefresh} />
               </div>
             )}
 
@@ -1100,6 +1368,14 @@ export default function AdminDashboard() {
             )}
             {tab === "analytics" && (
               <AnalyticsDashboard />
+            )}
+
+            {tab === "staff" && (
+              <StaffManagementPanel />
+            )}
+
+            {tab === "audit-log" && (
+              <AuditLogPanel />
             )}
           </>
         )}
