@@ -27,9 +27,10 @@ import FooterSettingsModal from "./FooterSettingsModal";
 import AnalyticsDashboard from "./AnalyticsDashboard";
 import BrandLogo from "../components/BrandLogo";
 import OrderDetailPanel from "./components/OrderDetailPanel";
+import PopupManagementPanel from "./components/PopupManagementPanel";
 
 type Tab = "dashboard" | "orders" | "products" | "product-edit" | "aplus" | "categories" | "customers" | "b2b" | "stores" | "careers" | "career-applications" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers" | "homepage" | "marketing" | "payments" | "shipping" | "push" | "pages" | "social-links" | "otp-security" | "notifications-matrix" | "data-export"
-  | "analytics" | "staff" | "audit-log";
+  | "analytics" | "staff" | "audit-log" | "popups";
 
 const req = async (path: string, init?: RequestInit) => {
   const r = await fetch(path, { ...init, headers: { "Content-Type": "application/json", ...(init?.headers || {}) } });
@@ -102,6 +103,7 @@ const ENDPOINTS: Record<Tab, string | null> = {
   analytics: "/api/analytics",
   staff: "/api/admin/staff",
   "audit-log": "/api/admin/audit-log",
+  popups: "/api/popups",
 };
 
 function DashboardPanel({ data: initialData }: { data: Record<string, unknown>; doRefresh: () => void }) {
@@ -761,6 +763,7 @@ export default function AdminDashboard() {
     { id: "social-links", label: "Social Links", icon: "🔗" },
     { id: "homepage", label: "Homepage", icon: "🏠" },
     { id: "analytics", label: "Analytics", icon: "📈" },
+    { id: "popups", label: "Popups", icon: "🪟" },
   ];
 
   const inputStyle = { width: "100%", padding: "10px 14px", border: "1px solid var(--line)", fontSize: 14 };
@@ -1612,6 +1615,10 @@ export default function AdminDashboard() {
 
             {tab === "staff" && (
               <StaffManagementPanel />
+            )}
+
+            {tab === "popups" && (
+              <PopupManagementPanel />
             )}
 
             {tab === "audit-log" && (

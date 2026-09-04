@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { usePathname } from "next/navigation";
 
 /* ═══════════════════════════════════════════════════════════════
    SITE POPUP — Admin-controlled promotional/informational popup
@@ -29,9 +30,13 @@ type Popup = {
 };
 
 export default function SitePopup() {
+  const pathname = usePathname();
   const [popup, setPopup] = useState<Popup | null>(null);
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+
+  // Don't show popups on admin pages
+  if (pathname?.startsWith("/admin")) return null;
 
   // Check if popup was already dismissed this session
   const checkDismissed = useCallback((id: string) => {

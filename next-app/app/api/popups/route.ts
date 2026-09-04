@@ -1,9 +1,15 @@
 import { json, requireUser } from "@/lib/http";
 import { fileDb } from "@/lib/commerce/file-db";
 
-export async function GET() {
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const isAdmin = url.searchParams.get("admin") === "true";
   const popups = fileDb.findMany("sitePopups");
-  // Only return active, visible popups for public
+  if (isAdmin) {
+    // Admin sees all popups
+    return json({ popups });
+  }
+  // Public only sees active, visible popups
   const active = popups.filter(
     (p: Record<string, unknown>) => p.enabled !== false && p.visible !== false
   );
