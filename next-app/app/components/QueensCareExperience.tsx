@@ -11,6 +11,7 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import { getCartCount, subscribeCart } from "@/lib/client-cart";
 import { SocialBrandIcon } from "./SocialIcons";
 import Marquee from "./Marquee";
+import SearchOverlay from "./SearchOverlay";
 
 type Product = { 
   id: string;
@@ -53,6 +54,7 @@ export default function QueensCareExperience() {
   const [cartCount, setCartCount] = useState(0);
   const [wish, setWish] = useState<string[]>([]);
   const [search, setSearch] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
   const [notice, setNotice] = useState("");
   const [menu, setMenu] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -714,10 +716,11 @@ export default function QueensCareExperience() {
           <Link href="/account" style={{ fontSize: 12, textDecoration: "none", color: "var(--ink)", marginRight: 8, display: "flex", alignItems: "center", gap: 4 }} aria-label="Account">
             {user ? <span title={user.email}>Account</span> : <span>Sign In</span>}
           </Link>
-          <label className="search">
+          <button className="search" onClick={() => setSearchOpen(true)} style={{ display: "flex", alignItems: "center", gap: 5, border: "none", borderBottom: "1px solid var(--line)", padding: "5px 0", background: "none", cursor: "pointer", fontSize: 12 }} aria-label="Open search">
             <Icon>⌕</Icon>
-            <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search care" aria-label="Search products" />
-          </label>
+            <span style={{ color: "var(--muted)" }}>Search</span>
+          </button>
+          <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
           <button className="icon-button" onClick={() => setNotice(wish.length ? `${wish.length} saved product${wish.length > 1 ? "s" : ""}.` : "Your saved list is waiting for its first ritual.")} aria-label="View wishlist">
             ♡<em>{wish.length || ""}</em>
           </button>

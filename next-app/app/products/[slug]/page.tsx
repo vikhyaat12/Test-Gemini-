@@ -190,8 +190,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             productName={product.name}
             images={images.map(img => ({ id: img.id, url: img.url, alt: img.alt || undefined }))}
             videos={videos.map(v => ({ id: v.id, url: v.url, title: v.title || undefined, posterUrl: v.posterUrl || undefined }))}
-            enable3D={Boolean(model3d?.enabled || true)}
+            enable3D={Boolean(model3d?.enabled && model3d?.modelUrl)}
             model3dPoster={model3d?.posterUrl || product.image}
+            modelUrl={model3d?.modelUrl || undefined}
           />
         </div>
 

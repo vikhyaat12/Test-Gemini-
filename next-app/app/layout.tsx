@@ -19,6 +19,7 @@ import { ReticleDev } from "./reticle-dev";
 import Providers from "./providers";
 import AnalyticsTracker from "./components/AnalyticsTracker";
 import PremiumAnimations from "./components/PremiumAnimations";
+import SitePopup from "./components/SitePopup";
 
 export const metadata: Metadata = {
   title: {
@@ -50,6 +51,7 @@ export default function RootLayout({
         <Providers>
           <AnalyticsTracker />
           <PremiumAnimations />
+          <SitePopup />
           {children}
         </Providers>
         {process.env.NODE_ENV === "development" ? <ReticleDev /> : null}

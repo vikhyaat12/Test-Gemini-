@@ -24,6 +24,7 @@ export default function ProductGallery({
   videos = [],
   enable3D = true,
   model3dPoster,
+  modelUrl,
 }: {
   mainImage: string;
   productName: string;
@@ -31,6 +32,7 @@ export default function ProductGallery({
   videos?: GalleryVideo[];
   enable3D?: boolean;
   model3dPoster?: string;
+  modelUrl?: string;
 }) {
   // Combine main image + up to 10 images + videos + optional 3D tab
   const mediaItems: GalleryMediaItem[] = [
@@ -60,7 +62,7 @@ export default function ProductGallery({
         embedUrl: parsed.embedUrl,
       };
     }),
-    ...(enable3D
+    ...(enable3D && modelUrl?.trim()
       ? [
           {
             id: "3d-view",
@@ -360,12 +362,10 @@ export default function ProductGallery({
             onClick={() => {
               if (!isCurrentVideo && !isCurrent3D) setZoom(!zoom);
             }}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={() => setZoom(false)}
           >
             {/* If 3D Viewer */}
             {isCurrent3D ? (
-              <Product3DViewer productName={productName} posterUrl={current.posterUrl} height={520} />
+              <Product3DViewer productName={productName} modelUrl={modelUrl} posterUrl={current.posterUrl} height={520} />
             ) : isCurrentVideo ? (
               /* If Video */
               current.type === "youtube" || current.type === "vimeo" ? (
@@ -395,29 +395,11 @@ export default function ProductGallery({
                     width: "100%",
                     height: "100%",
                     objectFit: "contain",
-                    transform: zoom ? "scale(2.2)" : "scale(1)",
-                    transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
-                    transition: zoom ? "transform 0.08s ease-out" : "transform 0.25s ease-in-out",
+                    transform: zoom ? "scale(2)" : "scale(1)",
+                    transformOrigin: "center center",
+                    transition: "transform 0.3s ease-in-out",
                   }}
                 />
-                {zoom && (
-                  <span
-                    style={{
-                      position: "absolute",
-                      top: 12,
-                      right: 12,
-                      fontSize: 11,
-                      padding: "4px 12px",
-                      background: "rgba(42, 15, 58, 0.85)",
-                      color: "#fff",
-                      borderRadius: 4,
-                      letterSpacing: ".04em",
-                      pointerEvents: "none",
-                    }}
-                  >
-                    Click to reset zoom
-                  </span>
-                )}
                 {!zoom && (
                   <span
                     style={{
@@ -434,7 +416,7 @@ export default function ProductGallery({
                       boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
                     }}
                   >
-                    🔍 Roll over / click to zoom
+                    🔍 Click to zoom
                   </span>
                 )}
               </>

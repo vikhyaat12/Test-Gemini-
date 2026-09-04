@@ -371,13 +371,80 @@ export function ProductEditFormAdvanced({ item, onSave }: { item: Record<string,
           />
 
           <div style={{ marginTop: 20, borderTop: "1px solid var(--line)", paddingTop: 16 }}>
-            <label style={labelStyle}>3D Interactive Model URL (GLB / GLTF)</label>
-            <input
-              style={inputStyle}
-              value={String(form.modelUrl || "")}
-              onChange={(e) => setForm({ ...form, modelUrl: e.target.value })}
-              placeholder="/models/product.glb or https://..."
-            />
+            <h4 style={{ fontSize: 13, fontWeight: 700, marginBottom: 12, color: "var(--purple)" }}>🎨 3D Product Model</h4>
+            <div style={{ display: "grid", gap: 12 }}>
+              <div>
+                <label style={labelStyle}>Model URL (GLB / GLTF)</label>
+                <input
+                  style={inputStyle}
+                  value={String(form.modelUrl || "")}
+                  onChange={(e) => setForm({ ...form, modelUrl: e.target.value })}
+                  placeholder="/models/product.glb or https://..."
+                />
+                <p style={{ fontSize: 10, color: "var(--muted)", marginTop: 4 }}>Leave empty to hide 3D tab on product page</p>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <div>
+                  <label style={labelStyle}>Auto Rotate</label>
+                  <select style={inputStyle} value={String(form.model3dAutoRotate ?? "true")} onChange={(e) => setForm({ ...form, model3dAutoRotate: e.target.value === "true" })}>
+                    <option value="true">Enabled</option>
+                    <option value="false">Disabled</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={labelStyle}>Rotation Speed</label>
+                  <input type="number" step="0.1" min="0" max="5" style={inputStyle} value={String(form.model3dRotationSpeed ?? "0.5")} onChange={(e) => setForm({ ...form, model3dRotationSpeed: parseFloat(e.target.value) || 0.5 })} />
+                </div>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+                <div>
+                  <label style={labelStyle}>Scale</label>
+                  <input type="number" step="0.1" min="0.1" max="5" style={inputStyle} value={String(form.model3dScale ?? "1")} onChange={(e) => setForm({ ...form, model3dScale: parseFloat(e.target.value) || 1 })} />
+                </div>
+                <div>
+                  <label style={labelStyle}>Position X</label>
+                  <input type="number" step="0.1" style={inputStyle} value={String(form.model3dPositionX ?? "0")} onChange={(e) => setForm({ ...form, model3dPositionX: parseFloat(e.target.value) || 0 })} />
+                </div>
+                <div>
+                  <label style={labelStyle}>Position Y</label>
+                  <input type="number" step="0.1" style={inputStyle} value={String(form.model3dPositionY ?? "0")} onChange={(e) => setForm({ ...form, model3dPositionY: parseFloat(e.target.value) || 0 })} />
+                </div>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+                <div>
+                  <label style={labelStyle}>Position Z</label>
+                  <input type="number" step="0.1" style={inputStyle} value={String(form.model3dPositionZ ?? "0")} onChange={(e) => setForm({ ...form, model3dPositionZ: parseFloat(e.target.value) || 0 })} />
+                </div>
+                <div>
+                  <label style={labelStyle}>Camera Distance</label>
+                  <input type="number" step="0.5" min="1" max="20" style={inputStyle} value={String(form.model3dCameraDistance ?? "5")} onChange={(e) => setForm({ ...form, model3dCameraDistance: parseFloat(e.target.value) || 5 })} />
+                </div>
+                <div>
+                  <label style={labelStyle}>Lighting</label>
+                  <input type="number" step="0.1" min="0" max="3" style={inputStyle} value={String(form.model3dLighting ?? "1.2")} onChange={(e) => setForm({ ...form, model3dLighting: parseFloat(e.target.value) || 1.2 })} />
+                </div>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+                <div>
+                  <label style={labelStyle}>Shadow</label>
+                  <select style={inputStyle} value={String(form.model3dShadow ?? "true")} onChange={(e) => setForm({ ...form, model3dShadow: e.target.value === "true" })}>
+                    <option value="true">Enabled</option>
+                    <option value="false">Disabled</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={labelStyle}>Animation</label>
+                  <select style={inputStyle} value={String(form.model3dAnimation ?? "true")} onChange={(e) => setForm({ ...form, model3dAnimation: e.target.value === "true" })}>
+                    <option value="true">Enabled</option>
+                    <option value="false">Disabled</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={labelStyle}>Poster Image</label>
+                  <input style={inputStyle} value={String(form.model3dPoster || "")} onChange={(e) => setForm({ ...form, model3dPoster: e.target.value })} placeholder="/images/poster.jpg" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
