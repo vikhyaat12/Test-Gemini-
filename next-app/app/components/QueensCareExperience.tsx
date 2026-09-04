@@ -12,6 +12,7 @@ import { getCartCount, subscribeCart } from "@/lib/client-cart";
 import { SocialBrandIcon } from "./SocialIcons";
 import Marquee from "./Marquee";
 import SearchOverlay from "./SearchOverlay";
+import DoctorCharacter from "./DoctorCharacter";
 
 type Product = { 
   id: string;
@@ -188,6 +189,7 @@ export default function QueensCareExperience() {
       { id: "hs-hero", type: "hero" },
       { id: "hs-trust", type: "trust" },
       { id: "hs-collection", type: "collection" },
+      { id: "hs-doctor", type: "doctor" },
       { id: "hs-science", type: "science" },
       { id: "hs-ritual", type: "ritual" },
       { id: "hs-testimonial", type: "testimonial" },
@@ -427,6 +429,26 @@ export default function QueensCareExperience() {
               </Link>
             </div>
           </section>
+        );
+      }
+
+      case "doctor": {
+        const dc = c as Record<string, unknown>;
+        return (
+          <DoctorCharacter
+            key={sec.id ? String(sec.id) : `doctor-${idx}`}
+            enabled={dc.enabled !== false}
+            position={(dc.position as "left" | "center" | "right") || "center"}
+            size={(dc.size as "sm" | "md" | "lg") || "md"}
+            animSpeed={Number(dc.animSpeed) || 1}
+            greeting={String(dc.greeting || "Hi, I'm Dr. Queens!")}
+            subtext={String(dc.subtext || "I help you find the right formulations for your wellness journey.")}
+            ctaText={String(dc.ctaText || "Take the Quiz")}
+            ctaLink={String(dc.ctaLink || "/recommendations")}
+            bgStyle={(dc.bgStyle as "purple" | "gold" | "white" | "gradient" | "transparent") || "gradient"}
+            mobileVisible={dc.mobileVisible !== false}
+            lottieUrl={String(dc.lottieUrl || "")}
+          />
         );
       }
 
