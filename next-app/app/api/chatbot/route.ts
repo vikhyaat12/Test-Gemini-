@@ -58,7 +58,7 @@ function generateResponse(query: string, products: Record<string, unknown>[], se
   }
 
   // Category query
-  if (/categor|product.*list|what.*sell|range|collection/i.test(lower)) {
+  if (/categor|product.*list|what.*sell|what.*have|product.*offer|product.*available|show.*product|list.*product|range|collection/i.test(lower)) {
     const categories = [...new Set(products.map((p) => String(p.category || "Uncategorized")))];
     return `Our product categories include:\n\n${categories.map((c) => `• ${c}`).join("\n")}\n\nWould you like me to show you products in a specific category?`;
   }
