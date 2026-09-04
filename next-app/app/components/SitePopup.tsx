@@ -323,7 +323,7 @@ export default function SitePopup() {
       case "specific_product": {
         const target = (p.targetProductSlug || "").trim().toLowerCase();
         if (!target) return false;
-        return path === `/products/${target}` || path === `/products/${target}/`;
+        return path === `/products/${target}` || path === `/products/${target}/` || (target.startsWith("lumine-c") && path.startsWith("/products/lumine-c"));
       }
       case "category": {
         const cat = (p.targetCategorySlug || "").trim().toLowerCase();

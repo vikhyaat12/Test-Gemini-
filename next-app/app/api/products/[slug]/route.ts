@@ -3,7 +3,10 @@ import { store } from "@/lib/commerce/store";
 
 export async function GET(_req: Request, { params }: { params: Promise<{ slug: string }> }) {
   const slug = (await params).slug;
-  const product = await store.products.bySlug(slug);
+  let product = await store.products.bySlug(slug);
+  if (!product && slug === "lumine-c") {
+    product = await store.products.bySlug("lumine-c-serum");
+  }
   return product ? json({ product }) : json({ error: "Not found" }, 404);
 }
 
