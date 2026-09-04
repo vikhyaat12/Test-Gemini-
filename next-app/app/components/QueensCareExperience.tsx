@@ -440,20 +440,23 @@ export default function QueensCareExperience() {
       case "doctor": {
         const dc = c as Record<string, unknown>;
         return (
-          <DoctorCharacter
-            key={sec.id ? String(sec.id) : `doctor-${idx}`}
-            enabled={dc.enabled !== false}
-            position={(dc.position as "left" | "center" | "right") || "center"}
-            size={(dc.size as "sm" | "md" | "lg") || "md"}
-            animSpeed={Number(dc.animSpeed) || 1}
-            greeting={String(dc.greeting || "Hi, I'm Dr. Queens!")}
-            subtext={String(dc.subtext || "I help you find the right formulations for your wellness journey.")}
-            ctaText={String(dc.ctaText || "Take the Quiz")}
-            ctaLink={String(dc.ctaLink || "/recommendations")}
-            bgStyle={(dc.bgStyle as "purple" | "gold" | "white" | "gradient" | "transparent") || "gradient"}
-            mobileVisible={dc.mobileVisible !== false}
-            lottieUrl={String(dc.lottieUrl || "")}
-          />
+          <section key={sec.id ? String(sec.id) : `doctor-${idx}`} className="doctor-section" style={{ padding: "80px 24px", background: "linear-gradient(180deg, rgba(40,13,56,0.03) 0%, rgba(212,175,55,0.06) 100%)" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+              <DoctorCharacter
+                enabled={dc.enabled !== false}
+                position={(dc.position as "left" | "center" | "right") || "center"}
+                size={(dc.size as "sm" | "md" | "lg") || "md"}
+                animSpeed={Number(dc.animSpeed) || 1}
+                greeting={String(dc.greeting || "Hi, I'm Dr. Queens!")}
+                subtext={String(dc.subtext || "I help you find the right formulations for your wellness journey.")}
+                ctaText={String(dc.ctaText || "Take the Quiz")}
+                ctaLink={String(dc.ctaLink || "/recommendations")}
+                bgStyle={(dc.bgStyle as "purple" | "gold" | "white" | "gradient" | "transparent") || "gradient"}
+                mobileVisible={dc.mobileVisible !== false}
+                lottieUrl={String(dc.lottieUrl || "")}
+              />
+            </div>
+          </section>
         );
       }
 
