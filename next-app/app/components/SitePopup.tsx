@@ -1081,11 +1081,11 @@ export default function SitePopup() {
                           ₹{Number(productData.price).toLocaleString("en-IN")}
                         </span>
                       )}
-                      {productData.mrp && Number(productData.mrp) > Number(productData.price) && (
+                      {Boolean(productData.mrp) && Number(productData.mrp) > Number(productData.price) ? (
                         <span style={{ fontSize: 11, textDecoration: "line-through", color: "var(--muted)" }}>
                           ₹{Number(productData.mrp).toLocaleString("en-IN")}
                         </span>
-                      )}
+                      ) : null}
                     </div>
                     {popup.showProductStock !== false && productData.stock !== undefined && (
                       <span style={{ fontSize: 10, color: Number(productData.stock) > 0 ? "#2e7d32" : "#c62828", fontWeight: 600 }}>

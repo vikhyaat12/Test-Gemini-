@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import GlobalMediaUploader from "../components/GlobalMediaUploader";
+import GlobalMediaUploader from "../../components/GlobalMediaUploader";
 
 export type PopupButton = {
   id: string;
@@ -1610,7 +1610,7 @@ function PopupFormModal({
                       label="Popup Image (Upload, Media Library, or URL)"
                       value={form.imageUrl}
                       allowVideo={false}
-                      onChange={(val) => {
+                      onChange={(val: any) => {
                         const url = typeof val === "string" ? val : Array.isArray(val) ? (typeof val[0] === "string" ? val[0] : val[0]?.url || "") : "";
                         setForm({ ...form, imageUrl: url });
                       }}
@@ -1623,7 +1623,7 @@ function PopupFormModal({
                         label="Popup Video (Upload MP4/WebM, Media Library, or YouTube/Vimeo URL)"
                         value={form.videoUrl}
                         allowVideo={true}
-                        onChange={(val) => {
+                        onChange={(val: any) => {
                           const url = typeof val === "string" ? val : Array.isArray(val) ? (typeof val[0] === "string" ? val[0] : val[0]?.url || "") : "";
                           setForm({ ...form, videoUrl: url });
                         }}
