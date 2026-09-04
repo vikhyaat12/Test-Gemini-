@@ -775,15 +775,17 @@ export default function QueensCareExperience() {
         <CareScene />
         {sortedSections.map((sec, idx) => renderSection(sec, idx))}
         {/* Doctor Character Section */}
-        <DoctorCharacter
-          greeting="Hi, I'm Dr. Queens!"
-          subtext="I help you find the right formulations for your wellness journey."
-          ctaText="Take the Quiz"
-          ctaLink="/recommendations"
-          position="center"
-          size="md"
-          bgStyle="gradient"
-        />
+        <div data-testid="doctor-debug" style={{padding:'40px',textAlign:'center',background:'linear-gradient(180deg, rgba(40,13,56,0.03) 0%, rgba(212,175,55,0.06) 100%)'}}>
+          <DoctorCharacter
+            greeting="Hi, I'm Dr. Queens!"
+            subtext="I help you find the right formulations for your wellness journey."
+            ctaText="Take the Quiz"
+            ctaLink="/recommendations"
+            position="center"
+            size="md"
+            bgStyle="gradient"
+          />
+        </div>
         {/* Premium marquee ticker */}
         <Marquee items={["Clinical intelligence", "Made with soul", "Science-backed formulas", "Traceable ingredients", "Designed with doctors", "Pharmaceutical rigor", "Everyday wellness"]} separator="✦" speed={24} />
       </main>
