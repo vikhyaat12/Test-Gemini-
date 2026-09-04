@@ -1,7 +1,7 @@
 import { json, requireUser } from "@/lib/http";
 import { fileDb } from "@/lib/commerce/file-db";
 
-function normalizePopup(p: Record<string, unknown>) {
+function normalizePopup(p: Record<string, unknown>): Record<string, any> {
   const buttons = Array.isArray(p.buttons) && p.buttons.length > 0
     ? p.buttons
     : p.buttonText || p.buttonUrl
