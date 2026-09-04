@@ -203,6 +203,11 @@ export default function QueensCareExperience() {
       .filter((s) => s.active !== false && s.visible !== false && s.type !== "banner" && s.type !== "heroVisual")
       .sort((a, b) => Number(a.sort ?? 0) - Number(b.sort ?? 0));
 
+    // Inject doctor section if not already present in CMS
+    if (!list.some((s) => s.type === "doctor")) {
+      list.splice(3, 0, { id: "hs-doctor", type: "doctor", sort: 3, active: true, visible: true, content: { enabled: true, position: "center", size: "md", greeting: "Hi, I\u2019m Dr. Queens!", subtext: "I help you find the right formulations for your wellness journey.", ctaText: "Take the Quiz", ctaLink: "/recommendations", bgStyle: "gradient", mobileVisible: true } });
+    }
+
     return list.length > 0 ? list : defaultSections;
   }, [hpSections]);
 
