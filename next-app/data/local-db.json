@@ -42,7 +42,7 @@
       "email": "admin2@test.com",
       "name": "Test Admin2",
       "role": "customer",
-      "passwordHash": "scrypt$e3857fd13b41945efe959d06ef38460b$63fbd5d2be465198075f17f8ee37253e04a6d7b6fe01b1345bad137c536b8eb3330a6a456702084f62de86101a9aeedb2085737969404f51c0e58f64710a756a"
+      "passwordHash": "local-dev-only"
     },
     {
       "id": "usr-d1fa80d9",
@@ -61,6 +61,15 @@
       "name": "Admin2",
       "role": "admin",
       "passwordHash": "scrypt$83cf084dad17510d547ac80d0687e91a$b99896409403e01ed019f20d2c5cd66d48e0132346779b560b1838394743d2ccdf22cd0474c909d02d9c1b1e37eb3bd9b5c04492e55e4067c1790cda58ebfa4c"
+    },
+    {
+      "id": "usr-711814c3",
+      "createdAt": "2026-09-04T17:00:17.472Z",
+      "updatedAt": "2026-09-04T17:00:17.472Z",
+      "email": "testadmin@queenscare.in",
+      "name": "Test Admin",
+      "role": "customer",
+      "passwordHash": "scrypt$c1e1eb9396a6c6103fe2a14a6326395d$35b8c01c51774bc90a3afab2db5e7f57aaa337e5d9b113196a9f37f490172de3e907d6a683f459991af759d3f77416bde9366a2eaa1fdc8152e98fa8b961485d"
     }
   ],
   "products": [
