@@ -92,6 +92,194 @@
   margin: 0 12px;
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   VERIDIA-STYLE ENHANCEMENTS — Scroll-linked stage, parallax
+   gallery, product spotlight, premium card hover effects.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Stage background (scroll-linked color morph) ──────────── */
+.stage-bg {
+  position: fixed;
+  inset: 0;
+  background: var(--paper, #f7f1eb);
+  z-index: -2;
+  transition: background-color 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Premium gallery grid (Veridia parallax masonry) ───────── */
+.premium-gallery {
+  padding: clamp(60px, 10vh, 140px) var(--pad, 5%);
+  padding-bottom: clamp(90px, 14vh, 180px);
+}
+.premium-gallery__head {
+  margin-bottom: 60px;
+}
+.premium-gallery__head .eyebrow {
+  margin-bottom: 14px;
+}
+.premium-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: 200px;
+  gap: 20px;
+  align-items: start;
+}
+.premium-gallery__grid .gallery-item {
+  grid-column: span 2;
+  grid-row: span 2;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--line);
+  background: linear-gradient(
+    135deg,
+    rgba(42, 15, 58, 0.08),
+    rgba(193, 154, 107, 0.1) 45%,
+    rgba(42, 15, 58, 0.06)
+  );
+  display: grid;
+  place-items: center;
+}
+.premium-gallery__grid .gallery-item--tall {
+  grid-row: span 3;
+}
+.premium-gallery__grid .gallery-item--wide {
+  grid-column: span 4;
+  grid-row: span 2;
+}
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.gallery-item:hover img {
+  transform: scale(1.04);
+}
+.gallery-item span {
+  position: relative;
+  z-index: 1;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted, #666);
+  background: rgba(255, 255, 255, 0.8);
+  padding: 6px 12px;
+  border-radius: 100px;
+}
+@media (max-width: 900px) {
+  .premium-gallery__grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 150px;
+    gap: 12px;
+  }
+  .premium-gallery__grid .gallery-item--wide {
+    grid-column: span 2;
+  }
+}
+
+/* ── Product spotlight section (Veridia alternating layout) ── */
+.product-spotlight {
+  min-height: 100svh;
+  padding: clamp(80px, 10vh, 140px) var(--pad, 5%);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(40px, 7vw, 110px);
+  position: relative;
+}
+.product-spotlight--flip .spotlight-art {
+  order: 2;
+}
+.spotlight-art {
+  display: grid;
+  place-items: center;
+}
+.spotlight-art img {
+  width: min(80%, 380px);
+  filter: drop-shadow(0 50px 70px rgba(42, 15, 58, 0.22));
+  will-change: transform;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.product-spotlight:hover .spotlight-art img {
+  transform: translateY(-8px) rotate(-1deg);
+}
+.spotlight-copy h3 {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: clamp(34px, 4.6vw, 68px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+  margin: 16px 0 22px;
+  max-width: 14ch;
+}
+.spotlight-copy > p {
+  max-width: 46ch;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.spotlight-facts {
+  display: flex;
+  gap: 36px;
+  margin: 34px 0;
+  flex-wrap: wrap;
+}
+.spotlight-facts li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  list-style: none;
+}
+.spotlight-facts b {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 26px;
+  font-weight: 400;
+}
+.spotlight-facts span {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+@media (max-width: 900px) {
+  .product-spotlight {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    gap: 44px;
+  }
+  .product-spotlight--flip .spotlight-art {
+    order: 0;
+  }
+}
+
+/* ── Enhanced card hover (Veridia-style lift) ──────────────── */
+.product {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.product:hover {
+  transform: translateY(-6px);
+}
+.ritual-card {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ritual-card:hover {
+  transform: translateY(-8px);
+}
+
+/* ── Footer wordmark drift (Veridia-style) ────────────────── */
+.footer-wordmark {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: clamp(70px, 19vw, 300px);
+  line-height: 0.82;
+  letter-spacing: -0.03em;
+  opacity: 0.06;
+  margin-top: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 /* ── Reduced motion: kill all custom animations ─────────────── */
 @media (prefers-reduced-motion: reduce) {
   .premium-cursor {
@@ -100,5 +288,14 @@
   .premium-word,
   .premium-line {
     overflow: visible !important;
+  }
+  .stage-bg {
+    transition: none;
+  }
+  .product:hover,
+  .ritual-card:hover,
+  .product-spotlight:hover .spotlight-art img,
+  .gallery-item:hover img {
+    transform: none;
   }
 }

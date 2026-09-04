@@ -328,6 +328,127 @@ export default function PremiumAnimations() {
         });
     }
 
+    /* ── 13. STAGE BACKGROUND — scroll-linked colour morph ────── */
+    const stage = document.querySelector<HTMLElement>(".stage-bg");
+    if (stage && !REDUCED) {
+      const sections = document.querySelectorAll<HTMLElement>(
+        ".science, .ritual, .consult, .product-spotlight"
+      );
+      sections.forEach((section) => {
+        const bgColor =
+          window.getComputedStyle(section).backgroundColor || "var(--paper)";
+        ScrollTrigger.create({
+          trigger: section,
+          start: "top 60%",
+          end: "bottom 40%",
+          onEnter: () =>
+            gsap.to(stage, {
+              backgroundColor: bgColor,
+              duration: 0.9,
+              ease: "power2.out",
+            }),
+          onEnterBack: () =>
+            gsap.to(stage, {
+              backgroundColor: bgColor,
+              duration: 0.9,
+              ease: "power2.out",
+            }),
+          onLeave: () =>
+            gsap.to(stage, {
+              backgroundColor: "var(--paper)",
+              duration: 0.9,
+              ease: "power2.out",
+            }),
+          onLeaveBack: () =>
+            gsap.to(stage, {
+              backgroundColor: "var(--paper)",
+              duration: 0.9,
+              ease: "power2.out",
+            }),
+        });
+      });
+    }
+
+    /* ── 14. GALLERY PARALLAX ────────────────────────────────── */
+    if (!REDUCED) {
+      document
+        .querySelectorAll<HTMLElement>(
+          ".premium-gallery .gallery-item"
+        )
+        .forEach((el) => {
+          gsap.fromTo(
+            el,
+            { y: 60, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 1.1,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: el,
+                start: "top 90%",
+                once: true,
+              },
+            }
+          );
+        });
+    }
+
+    /* ── 15. SPOTLIGHT SECTIONS — art float + copy entrance ──── */
+    document
+      .querySelectorAll<HTMLElement>(".product-spotlight")
+      .forEach((spot) => {
+        const art = spot.querySelector<HTMLElement>(".spotlight-art img");
+        const copy = spot.querySelector<HTMLElement>("> .spotlight-copy > p");
+        const facts = spot.querySelectorAll<HTMLElement>("> .spotlight-copy .spotlight-facts li");
+
+        if (art && !REDUCED) {
+          gsap.fromTo(
+            art,
+            { yPercent: 14, rotate: 4, scale: 0.94 },
+            {
+              yPercent: -14,
+              rotate: -3,
+              scale: 1.02,
+              ease: "none",
+              scrollTrigger: {
+                trigger: spot,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1,
+              },
+            }
+          );
+        }
+        if (copy) {
+          gsap.from(copy, {
+            y: 30,
+            opacity: 0,
+            duration: 0.9,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: spot,
+              start: "top 65%",
+              once: true,
+            },
+          });
+        }
+        if (facts.length > 0) {
+          gsap.from(facts, {
+            y: 24,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            stagger: 0.08,
+            scrollTrigger: {
+              trigger: spot,
+              start: "top 60%",
+              once: true,
+            },
+          });
+        }
+      });
+
     /* ── Refresh after fonts settle ───────────────────────────── */
     document.fonts?.ready.then(() => ScrollTrigger.refresh());
   }, []);

@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import BrandLogo from "../../components/BrandLogo";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -47,7 +48,7 @@ export default function AdminLogin() {
   return (
     <main className="portal" style={{ maxWidth: 420, margin: "80px auto", padding: "0 20px" }}>
       <Link href="/" className="back" style={{ display: "block", marginBottom: 24 }}>← Queens Care</Link>
-      <p className="eyebrow">Queens Care Laboratories</p>
+      <div style={{ marginBottom: 20 }}><BrandLogo showText overrideHeight={40} overrideMobileHeight={32} overrideMaxWidth={180} /></div>
       <h1 style={{ font: "32px var(--font-display)", marginBottom: 8 }}>Admin Access</h1>
       <p style={{ fontSize: 13, color: "var(--muted)", marginBottom: 24 }}>Sign in with administrator credentials to access the management dashboard.</p>
 

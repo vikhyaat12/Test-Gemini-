@@ -737,6 +737,8 @@ export default function QueensCareExperience() {
         </div>
       )}
       <main>
+        {/* Scroll-linked colour stage — Veridia-style background morph */}
+        <div className="stage-bg" aria-hidden="true" />
         <CareScene />
         {sortedSections.map((sec, idx) => renderSection(sec, idx))}
         {/* Premium marquee ticker */}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
 import BlogEditForm from "./BlogEditForm";
 import { BannerEditForm, TestimonialEditForm, OfferEditForm, SettingsEditForm, ReviewEditForm } from "./ContentEditForms";
@@ -26,6 +26,7 @@ import StoreLocatorManagement from "./StoreLocatorManagement";
 import FooterSettingsModal from "./FooterSettingsModal";
 import AnalyticsDashboard from "./AnalyticsDashboard";
 import BrandLogo from "../components/BrandLogo";
+import OrderDetailPanel from "./components/OrderDetailPanel";
 
 type Tab = "dashboard" | "orders" | "products" | "product-edit" | "aplus" | "categories" | "customers" | "b2b" | "stores" | "careers" | "career-applications" | "doctors" | "employees" | "affiliates" | "coupons" | "blog" | "faq" | "reviews" | "media" | "banners" | "testimonials" | "settings" | "offers" | "homepage" | "marketing" | "payments" | "shipping" | "push" | "pages" | "social-links" | "otp-security" | "notifications-matrix" | "data-export"
   | "analytics" | "staff" | "audit-log";
@@ -485,6 +486,13 @@ function OrderManager({ orders, onUpdate }: { orders: Record<string, unknown>[];
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [rejectingId, setRejectingId] = useState<string | null>(null);
   const [rejectReason, setRejectReason] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const perPage = 20;
+  const prevFilterRef = useRef({ filter, paymentFilter, searchQuery });
+  if (prevFilterRef.current.filter !== filter || prevFilterRef.current.paymentFilter !== paymentFilter || prevFilterRef.current.searchQuery !== searchQuery) {
+    setCurrentPage(0);
+    prevFilterRef.current = { filter, paymentFilter, searchQuery };
+  }
 
   const filtered = orders.filter((o) => {
     if (filter !== "all" && String(o.status) !== filter) return false;
@@ -539,7 +547,7 @@ function OrderManager({ orders, onUpdate }: { orders: Record<string, unknown>[];
       {/* Order rows */}
       <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
         {filtered.length === 0 && <p style={{ color: "var(--muted)", fontSize: 13, textAlign: "center", padding: 24 }}>No orders match filter.</p>}
-        {filtered.map((order) => {
+        {filtered.slice(currentPage * perPage, (currentPage + 1) * perPage).map((order) => {
           const id = String(order.id);
           const isExpanded = expandedId === id;
           const isRejecting = rejectingId === id;
@@ -591,34 +599,43 @@ function OrderManager({ orders, onUpdate }: { orders: Record<string, unknown>[];
                 </div>
               )}
 
-              {/* Expanded details */}
+              {/* Expanded details — full OrderDetailPanel */}
               {isExpanded && (
-                <div style={{ padding: "12px 14px", borderTop: "1px solid var(--line)", background: "#fafafa", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, fontSize: 12 }}>
-                  <div>
-                    <strong style={{ fontSize: 10, textTransform: "uppercase", color: "var(--muted)" }}>Customer</strong>
-                    <p style={{ margin: "4px 0" }}>{String(order.customerName || "—")}</p>
-                    <p style={{ margin: 0, color: "var(--muted)", fontSize: 11 }}>{String(order.email || "—")}</p>
-                    <p style={{ margin: 0, color: "var(--muted)", fontSize: 11 }}>{String(order.phone || "—")}</p>
-                  </div>
-                  <div>
-                    <strong style={{ fontSize: 10, textTransform: "uppercase", color: "var(--muted)" }}>Shipping</strong>
-                    <p style={{ margin: "4px 0" }}>{String(order.shippingAddress || order.address || "—")}</p>
-                    {order.trackingNumber ? <p style={{ margin: 0, color: "var(--muted)", fontSize: 11 }}>Track: {String(order.trackingNumber)}</p> : null}
-                    {order.shippingMethod ? <p style={{ margin: 0, color: "var(--muted)", fontSize: 11 }}>Method: {String(order.shippingMethod)}</p> : null}
-                  </div>
-                  <div>
-                    <strong style={{ fontSize: 10, textTransform: "uppercase", color: "var(--muted)" }}>Payment</strong>
-                    <p style={{ margin: "4px 0" }}>Total: ₹{Number(order.total || 0).toLocaleString("en-IN")}</p>
-                    <p style={{ margin: 0 }}><Badge status={String(order.paymentStatus || "pending")} /></p>
-                    {order.paymentMethod ? <p style={{ margin: "4px 0 0", color: "var(--muted)", fontSize: 11 }}>Via: {String(order.paymentMethod)}</p> : null}
-                    {order.couponCode ? <p style={{ margin: "4px 0 0", color: "var(--muted)", fontSize: 11 }}>Coupon: {String(order.couponCode)}</p> : null}
-                  </div>
-                </div>
+                <OrderDetailPanel
+                  orderId={id}
+                  onClose={() => setExpandedId(null)}
+                  onRefresh={onUpdate}
+                />
               )}
             </div>
           );
         })}
       </div>
+      {/* Pagination */}
+      {filtered.length > perPage && (() => {
+        const totalPages = Math.ceil(filtered.length / perPage);
+        const start = currentPage * perPage + 1;
+        const end = Math.min((currentPage + 1) * perPage, filtered.length);
+        return (
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 16, padding: "12px 0", borderTop: "1px solid var(--line)" }}>
+            <span style={{ fontSize: 12, color: "var(--muted)" }}>Showing {start}–{end} of {filtered.length} orders</span>
+            <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+              <button disabled={currentPage === 0} onClick={() => setCurrentPage(p => p - 1)} style={{ padding: "5px 12px", fontSize: 11, border: "1px solid var(--line)", background: currentPage === 0 ? "#f5f5f5" : "#fff", cursor: currentPage === 0 ? "not-allowed" : "pointer", borderRadius: 3, opacity: currentPage === 0 ? 0.5 : 1 }}>← Prev</button>
+              {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                let pageNum: number;
+                if (totalPages <= 5) pageNum = i;
+                else if (currentPage < 3) pageNum = i;
+                else if (currentPage >= totalPages - 2) pageNum = totalPages - 5 + i;
+                else pageNum = currentPage - 2 + i;
+                return (
+                  <button key={pageNum} onClick={() => setCurrentPage(pageNum)} style={{ padding: "5px 10px", fontSize: 11, border: currentPage === pageNum ? "2px solid var(--purple)" : "1px solid var(--line)", background: currentPage === pageNum ? "var(--purple)" : "#fff", color: currentPage === pageNum ? "#fff" : "var(--ink)", cursor: "pointer", borderRadius: 3, fontWeight: currentPage === pageNum ? 700 : 500 }}>{pageNum + 1}</button>
+                );
+              })}
+              <button disabled={currentPage >= totalPages - 1} onClick={() => setCurrentPage(p => p + 1)} style={{ padding: "5px 12px", fontSize: 11, border: "1px solid var(--line)", background: currentPage >= totalPages - 1 ? "#f5f5f5" : "#fff", cursor: currentPage >= totalPages - 1 ? "not-allowed" : "pointer", borderRadius: 3, opacity: currentPage >= totalPages - 1 ? 0.5 : 1 }}>Next →</button>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }
