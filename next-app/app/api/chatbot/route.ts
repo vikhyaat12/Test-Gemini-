@@ -36,7 +36,7 @@ function formatProductInfo(p: Record<string, unknown>) {
   const parts = [`**${p.name}**`];
   if (p.category) parts.push(`Category: ${p.category}`);
   if (p.price) parts.push(`Price: ₹${Number(p.price).toLocaleString("en-IN")}`);
-  if (p.description) parts.push(p.description.substring(0, 200));
+  if (p.description) parts.push(String(p.description).substring(0, 200));
   if (p.benefits) parts.push(`Benefits: ${String(p.benefits).substring(0, 150)}`);
   if (p.slug) parts.push(`View: /products/${p.slug}`);
   return parts.join("\n");
