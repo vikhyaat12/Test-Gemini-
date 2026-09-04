@@ -20,6 +20,7 @@ import Providers from "./providers";
 import AnalyticsTracker from "./components/AnalyticsTracker";
 import PremiumAnimations from "./components/PremiumAnimations";
 import SitePopup from "./components/SitePopup";
+import ChatBot from "./components/ChatBot";
 
 export const metadata: Metadata = {
   title: {
@@ -52,6 +53,7 @@ export default function RootLayout({
           <AnalyticsTracker />
           <PremiumAnimations />
           <SitePopup />
+          <ChatBot />
           {children}
         </Providers>
         {process.env.NODE_ENV === "development" ? <ReticleDev /> : null}
