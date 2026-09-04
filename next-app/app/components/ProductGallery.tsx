@@ -400,25 +400,7 @@ export default function ProductGallery({
                     transition: "transform 0.3s ease-in-out",
                   }}
                 />
-                {!zoom && (
-                  <span
-                    style={{
-                      position: "absolute",
-                      bottom: 12,
-                      right: 12,
-                      fontSize: 11,
-                      padding: "4px 10px",
-                      background: "rgba(255,255,255,0.9)",
-                      color: "var(--purple)",
-                      borderRadius: 4,
-                      border: "1px solid var(--line)",
-                      pointerEvents: "none",
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
-                    }}
-                  >
-                    🔍 Click to zoom
-                  </span>
-                )}
+
               </>
             )}
           </div>

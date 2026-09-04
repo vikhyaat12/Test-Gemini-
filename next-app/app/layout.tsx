@@ -49,6 +49,15 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
       <body>
+        {/* Organization Structured Data */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Queens Care Laboratories",
+          url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+          description: "Premium wellness and pharmaceutical care, made with rigorous science and a human touch.",
+          sameAs: [],
+        }) }} />
         <Providers>
           <AnalyticsTracker />
           <PremiumAnimations />

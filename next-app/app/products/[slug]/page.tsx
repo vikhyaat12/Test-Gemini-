@@ -119,8 +119,44 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const avgRating = reviews.length > 0 ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1) : String(product.rating || "5.0");
   const ratingDist = [5, 4, 3, 2, 1].map(star => ({ star, count: reviews.filter(r => r.rating === star).length }));
 
+  const origin = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: images.map((i: { url: string }) => i.url),
+    sku: product.slug,
+    brand: { "@type": "Brand", name: "Queens Care Laboratories" },
+    offers: {
+      "@type": "Offer",
+      url: `${origin}/products/${product.slug}`,
+      priceCurrency: "INR",
+      price: product.price,
+      priceValidUntil: new Date(Date.now() + 365 * 86400000).toISOString().split("T")[0],
+      availability: product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      itemCondition: "https://schema.org/NewCondition",
+    },
+    ...(reviews.length > 0 ? {
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: avgRating,
+        reviewCount: reviews.length,
+      },
+      review: reviews.slice(0, 10).map((r: { rating: number; title?: string; comment?: string; user?: { name?: string }; createdAt: string | Date }) => ({
+        "@type": "Review",
+        author: { "@type": "Person", name: r.user?.name || "Customer" },
+        reviewRating: { "@type": "Rating", ratingValue: r.rating },
+        name: r.title || "Review",
+        reviewBody: r.comment || "",
+      })),
+    } : {}),
+  };
+
   return (
     <main className="product-detail" style={{ maxWidth: 1240, margin: "0 auto", padding: "0 20px" }}>
+      {/* Product Structured Data for SEO */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
       {/* Analytics: product view */}
       <script
         dangerouslySetInnerHTML={{
